@@ -51,8 +51,20 @@ async function writeAbis(artifacts, name, network){
  * @param {*} network 网络
  */
 async function writeLog(deployments, name, network){
-    const deploymentPath = path.resolve(__dirname, `../deployments/${network}/${name}.json`);
-    await writeFile(deploymentPath, JSON.stringify(deployments, null, 2));
+    const deploymentPath = path.resolve(__dirname, `../deployments`);
+    if(!fs.existsSync(deploymentPath)){
+      await fs.mkdirSync(deploymentPath,{recursive: true});
+    }
+    var dir = deploymentPath+`/abi`;
+    if(!fs.existsSync(dir)){
+      fs.mkdirSync(dir,{recursive: true});
+    }
+    dir = deploymentPath+`/${network}`;
+    if(!fs.existsSync(dir)){
+      await fs.mkdirSync(dir,{recursive: true});
+    }
+    dir = deploymentPath+`/${network}/${name}.json`;
+    await writeFile(dir, JSON.stringify(deployments, null, 2));
     console.log(`Exported deployments into ${deploymentPath}`);
 }
 

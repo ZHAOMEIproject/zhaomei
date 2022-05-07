@@ -74,9 +74,7 @@ nft的json地址接口, json里面有image属性，image对应的图片链接，
 web抓取nft tokenid是否是owner，接口：ownerOf(tokenId)  
 数据库以tokenid为唯一键，如果数据库里有，需要像前端返回该id以记录。
 
-
-
-
+## Contract_Addresses
 合约信息(network id，chain name，合约名称，abi，合约地址)：[合约目录](./deployments/)
 选择网络后查看具体合约信息
 ## Contract_Addresses

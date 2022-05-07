@@ -1,10 +1,17 @@
 # owl-nft
 ## 目录
+* [Describe](#Describe)
 * [Deployment_and_testing](#Deployment_and_testing) 
     * [local](#local) 
     * [other_netowrk](#other_netowrk) 
-* []
+* [Document](#Document)
+    * [WebFunction](#WebFunction) 
 * [](#)
+
+## Describe
+nft-owl: Subproject of viide, An NFT project using agency contracts.  
+使用了openzeppelin的开源合约，并添加了部分独有功能。  
+例如：发售接口，统一的盲盒开关。
 
 ## Deployment_and_testing
 hardhat.config.js文件中的secretinfo需要修改。
@@ -34,13 +41,30 @@ npx hardhat compile
 npx hardhat clean
 npx hardhat run scripts/sample-script.js --network polygonMumbai
 npx hardhat verify address constructor --network polygonMumbai
-npx hardhat test --network polygonMumbai
+# npx hardhat test --network polygonMumbai
 ```
+## Document
+### WebFunction
+sell_mint().send  
+需要0.01eth，会发送到收款地址  
+nft发送到sender
+
+test_sell_Mint(address to).send  
+需要0.01eth，nft和eth会发送到to地址
+  
+tokenURL(uint tokenid).call  
+nft的json地址接口, json里面有image属性还有其他属性  
+
+balanceOf(address owner).call  
+用户拥有的nft数量
+
+tokenOfOwnerByIndex(address owner,uint index).call  
+遍历用户持有nft
 
 
 合约信息(network id，chain name，合约名称，abi，合约地址)：[合约目录](./deployments/)
 选择网络后查看具体合约信息
-## Contract Addresses ==> Test
+## Contract Addresses
 | Contract  | Test_address | Main_address |
 | ------------- | ------------- | ------------- |
 | nft-owl-logic |       |       |

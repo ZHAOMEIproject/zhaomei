@@ -17,6 +17,6 @@
 
 ## 项目总开发框架设计
 [Vii_Owl.xmind](./other_document/Vii_Owl.xmind)  
-![Vii_Owl.pdf](./other_document/Vii_Owl.pdf)
-
+[Vii_Owl.pdf](./other_document/Vii_Owl.pdf)
+![Vii_Owl.png](./other_document/Vii_Owl.png)
 

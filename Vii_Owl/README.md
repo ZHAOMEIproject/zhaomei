@@ -1,11 +1,10 @@
 # Vii_Owl: Subproject of viide, An NFT project using agency contracts.
 [Hardhat_Contract](./Hardhat_Contract)：合约的部署与测试  
-[Web_Function](./Function/Web)：Vii_Owl项目前端和合约的交互接口  
-[Back_Function](./Function/Back)：Vii_Owl项目后端和合约的交互接口  
+[Function](./Function)：项目业务逻辑和合约的交互接口   
+[Contract_info](./Hardhat_Contract/deployments/): 选择网络后查看具体合约信息(network id，chain name，合约名称，abi，合约地址)
 
 ## Tip
 * [测试网信息](#测试网)
-
 
 ## 测试网信息
 |   |  |
@@ -19,4 +18,3 @@
 [Vii_Owl.xmind](./other_document/Vii_Owl.xmind)  
 [Vii_Owl.pdf](./other_document/Vii_Owl.pdf)  
 ![Vii_Owl.png](./other_document/Vii_Owl.png)  
-

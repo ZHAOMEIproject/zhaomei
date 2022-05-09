@@ -23,6 +23,7 @@ contract owl_base is Initializable, ERC721Upgradeable, ERC721EnumerableUpgradeab
     }
     string baseURL;
     bool egg_open;
+    uint256 a;
     function _baseURI() internal view override returns (string memory) {
         return baseURL;
     }

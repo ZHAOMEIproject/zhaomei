@@ -23,16 +23,14 @@ async function writer_info(network,Artifact,addr){
   if(!fs.existsSync(dir)){
     await fs.mkdirSync(dir,{recursive: true});
   }
-
-  
-
   const info = {};
   info["contractName"] = Artifact.contractName;
   info["abi"] = Artifact.abi;
   dir = deploymentPath+`/abi/${Artifact.contractName}.json`;
   await writeFile(dir, JSON.stringify(info, null, 2));
 
-  info["address"]=addr
+  info["address"]=addr;
+  info["constructorArguments"]=[];
   info["network"] = {};
   info.network["name"]=network.name;
   info.network["chainId"]=network.config.chainId;
@@ -42,6 +40,37 @@ async function writer_info(network,Artifact,addr){
 
   console.log(`Exported deployments into ${deploymentPath}`);
 }
+async function writer_info_Argument(network,Artifact,addr,Argument){
+  const deploymentPath = path.resolve(__dirname, `../deployments`);
+  if(!fs.existsSync(deploymentPath)){
+    await fs.mkdirSync(deploymentPath,{recursive: true});
+  }
+  var dir = deploymentPath+`/${network.name}`;
+  if(!fs.existsSync(dir)){
+    await fs.mkdirSync(dir,{recursive: true});
+  }
+  dir = deploymentPath+`/abi`;
+  if(!fs.existsSync(dir)){
+    await fs.mkdirSync(dir,{recursive: true});
+  }
+  const info = {};
+  info["contractName"] = Artifact.contractName;
+  info["abi"] = Artifact.abi;
+  dir = deploymentPath+`/abi/${Artifact.contractName}.json`;
+  await writeFile(dir, JSON.stringify(info, null, 2));
+
+  info["address"]=addr;
+  info["constructorArguments"]=Argument;
+  info["network"] = {};
+  info.network["name"]=network.name;
+  info.network["chainId"]=network.config.chainId;
+  info.network["url"]=network.config.url;
+  dir = deploymentPath+`/${network.name}/${Artifact.contractName}.json`;
+  await writeFile(dir, JSON.stringify(info, null, 2));
+
+  console.log(`Exported deployments into ${deploymentPath}`);
+}
+
 module.exports = {
   writer_info
 }

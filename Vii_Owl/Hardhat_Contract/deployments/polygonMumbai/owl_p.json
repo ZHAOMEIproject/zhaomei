@@ -7,6 +7,11 @@
           "internalType": "address",
           "name": "logic",
           "type": "address"
+        },
+        {
+          "internalType": "bytes",
+          "name": "data",
+          "type": "bytes"
         }
       ],
       "stateMutability": "nonpayable",
@@ -66,7 +71,8 @@
       "type": "receive"
     }
   ],
-  "address": "0x3090eE08f395D89FcB8741E694788D5BB9C23111",
+  "address": "0x8e449Bd82defbC2E83C1302C64Ee8197C8C0B256",
+  "constructorArguments": [],
   "network": {
     "name": "polygonMumbai",
     "chainId": 80001,

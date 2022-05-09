@@ -7,6 +7,11 @@
           "internalType": "address",
           "name": "logic",
           "type": "address"
+        },
+        {
+          "internalType": "bytes",
+          "name": "data",
+          "type": "bytes"
         }
       ],
       "stateMutability": "nonpayable",

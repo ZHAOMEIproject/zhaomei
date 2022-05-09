@@ -1,14 +1,14 @@
 const hre = require("hardhat");
 const { writer_info } = require('./hh_log.js');
 async function main() {
-  const Greeter = await hre.ethers.getContractFactory("Greeter");
-  const greeter = await Greeter.deploy("Hello, Hardhat!");
+  const Owl_base = await hre.ethers.getContractFactory("owl_base");
+  const owl_base = await Owl_base.deploy();
 
-  await greeter.deployed();
+  await owl_base.deployed();
 
-  console.log("Greeter deployed to:", greeter.address);
-  let Artifact = await artifacts.readArtifact("Greeter");
-  await writer_info(network,Artifact, greeter.address);
+  console.log("Owl_base deployed to:", owl_base.address);
+  let Artifact = await artifacts.readArtifact("owl_base");
+  await writer_info(network,Artifact, owl_base.address);
 }
 main()
   .then(() => process.exit(0))

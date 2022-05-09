@@ -12,6 +12,7 @@ async function main() {
   console.log("MyERC20 deployed to:", token.address);
   // await writeAddr(token.address, "MyERC20", network.name)
   await writeAbiAddr(Artifact, token.address, "MyERC20", network.name)
+  
 }
 
 // We recommend this pattern to be able to use async/await everywhere

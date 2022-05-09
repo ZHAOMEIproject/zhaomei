@@ -20,6 +20,7 @@ secret参考文件格式
 ```
 ### local
 ```shell
+# npm install hardhat
 npx hardhat compile
 npx hardhat clean
 npx hardhat test
@@ -29,9 +30,11 @@ npx hardhat verify
 ```
 ### other_netowrk
 ```shell
+# npm install hardhat
+# npx hardhat test --network polygonMumbai
 npx hardhat compile
 npx hardhat clean
 npx hardhat run scripts/sample-script.js --network polygonMumbai
 npx hardhat verify address constructor --network polygonMumbai
-# npx hardhat test --network polygonMumbai
 ```
+

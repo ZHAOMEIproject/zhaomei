@@ -1,5 +1,5 @@
 const hre = require("hardhat");
-const { writeAbiAddr} = require('./artifact_log.js');
+const { writer_info } = require('./hh_log.js');
 async function main() {
   const Greeter = await hre.ethers.getContractFactory("Greeter");
   const greeter = await Greeter.deploy("Hello, Hardhat!");
@@ -8,13 +8,7 @@ async function main() {
 
   console.log("Greeter deployed to:", greeter.address);
   let Artifact = await artifacts.readArtifact("Greeter");
-  await writeAbiAddr(Artifact, greeter.address, "Greeter", network.name);
-  // await hre.run("verify:verify", {
-  //   address: greeter.address,
-  //   constructorArguments: [
-  //     "Hello, Hardhat!",
-  //   ],
-  // })
+  await writer_info(network,Artifact, greeter.address);
 }
 main()
   .then(() => process.exit(0))

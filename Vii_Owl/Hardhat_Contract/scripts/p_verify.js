@@ -1,7 +1,8 @@
 const hre = require("hardhat");
+const Owl_p = require(`../deployments/${network.name}/owl_base.json`);
 async function main() {
   await hre.run("verify:verify", {
-    address: "0xE31c26797cECf2D2f2aEd3AE4900b1FF3fACaE6e",
+    address: Owl_p.p_address,
     constructorArguments: [
     ],
   })

@@ -11,11 +11,13 @@
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.5",
     "@nomiclabs/hardhat-waffle": "^2.0.3",
+    "@nomiclabs/hardhat-web3": "^2.0.0",
     "@openzeppelin/hardhat-upgrades": "^1.17.0",
     "chai": "^4.3.6",
     "ethereum-waffle": "^3.4.4",
     "ethers": "^5.6.5",
-    "hardhat": "^2.9.3"
+    "hardhat": "^2.9.3",
+    "web3": "^1.7.3"
   },
   "dependencies": {
     "@nomiclabs/hardhat-etherscan": "^3.0.3",

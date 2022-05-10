@@ -9,7 +9,7 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
 
-contract owl_base is Initializable, ERC721Upgradeable, ERC721EnumerableUpgradeable, ERC721URIStorageUpgradeable, OwnableUpgradeable, UUPSUpgradeable {
+contract owl_base_v2 is Initializable, ERC721Upgradeable, ERC721EnumerableUpgradeable, ERC721URIStorageUpgradeable, OwnableUpgradeable, UUPSUpgradeable {
     using CountersUpgradeable for CountersUpgradeable.Counter;
     CountersUpgradeable.Counter private _tokenIdCounter;
     /// @custom:oz-upgrades-unsafe-allow constructor
@@ -61,7 +61,7 @@ contract owl_base is Initializable, ERC721Upgradeable, ERC721EnumerableUpgradeab
     {
         super._burn(tokenId);
     }
-
+    bool egg_open;
     function tokenURI(uint256 tokenId)
         public
         view

@@ -29,4 +29,7 @@ npx hardhat run scripts/2_updata_owl.js --network polygonMumbai
 //更新逻辑合约
 ```
 
-## Contract_Addresses
+## Contract_info
+|       |       |
+|   -------------   |   -------------   |
+|   owl_base.sol    |   nft逻辑合约      |

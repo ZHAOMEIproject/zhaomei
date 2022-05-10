@@ -21,16 +21,6 @@ contract owl_base is Initializable, ERC721Upgradeable, ERC721EnumerableUpgradeab
         __Ownable_init();
         __UUPSUpgradeable_init();
     }
-    string baseURL;
-    bool public egg_open;
-    function _baseURI() internal view override returns (string memory) {
-        return baseURL;
-    }
-    function set_baseinfo(string memory _str,bool _egg_open)public onlyOwner{
-        baseURL=_str;
-        egg_open=_egg_open;
-    }
-
     function safeMint(address to) public onlyOwner {
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
@@ -50,16 +40,6 @@ contract owl_base is Initializable, ERC721Upgradeable, ERC721EnumerableUpgradeab
         _tokenIdCounter.increment();
         _safeMint(msg.sender, tokenId);
     }
-    // function setTokenURI(uint256 tokenId, string calldata uri) public onlyOwner{
-    //     _setTokenURI(tokenId, uri);
-    // }
-    // function P_setTokenURI(uint256[] calldata tokenId, string[] calldata uri) public onlyOwner{
-    //     uint256 l=tokenId.length;
-    //     for(uint256 i;i<l;i++){
-    //         _setTokenURI(tokenId[i], uri[i]);
-    //     }
-    // }
-
     function _authorizeUpgrade(address newImplementation)
         internal
         onlyOwner

@@ -1,8 +1,8 @@
 const hre = require("hardhat");
-// const web3 = require("@nomiclabs/hardhat-web3");
 async function main() {
-    const [owner, addr1] = await hre.ethers.getSigners();
-    console.log(await hre.web3);
+  const [owner,addr1] = await ethers.getSigners();
+  const balance0ETH =await hre.waffle.provider.getBalance(owner.address);
+  console.log(balance0ETH.BigNumber);
 }
 main()
   .then(() => process.exit(0))

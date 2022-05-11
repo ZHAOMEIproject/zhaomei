@@ -2,11 +2,6 @@
   "manifestVersion": "3.2",
   "proxies": [
     {
-      "address": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
-      "txHash": "0xc0d53eafe5583847ed66f793d1ec21aadd287173762b85bf3290f722ef31fa59",
-      "kind": "uups"
-    },
-    {
       "address": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
       "txHash": "0xb3055c23fa4ea3db15951fa55e0fd8eda7cfa9aa12c093ced3678adb6771a444",
       "kind": "uups"
@@ -14,11 +9,6 @@
     {
       "address": "0x0165878A594ca255338adfa4d48449f69242Eb8F",
       "txHash": "0x34c10e0857fea42623402b955dab2bf5a8e1b0c1980f797882eab67edffe1b6e",
-      "kind": "uups"
-    },
-    {
-      "address": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
-      "txHash": "0x30bec78793976ff6e9c9a61314a02493ba2213ce4a61fc4ca1c2efe6a719dbc7",
       "kind": "uups"
     },
     {
@@ -115,12 +105,22 @@
       "address": "0xa85233C63b9Ee964Add6F2cffe00Fd84eb32338f",
       "txHash": "0xb85f8b4867abbb68206342e7887640b42632b1709067c231ada104fe1093d2c3",
       "kind": "uups"
+    },
+    {
+      "address": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+      "txHash": "0xc22098bde80cd18bd99eae17b7dba796d6a88d28af927af5a25fede9f03dae57",
+      "kind": "uups"
+    },
+    {
+      "address": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+      "txHash": "0x5336c5ab4505326b1c3bf60ad25937a48e917a20bb1b784d0187172b2e907eb6",
+      "kind": "uups"
     }
   ],
   "impls": {
-    "a738de17e907c2a09dff02a8bc500720bac345fffa1008f63eec64f8ec990205": {
+    "d6cf5dd53c1cb79da0f07b689e3ab4cc2a1421a3b5cafc5581b9c9237bcf036b": {
       "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-      "txHash": "0xbdf354ca6d30d162bb7c59d7a92cc346dd65c35fea6ac724977955b5a7fec4ec",
+      "txHash": "0x7767508af4cb7ee7ea2592efa3345116ee9d73df4c6bf91e3e960dc9df4c10e1",
       "layout": {
         "storage": [
           {
@@ -314,7 +314,7 @@
             "slot": "402",
             "type": "t_string_storage",
             "contract": "owl_base",
-            "src": "contracts/owl_base.sol:24"
+            "src": "contracts/owl_base.sol:25"
           },
           {
             "label": "egg_open",
@@ -322,15 +322,15 @@
             "slot": "403",
             "type": "t_bool",
             "contract": "owl_base",
-            "src": "contracts/owl_base.sol:25"
+            "src": "contracts/owl_base.sol:26"
           },
           {
-            "label": "a",
+            "label": "sell_price",
             "offset": 0,
             "slot": "404",
             "type": "t_uint256",
             "contract": "owl_base",
-            "src": "contracts/owl_base.sol:26"
+            "src": "contracts/owl_base.sol:27"
           }
         ],
         "types": {

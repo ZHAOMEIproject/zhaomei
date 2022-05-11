@@ -9,15 +9,9 @@ describe("owl_base", function () {
   let addr1;
 
   beforeEach(async function () {
-    // Get the ContractFactory and Signers here.
     Owl = await hre.ethers.getContractFactory("owl_base");
     hardhatOwl = await hre.upgrades.deployProxy(Owl);
     [owner, addr1] = await ethers.getSigners();
-
-    // To deploy our contract, we just have to call Token.deploy() and await
-    // for it to be deployed(), which happens once its transaction has been
-    // mined.
-
     await hardhatOwl.deployed();
   });
 
@@ -27,14 +21,18 @@ describe("owl_base", function () {
     });
   });
   describe("Mint", function () {
-    it("Mint fee should be send owner", async function () {
+    it("Mint fee, mint tokenid", async function () {
+      // Mint fee
       let balance0ETH = await waffle.provider.getBalance(owner.address);
-      let mintfee= await hardhatOwl.
-      let mintTx = await hardhatOwl.connect(addr1).sell_Mint({value:ethers.utils.parseEther("0.01")});
-      // wait until the transaction is mined
+      let mintfee= await hardhatOwl.sell_price();
+      let mintTx = await hardhatOwl.connect(addr1).sell_Mint({value:mintfee});
       await mintTx.wait();
       let balance0ETH2 = await waffle.provider.getBalance(owner.address);
-      expect(balance0ETH2.sub(balance0ETH)).to.equal(ethers.utils.parseEther("0.01"));
+      expect(balance0ETH2.sub(balance0ETH)).to.equal(mintfee);
+      // balanceof
+      expect(await hardhatOwl.balanceOf(addr1.address)).to.equal("1");
+      expect(await hardhatOwl.ownerOf("0")).to.equal(addr1.address);
+      expect(await hardhatOwl.tokenOfOwnerByIndex(addr1.address,"0")).to.equal("0");
     });
   });
 

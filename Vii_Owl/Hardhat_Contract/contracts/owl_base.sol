@@ -25,6 +25,7 @@ contract owl_base is Initializable, ERC721Upgradeable, ERC721EnumerableUpgradeab
     string baseURL;
     bool egg_open;
     uint256 public sell_price;
+    
     function update()public onlyOwner{
         sell_price=10**16;
     }

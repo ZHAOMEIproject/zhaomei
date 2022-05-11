@@ -1,3 +1,3 @@
 # Contract
-## owl_base.json
+## VII_OWL.json
 owl NFT合约的信息

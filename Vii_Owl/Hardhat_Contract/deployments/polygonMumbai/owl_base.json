@@ -400,6 +400,19 @@
       "type": "function"
     },
     {
+      "inputs": [],
+      "name": "sell_price",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "inputs": [
         {
           "internalType": "address",
@@ -446,6 +459,11 @@
           "internalType": "bool",
           "name": "_egg_open",
           "type": "bool"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_sell_price",
+          "type": "uint256"
         }
       ],
       "name": "set_baseinfo",
@@ -610,6 +628,13 @@
       "type": "function"
     },
     {
+      "inputs": [],
+      "name": "update",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
       "inputs": [
         {
           "internalType": "address",
@@ -641,12 +666,12 @@
       "type": "function"
     }
   ],
-  "address": "0xc87Bb13fe683a349a730a548e105122Dc38c32A9",
+  "address": "0x92E7aBF600701CA7B10d4130AF0653005e1AD6c9",
   "constructorArguments": "",
   "network": {
     "name": "polygonMumbai",
     "chainId": 80001,
     "url": "https://matic-mumbai.chainstacklabs.com"
   },
-  "p_address": "0x895fE5BB8cFA84AA87B0Ae3cbB2320B533ec739C"
+  "p_address": "0xbC95E30a455669A15aaA3C4592601DbcB26e75DE"
 }

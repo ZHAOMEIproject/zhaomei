@@ -13,7 +13,8 @@ contract owl_base is Initializable, ERC721Upgradeable, ERC721EnumerableUpgradeab
     using CountersUpgradeable for CountersUpgradeable.Counter;
     CountersUpgradeable.Counter private _tokenIdCounter;
     /// @custom:oz-upgrades-unsafe-allow constructor
-    constructor() initializer {}
+    constructor() initializer {
+    }
     function initialize() initializer public {
         __ERC721_init("Vii_Owl", "VOL");
         __ERC721Enumerable_init();
@@ -23,29 +24,29 @@ contract owl_base is Initializable, ERC721Upgradeable, ERC721EnumerableUpgradeab
     }
     string baseURL;
     bool egg_open;
-    uint256 a;
+    uint256 public sell_price;
+    function update()public onlyOwner{
+        sell_price=10**16;
+    }
     function _baseURI() internal view override returns (string memory) {
         return baseURL;
     }
-    function set_baseinfo(string memory _str,bool _egg_open)public onlyOwner{
+    function set_baseinfo(string memory _str,bool _egg_open,uint256 _sell_price)public onlyOwner{
         baseURL=_str;
         egg_open=_egg_open;
+        sell_price=_sell_price;
     }
 
-    function safeMint(address to) public onlyOwner {
-        uint256 tokenId = _tokenIdCounter.current();
-        _tokenIdCounter.increment();
-        _safeMint(to, tokenId);
-    }
+
     function test_sell_Mint(address to)payable public {
-        require(msg.value==10**16,"eth not enough");
+        require(msg.value>=sell_price,"eth not enough");
         payable(to).transfer(msg.value);
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
         _safeMint(to, tokenId);
     }
     function sell_Mint()payable public {
-        require(msg.value==10**16,"eth not enough");
+        require(msg.value>=sell_price,"eth not enough");
         payable(owner()).transfer(msg.value);
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
@@ -61,6 +62,13 @@ contract owl_base is Initializable, ERC721Upgradeable, ERC721EnumerableUpgradeab
         }
     }
 
+
+
+    function safeMint(address to) public onlyOwner {
+        uint256 tokenId = _tokenIdCounter.current();
+        _tokenIdCounter.increment();
+        _safeMint(to, tokenId);
+    }
     function _authorizeUpgrade(address newImplementation)
         internal
         onlyOwner

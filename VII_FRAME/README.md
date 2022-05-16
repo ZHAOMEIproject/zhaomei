@@ -22,3 +22,4 @@
 [VII_FRAME.xmind](./other_document/VII_FRAME.xmind)  
 [VII_FRAME.pdf](./other_document/VII_FRAME.pdf)  
 ![VII_FRAME.png](./other_document/VII_FRAME.png)  
+![flow_chart.png](./other_document/flow_chart.png)  

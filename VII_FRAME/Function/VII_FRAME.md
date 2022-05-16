@@ -14,7 +14,7 @@ Contract name: VII_FRAME.sol
 ### 总业务逻辑
 1、用户进入界面，绑定钱包地址，查询后端接口A，钱包是否绑定了虚拟相框。
 2、查询用户是否拥有nft,balanceOf(address owner).call。
-3、如果没有：则需要safeMint(address to).send 铸造一个，等待结果返回，跳到1循环。
+3、如果没有：则需要publicMint(address to).send 铸造一个，等待结果返回，跳到1循环。
 4、如果有：则遍历用户背包tokenOfOwnerByIndex(address owner,uint index).call。
 5、读取tokenURI(uint256 id).call，获取URI链接，访问URI链接获取json文件，json文件带有图片链接和等级属性等。
 6、用户选取要使用的虚拟相框nft，签名并传给后端接口B，等待接口返回结果。
@@ -27,7 +27,7 @@ tokenOfOwnerByIndex(address owner,uint index).call  //遍历用户持有的nft
 tokenURI(uint256 id).call                           //读取nft的json的url。
 
 ### 写入函数
-safeMint(address to).send                           //铸造nft
+publicMint(address to).send                           //铸造nft
 
 ### 后端接口
 待定接口A  

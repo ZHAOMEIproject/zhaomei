@@ -1,5 +1,5 @@
 # Contract Function
-Contract name: owl_base.sol
+Contract name: VII_FRAME.sol
 ## 目录
 * [WEB业务逻辑](#WEB业务逻辑)
     * [读取函数](#读取函数)
@@ -11,26 +11,23 @@ Contract name: owl_base.sol
     * [后端接口](#后端接口)
 
 ## WEB业务逻辑
-### 销售铸造nft 
-读取需要支付的eth数量sell_price()，显示出来的需要除18位单位，铸造nft接口sell_mint(){value:amount}。
-
-### 用户地址和收货地址的绑定
-查询用户是否拥有nft balanceOf(address owner),遍历显示用户持有的nft tokenOfOwnerByIndex(address owner,uint index)。  
-后端读取nft tokenid是否已经绑定收货地址（待定接口A），没有绑定则可以进行绑定。
-签名和签名信息发送给后端（待定接口B）。后端验证成功返回结果。  
-签名信息： 接口哈希，钱包地址，tokenid，收货地址，deadline。
+### 总业务逻辑
+1、用户进入界面，绑定钱包地址，查询后端接口A，钱包是否绑定了虚拟相框。
+2、查询用户是否拥有nft,balanceOf(address owner).call。
+3、如果没有：则需要safeMint(address to).send 铸造一个，等待结果返回，跳到1循环。
+4、如果有：则遍历用户背包tokenOfOwnerByIndex(address owner,uint index).call。
+5、读取tokenURI(uint256 id).call，获取URI链接，访问URI链接获取json文件，json文件带有图片链接和等级属性等。
+6、用户选取要使用的虚拟相框nft，签名并传给后端接口B，等待接口返回结果。
 
 ### 读取函数
 balanceOf(address owner).call                       //读取用户nft拥有量
 
 tokenOfOwnerByIndex(address owner,uint index).call  //遍历用户持有的nft
 
-sell_price().call                                   //需要支付的eth数量
+tokenURI(uint256 id).call                           //读取nft的json的url。
 
 ### 写入函数
-sell_mint().send{value:amount}                      //出售nft
-
-test_sell_Mint(address to).send{value:amount}       //测试版出售nft
+safeMint(address to).send                           //铸造nft
 
 ### 后端接口
 待定接口A  
@@ -49,3 +46,23 @@ ownerOf(uint256 tokenid).call                       //读取拥有tokenid的钱�
 ### 后端接口
 待定接口A  
 待定接口B  
+
+### tokenURI标准格式
+```json
+// 如果一张图片的tokenid为666，信息存放链接为https://portal.neondistrict.io/asset/。
+// 则对外链接为https://portal.neondistrict.io/asset/666
+// 通过这个链接获取下面json信息
+{
+  // 项目名称
+  "name": "OpenSea Creatures",
+  // 项目简介
+  "description": "OpenSea Creatures are adorable aquatic beings primarily for demonstrating what can be done using the OpenSea platform. Adopt one today to try out all the OpenSea buying, selling, and bidding feature set.",
+  // nft图片存放
+  "image": "https://openseacreatures.io/image.png",
+  // 此tokenid对外链接
+  "external_link": "https://openseacreatures.io",
+  // token在opensea买卖时，出售价格的1%将会发到fee_recipient。
+  "seller_fee_basis_points": 100, # Indicates a 1% seller fee.
+  "fee_recipient": "0xA97F337c39cccE66adfeCB2BF99C1DdC54C2D721" # Where seller fees will be paid to.
+}
+```

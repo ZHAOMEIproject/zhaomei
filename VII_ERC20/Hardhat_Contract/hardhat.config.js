@@ -16,6 +16,64 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
 /**
  * @type import('hardhat/config').HardhatUserConfig
  */
+require('@openzeppelin/hardhat-upgrades');
+require("@nomiclabs/hardhat-etherscan");
+require('hardhat-abi-exporter');
+const fs = require('fs');
+// var secretinfo =fs.readFileSync("/home/ubuntu/zwj-learn/.secret.json").toString().trim();
+const secretinfo =require(`/home/ubuntu/zwj-learn/.secret.json`);
+const infrakey='';
+const scankey='';
+
 module.exports = {
-  solidity: "0.8.4",
+  solidity:{
+    compilers:[
+      {
+        version: "0.8.7",
+        setting:{
+          optimizer:{
+            enable:true,
+            runs:200
+          }
+        }
+      }
+    ]
+  },
+  networks:{
+    dev:{
+      url:"http://127.0.0.1:8545",
+      chainId:31337,
+    },
+    oktest:{
+      url:"https://exchaintestrpc.okex.org",
+      chainId:65,
+      accounts:{
+        mnemonic:secretinfo.mnemonic,
+      },
+    },
+    bnbtest:{
+      url:"https://data-seed-prebsc-1-s1.binance.org:8545/",
+      chainId:97,
+      accounts:{
+        mnemonic:secretinfo.mnemonic,
+      },
+    },
+    ropsten:{
+      url:"https://ropsten.infura.io/v3/8cccc98026714be18a4052434bb4ae77",
+      chainId:3,
+      accounts:{
+        mnemonic:secretinfo.mnemonic,
+      },
+    },
+    polygonMumbai:{
+      url:"https://matic-mumbai.chainstacklabs.com",
+      chainId:80001,
+      accounts:{
+        mnemonic:secretinfo.mnemonic,
+      },
+    }
+  },
+  etherscan:{
+    apiKey:secretinfo.apiKey
+  }
 };

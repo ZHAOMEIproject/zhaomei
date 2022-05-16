@@ -13,7 +13,8 @@
 |       |       |       |
 |   -------------   |   -------------   |   -------------   |
 |   network_name    |   polygon_mumbai  |   ZHAOMEI  |
-|   network_id      |   80001           |   7156777  |
+|   url    |   https://matic-mumbai.chainstacklabs.com  |      |
+|   network_id      |   80001           |   715677  |
 |   faucet          |   https://faucet.polygon.technology/  |   [无限测试币账户](./other/account.txt)  |
 |                   |   https://mumbaifaucet.com/           |   |
 

@@ -29,7 +29,7 @@ contract vii_frame is Initializable, ERC721Upgradeable, ERC721EnumerableUpgradea
     function _baseURI() internal view override returns (string memory) {
         return baseURL;
     }
-    function set_baseinfo(string memory _str,bool _egg_open,uint256 _sell_price)public onlyOwner{
+    function set_baseinfo(string memory _str)public onlyOwner{
         baseURL=_str;
     }
     function setTokenURI(uint256 tokenId, string calldata uri) public onlyOwner{

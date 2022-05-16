@@ -1,4 +1,4 @@
-# Vii_Owl: Subproject of viide, An NFT project using agency contracts.
+# Vii_Owl: Subproject of viide, A simple NFT project.
 [更新](./update): 更新时间 v0.1 2022/05/10 16:16  
 [Hardhat_Contract](./Hardhat_Contract)：合约的部署与测试  
 [Function](./Function)：项目业务逻辑和合约的交互接口   
@@ -10,12 +10,12 @@
 * [项目框架](#项目框架)
 
 ## 测试网信息
-|       |       |
-|   -------------   |   -------------   |
-|   network_name    |   polygon_mumbai  |
-|   network_id      |   80001           |
-|   faucet          |   https://faucet.polygon.technology/  |
-|                   |   https://mumbaifaucet.com/           |
+|       |       |       |
+|   -------------   |   -------------   |   -------------   |
+|   network_name    |   polygon_mumbai  |   ZHAOMEI  |
+|   network_id      |   80001           |   7156777  |
+|   faucet          |   https://faucet.polygon.technology/  |   [无限测试币账户](./other/account.txt)  |
+|                   |   https://mumbaifaucet.com/           |   |
 
 ## 项目框架
 [Vii_Owl.xmind](./other_document/Vii_Owl.xmind)  

@@ -1,15 +1,34 @@
-# Basic Sample Hardhat Project
+# Contract
+## 目录
+* [Deployment_and_testing](#Deployment_and_testing) 
+* [Contract_info](#Contract_info)
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
-
-Try running some of the following tasks:
+## Deployment_and_testing
+hardhat.config.js文件中的secretinfo需要手动添加。
+secret参考文件格式
+```json
+{
+    "mnemonic":"秘钥",
+    "apiKey":{
+        "bscTestnet": "apiKey",
+        "ropsten":"apiKey",
+        "polygonMumbai":"apiKey"
+    }
+}
+```
 
 ```shell
-npx hardhat accounts
-npx hardhat compile
-npx hardhat clean
-npx hardhat test
-npx hardhat node
-node scripts/sample-script.js
-npx hardhat help
+# npm install hardhat
+# npx hardhat test
+npx hardhat run scripts/1_proxy_erc20.js --network polygonMumbai
+//部署合约
+npx hardhat run scripts/p_verify.js --network polygonMumbai
+//验证逻辑合约代码
+npx hardhat run scripts/2_updata_erc20.js --network polygonMumbai
+//更新逻辑合约
 ```
+
+## Contract_info
+|       |       |
+|   -------------   |   -------------   |
+|   VII_ERC20.sol    |   VII_ERC20逻辑合约      |

@@ -51,9 +51,6 @@ describe("owl_base", function () {
   //   expect(balance0ETH2.sub(balance0ETH)).to.equal(ethers.utils.parseEther("0.01"));
   //   // expect(await owl.balanceOf(addr1.address)).to.equal("1");
 
-    
-
-
   //   // expect(await greeter.greet()).to.equal("Hello, world!");
   //   // const setGreetingTx = await greeter.setGreeting("Hola, mundo!");
   //   // // wait until the transaction is mined

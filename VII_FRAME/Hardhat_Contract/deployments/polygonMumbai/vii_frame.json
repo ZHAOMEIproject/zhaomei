@@ -585,13 +585,6 @@
       "type": "function"
     },
     {
-      "inputs": [],
-      "name": "update",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
       "inputs": [
         {
           "internalType": "address",
@@ -623,12 +616,12 @@
       "type": "function"
     }
   ],
-  "address": "0xC06ea3dB2257b3aCD3A88c51acf63ec8E33827b4",
+  "address": "0x0F16be277b1a54cB98A0683b8f43122F239C61C9",
   "constructorArguments": "",
   "network": {
     "name": "polygonMumbai",
     "chainId": 80001,
     "url": "https://matic-mumbai.chainstacklabs.com"
   },
-  "p_address": "0x32421d0335c785Ca6E73F84E95e5c08cDc9BA032"
+  "p_address": "0xC235B3081e9ABeae16E4f5CC7B21820C4307069C"
 }

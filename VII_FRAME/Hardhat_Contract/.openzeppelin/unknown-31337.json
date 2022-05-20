@@ -107,20 +107,20 @@
       "kind": "uups"
     },
     {
-      "address": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
-      "txHash": "0xc22098bde80cd18bd99eae17b7dba796d6a88d28af927af5a25fede9f03dae57",
+      "address": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+      "txHash": "0x5336c5ab4505326b1c3bf60ad25937a48e917a20bb1b784d0187172b2e907eb6",
       "kind": "uups"
     },
     {
-      "address": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
-      "txHash": "0x5336c5ab4505326b1c3bf60ad25937a48e917a20bb1b784d0187172b2e907eb6",
+      "address": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+      "txHash": "0x6b023743320dd7eae96c6846e39d49c04d0f6a03d790ca0d4e3ecd6ff1fe77b4",
       "kind": "uups"
     }
   ],
   "impls": {
-    "d6cf5dd53c1cb79da0f07b689e3ab4cc2a1421a3b5cafc5581b9c9237bcf036b": {
+    "c7d2e0203a6abd20b1574e97683f44bf1e0334905a945376f16a7c4e8108036b": {
       "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-      "txHash": "0x7767508af4cb7ee7ea2592efa3345116ee9d73df4c6bf91e3e960dc9df4c10e1",
+      "txHash": "0xa3207d477e45dfb144c4c7c79d90a1b7fee8949b47a938dd3d3ba71ace9108c0",
       "layout": {
         "storage": [
           {
@@ -305,32 +305,16 @@
             "offset": 0,
             "slot": "401",
             "type": "t_struct(Counter)2670_storage",
-            "contract": "owl_base",
-            "src": "contracts/owl_base.sol:14"
+            "contract": "vii_frame",
+            "src": "contracts/VII_FRAME.sol:14"
           },
           {
             "label": "baseURL",
             "offset": 0,
             "slot": "402",
             "type": "t_string_storage",
-            "contract": "owl_base",
-            "src": "contracts/owl_base.sol:25"
-          },
-          {
-            "label": "egg_open",
-            "offset": 0,
-            "slot": "403",
-            "type": "t_bool",
-            "contract": "owl_base",
-            "src": "contracts/owl_base.sol:26"
-          },
-          {
-            "label": "sell_price",
-            "offset": 0,
-            "slot": "404",
-            "type": "t_uint256",
-            "contract": "owl_base",
-            "src": "contracts/owl_base.sol:27"
+            "contract": "vii_frame",
+            "src": "contracts/VII_FRAME.sol:25"
           }
         ],
         "types": {

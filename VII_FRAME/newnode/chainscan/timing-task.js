@@ -1,5 +1,4 @@
 /*Timing task*/
-
 // After the project starts, the scheduled task will be started in five seconds
 exports.taskStart = function taskStart(){
     console.log(`Tasks start loading`);
@@ -12,11 +11,23 @@ exports.taskStart = function taskStart(){
 
 async function taskSynchronizationlevelnftEventRecord() {
     console.log("task I   (20s)  ========>  synchronization levelnft Event Record ...");
-
     const levelnft = require("./mysql-synchronous/levelnft");
     await levelnft.disposeEventslevelnft();// 处理事件结果
 }
 
-async function newtask(){
-    
+var fs = require("fs")
+var path = require("path")
+var root = path.join("../../Hardhat_Contract/deployments/newinfo")
+function newtask(){
+    readDir(path.join(root))
+    function readDir(path){
+        fs.readdir(path,function(err,menu){	
+            if(!menu)
+                return;
+            menu.forEach(function(ele){	
+                fs.stat(path+"/"+ele,function(err,info){
+                })
+            })
+        })
+    }
 }

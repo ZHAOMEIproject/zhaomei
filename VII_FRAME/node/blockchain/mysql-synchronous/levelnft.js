@@ -72,6 +72,10 @@ exports.disposeEventslevelnft = async function disposeEventslevelnft(){
     })
 }
 
+
+
+
+
 // 添加Event_Log
 function addEventLog(addSqlParams){
     let addSql = "INSERT INTO levelnft_events_log(block_number,event_name,transaction_hash,from_address,to_address,content,update_time,tokenid) " +

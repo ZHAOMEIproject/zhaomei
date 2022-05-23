@@ -1,0 +1,26 @@
+{
+    "config": {
+      "chainId": 7156777,
+      "homesteadBlock": 0,
+      "eip150Block": 0,
+      "eip155Block": 0,
+      "eip158Block": 0,
+      "byzantiumBlock": 0,
+      "constantinopleBlock": 0,
+      "petersburgBlock": 0,
+      "clique": {
+        "period": 3,
+        "epoch": 30000
+      }
+    },
+    "difficulty": "1",
+    "gasLimit": "999999999",
+    "extradata": "0x00000000000000000000000000000000000000000000000000000000000000003316aBa750ED634dD3b1eD5b7300f796117e09440000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "alloc": {
+      "d7B74f2133C011110a7A38038fFF30bDc9ACe6d1": { "balance": "10000000000000000000000000000000000000000000000000000001000000000000000000" },
+      "0x3316aBa750ED634dD3b1eD5b7300f796117e0944": { "balance": "48108000000000000000000" }
+    }
+}
+// geth account new --datadir data
+// geth init --datadir data genesis.json
+// nohup geth --identity "ZHAOMEI" --datadir data --http --http.addr 0.0.0.0 --http.api "admin,eth,miner,net,txpool,personal,web3 " --http.corsdomain "*" --mine --maxpeers 5 --allow-insecure-unlock --networkid 7156777  --unlock "0x3316aBa750ED634dD3b1eD5b7300f796117e0944" --password password & echo "Geth started on node 1"

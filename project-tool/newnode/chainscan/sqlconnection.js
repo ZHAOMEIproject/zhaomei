@@ -5,12 +5,14 @@ const mysql = require("mysql");
 exports.selectAll = function selectAll(sqlAll){
     const conn = mysql.createConnection(conglobal.mysqlGlobalfig);
     conn.connect();
+
     conn.query(sqlAll,function (err, result) {
         if(err){
             console.log('[SELECT ERROR] - ',err.message);
             return;
         }
     });
+
 }
 
 // SELECT

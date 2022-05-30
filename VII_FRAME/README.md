@@ -1,8 +1,8 @@
 # VII_FRAME: Subproject of viide, An NFT project using agency contracts.
-[更新](./update): 更新时间 v0.1 2022/05/10 16:16  
+[更新](./update): 更新时间 v0.1 2022/05/30 10:20  
 [Hardhat_Contract](./Hardhat_Contract)：合约的部署与测试  
 [Function](./Function)：项目业务逻辑和合约的交互接口   
-[Contract_info](./Hardhat_Contract/deployments/): 选择网络后查看具体合约信息(network id，chain name，合约名称，abi，合约地址)  
+[Contract_info](./Hardhat_Contract/deployments/): 查看具体合约信息(network id，chain name，合约名称，abi，合约地址)，newinfo为最新发布的。  
 [operate](./Operate)： Opensea的运营管理。
 
 ## Tip

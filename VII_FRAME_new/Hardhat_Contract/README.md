@@ -8,11 +8,22 @@ hardhat.config.js文件中的secretinfo需要手动添加。
 secret参考文件格式
 ```json
 {
-    "mnemonic":"秘钥",
-    "apiKey":{
-        "bscTestnet": "apiKey",
-        "ropsten":"apiKey",
-        "polygonMumbai":"apiKey"
+    "solidity":{
+        "mnemonic":"秘钥",
+        "apiKey":{
+            "polygonMumbai":"apikey"
+        }
+    },
+    "mysql":{
+        "host": "127.0.0.1",
+        "port": "3306",
+        "user": "",
+        "password": "",
+        "database": "ZHAOMEI"
+    },
+    "node":{
+        "host":"",
+        "port":"8080"
     }
 }
 ```

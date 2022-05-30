@@ -68,6 +68,7 @@ async function set_base_info(network,Artifact,addr){
   info.network["name"]=network.name;
   info.network["chainId"]=network.config.chainId;
   info.network["url"]=network.config.url;
+  info.network["explorer"]=network.config.explorer;
 }
 
 module.exports = {

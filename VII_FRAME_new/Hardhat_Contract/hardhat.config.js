@@ -21,11 +21,12 @@ require("@nomiclabs/hardhat-etherscan");
 require('hardhat-abi-exporter');
 const fs = require('fs');
 // var secretinfo =fs.readFileSync("/home/ubuntu/zwj-learn/.secret.json").toString().trim();
-const secretinfo =require(`/home/ubuntu/zwj-learn/.secret.json`);
+const secretinfo =require(`/root/learn/.secret.json`);
 const infrakey='';
 const scankey='';
 
 module.exports = {
+  defaultNetwork: "polygonMumbai",
   solidity:{
     compilers:[
       {
@@ -43,34 +44,45 @@ module.exports = {
     dev:{
       url:"http://127.0.0.1:8545",
       chainId:31337,
+      accounts:{
+        mnemonic:secretinfo.solidity.mnemonic,
+      },
     },
     oktest:{
       url:"https://exchaintestrpc.okex.org",
       chainId:65,
       accounts:{
-        mnemonic:secretinfo.mnemonic,
+        mnemonic:secretinfo.solidity.mnemonic,
       },
     },
     bnbtest:{
       url:"https://data-seed-prebsc-1-s1.binance.org:8545/",
       chainId:97,
       accounts:{
-        mnemonic:secretinfo.mnemonic,
+        mnemonic:secretinfo.solidity.mnemonic,
       },
     },
     ropsten:{
       url:"https://ropsten.infura.io/v3/8cccc98026714be18a4052434bb4ae77",
       chainId:3,
       accounts:{
-        mnemonic:secretinfo.mnemonic,
+        mnemonic:secretinfo.solidity.mnemonic,
       },
     },
     polygonMumbai:{
       url:"https://matic-mumbai.chainstacklabs.com",
       chainId:80001,
       accounts:{
-        mnemonic:secretinfo.mnemonic,
+        mnemonic:secretinfo.solidity.mnemonic,
       },
+    },
+    zhaomei:{
+      url:"http://154.91.156.113:8545",
+      chainId:7156777,
+      accounts:{
+        mnemonic:secretinfo.solidity.mnemonic,
+      },
+      explorer:"http://154.91.156.113:4000"
     }
   },
   etherscan:{

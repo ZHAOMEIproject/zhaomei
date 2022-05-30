@@ -1,0 +1,21 @@
+{
+  "apps": [
+    {
+      "name": "magicworld-online",
+      "cwd": "/var/install/nodejs/magic-online/",
+      "script": "main.js",
+      "log_date_format": "YYYY-MM-DD HH:mm Z",
+      "error_file": "/var/install/nodejs/magic-online/log/erroe.log",
+      "out_file": "log/magicworld-online.log",
+      "pid_file": "pids/magicworld-online.pid",
+      "instances": 1,
+      "min_uptime": "200s",
+      "watch": false,
+      "merge_logs": true,
+      "exec_interpreter": "node",
+      "exec_mode": "fork",
+      "autorestart": false,
+      "vizion": false
+    }
+  ]
+}

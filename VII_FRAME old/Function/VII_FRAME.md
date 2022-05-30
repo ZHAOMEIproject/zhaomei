@@ -12,17 +12,38 @@ Contract name: VII_FRAME.sol
 
 ## WEB业务逻辑
 ### 总业务逻辑
-1、用户publicMint(address to).send 铸造nft
+1、用户进入界面，绑定钱包地址，查询后端接口A，钱包是否绑定了虚拟相框。
+2、查询用户是否拥有nft,balanceOf(address owner).call。
+3、如果没有：则需要publicMint(address to).send 铸造一个，等待结果返回，跳到1循环。
+4、如果有：则遍历用户背包tokenOfOwnerByIndex(address owner,uint index).call。
+5、读取tokenURI(uint256 id).call，获取URI链接，访问URI链接获取json文件，json文件带有图片链接和等级属性等。
+6、用户选取要使用的虚拟相框nft，签名并传给后端接口B，等待接口返回结果。
+
+### 读取函数
+balanceOf(address owner).call                       //读取用户nft拥有量
+
+tokenOfOwnerByIndex(address owner,uint index).call  //遍历用户持有的nft
+
+tokenURI(uint256 id).call                           //读取nft的json的url。
 
 ### 写入函数
 publicMint(address to).send                           //铸造nft
 
+### 后端接口
+待定接口A  
+待定接口B  
+
 ## BACK业务逻辑
-### 绑定tokenid
-sql存储tokenid,owner,minter信息
+### 用户钱包绑定tokenid
+接收签名与签名信息，验证签名地址是否等于用户地址，区块链查询tokenid是否属于 ownerOf(uint256 tokenid)，诺是，则存入数据库，并且数据库以tokenid为唯一键。
+签名信息： 接口哈希，钱包地址，tokenid，收货地址，deadline。
 
-### 读取中心化数据库
+### 读取函数
+ownerOf(uint256 tokenid).call                       //读取拥有tokenid的钱包地址。
 
+### 后端接口
+待定接口A  
+待定接口B  
 
 ### tokenURI标准格式
 ```json

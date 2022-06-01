@@ -1,6 +1,6 @@
 const hre = require("hardhat");
 const { writer_info_all_proxy } = require('./hh_log.js');
-const VII_ERC20_p = require(`../deployments/${network.name}/vii_erc20_base.json`);
+const VII_ERC20_p = require(`../deployments/newinfo/vii_erc20_base.json`);
 async function main() {
   const vii_erc20_baseV2 = await ethers.getContractFactory("vii_erc20_base");
   const vii_erc20 = await upgrades.upgradeProxy(VII_ERC20_p.address, vii_erc20_baseV2);

@@ -45,6 +45,7 @@ contract vii_frame is Initializable, ERC721Upgradeable, ERC721EnumerableUpgradea
 
 
     function publicMint(address to) public {
+        require(super.balanceOf(to)<1,"When minting, the account number must not have NFT");
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
         _safeMint(to, tokenId);

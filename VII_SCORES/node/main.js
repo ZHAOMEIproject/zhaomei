@@ -2,32 +2,18 @@
 
 // ================Startup environment ( start_dev | start_test | start_pro )=============
 
-start_test();
+start_dev();
 
 // =======================================================================================
 
-// magicworld start Set
-var magicworld_url;
-var magicworld_port;
+// start Set
+var node_info;
+var setinfo;
 function start_dev(){
     console.log("start_dev ing")
-    magicworld_url = "127.0.0.1";
-    magicworld_port = "8080";
-    global.mysqlGlobal = require("./config/mysql/test-mysql.json")
-}
-
-function start_test(){
-    console.log("start_pro ing")
-    magicworld_url = "154.91.156.113";
-    magicworld_port = "8083";
-    global.mysqlGlobal = require("./config/mysql/test-mysql.json")
-}
-
-function start_pro(){
-    console.log("start_pro ing")
-    magicworld_url = "154.82.72.75";
-    magicworld_port = "8085";
-    global.mysqlGlobal = require("./config/mysql/online-mysql.json")
+    setinfo = require("/root/learn/.secret.json");
+    node_info = setinfo.VII_SCORES_NODE;
+    global.mysqlGlobal = setinfo.VII_SCORES_SQL;
 }
 
 // Arouse the express
@@ -35,15 +21,15 @@ const express = require("express");
 const app = express();
 
 // Arouse the swagger
-const swagger = require("./config/swagger");
-swagger.swaggerConfig(app,magicworld_url,magicworld_port);
+const swagger = require("./nodetool/swagger");
+swagger.swaggerConfig(app,node_info.host,node_info.port);
 
 // Arouse the service
-const service = require("./config/service");
-service.serviceConfig(app,magicworld_url,magicworld_port);
+const service = require("./nodetool/service");
+service.serviceConfig(app,node_info.host,node_info.port);
 
 // Arouse rest api
-const restApi = require("./config/restApi");
+const restApi = require("./nodetool/restApi");
 restApi.restApiConfig(app);
 
 // // Arouse the task

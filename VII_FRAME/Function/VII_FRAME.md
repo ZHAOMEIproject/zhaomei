@@ -13,6 +13,7 @@ Contract name: VII_FRAME.sol
 ## WEB业务逻辑
 ### 总业务逻辑
 1、用户publicMint(address to).send 铸造nft
+2、
 
 ### 写入函数
 publicMint(address to).send                           //铸造nft

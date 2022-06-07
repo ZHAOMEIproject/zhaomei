@@ -1,4 +1,4 @@
-# VII_FRAME: Subproject of viide, An NFT project using agency contracts.
+# VII_SCORES: Subproject of viide, 返回以太坊地址的用户数据，并根据权重计算分数。
 
 # 接口
 获取地址最新数据并存储入库。

@@ -14,13 +14,14 @@ function ScanApi(url){
         },async function (error, response, body) {
             if (!error && response.statusCode == 200) {
                 let json = JSON.parse(body);
-                if(json.result=='Max rate limit reached'){
-                    await wait(1000);
-                    resolve(ScanApi());
-                }
+                // if(json.result=='Max rate limit reached'){
+                //     await wait(1000);
+                //     resolve(ScanApi());
+                // }
                 resolve(json.result);
             }else{
-                console.log("message --> get api event contract fail,retry");
+                console.log("message --> get api event contract fail.");
+                resolve({"zwjerror":true});
             }
         })
     })
@@ -31,9 +32,17 @@ async function otherinfo(address){
     +"&apikey=NSYDK2DA22ZKUCJXKQ6NHR1FY4ZPJM8YP8&address="
     +address
     );
+
+    if(userscaninfo.zwjerror ==false){
+        return {"zwjerror":true};
+    }
+
     let [opensea_buy,opensea_gas_use,opensea_eth_use,success_nonce,fistopenseatime]=[0,0,0,0,0];
-    fistopenseatime=userscaninfo[0].timeStamp;
-    for(let i=userscaninfo.length-1;i>=0;i--){
+    if(userscaninfo.length!=0){
+        fistopenseatime=userscaninfo[0].timeStamp;
+    }
+    
+    for(let i in userscaninfo){
         if(userscaninfo[i].isError != '0' ){
             continue;
         }
@@ -55,9 +64,9 @@ async function otherinfo(address){
         opensea_gas_use_s:l_max(opensea_gas_use/(10**16)*3*5,100),
         opensea_eth_use:opensea_eth_use,
         opensea_eth_use_s:l_max(opensea_eth_use/(10**18)*5,500),
+        fistopenseatime:fistopenseatime,
         success_nonce:success_nonce,
-        success_nonce_s:l_max(success_nonce*5,50),
-        fistopenseatime:fistopenseatime
+        success_nonce_s:l_max(success_nonce*5,50)
     }
 }
 
@@ -66,9 +75,16 @@ async function nftinfo(address){
     +"&apikey=7FYH9WPWUNJYUEK7992KHGFHI6W1B8EMAK&address="
     +address
     );
+
+    if(nftinfo.zwjerror ==false){
+        return {"zwjerror":true};
+    }
+
     let [main_nft,blue,superblue,total_nft,fist721time]=[0,0,0,0,0];
-    fist721time=nftinfo[0].timeStamp;
-    for(let i=nftinfo.length-1;i>=0;i--){
+    if(nftinfo.length!=0){
+        fist721time=nftinfo[0].timeStamp;
+    }
+    for(let i in nftinfo){
         let flag =1;
         if(nftinfo[i].from==address)
         flag=-1;
@@ -90,10 +106,10 @@ async function nftinfo(address){
         blue_s:l_max(blue*50,300),
         superblue:superblue,
         superblue_s:l_max(superblue*125,500),
+        fist721time:fist721time,
         total_nft:total_nft,
         total_nft_s:l_max(total_nft*5,50),
-        topaccount:(address in totalinfo.topaccount),
-        fist721time:fist721time
+        topaccount:(address in totalinfo.topaccount)
     }
 }
 

@@ -2,19 +2,25 @@
 
 // ================Startup environment ( start_dev | start_test | start_pro )=============
 
-start_dev();
+start_test();
 
 // =======================================================================================
 
-// start Set
+// magicworld start Set
 var node_info;
+var host;
+var port;
 var setinfo;
-function start_dev(){
+
+function start_test(){
     console.log("start_dev ing")
     setinfo = require("/root/learn/.secret.json");
     node_info = setinfo.VII_SCORES_NODE;
+    host = node_info.host;
+    port = node_info.port;
     global.mysqlGlobal = setinfo.VII_SCORES_SQL;
 }
+
 
 // Arouse the express
 const express = require("express");
@@ -22,11 +28,11 @@ const app = express();
 
 // Arouse the swagger
 const swagger = require("./nodetool/swagger");
-swagger.swaggerConfig(app,node_info.host,node_info.port);
+swagger.swaggerConfig(app,host,port);
 
 // Arouse the service
 const service = require("./nodetool/service");
-service.serviceConfig(app,node_info.host,node_info.port);
+service.serviceConfig(app,host,port);
 
 // Arouse rest api
 const restApi = require("./nodetool/restApi");

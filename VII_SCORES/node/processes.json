@@ -1,13 +1,13 @@
 {
   "apps": [
     {
-      "name": "magicworld-online",
-      "cwd": "/var/install/nodejs/magic-online/",
+      "name": "VII_SCORES",
+      "cwd": "./",
       "script": "main.js",
       "log_date_format": "YYYY-MM-DD HH:mm Z",
-      "error_file": "/var/install/nodejs/magic-online/log/erroe.log",
-      "out_file": "log/magicworld-online.log",
-      "pid_file": "pids/magicworld-online.pid",
+      "error_file": "log/erroe.log",
+      "out_file": "log/VII_SCORES.log",
+      "pid_file": "pids/VII_SCORES.pid",
       "instances": 1,
       "min_uptime": "200s",
       "watch": false,

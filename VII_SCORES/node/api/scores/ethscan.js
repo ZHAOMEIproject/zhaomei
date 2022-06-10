@@ -1,8 +1,15 @@
 const request = require("request");
-function wait(ms) {
-    return new Promise(resolve =>setTimeout(() =>resolve(), ms));
-};
 const totalinfo = require("../../../info/info.json");
+const scores_max={
+    "opensea_buy_max":150,
+    "opensea_gas_use_max":200,
+    "opensea_eth_use_max":600,
+    "success_nonce_max":150,
+    "total_nft_max":150,
+    "main_nft_max":50,
+    "blue_max":300,
+    "superblue_max":500
+}
 
 //根据得到的数据，处理得到自己想要的
 function ScanApi(url){
@@ -14,10 +21,6 @@ function ScanApi(url){
         },async function (error, response, body) {
             if (!error && response.statusCode == 200) {
                 let json = JSON.parse(body);
-                // if(json.result=='Max rate limit reached'){
-                //     await wait(1000);
-                //     resolve(ScanApi());
-                // }
                 resolve(json.result);
             }else{
                 console.log("message --> get api event contract fail.");
@@ -46,10 +49,10 @@ async function otherinfo(address){
         if(userscaninfo[i].isError != '0' ){
             continue;
         }
-        if(userscaninfo[i].to in totalinfo.opensea){
+        if(totalinfo.opensea.includes(userscaninfo[i].to)){
             opensea_buy++;
             opensea_gas_use+=(userscaninfo[i].gasUsed*userscaninfo[i].gasPrice);
-            opensea_eth_use+=(userscaninfo[i].value);
+            opensea_eth_use+=(userscaninfo[i].value*1);
         }
         // total_gas_use+=(userscaninfo[i].gasUsed*userscaninfo[i].gasPrice);
         if(userscaninfo[i].blockNumber>12715107){
@@ -57,16 +60,21 @@ async function otherinfo(address){
         }
     }
 
+
+
+
+
+
     return {
         opensea_buy:opensea_buy,
-        opensea_buy_s:l_max(opensea_buy*5,50),
+        opensea_buy_s:l_max_add(opensea_buy*5,scores_max.opensea_buy_max),
         opensea_gas_use:opensea_gas_use,
-        opensea_gas_use_s:l_max(opensea_gas_use/(10**16)*3*5,100),
+        opensea_gas_use_s:l_max_add(opensea_gas_use/(10**16)*3*5,scores_max.opensea_gas_use_max),
         opensea_eth_use:opensea_eth_use,
-        opensea_eth_use_s:l_max(opensea_eth_use/(10**18)*5,500),
+        opensea_eth_use_s:l_max_add(opensea_eth_use/(10**18)*5,scores_max.opensea_eth_use_max),
         fistopenseatime:fistopenseatime,
         success_nonce:success_nonce,
-        success_nonce_s:l_max(success_nonce*5,50)
+        success_nonce_s:l_max_add(success_nonce*5,scores_max.success_nonce_max)
     }
 }
 
@@ -86,29 +94,35 @@ async function nftinfo(address){
     }
     for(let i in nftinfo){
         let flag =1;
-        if(nftinfo[i].from==address)
-        flag=-1;
-        if(nftinfo[i].contractAddres in totalinfo.blue){
+        if(nftinfo[i].from==address){
+            flag=-1;
+        }
+        if(totalinfo.blue.includes(nftinfo[i].contractAddress)){
             blue+=flag;
         }
-        if(nftinfo[i].contractAddres in totalinfo.superblue){
+        if(totalinfo.superblue.includes(nftinfo[i].contractAddress)){
             superblue+=flag;
         }
-        if(nftinfo[i].contractAddres in totalinfo.topnft){
+        if(totalinfo.topnft.includes(nftinfo[i].contractAddress)){
             main_nft+=flag;
         }
         total_nft+=flag;
     }
+
+    if(total_nft>0){
+        total_nft+=100;
+    }
+
     return {
         main_nft:main_nft,
-        main_nft_s:l_max(main_nft*20,200),
+        main_nft_s:l_max_add(main_nft*20,scores_max.main_nft_max),
         blue:blue,
-        blue_s:l_max(blue*50,300),
+        blue_s:l_max(blue*50,scores_max.blue_max),
         superblue:superblue,
-        superblue_s:l_max(superblue*125,500),
+        superblue_s:l_max(superblue*125,scores_max.superblue_max),
         fist721time:fist721time,
         total_nft:total_nft,
-        total_nft_s:l_max(total_nft*5,50),
+        total_nft_s:l_max(total_nft*5,scores_max.total_nft_max),
         topaccount:(address in totalinfo.topaccount)
     }
 }
@@ -136,9 +150,19 @@ function l_max(score,max){
     }
     return score;
 }
+function l_max_add(score,max){
+    if(score>0){
+        score+=100;
+    }
+    if(score>max){
+        return max;
+    }
+    return score;
+}
 module.exports={
     otherinfo,
     nftinfo,
+    scores_max,
     // usdtbalance,
     // ethbalance
 }

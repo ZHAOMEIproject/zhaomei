@@ -6,6 +6,7 @@
 * [接口](#接口)
 * [数据意义](#数据意义)
 * [脑图](#脑图)
+* [根据前端设计图写的文档](#根据前端设计图写的文档)
 
 ## 接口
 获取地址最新数据并存储入库。
@@ -30,3 +31,17 @@ http://154.91.156.113:10902/v1/scores/last?address=0xaD07EFD5b2AA4cA6Fba38aAb878
 
 ## 脑图
 ![xmind](./other_document/xmind.png)
+
+## 根据前端设计图写的文档
+主页图所需参数
+|   图上标识    |   参数    |   注释    |   其他    |
+|   -------------       |   -------------   |   -------------       |   -------------   |
+|   RANK TOP    |   ranking |   排名    |
+|               |   totaluser   |   总人数  |
+|   什么时候拥有第一个nft   |   fist721time |   |
+|   “nft交易所”交易次数   |   opensea_buy |   |
+|   “nft交易所”交易花费的eth    |   opensea_eth_use |       |
+|   “nft交易所”交易消耗的gas  |   opensea_gas_use |     |
+|   一共拥有的nft   |   total_nft   |   |
+|   其中高价值的nft |   main_nft_s  |   |
+|   Crypto/BAYC持有个数     |   superblue   |   |

@@ -43,5 +43,5 @@ http://154.91.156.113:10902/v1/scores/last?address=0xaD07EFD5b2AA4cA6Fba38aAb878
 |   “nft交易所”交易花费的eth    |   opensea_eth_use |       |
 |   “nft交易所”交易消耗的gas  |   opensea_gas_use |     |
 |   一共拥有的nft   |   total_nft   |   |
-|   其中高价值的nft |   main_nft_s  |   |
+|   其中高价值的nft |   main_nft  |   |
 |   Crypto/BAYC持有个数     |   superblue   |   |

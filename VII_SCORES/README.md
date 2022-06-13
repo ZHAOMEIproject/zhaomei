@@ -12,7 +12,7 @@
 获取地址最新数据并存储入库。
 http://154.91.156.113:10902/v1/scores/update?address=0xaD07EFD5b2AA4cA6Fba38aAb878E626DA22C7816
 
-获取地址之前的两组数据并存储入库。
+获取地址之前的两组数据。
 http://154.91.156.113:10902/v1/scores/last?address=0xaD07EFD5b2AA4cA6Fba38aAb878E626DA22C7816
 
 ## 数据意义
@@ -33,8 +33,8 @@ http://154.91.156.113:10902/v1/scores/last?address=0xaD07EFD5b2AA4cA6Fba38aAb878
 ![xmind](./other_document/xmind.png)
 
 ## 根据前端具体页面写的注释
-tip:接口获得的data数据，数组0是最新的，数组1是上次获取的，数组2是记录的各分数项的上限。加“_s”获取项目分数，加“_max”获取项目分数上限。
-主图所需参数
+tip:update接口获得的data数据，数组0是最新的，数组1是上次获取的，数组2是记录的各分数项的上限。加“_s”获取项目分数，加“_max”获取项目分数上限。
+### 主图所需参数
 |   图上标识    |   参数    |   注释    |   其他    |
 |   -------------       |   -------------   |   -------------       |   -------------   |
 |   RANK TOP    |   ranking |   排名    |
@@ -46,3 +46,14 @@ tip:接口获得的data数据，数组0是最新的，数组1是上次获取的�
 |   一共拥有的nft   |   total_nft   |   |
 |   其中高价值的nft |   main_nft  |   |
 |   Crypto/BAYC持有个数     |   superblue   |   |
+
+### 蜘蛛图
+
+tip:加“_s”获取项目分数，加“_max”获取项目分数上限。
+|   图上标识    |   参数    |   注释    |   其他    |
+|   -------------       |   -------------   |   -------------       |   -------------   |
+|   交易频次    |   success_nonce   |   交易的次数    |       |
+|   消费能力    |   opensea_eth_use |   花费的ETH数量   |   
+|   收藏数量    |   total_nft    |   NFT持有量   |
+|   价值捕获    |   main_nft    |   top NFT的持有量 |
+|   Gas Fee |   opensea_gas_use |       |

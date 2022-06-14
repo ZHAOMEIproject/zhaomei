@@ -1,13 +1,13 @@
 {
   "apps": [
     {
-      "name": "levelnft",
+      "name": "VII_SCORES",
       "cwd": "./",
       "script": "main.js",
       "log_date_format": "YYYY-MM-DD HH:mm Z",
       "error_file": "log/erroe.log",
-      "out_file": "log/levelnft.log",
-      "pid_file": "pids/levelnft.pid",
+      "out_file": "log/VII_SCORES.log",
+      "pid_file": "pids/VII_SCORES.pid",
       "instances": 1,
       "min_uptime": "200s",
       "watch": false,

@@ -55,8 +55,9 @@ exports.disposeEventslevelnft = async function disposeEventslevelnft(){
                     tokenId = json[i].returnValues.tokenId;
                     // III. 添加事件日记记录
                     updatetokenidowner([tokenId,to_address]);
-                    if(from_address = "0x0000000000000000000000000000000000000000")
-                    addtokenminter([tokenId,to_address]);
+                    if(from_address = "0x0000000000000000000000000000000000000000"){
+                        addtokenminter([tokenId,to_address]);
+                    }
                 }
                 let addSqlParams =  [ json[i].blockNumber,json[i].event,json[i].transactionHash,from_address,to_address,content,tokenId ];
                 await addEventLog(addSqlParams);

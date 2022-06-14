@@ -17,7 +17,7 @@ function start_test(){
     setinfo = require("/root/learn/.secret.json");
     node_info = setinfo.VII_SCORES_NODE;
     host = node_info.host;
-    port = node_info.port;
+    port = 9999;
     global.mysqlGlobal = setinfo.VII_SCORES_SQL;
 }
 

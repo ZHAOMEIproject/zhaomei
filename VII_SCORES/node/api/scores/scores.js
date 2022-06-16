@@ -30,12 +30,17 @@ exports.getReleaseList = router.get("/update", async (req, res) => {
 
     let sqlStr = "select * from address_scores where address=? order by time DESC limit 2";
     let info = await conn.select(sqlStr,address);
-    if(info.length==1){
-        info.push(info[0]);
-    }
     info[0]["totaluser"]=data[0].totaluser;
     info[0]["ranking"]= data[0].ranking;
-    info[2]=ethscan.scores_max;
+    info[0]= Object.assign(info[0],ethscan.scores_max);
+    if(info.length==1){
+        info.push(info[0]);
+    }else{
+        info[1]["totaluser"]=data[0].totaluser;
+        info[1]["ranking"]= data[0].ranking;
+        info[1]= Object.assign(info[1],ethscan.scores_max);
+    }
+    
     res.send({
         success:true,
         data: info
@@ -60,10 +65,6 @@ exports.getList = router.get("/last", async (req, res) => {
         }
         info.push(data[0]);
     }
-    if(info.length==1){
-        info.push(info[0]);
-    }
-
 
     let sqlgettotaluser ="select count(DISTINCT address) as totaluser from address_scores;";
     var totaluser= await conn.select(sqlgettotaluser);
@@ -74,7 +75,16 @@ exports.getList = router.get("/last", async (req, res) => {
 
     info[0]["totaluser"]=totaluser;
     info[0]["ranking"]= ranking;
-    info[2]=ethscan.scores_max;
+    info[0]= Object.assign(info[0],ethscan.scores_max);
+    
+    if(info.length==1){
+        info.push(info[0]);
+    }else{
+        info[1]["totaluser"]=totaluser;
+        info[1]["ranking"]= ranking;
+        info[1]= Object.assign(info[1],ethscan.scores_max);
+    }
+    
     res.send({
         success:true,
         data:info

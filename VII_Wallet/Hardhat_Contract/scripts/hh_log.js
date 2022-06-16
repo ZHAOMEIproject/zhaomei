@@ -45,7 +45,6 @@ async function writer_info(network,Artifact,addr){
   await writeFile(dir, JSON.stringify(info, null, 2));
   console.log(`Exported deployments into ${deploymentPath}`);
 }
-
 async function creatfile(deploymentPath){
   if(!fs.existsSync(deploymentPath)){
     await fs.mkdirSync(deploymentPath,{recursive: true});

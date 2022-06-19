@@ -21,7 +21,7 @@ require("@nomiclabs/hardhat-etherscan");
 require('hardhat-abi-exporter');
 const fs = require('fs');
 // var secretinfo =fs.readFileSync("/home/ubuntu/zwj-learn/.secret.json").toString().trim();
-const secretinfo =require(`/home/ubuntu/zwj-learn/.secret.json`);
+const secretinfo =require(`/root/learn/.secret.json`);
 const infrakey='';
 const scankey='';
 

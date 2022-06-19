@@ -11,34 +11,38 @@ const writeFile = util.promisify(fs.writeFile);
  */
 // for Hardhat deployment
 var dir;
-const info = {};
+
+var info = {};
+var deploymentPath;
 async function writer_info_all(network,Artifact,addr,Argument){
-  const deploymentPath = path.resolve(__dirname, `../deployments`);
-  await creatfile(deploymentPath);
-  await set_base_info(network,Artifact,addr);
+  await baseinit(network,Artifact,addr);
+  
   info["constructorArguments"]=Argument;
-  dir = deploymentPath+`/${network.name}/${Artifact.contractName}.json`;
-  await writeFile(dir, JSON.stringify(info, null, 2));
-  dir = deploymentPath+`/newinfo/${Artifact.contractName}.json`;
-  await writeFile(dir, JSON.stringify(info, null, 2));
-  console.log(`Exported deployments into ${deploymentPath}`);
+
+  await baseinit2(network,Artifact);
 }
 async function writer_info_all_proxy(network,Artifact,addr,Argument,proxyaddr){
-  const deploymentPath = path.resolve(__dirname, `../deployments`);
-  await creatfile(deploymentPath);
-  await set_base_info(network,Artifact,addr);
+  await baseinit(network,Artifact,addr);
+  
   info["constructorArguments"]=Argument;
   info["p_address"]=proxyaddr;
-  dir = deploymentPath+`/${network.name}/${Artifact.contractName}.json`;
-  await writeFile(dir, JSON.stringify(info, null, 2));
-  dir = deploymentPath+`/newinfo/${Artifact.contractName}.json`;
-  await writeFile(dir, JSON.stringify(info, null, 2));
-  console.log(`Exported deployments into ${deploymentPath}`);
+
+  await baseinit2(network,Artifact);
 }
 async function writer_info(network,Artifact,addr){
-  const deploymentPath = path.resolve(__dirname, `../deployments`);
+  await baseinit(network,Artifact,addr);
+
+  await baseinit2(network,Artifact);
+}
+
+
+
+async function baseinit(network,Artifact,addr){
+  deploymentPath = path.resolve(__dirname, `../deployments`)
   await creatfile(deploymentPath);
   await set_base_info(network,Artifact,addr);
+}
+async function baseinit2(network,Artifact){
   dir = deploymentPath+`/${network.name}/${Artifact.contractName}.json`;
   await writeFile(dir, JSON.stringify(info, null, 2));
   dir = deploymentPath+`/newinfo/${Artifact.contractName}.json`;

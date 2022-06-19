@@ -10,7 +10,8 @@ interface IERC20 {
     function transferFrom(address from, address to, uint amount) external returns (bool);
     function transfer(address recipient, uint256 amount) external returns (bool);
 }
-abstract contract withdraw is EIP712, otherinfo{
+// abstract 
+contract withdraw is EIP712, otherinfo{
     constructor(uint256 _mini_amount,address _token,address _add_withdraw,string memory name, string memory version) EIP712(name, version){
         set_info(_mini_amount,_token,_add_withdraw);
     }
@@ -39,20 +40,25 @@ abstract contract withdraw is EIP712, otherinfo{
     event e_Withdraw(address indexed sender,address indexed to,uint256 amount,uint256 nonce);
 
     struct _signvrs{
+        address auditor;
+        address spender;
+        uint256 amount;
+        uint256 deadline;
         uint8 v;
         bytes32 r;
         bytes32 s;
     }
 
+
+
     function Withdraw_permit_auditor (
-        address auditor,
-        address spender,
-        uint256 amount,
-        uint256 deadline,
         _signvrs memory signinfo
     ) public  onlyRole(WITHDRAW_ROLE) monitor_lock{
+        uint256 deadline=signinfo.deadline;
         require(block.timestamp <= deadline, "VIIDER_Withdraw: expired deadline");
-        
+        address auditor=signinfo.auditor;
+        address spender=signinfo.spender;
+        uint256 amount=signinfo.amount;
         // 验证审核人员签名
         bytes32 structHash = keccak256(abi.encode(_PERMIT_TYPEHASH, auditor, spender, amount, _useNonce(auditor), deadline));
         bytes32 hash = _hashTypedDataV4(structHash);
@@ -64,14 +70,31 @@ abstract contract withdraw is EIP712, otherinfo{
         emit e_Withdraw(auditor,spender,amount,_nonces[auditor].current());
     }
 
+    struct _spenderinfo{
+        address spender;
+        uint256 amount;
+    }
+
     function Withdraw_permit(
-        address spender,
-        uint256 amount,
-        uint256 nonce
+        _spenderinfo calldata spenderinfo
     ) public  onlyRole(WITHDRAW_ROLE) monitor_lock{
-        require(amount <= mini_amount, "VIIDER_Withdraw: error amount");
-        require(nonce==_useNonce(msg.sender));
-        IERC20(token).transferFrom(add_withdraw,spender,amount);
-        emit e_Withdraw(msg.sender,spender,amount,_nonces[msg.sender].current());
+        require(spenderinfo.amount <= mini_amount, "VIIDER_Withdraw: error amount");
+        IERC20(token).transferFrom(add_withdraw,spenderinfo.spender,spenderinfo.amount);
+        emit e_Withdraw(msg.sender,spenderinfo.spender,spenderinfo.amount,_useNonce(msg.sender));
+    }
+    function lot_Withdraw_permit(
+         _spenderinfo[] calldata spenderinfo
+    )public onlyRole(WITHDRAW_ROLE) monitor_lock{
+        for(uint i=0;i<spenderinfo.length;i--){
+            Withdraw_permit(spenderinfo[i]);
+        }
+    }
+
+    function lot_Withdraw_permit_auditor(
+         _signvrs[] calldata spenderinfo
+    )public onlyRole(WITHDRAW_ROLE) monitor_lock{
+        for(uint i=0;i<spenderinfo.length;i--){
+            Withdraw_permit_auditor(spenderinfo[i]);
+        }
     }
 }

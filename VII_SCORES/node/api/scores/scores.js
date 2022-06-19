@@ -9,9 +9,6 @@ const conn = require("../../nodetool/sqlconnection");
 
 module.exports = router;
 
-
-
-
 // 1. 返回最新分数以及存储数据库
 exports.getReleaseList = router.get("/update", async (req, res) => {
     // Parsing URL parameters

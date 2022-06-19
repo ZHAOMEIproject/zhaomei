@@ -38,7 +38,7 @@ async function writer_info(network,Artifact,addr){
 
 
 async function baseinit(network,Artifact,addr){
-  deploymentPath = path.resolve(__dirname, `../deployments`)
+  deploymentPath = path.resolve(__dirname, `../../deployments`)
   await creatfile(deploymentPath);
   await set_base_info(network,Artifact,addr);
 }

@@ -85,7 +85,7 @@ contract withdraw is EIP712, otherinfo{
     function lot_Withdraw_permit(
          _spenderinfo[] calldata spenderinfo
     )public onlyRole(WITHDRAW_ROLE) monitor_lock{
-        for(uint i=0;i<spenderinfo.length;i--){
+        for(uint i=0;i<spenderinfo.length;i++){
             Withdraw_permit(spenderinfo[i]);
         }
     }
@@ -93,7 +93,7 @@ contract withdraw is EIP712, otherinfo{
     function lot_Withdraw_permit_auditor(
          _signvrs[] calldata spenderinfo
     )public onlyRole(WITHDRAW_ROLE) monitor_lock{
-        for(uint i=0;i<spenderinfo.length;i--){
+        for(uint i=0;i<spenderinfo.length;i++){
             Withdraw_permit_auditor(spenderinfo[i]);
         }
     }

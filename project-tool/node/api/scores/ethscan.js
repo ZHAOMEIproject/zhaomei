@@ -24,7 +24,8 @@ function ScanApi(url){
                 resolve(json.result);
             }else{
                 console.log("message --> get api event contract fail.");
-                resolve({"zwjerror":true});
+                global.zwjerror =true;
+                resolve();
             }
         })
     })
@@ -35,9 +36,8 @@ async function otherinfo(address){
     +"&apikey=NSYDK2DA22ZKUCJXKQ6NHR1FY4ZPJM8YP8&address="
     +address
     );
-
-    if(userscaninfo.zwjerror ==false){
-        return {"zwjerror":true};
+    if(global.zwjerror){
+        return
     }
 
     let [opensea_buy,opensea_gas_use,opensea_eth_use,success_nonce,fistopenseatime]=[0,0,0,0,0];
@@ -84,8 +84,8 @@ async function nftinfo(address){
     +address
     );
 
-    if(nftinfo.zwjerror ==false){
-        return {"zwjerror":true};
+    if(global.zwjerror){
+        return;
     }
 
     let [main_nft,blue,superblue,total_nft,fist721time]=[0,0,0,0,0];

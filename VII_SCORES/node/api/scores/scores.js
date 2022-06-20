@@ -18,7 +18,7 @@ exports.getReleaseList = router.get("/update", async (req, res) => {
     // let data = await Promise.all([ethscan.otherinfo(address),ethscan.nftinfo(address),ethscan.usdtbalance(address),ethscan.ethbalance(address)]);
     let data = await getnewinfo(address);
 
-    if(data.zwjerror){
+    if(global.zwjerror){
         res.send({
             success:false
         });
@@ -54,7 +54,7 @@ exports.getList = router.get("/last", async (req, res) => {
     let info = await conn.select(sqlStr,address);
     if(info.length==0){
         let data = await getnewinfo(address);
-        if(data.zwjerror){
+        if(global.zwjerror){
             res.send({
                 success:false
             });
@@ -93,8 +93,8 @@ async function getnewinfo(address){
     let data = await Promise.all([ethscan.otherinfo(address),ethscan.nftinfo(address)]);
     
     for(let i in data){
-        if(data[i].zwjerror){
-            return {"zwjerror":true};
+        if(global.zwjerror){
+            return;
         }
     }
 
@@ -122,7 +122,7 @@ async function getnewinfo(address){
     let market_score = data.opensea_buy_s + data.opensea_gas_use_s + data.opensea_eth_use_s;
     let on_chain_score = data.success_nonce_s + data.main_nft_s + data.blue_s + data.superblue_s;
     let nft_score = data.total_nft_s;
-    let total_score = market_score+ on_chain_score +nft_score;
+    let total_score = market_score+ on_chain_score +nft_score - data.success_nonce_s;
 
     let sqlgettotaluser ="select count(DISTINCT address) as totaluser from address_scores;";
     var totaluser= await conn.select(sqlgettotaluser);
@@ -143,7 +143,8 @@ async function getnewinfo(address){
     info[0]["ranking"]= ranking;
 
     if(err){
-        return {"zwjerror":true};
+        global.zwjerror=true;
+        return
     }
 
     return info;

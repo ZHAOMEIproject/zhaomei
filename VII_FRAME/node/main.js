@@ -11,7 +11,8 @@ var node_info;
 var setinfo;
 function start_dev(){
     console.log("start_dev ing")
-    setinfo = require("../../../privateinfo/.secret_official.json");
+    // setinfo = require("../../../privateinfo/.secret_official.json");
+    setinfo = require("../../../privateinfo/.secret.json");
     node_info = setinfo.VII_FRAME_NODE;
     global.mysqlGlobal = setinfo.VII_FRAME_SQL;
 }

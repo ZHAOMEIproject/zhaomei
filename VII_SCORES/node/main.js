@@ -19,6 +19,7 @@ function start_test(){
     host = node_info.host;
     port = node_info.port;
     global.mysqlGlobal = setinfo.VII_SCORES_SQL;
+    global.zwjerror = false;
 }
 
 

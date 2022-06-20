@@ -14,7 +14,8 @@ var setinfo;
 
 function start_test(){
     console.log("start_dev ing")
-    setinfo = require("/root/learn/.secret.json");
+    // setinfo = require("../../../privateinfo/.secret_official.json");
+    setinfo = require("../../../privateinfo/.secret.json");
     // node_info = setinfo.VII_Wallet_NODE;
     // host = node_info.host;
     // port = node_info.port;

@@ -11,34 +11,38 @@ const writeFile = util.promisify(fs.writeFile);
  */
 // for Hardhat deployment
 var dir;
-const info = {};
-async function writer_info_all(network,Artifact,addr,Argument){
-  const deploymentPath = path.resolve(__dirname, `../deployments`);
-  await creatfile(deploymentPath);
-  await set_base_info(network,Artifact,addr);
+
+var info = {};
+var deploymentPath;
+async function writer_info_all(network,Artifact,contract,Argument){
+  await baseinit(network,Artifact,contract);
+  
   info["constructorArguments"]=Argument;
-  dir = deploymentPath+`/${network.name}/${Artifact.contractName}.json`;
-  await writeFile(dir, JSON.stringify(info, null, 2));
-  dir = deploymentPath+`/newinfo/${Artifact.contractName}.json`;
-  await writeFile(dir, JSON.stringify(info, null, 2));
-  console.log(`Exported deployments into ${deploymentPath}`);
+
+  await baseinit2(network,Artifact);
 }
-async function writer_info_all_proxy(network,Artifact,addr,Argument,proxyaddr){
-  const deploymentPath = path.resolve(__dirname, `../deployments`);
-  await creatfile(deploymentPath);
-  await set_base_info(network,Artifact,addr);
+async function writer_info_all_proxy(network,Artifact,contract,Argument,proxyaddr){
+  await baseinit(network,Artifact,contract);
+  
   info["constructorArguments"]=Argument;
   info["p_address"]=proxyaddr;
-  dir = deploymentPath+`/${network.name}/${Artifact.contractName}.json`;
-  await writeFile(dir, JSON.stringify(info, null, 2));
-  dir = deploymentPath+`/newinfo/${Artifact.contractName}.json`;
-  await writeFile(dir, JSON.stringify(info, null, 2));
-  console.log(`Exported deployments into ${deploymentPath}`);
+
+  await baseinit2(network,Artifact);
 }
-async function writer_info(network,Artifact,addr){
-  const deploymentPath = path.resolve(__dirname, `../deployments`);
+async function writer_info(network,Artifact,contract){
+  await baseinit(network,Artifact,contract);
+
+  await baseinit2(network,Artifact);
+}
+
+
+
+async function baseinit(network,Artifact,contract){
+  deploymentPath = path.resolve(__dirname, `../../deployments`)
   await creatfile(deploymentPath);
-  await set_base_info(network,Artifact,addr);
+  await set_base_info(network,Artifact,contract);
+}
+async function baseinit2(network,Artifact){
   dir = deploymentPath+`/${network.name}/${Artifact.contractName}.json`;
   await writeFile(dir, JSON.stringify(info, null, 2));
   dir = deploymentPath+`/newinfo/${Artifact.contractName}.json`;
@@ -58,10 +62,11 @@ async function creatfile(deploymentPath){
     await fs.mkdirSync(dir,{recursive: true});
   }
 }
-async function set_base_info(network,Artifact,addr){
+async function set_base_info(network,Artifact,contract){
   info["contractName"] = Artifact.contractName;
   info["abi"] = Artifact.abi;
-  info["address"]=addr;
+  info["address"]=contract.address;
+  info["blocknumber"]=contract.provider._maxInternalBlockNumber;
   info["constructorArguments"]=[];
   info["network"] = {};
   info.network["name"]=network.name;

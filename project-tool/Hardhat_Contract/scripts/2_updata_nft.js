@@ -1,5 +1,5 @@
 const hre = require("hardhat");
-const { writer_info_all_proxy } = require('./hh_log.js');
+const { writer_info_all_proxy } = require('./tool/hh_log.js');
 const VII_ERC20_p = require(`../deployments/${network.name}/vii_erc20_base.json`);
 async function main() {
   const vii_erc20_baseV2 = await ethers.getContractFactory("vii_erc20_base");

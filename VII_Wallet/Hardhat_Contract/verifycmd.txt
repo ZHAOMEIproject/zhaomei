@@ -1,0 +1,1 @@
+npx hardhat verify --contract contracts/mainwithdraw.sol:mainwithdraw 0x2Fe7b4556667a944B14F6dcfef1FEbD5fe4bc90d --constructor-args ./other_info/arguments.js --network polygonMumbai

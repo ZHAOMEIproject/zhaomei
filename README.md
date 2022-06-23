@@ -8,3 +8,5 @@
 [VII_Wallet](./VII_Wallet/): Subproject of viide, Total project management contract.
 
 [VII_SCORES](./VII_SCORES/): Subproject of viide, 返回以太坊地址的用户数据，并根据权重计算分数。
+
+[VII_Wallet](./VII_Wallet/): Subproject of viide, 代币充提。

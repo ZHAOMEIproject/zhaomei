@@ -86,6 +86,6 @@ module.exports = {
     }
   },
   etherscan:{
-    apiKey:secretinfo.apiKey
+    apiKey:secretinfo.solidity.apiKey
   }
 };

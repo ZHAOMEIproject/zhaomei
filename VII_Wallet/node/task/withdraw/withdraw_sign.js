@@ -4,26 +4,26 @@ const ethers = require('ethers');
 const secret = require('../../../../../privateinfo/.secret.json');
 // 查报错事件
 async function checkwithdrawevent(selectParams){
-    let selsql = "SELECT * FROM withdraw where flag_withdraw ='F' and flag_now = 'S'";
+    let selsql = "SELECT * FROM withdraw_auditor where flag_withdraw ='F' and flag_now = 'S'";
     return await connection.select(selsql,selectParams);
 }
 // 锁定转账事件
 async function lockwithdrawevent(){
-    let selsql = "update withdraw set flag_now='S'where flag_withdraw ='F' and flag_now = 'F'";
+    let selsql = "update withdraw_auditor set flag_now='S'where flag_withdraw ='F' and flag_now = 'F'";
     return await connection.select(selsql,null);
 }
 // 获取转账事件
 async function getwithdrawevent(){
-    let selsql = "SELECT spender,amount FROM withdraw where flag_withdraw ='F' and flag_now = 'S'";
+    let selsql = "SELECT auditor,spender,amount,deadline,sign_v,sign_r,sign_s FROM withdraw_auditor where flag_withdraw ='F' and flag_now = 'S'";
     return await connection.select(selsql,null);
 }
 // 更新转账事件
 async function updatewithdrawevent(selectParams){
-    let selsql = "update withdraw set flag_withdraw='S',flag_now = 'F' , withdraw_time = unix_timestamp() , nonces = ? , block = ? , hash = ? where flag_withdraw ='F' and flag_now = 'S'";
+    let selsql = "update withdraw_auditor set flag_withdraw='S',flag_now = 'F' , withdraw_time = unix_timestamp() , nonces = ? , block = ? , hash = ? where flag_withdraw ='F' and flag_now = 'S'";
     return await connection.select(selsql,selectParams);
 }
 
-exports.withdraw = async function withdraw(){
+exports.withdraw_sign = async function withdraw_sign(){
     var withdrawcheck = await checkwithdrawevent();
     if(withdrawcheck.length>0){
         console.log("error withdrawcheck");
@@ -40,8 +40,6 @@ exports.withdraw = async function withdraw(){
         upinfo.push(Object.values(withdrawevent[i]));
     }
 
-
-
     const contractinfo = await getcontractinfo();
     var path = "m/44'/60'/0'/0/0";
     const account = ethers.Wallet.fromMnemonic(secret.solidity.mnemonic, path);
@@ -56,7 +54,8 @@ exports.withdraw = async function withdraw(){
     let nonce = await provider.getTransactionCount(account.address);
 
     let contractWithSigner = contract.connect(wallet);
-    let tx = await contractWithSigner.lot_Withdraw_permit(upinfo);
+    // 合约交互
+    let tx = await contractWithSigner.lot_Withdraw_permit_auditor(upinfo);
     console.log(tx.hash);
     // await tx.wait();
     // console.log(tx);

@@ -1,5 +1,5 @@
 const web3 = require('web3');
-// getBlockNumber
+
 var web3js;
 async function setweb3js(url){
     console.log(web3js);
@@ -7,6 +7,7 @@ async function setweb3js(url){
     console.log(web3js);
 }
 
+// getBlockNumber
 const getBlockNumber = () =>{
     return new Promise(async (resolve, reject)=> {
         web3js.eth.getBlockNumber().then(function(result){

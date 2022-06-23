@@ -11,7 +11,7 @@ interface IERC20 {
     function transfer(address recipient, uint256 amount) external returns (bool);
 }
 // abstract 
-contract withdraw is EIP712, otherinfo{
+abstract contract withdraw is EIP712, otherinfo{
     constructor(uint256 _mini_amount,address _token,address _add_withdraw,string memory name, string memory version) EIP712(name, version){
         set_info(_mini_amount,_token,_add_withdraw);
     }

@@ -1,9 +1,13 @@
 # Contract Function
 Contract name: VII_FRAME.sol
-* [后端接口](#后端接口)
+* [BACK业务逻辑](#BACK业务逻辑)
+    * [后端接口](#后端接口)
 
-
-# 后端接口
+## BACK业务逻辑
+1、getwirhdrawnonce获取服务器nonce。
+2、postwirhdraw提交提现请求。
+（postwirhdrawsign）审核人员签名版。
+### 后端接口
 服务器提交提现请求：
 http://154.91.156.113:10903/v1/withdraw/postwirhdraw
 
@@ -14,11 +18,12 @@ http://154.91.156.113:10903/v1/withdraw/postwirhdraw
 | amount  | 100 | 收款数量，需要传原值，如果传1个币，精度为18，则要传10**18 |
 | servicenonce  | 1 | 提交序号，预防重复提交或者是其他问题  |
 
-获取服务器nonce:
+获取服务器最新nonce:
+http://154.91.156.113:10903/v1/withdraw/getwirhdrawnonce
 
 
 审核人员签名版提现接口：
-http://154.91.156.113:10903/v1/withdraw/postwirhdraw
+http://154.91.156.113:10903/v1/withdraw/postwirhdrawsign
 
 |       |       |       |
 |   -------------   |   -------------   |   -------------   |

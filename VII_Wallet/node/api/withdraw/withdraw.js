@@ -55,3 +55,15 @@ exports.postwirhdraw = router.get("/postwirhdrawsign", async (req, res) => {
     });
     return;
 });
+
+exports.postwirhdraw = router.get("/getwirhdrawnonce", async (req, res) => {
+    let sqlStr = "select count(*) as nonce from withdraw;";
+    let nonce = await conn.select(sqlStr,null)
+    res.send({
+        success:true,
+        data:{
+            nonce:nonce[0].nonce
+        }
+    });
+    return;
+});

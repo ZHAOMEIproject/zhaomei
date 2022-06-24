@@ -7,7 +7,7 @@ exports.taskStart = function taskStart(){
     }, 0);
     setTimeout(function () {
         setInterval(taskSyncwithdraw_sign,1000*20);// task I,Synchronization levelnft event record,Do it every 10s
-    }, 3);
+    }, 10);
 }
 
 // async function taskSynchronizationlevelnftEventRecord() {

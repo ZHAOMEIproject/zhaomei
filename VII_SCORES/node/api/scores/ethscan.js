@@ -32,7 +32,7 @@ function ScanApi(url){
 }
 
 async function otherinfo(address){
-    let userscaninfo = await ScanApi("https://api.etherscan.io/api?module=account&action=txlist&startblock=0&endblock=99999999&sort=asc"
+    let userscaninfo = await ScanApi("https://api.etherscan.io/api?module=account&action=txlist&sort=asc"
     +"&apikey=NSYDK2DA22ZKUCJXKQ6NHR1FY4ZPJM8YP8&address="
     +address
     );
@@ -79,7 +79,7 @@ async function otherinfo(address){
 }
 
 async function nftinfo(address){
-    let nftinfo = await ScanApi("https://api.etherscan.io/api?module=account&action=tokennfttx&page=1&offset=1000&startblock=0&endblock=99999999&sort=asc"
+    let nftinfo = await ScanApi("https://api.etherscan.io/api?module=account&action=tokennfttx&sort=asc"
     +"&apikey=7FYH9WPWUNJYUEK7992KHGFHI6W1B8EMAK&address="
     +address
     );

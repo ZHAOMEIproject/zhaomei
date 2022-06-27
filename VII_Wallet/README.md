@@ -14,9 +14,9 @@
 |   network_name    |   polygon_mumbai  |   ZHAOMEI  |
 |   url    |   https://matic-mumbai.chainstacklabs.com  |   http://64.27.20.252:8545   |
 |   network_id      |   80001           |   7156777  |
-|   faucet          |   https://faucet.polygon.technology/  |   [无限测试币账户](./other/account.txt)  |
+|   faucet  |   https://faucet.polygon.technology/  |   [无限测试币账户](./other/account.txt)  |
 |                   |   https://mumbaifaucet.com/           |       |
-|   区块浏览器    |                                       |   http://64.27.20.252:4000/    |
+|   区块浏览器    |     |   http://64.27.20.252:4000/    |
 
 ## 项目框架
 [VII_FRAME.xmind](./other_document/VII_FRAME.xmind)  

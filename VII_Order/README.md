@@ -5,19 +5,27 @@
 [Contract_info](./Hardhat_Contract/deployments/): 查看具体合约信息(newinfo为最新版)(network id，chain name，合约名称，abi，合约地址)  
 
 ## Tip
-* [测试网信息](#测试网信息)
+* [网络信息](#网络信息)
 * [项目框架](#项目框架)
 
-## 测试网信息
+## 网络信息
 |       |       |       |
 |   -------------   |   -------------   |   -------------   |
 |   network_name    |   polygon_mumbai  |   ZHAOMEI  |
 |   url    |   https://matic-mumbai.chainstacklabs.com  |   http://64.27.20.252:8545   |
-|   network_id      |   80001           |   7156777  |
+|   network_id  |   80001           |   7156777  |
 |   faucet  |   https://faucet.polygon.technology/  |   [无限测试币账户](./other/account.txt)  |
 |                   |   https://mumbaifaucet.com/           |       |
 |   区块浏览器    |     |   http://64.27.20.252:4000/    |
 
+区块链浏览器右下角小狐狸加载网络
+|   网络   |  区块链浏览器 |       |
+|   -------------   |   -------------   |   -------------   |
+|   bnb     |   https://bscscan.com/    |       |
+|   tbnb    |    https://testnet.bscscan.com/   |       |
+
+
 ## 项目框架
 [VII_Order.pdf](./other_document/VII_Order.pdf)  
 ![VII_Order.png](./other_document/VII_Order.png)  
+![flow_chart.png](./other_document/flow_chart.png)  

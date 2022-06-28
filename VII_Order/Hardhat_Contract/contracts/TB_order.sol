@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol";
 
 // contract B_order{
 contract TB_order is EIP712{
-    constructor() EIP712("B_order", "1")
+    constructor() EIP712("VII_order", "1")
     {
         owner=msg.sender;
     }

@@ -1,4 +1,4 @@
-# VII_Wallet: Subproject of viide, 代币充提。  
+# VII_Order: Subproject of viide, 代币充提。  
 [更新](./update): 更新时间 v0.1 2022/05/10 16:16  
 [Hardhat_Contract](./Hardhat_Contract)：合约的部署与测试  
 [Function](./Function)：项目业务逻辑和合约的交互接口  
@@ -19,7 +19,5 @@
 |   区块浏览器    |     |   http://64.27.20.252:4000/    |
 
 ## 项目框架
-[VII_FRAME.xmind](./other_document/VII_FRAME.xmind)  
-[VII_FRAME.pdf](./other_document/VII_FRAME.pdf)  
-![VII_FRAME.png](./other_document/VII_FRAME.png)  
-![flow_chart.png](./other_document/flow_chart.png)  
+[VII_Order.pdf](./other_document/VII_Order.pdf)  
+![VII_Order.png](./other_document/VII_Order.png)  

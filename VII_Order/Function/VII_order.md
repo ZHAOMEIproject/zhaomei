@@ -1,39 +1,52 @@
 # Contract Function
-Contract name: VII_FRAME.sol
+Contract name: VII_Order.sol
+## 目录
+* [总业务逻辑](#总业务逻辑)
+* [WEB业务逻辑](#WEB业务逻辑)
+    * [读取函数](#读取函数)
+    * [写入函数](#写入函数)
+    * [后端接口](#后端接口)
 * [BACK业务逻辑](#BACK业务逻辑)
+    * [读取函数](#读取函数)
     * [后端接口](#后端接口)
 
+## 总业务逻辑
+## WEB业务逻辑
+除主要合约外的合约：
+|   网络    | 网络id | USDC |
+|   -------------   |   -------------   |   -------------   |
+|   BNB | 56        |   0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d    |
+|   ETH |   1       |   0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48    |
+|   TBNB |   97     |   0x7ef95a0FEE0Dd31b22626fA2e10Ee6A223F8a684    |
+
+[读取用户代币余额的文档](./erc20.md)
+
+### 读取函数
+本币价格接口
+ethprice().call     returns(uint256 price)
+
+### 写入函数
+本币支付接口  
+eorder(uint256 order,uint256 amount ,uint256 deadline ,uint8 v,bytes32 r,bytes32 s).send  
+订单号，金额，时间戳，签名，从后端接口获取。
+
+U支付接口  
+uorder(uint256 order,uint256 amount ,uint256 deadline ,uint8 v,bytes32 r,bytes32 s).send  
+订单号，金额，时间戳，签名，从后端接口获取。
+
+
+
 ## BACK业务逻辑
-1、getwirhdrawnonce获取服务器nonce。
-2、postwirhdraw提交提现请求。
-（postwirhdrawsign）审核人员签名版。
+
+### 读取函数
+order_state(uint256 order).call     returns(uint256 value)
+order是订单号，回传付款金额，大于0则为已付款。
+
+
 ### 后端接口
-服务器提交提现请求：
-http://154.91.156.113:10903/v1/withdraw/postwirhdraw
-
-|       |       |       |
-|   -------------   |   -------------   |   -------------   |
-| 参数  | 例子  | 说明  |
-| spender | 0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2  | 收款地址  |
-| amount  | 100 | 收款数量，需要传原值，如果传1个币，精度为18，则要传10**18 |
-| servicenonce  | 1 | 提交序号，预防重复提交或者是其他问题  |
-
-获取服务器最新nonce:
-http://154.91.156.113:10903/v1/withdraw/getwirhdrawnonce
-
-
-审核人员签名版提现接口：
-http://154.91.156.113:10903/v1/withdraw/postwirhdrawsign
-
-|       |       |       |
-|   -------------   |   -------------   |   -------------   |
-| 参数  | 例子  | 说明  |
-| auditor | 0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2  | 审核人员地址  |
-| spender | 0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2  | 收款地址  |
-| amount  | 100 | 收款数量，需要传原值，如果传1个币，精度为18，则要传10**18 |
-| auditor_nonce  | 1 | 审核人员审核序号，预防重复提交或者是其他问题  |
-| deadline  | 1655956321  | 时间戳  |
-| sign_r  | 27 | 签名的r  |
-| sign_s  | 0xafd40fe9b48a100939d8bf1e574bc0d329851e18a6b3d72618e55eacb5bcebb8  | 签名的s |
-| sign_v  | 0x6a0f776ba03b9462828e6824eb7dc9df1426ea376b5f2d3ee2473bcb53718e33  | 签名的v |
-
+http版合约接口
+http://154.91.156.113:10904/v1/contractapi/read?  
+fun=order_state&params=123456  
+fun为接口名  
+params为参数数组，无则不填或留空，按顺序填。  
+account则是用来查询的钱包地址。  

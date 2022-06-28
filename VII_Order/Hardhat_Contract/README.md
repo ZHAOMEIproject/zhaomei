@@ -31,4 +31,4 @@ npx hardhat run scripts/2_updata_nft.js --network polygonMumbai
 ## Contract_info
 |       |       |
 |   -------------   |   -------------   |
-|   VII_FRAME.sol    |   VII_FRAME逻辑合约 [./contracts/VII_FRAME.sol]      |
+|   VII_FRAME.sol    |   VII_FRAME逻辑合约 [./contracts/VII_FRAME.sol]  |

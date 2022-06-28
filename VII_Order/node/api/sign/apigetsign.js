@@ -8,7 +8,7 @@ const {getcontractinfo}=require('../nodetool/readcontracts');
 const ethers = require('ethers');
 const secret = require('../../../../privateinfo/.secret.json');
 
-exports.contractapi = router.get("/read", async (req, res) => {
+exports.contractapi = router.get("/grtsign", async (req, res) => {
     var params = url.parse(req.url, true).query;
     
     const contractinfo = await getcontractinfo();
@@ -24,11 +24,9 @@ exports.contractapi = router.get("/read", async (req, res) => {
     let contractWithSigner = contract.connect(wallet);
     let tx;
     if(params.params.length>0){
-        tx = await contractWithSigner[params.fun](params.params);
-    }else{
-        tx = await contractWithSigner[params.fun]();
+         tx = await contractWithSigner[params.fun](params.params);
     }
-    
+    tx = await contractWithSigner[params.fun]();
     
     res.send({
         success:true,

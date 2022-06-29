@@ -8,8 +8,8 @@ exports.getsign = async function getsign(order,amount,deadline){
 
     const contractinfo = await getcontractinfo();
     let name="VII_order";
-    let address=contractinfo.address;
-    let chainId=contractinfo.network.chainId;
+    let address=contractinfo.TB_order.address;
+    let chainId=contractinfo.TB_order.network.chainId;
 
     var path = "m/44'/60'/0'/0/0";
     const account = ethers.Wallet.fromMnemonic(secret.solidity.mnemonic, path);
@@ -22,6 +22,11 @@ exports.getsign = async function getsign(order,amount,deadline){
     )
     // get vrs
     let { v, r, s } = ecsign(Buffer.from(digest.slice(2), 'hex'), ownerPrivateKey)
-    
+    let sign= "0x" + r.toString('hex')+s.toString('hex')+v;
+
+    r = '0x' + sign.substring(2).substring(0, 64);
+    s = '0x' + sign.substring(2).substring(64, 128);
+    v =  sign.substring(2).substring(128, 130);
+
     return {v,r,s};
 }

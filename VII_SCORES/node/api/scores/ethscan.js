@@ -10,6 +10,16 @@ const scores_max={
     "blue_max":300,
     "superblue_max":500
 }
+const scores_max_out={
+    "opensea_buy_max":150*1.5,
+    "opensea_gas_use_max":200*1.5,
+    "opensea_eth_use_max":600*1.5,
+    "success_nonce_max":150*1.5,
+    "total_nft_max":150*1.5,
+    "main_nft_max":50*1.5,
+    "blue_max":300*1.5,
+    "superblue_max":500*1.5
+}
 
 //根据得到的数据，处理得到自己想要的
 function ScanApi(url){
@@ -145,24 +155,28 @@ async function nftinfo(address){
 // }
 
 function l_max(score,max){
-    if(score>max){
-        return max;
-    }
-    return score;
+    return Exponential(score,max);;
 }
 function l_max_add(score,max){
     if(score>0){
         score+=100;
     }
-    if(score>max){
-        return max;
+    return l_max(score,max);
+}
+
+function Exponential(score,max){
+    score=score*1950/max;
+    if(score>2522.576){
+        score = 200*(Math.log(score,2))
+    }else{
+        score = 45*Math.sqrt(score)
     }
-    return score;
+    return score*max/1950;
 }
 module.exports={
     otherinfo,
     nftinfo,
-    scores_max,
+    scores_max_out,
     // usdtbalance,
     // ethbalance
 }

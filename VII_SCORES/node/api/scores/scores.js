@@ -29,13 +29,13 @@ exports.getReleaseList = router.get("/update", async (req, res) => {
     let info = await conn.select(sqlStr,address);
     info[0]["totaluser"]=data[0].totaluser;
     info[0]["ranking"]= data[0].ranking;
-    info[0]= Object.assign(info[0],ethscan.scores_max);
+    info[0]= Object.assign(info[0],ethscan.scores_max_out);
     if(info.length==1){
         info.push(info[0]);
     }else{
         info[1]["totaluser"]=data[0].totaluser;
         info[1]["ranking"]= data[0].ranking;
-        info[1]= Object.assign(info[1],ethscan.scores_max);
+        info[1]= Object.assign(info[1],ethscan.scores_max_out);
     }
     
     res.send({
@@ -72,14 +72,14 @@ exports.getList = router.get("/last", async (req, res) => {
 
     info[0]["totaluser"]=totaluser;
     info[0]["ranking"]= ranking;
-    info[0]= Object.assign(info[0],ethscan.scores_max);
+    info[0]= Object.assign(info[0],ethscan.scores_max_out);
     
     if(info.length==1){
         info.push(info[0]);
     }else{
         info[1]["totaluser"]=totaluser;
         info[1]["ranking"]= ranking;
-        info[1]= Object.assign(info[1],ethscan.scores_max);
+        info[1]= Object.assign(info[1],ethscan.scores_max_out);
     }
     
     res.send({

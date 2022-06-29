@@ -18,6 +18,7 @@ Contract name: VII_Order.sol
 |   BNB | 56        |   0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d    |
 |   ETH |   1       |   0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48    |
 |   TBNB |   97     |   0x7ef95a0FEE0Dd31b22626fA2e10Ee6A223F8a684    |
+
 查询余额：
 balanceOf(),call    return(uint256 value)
 

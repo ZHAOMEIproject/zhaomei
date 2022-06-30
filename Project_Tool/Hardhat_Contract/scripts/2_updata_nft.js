@@ -6,7 +6,7 @@ async function main() {
   const vii_erc20 = await upgrades.upgradeProxy(VII_ERC20_p.address, vii_erc20_baseV2);
   const c_Address = await upgrades.erc1967.getImplementationAddress(vii_erc20.address);
   let Artifact = await artifacts.readArtifact("vii_erc20_base");
-  await writer_info_all_proxy(network,Artifact, vii_erc20.address,"",c_Address);
+  await writer_info_all_proxy(network,Artifact, vii_erc20,"",c_Address);
   await vii_erc20.deployed();
   let updatetx = vii_erc20.update();
   updatetx.wait();

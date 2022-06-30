@@ -11,7 +11,7 @@ async function main(){
   await mainwithdraw.deployed();
   console.log("Mainwithdraw deployed to:", mainwithdraw.address);
   let Artifact = await artifacts.readArtifact("mainwithdraw");
-  await writer_info_all(network,Artifact, mainwithdraw.address,arguments);
+  await writer_info_all(network,Artifact, mainwithdraw,arguments);
 }
 main()
   .then(() => process.exit(0))

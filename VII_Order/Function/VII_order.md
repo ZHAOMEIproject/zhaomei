@@ -54,7 +54,7 @@ params为参数数组，无则不填或留空，按顺序填。
 account则是用来查询的钱包地址。  
 
 获取签名接口：  
-http://154.91.156.113:10904/v1/getsign/getsign?  
+http://154.91.156.113:10904/v1/apigetsign/getsign?  
 order=123&amount=123&deadline=99999999
 
 order订单号  

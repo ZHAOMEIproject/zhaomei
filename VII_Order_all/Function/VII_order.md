@@ -95,10 +95,10 @@ id=3&contractname=TB_order&order=123&amount=123&deadline=99999999
 
 
 
-签名的其他信息
-秘钥：530a977e4e14dbc5063ff0c5f78deac73337c935adaf09052de32de68659cc28
-签名名称：“VII_order”
-接口哈希
+签名的其他信息  
+秘钥：530a977e4e14dbc5063ff0c5f78deac73337c935adaf09052de32de68659cc28  
+签名名称：“VII_order”  
+接口哈希  
 PERMIT_TYPEHASH = keccak256(
   toUtf8Bytes("order(uint256 order,uint256 amount,uint256 deadline)")
 )

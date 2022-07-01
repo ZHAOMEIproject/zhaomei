@@ -1,6 +1,12 @@
 const fs = require('fs');
 var path = require('path');
-var filePath = path.resolve(__dirname,'../deployments/newinfo/');
+var filePath = path.resolve(__dirname,'../../deployments/newinfo/');
+
+// test();
+
+// async function test(){
+//     return console.log(await loadcontractinfo(filePath));
+// }
 
 function loadcontractinfo(filePath){
     return new Promise(function(resolve,reject){

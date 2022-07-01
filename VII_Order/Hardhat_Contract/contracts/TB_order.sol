@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: MIT
-// 
 pragma solidity >0.8.4;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
@@ -27,15 +26,17 @@ contract TB_order is EIP712{
 
     function eorder(uint256 order,uint256 amount ,uint256 deadline ,uint8 v,bytes32 r,bytes32 s)payable public{
         require(msg.sender.code.length == 0,"order: can't use contract");
+        require(deadline>block.timestamp,"order: time error");
         check(order,amount,deadline,v,r,s);
         require(msg.value>=(amount/ethprice()),"order: error eth amount");
-        payable(msg.sender).transfer(msg.value-(amount/ethprice()));
+        payable(msg.sender).transfer(msg.value-(amount*10**18/ethprice()));
         payable(owner).transfer(address(this).balance);
         order_state[order]=amount;
         emit Order(order,amount);
     }
 
     function uorder(uint256 order,uint256 amount ,uint256 deadline ,uint8 v,bytes32 r,bytes32 s)public{
+        require(deadline>block.timestamp,"order: time error");
         check(order,amount,deadline,v,r,s);
         IERC20(usdc).transferFrom(msg.sender,owner,amount);
         order_state[order]=amount;
@@ -51,6 +52,6 @@ contract TB_order is EIP712{
     function ethprice()view public returns(uint256 price){
         uint256 e_balance = IERC20(weth).balanceOf(pair);
         uint256 u_balance = IERC20(usdc).balanceOf(pair);
-        price = u_balance/e_balance;
+        price = u_balance*10**18/e_balance;
     }
 }

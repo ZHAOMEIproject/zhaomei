@@ -1,5 +1,6 @@
 # Contract Function
-Contract name: VII_Order.sol
+bnb版Contract name: TB_order.sol
+
 ## 目录
 * [总业务逻辑](#总业务逻辑)
 * [WEB业务逻辑](#WEB业务逻辑)
@@ -18,6 +19,16 @@ Contract name: VII_Order.sol
 |   BNB | 56        |   0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d    |
 |   ETH |   1       |   0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48    |
 |   TBNB |   97     |   0x7ef95a0FEE0Dd31b22626fA2e10Ee6A223F8a684    |
+|   Ropsten |   3     |   0x07865c6E87B9F70255377e024ace6630C1Eaa37F    |
+
+pancakeswap : 
+https://pancakeswap.finance/swap
+
+testpancakeswap : 
+https://pancake.kiemtienonline360.com/#/swap
+
+uniswap : 
+https://app.uniswap.org/#/swap
 
 查询余额：
 balanceOf(),call    return(uint256 value)
@@ -46,6 +57,8 @@ order是订单号，回传付款金额，大于0则为已付款。
 
 
 ### 后端接口
+eth链版本用的端口号是10905
+
 http版合约接口:  
 http://154.91.156.113:10904/v1/contractapi/read?  
 fun=order_state&params=123456  

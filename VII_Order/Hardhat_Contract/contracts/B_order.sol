@@ -9,16 +9,16 @@ import "@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol";
 contract B_order is EIP712{
     constructor() EIP712("B_order", "1")
     {
-
+        owner=msg.sender;
     }
 
-    address constant public owner=0x5B38Da6a701c568545dCfcB03FcB875f56beddC4;
-
+    address public owner;
+    
     address constant public weth=0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c;
     address constant public usdc=0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d;
     address constant public pair=0xd99c7F6C65857AC913a8f880A4cb84032AB2FC5b;
-    
-bytes32 private constant _PERMIT_TYPEHASH =
+
+    bytes32 private constant _PERMIT_TYPEHASH =
         keccak256("order(uint256 order,uint256 amount,uint256 deadline)");
 
     event Order(uint256 indexed order,uint256 indexed amount);
@@ -26,15 +26,17 @@ bytes32 private constant _PERMIT_TYPEHASH =
 
     function eorder(uint256 order,uint256 amount ,uint256 deadline ,uint8 v,bytes32 r,bytes32 s)payable public{
         require(msg.sender.code.length == 0,"order: can't use contract");
+        require(deadline>block.timestamp,"order: time error");
         check(order,amount,deadline,v,r,s);
         require(msg.value>=(amount/ethprice()),"order: error eth amount");
-        payable(msg.sender).transfer(msg.value-(amount/ethprice()));
+        payable(msg.sender).transfer(msg.value-(amount*10**18/ethprice()));
         payable(owner).transfer(address(this).balance);
         order_state[order]=amount;
         emit Order(order,amount);
     }
 
     function uorder(uint256 order,uint256 amount ,uint256 deadline ,uint8 v,bytes32 r,bytes32 s)public{
+        require(deadline>block.timestamp,"order: time error");
         check(order,amount,deadline,v,r,s);
         IERC20(usdc).transferFrom(msg.sender,owner,amount);
         order_state[order]=amount;
@@ -50,6 +52,6 @@ bytes32 private constant _PERMIT_TYPEHASH =
     function ethprice()view public returns(uint256 price){
         uint256 e_balance = IERC20(weth).balanceOf(pair);
         uint256 u_balance = IERC20(usdc).balanceOf(pair);
-        price = u_balance/e_balance;
+        price = u_balance*10**18/e_balance;
     }
 }

@@ -18,6 +18,16 @@ Contract name: VII_Order.sol
 |   BNB | 56        |   0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d    |
 |   ETH |   1       |   0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48    |
 |   TBNB |   97     |   0x7ef95a0FEE0Dd31b22626fA2e10Ee6A223F8a684    |
+|   Ropsten |   3     |   0x07865c6E87B9F70255377e024ace6630C1Eaa37F    |
+
+pancakeswap : 
+https://pancakeswap.finance/swap
+
+testpancakeswap : 
+https://pancake.kiemtienonline360.com/#/swap
+
+uniswap : 
+https://app.uniswap.org/#/swap
 
 查询余额：
 balanceOf(),call    return(uint256 value)

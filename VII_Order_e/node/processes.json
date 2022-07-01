@@ -1,13 +1,13 @@
 {
   "apps": [
     {
-      "name": "VII_Order",
+      "name": "VII_Order_e",
       "cwd": "./",
       "script": "main.js",
       "log_date_format": "YYYY-MM-DD HH:mm Z",
       "error_file": "log/erroe.log",
-      "out_file": "log/VII_Order.log",
-      "pid_file": "pids/VII_Order.pid",
+      "out_file": "log/VII_Order_e.log",
+      "pid_file": "pids/VII_Order_e.pid",
       "instances": 1,
       "min_uptime": "200s",
       "watch": false,

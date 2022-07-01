@@ -6,18 +6,18 @@ import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import "@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol";
 
 // contract B_order{
-contract E_order is EIP712{
-    constructor() EIP712("E_order", "1")
+contract TB_order is EIP712{
+    constructor() EIP712("VII_order", "1")
     {
-
+        owner=msg.sender;
     }
 
-    address constant public owner=0x5B38Da6a701c568545dCfcB03FcB875f56beddC4;
+    address public owner;
 
-    address constant public weth=0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2;
-    address constant public usdc=0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48;
-    address constant public pair=0xB4e16d0168e52d35CaCD2c6185b44281Ec28C9Dc;
-    
+    address constant public weth=0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd;
+    address constant public usdc=0x7ef95a0FEE0Dd31b22626fA2e10Ee6A223F8a684;
+    address constant public pair=0xF855E52ecc8b3b795Ac289f85F6Fd7A99883492b;
+
     bytes32 private constant _PERMIT_TYPEHASH =
         keccak256("order(uint256 order,uint256 amount,uint256 deadline)");
 
@@ -26,15 +26,17 @@ contract E_order is EIP712{
 
     function eorder(uint256 order,uint256 amount ,uint256 deadline ,uint8 v,bytes32 r,bytes32 s)payable public{
         require(msg.sender.code.length == 0,"order: can't use contract");
+        require(deadline>block.timestamp,"order: time error");
         check(order,amount,deadline,v,r,s);
         require(msg.value>=(amount/ethprice()),"order: error eth amount");
-        payable(msg.sender).transfer(msg.value-(amount/ethprice()));
+        payable(msg.sender).transfer(msg.value-(amount*10**18/ethprice()));
         payable(owner).transfer(address(this).balance);
         order_state[order]=amount;
         emit Order(order,amount);
     }
 
     function uorder(uint256 order,uint256 amount ,uint256 deadline ,uint8 v,bytes32 r,bytes32 s)public{
+        require(deadline>block.timestamp,"order: time error");
         check(order,amount,deadline,v,r,s);
         IERC20(usdc).transferFrom(msg.sender,owner,amount);
         order_state[order]=amount;
@@ -50,6 +52,6 @@ contract E_order is EIP712{
     function ethprice()view public returns(uint256 price){
         uint256 e_balance = IERC20(weth).balanceOf(pair);
         uint256 u_balance = IERC20(usdc).balanceOf(pair);
-        price = u_balance/e_balance;
+        price = u_balance*10**18/e_balance;
     }
 }

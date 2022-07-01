@@ -6,17 +6,17 @@ import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import "@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol";
 
 // contract B_order{
-contract E_order is EIP712{
-    constructor() EIP712("E_order", "1")
+contract TE_order is EIP712{
+    constructor() EIP712("VII_order", "1")
     {
         owner=msg.sender;
     }
 
     address public owner;
 
-    address constant public weth=0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2;
-    address constant public usdc=0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48;
-    address constant public pair=0xB4e16d0168e52d35CaCD2c6185b44281Ec28C9Dc;
+    address constant public weth=0xc778417E063141139Fce010982780140Aa0cD5Ab;
+    address constant public usdc=0x07865c6E87B9F70255377e024ace6630C1Eaa37F;
+    address constant public pair=0x3C476870c8240D3b0cd228ed7732df48b8B1Df0F;
 
     bytes32 private constant _PERMIT_TYPEHASH =
         keccak256("order(uint256 order,uint256 amount,uint256 deadline)");

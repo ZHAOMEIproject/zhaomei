@@ -6,7 +6,8 @@ var filePath = path.resolve(__dirname,'../../Hardhat_Contract/deployments/newinf
 // test();
 
 // async function test(){
-//     return console.log(await loadcontractinfo(filePath));
+//     let a = await loadcontractinfo(filePath);
+//     return console.log(a);
 // }
 
 function loadcontractinfo(filePath){

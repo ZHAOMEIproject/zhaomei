@@ -80,7 +80,7 @@ id=3&contractname=TB_order&fun=order_state&params=123456
 
 获取签名接口：  
 http://154.91.156.113:10906/v1/apigetsign/getsign?  
-id=3&contractname=TB_order&order=123&amount=123&deadline=99999999
+id=3&contractname=TE_order&order=123&amount=123&deadline=99999999
 
 | 参数 | 注释 |
 | ------------- | ------------- |

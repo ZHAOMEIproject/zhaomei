@@ -7,6 +7,13 @@ module.exports = router;
 
 const {getsign} = require('./sign/getsign');
 
+let decimal={
+    "1":12,
+    "3":12,
+    "56":0,
+    "97":0
+}
+
 exports.contractapi = router.get("/getsign", async (req, res) => {
     var params = url.parse(req.url, true).query;
 
@@ -18,14 +25,15 @@ exports.contractapi = router.get("/getsign", async (req, res) => {
         });
         return;
     }
+    // let tx = new Object();
     let tx = await getsign(
         params.id,
         params.contractname,
         params.order,
-        ethers.utils.parseUnits(params.amount),
+        ethers.utils.parseUnits((params.amount/(10**decimal[params.id])).toString()),
         // params.amount,
-        params.deadline);
-    
+        params.deadline
+    );
     res.send({
         success:true,
         data:{

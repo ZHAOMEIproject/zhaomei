@@ -28,7 +28,7 @@ contract TE_order is EIP712{
         require(msg.sender.code.length == 0,"order: can't use contract");
         require(deadline>block.timestamp,"order: time error");
         check(order,amount,deadline,v,r,s);
-        uint256 eamount = amount*uethprice();
+        uint256 eamount = amount*uethprice()/10**ERC20(usdc).decimals();
         require(msg.value>=eamount,"order: error eth amount");
         payable(msg.sender).transfer(msg.value-eamount);
         payable(owner).transfer(address(this).balance);

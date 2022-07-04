@@ -70,7 +70,7 @@ order是订单号，回传付款金额，大于0则为已付款。
 
 http版合约接口:  
 http://154.91.156.113:10906/v1/contractapi/read?  
-id=3&contractname=TB_order&fun=order_state&params=123456  
+id=3&contractname=TE_order&fun=order_state&params=123456  
 
 
 

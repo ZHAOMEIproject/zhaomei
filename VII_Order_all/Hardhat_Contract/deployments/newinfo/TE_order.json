@@ -122,6 +122,19 @@
       "type": "function"
     },
     {
+      "inputs": [],
+      "name": "time",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "inputs": [
         {
           "internalType": "uint256",
@@ -186,8 +199,8 @@
       "type": "function"
     }
   ],
-  "address": "0x95acab7B48096D37b656dF337FCf4025C779E55D",
-  "blocknumber": 12522748,
+  "address": "0x26B7Cc5E7e5D9cAe31F0c8386E88923feB42322a",
+  "blocknumber": 12522985,
   "constructorArguments": null,
   "network": {
     "name": "ropsten",

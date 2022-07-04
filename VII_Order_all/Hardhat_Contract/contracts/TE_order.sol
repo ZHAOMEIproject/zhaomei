@@ -58,5 +58,6 @@ contract TE_order is EIP712{
         uint256 e_balance = ERC20(weth).balanceOf(pair);
         uint256 u_balance = ERC20(usdc).balanceOf(pair);
         price = u_balance*10**ERC20(usdc).decimals()/e_balance;
+        if(price==0) price++;
     }
 }

@@ -23,10 +23,11 @@
 |   网络   |  区块链浏览器 |       |
 |   -------------   |   -------------   |   -------------   |
 |   bnb     |   https://bscscan.com/    |       |
-|   tbnb    |    https://testnet.bscscan.com/   |       |
+|   tbnb    |   https://testnet.bscscan.com/   |       |
 
 
 ## 项目框架
 [VII_Order.pdf](./other_document/VII_Order.pdf)  
 ![VII_Order.png](./other_document/VII_Order.png)  
 ![flow_chart.png](./other_document/flow_chart.png)  
+

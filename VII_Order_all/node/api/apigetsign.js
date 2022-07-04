@@ -8,10 +8,10 @@ module.exports = router;
 const {getsign} = require('./sign/getsign');
 
 let decimal={
-    "1":12,
-    "3":12,
-    "56":0,
-    "97":0
+    "1":6,
+    "3":6,
+    "56":18,
+    "97":18
 }
 
 exports.contractapi = router.get("/getsign", async (req, res) => {
@@ -26,19 +26,40 @@ exports.contractapi = router.get("/getsign", async (req, res) => {
         return;
     }
     // let tx = new Object();
-    let tx = await getsign(
-        params.id,
-        params.contractname,
-        params.order,
-        ethers.utils.parseUnits((params.amount/(10**decimal[params.id])).toString()),
-        // params.amount,
-        params.deadline
-    );
-    res.send({
-        success:true,
-        data:{
-            result:tx
-        },
-    });
+
+    if(decimal[params.id]==6){
+        let tx = await getsign(
+            params.id,
+            params.contractname,
+            params.order,
+            params.amount*10**6,
+            // params.amount,
+            params.deadline
+        );
+        res.send({
+            success:true,
+            data:{
+                result:tx
+            },
+        });
+    }else if(decimal[params.id]==18){
+        let tx = await getsign(
+            params.id,
+            params.contractname,
+            params.order,
+            ethers.utils.parseUnits(params.amount),
+            // params.amount,
+            params.deadline
+        );
+        res.send({
+            success:true,
+            data:{
+                result:tx
+            },
+        });
+    }
+
+    
     return;
 });
+

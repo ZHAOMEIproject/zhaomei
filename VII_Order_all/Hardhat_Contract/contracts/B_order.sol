@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >0.8.4;
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import "@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol";
@@ -28,7 +28,7 @@ contract B_order is EIP712{
         require(msg.sender.code.length == 0,"order: can't use contract");
         require(deadline>block.timestamp,"order: time error");
         check(order,amount,deadline,v,r,s);
-        uint256 eamount = amount*10**18/ethprice();
+        uint256 eamount = amount*10**ERC20(usdc).decimals()/ethprice();
         require(msg.value>=eamount,"order: error eth amount");
         payable(msg.sender).transfer(msg.value-eamount);
         payable(owner).transfer(address(this).balance);
@@ -41,7 +41,7 @@ contract B_order is EIP712{
     function uorder(uint256 order,uint256 amount ,uint256 deadline ,uint8 v,bytes32 r,bytes32 s)public{
         require(deadline>block.timestamp,"order: time error");
         check(order,amount,deadline,v,r,s);
-        IERC20(usdc).transferFrom(msg.sender,owner,amount);
+        ERC20(usdc).transferFrom(msg.sender,owner,amount);
 
         require(order_state[order]==0,"order: order completed");
         order_state[order]=amount;
@@ -55,8 +55,8 @@ contract B_order is EIP712{
         require(signer == owner, "order: signer invalid signature");
     }
     function ethprice()view public returns(uint256 price){
-        uint256 e_balance = IERC20(weth).balanceOf(pair);
-        uint256 u_balance = IERC20(usdc).balanceOf(pair);
-        price = u_balance*10**18/e_balance;
+        uint256 e_balance = ERC20(weth).balanceOf(pair);
+        uint256 u_balance = ERC20(usdc).balanceOf(pair);
+        price = u_balance*10**ERC20(usdc).decimals()/e_balance;
     }
 }

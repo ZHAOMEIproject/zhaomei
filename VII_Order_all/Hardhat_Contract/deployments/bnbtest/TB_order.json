@@ -64,19 +64,6 @@
       "type": "function"
     },
     {
-      "inputs": [],
-      "name": "ethprice",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "price",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
       "inputs": [
         {
           "internalType": "uint256",
@@ -116,6 +103,19 @@
           "internalType": "address",
           "name": "",
           "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "uethprice",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "price",
+          "type": "uint256"
         }
       ],
       "stateMutability": "view",
@@ -186,8 +186,8 @@
       "type": "function"
     }
   ],
-  "address": "0xC06ea3dB2257b3aCD3A88c51acf63ec8E33827b4",
-  "blocknumber": 20762797,
+  "address": "0x7CeAdDF2287A6199e78787F1DFE42252B68998Fc",
+  "blocknumber": 20764776,
   "constructorArguments": null,
   "network": {
     "name": "bnbtest",

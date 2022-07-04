@@ -77,6 +77,19 @@
       "type": "function"
     },
     {
+      "inputs": [],
+      "name": "ethpricen",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "price",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "inputs": [
         {
           "internalType": "uint256",
@@ -116,19 +129,6 @@
           "internalType": "address",
           "name": "",
           "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "time",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
         }
       ],
       "stateMutability": "view",
@@ -199,8 +199,8 @@
       "type": "function"
     }
   ],
-  "address": "0x26B7Cc5E7e5D9cAe31F0c8386E88923feB42322a",
-  "blocknumber": 12522985,
+  "address": "0xc927535422154D2CAA8B525F276ad5f6C05aE715",
+  "blocknumber": 12523244,
   "constructorArguments": null,
   "network": {
     "name": "ropsten",

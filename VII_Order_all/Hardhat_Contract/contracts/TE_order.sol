@@ -28,7 +28,7 @@ contract TE_order is EIP712{
         require(msg.sender.code.length == 0,"order: can't use contract");
         require(deadline>block.timestamp,"order: time error");
         check(order,amount,deadline,v,r,s);
-        uint256 eamount = amount*10**ERC20(usdc).decimals()/ethprice();
+        uint256 eamount = amount*10**ERC20(usdc).decimals()/ethpricen();
         require(msg.value>=eamount,"order: error eth amount");
         payable(msg.sender).transfer(msg.value-eamount);
         payable(owner).transfer(address(this).balance);
@@ -55,6 +55,12 @@ contract TE_order is EIP712{
         require(signer == owner, "order: signer invalid signature");
     }
     function ethprice()view public returns(uint256 price){
+        uint256 e_balance = ERC20(weth).balanceOf(pair);
+        uint256 u_balance = ERC20(usdc).balanceOf(pair);
+        price = u_balance*10**18/e_balance;
+        if(price==0) price++;
+    }
+    function ethpricen()view public returns(uint256 price){
         uint256 e_balance = ERC20(weth).balanceOf(pair);
         uint256 u_balance = ERC20(usdc).balanceOf(pair);
         price = u_balance*10**ERC20(usdc).decimals()/e_balance;

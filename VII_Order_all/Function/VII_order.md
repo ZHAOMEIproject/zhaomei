@@ -15,10 +15,10 @@ Contract name: VII_Order.sol
 除主要合约外的合约地址：
 |   网络    | 网络id | USDC |
 |   -------------   |   -------------   |   -------------   |
-|   BNB | 56        |   0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d    |
-|   ETH |   1       |   0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48    |
-|   TBNB |   97     |   0x7ef95a0FEE0Dd31b22626fA2e10Ee6A223F8a684    |
-|   Ropsten |   3     |   0x07865c6E87B9F70255377e024ace6630C1Eaa37F    |
+|   BNB       | 56        |   0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d    |
+|   ETH       |   1       |   0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48    |
+|   TBNB      |   97      |   0x7ef95a0FEE0Dd31b22626fA2e10Ee6A223F8a684    |
+|   Ropsten   |   3       |   0x07865c6E87B9F70255377e024ace6630C1Eaa37F    |
 
 pancakeswap : 
 https://pancakeswap.finance/swap
@@ -64,6 +64,10 @@ order是订单号，回传付款金额，大于0则为已付款。
 |       1        |       E_order        |
 |       57        |      B_order         |
 
+| 事件  | 参数  |
+| ------------- | ------------- |
+| order | 
+
 http版合约接口:  
 http://154.91.156.113:10906/v1/contractapi/read?  
 id=3&contractname=TB_order&fun=order_state&params=123456  
@@ -99,6 +103,7 @@ id=3&contractname=TE_order&order=123&amount=123&deadline=99999999
 秘钥：530a977e4e14dbc5063ff0c5f78deac73337c935adaf09052de32de68659cc28  
 签名名称：“VII_order”  
 接口哈希  
-PERMIT_TYPEHASH = keccak256(
-  toUtf8Bytes("order(uint256 order,uint256 amount,uint256 deadline)")
-)
+PERMIT_TYPEHASH = keccak256(  
+  toUtf8Bytes("order(uint256 order,uint256 amount,uint256 deadline)")  
+)  
+

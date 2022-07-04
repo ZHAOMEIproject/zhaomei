@@ -28,9 +28,12 @@ contract B_order is EIP712{
         require(msg.sender.code.length == 0,"order: can't use contract");
         require(deadline>block.timestamp,"order: time error");
         check(order,amount,deadline,v,r,s);
-        require(msg.value>=(amount/ethprice()),"order: error eth amount");
-        payable(msg.sender).transfer(msg.value-(amount*10**18/ethprice()));
+        uint256 eamount = amount*10**18/ethprice();
+        require(msg.value>=eamount,"order: error eth amount");
+        payable(msg.sender).transfer(msg.value-eamount);
         payable(owner).transfer(address(this).balance);
+
+        require(order_state[order]==0,"order: order completed");
         order_state[order]=amount;
         emit Order(order,amount);
     }
@@ -39,6 +42,8 @@ contract B_order is EIP712{
         require(deadline>block.timestamp,"order: time error");
         check(order,amount,deadline,v,r,s);
         IERC20(usdc).transferFrom(msg.sender,owner,amount);
+
+        require(order_state[order]==0,"order: order completed");
         order_state[order]=amount;
         emit Order(order,amount);
     }

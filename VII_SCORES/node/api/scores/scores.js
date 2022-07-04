@@ -22,6 +22,7 @@ exports.getReleaseList = router.get("/update", async (req, res) => {
         res.send({
             success:false
         });
+        global.zwjerror = true;
         return;
     }
 
@@ -58,6 +59,7 @@ exports.getList = router.get("/last", async (req, res) => {
             res.send({
                 success:false
             });
+            global.zwjerror = true;
             return;
         }
         info.push(data[0]);

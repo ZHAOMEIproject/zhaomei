@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import "@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol";
 
 // npx hardhat run scripts/1_develop_main.js --network bnbtest
-// npx hardhat verify 
+// npx hardhat verify 0x2e4D4cb6f1B468f81F440014d6763180bE436F48 --network bnbtest
 
 // contract B_order{
 contract TB_order is EIP712{

@@ -4,7 +4,7 @@ const router = express.Router();
 const url = require('url');
 
 // Load configuration file
-const mysql = require("mysql");
+const mysql = require("mysql2");
 const conn = mysql.createConnection(global.mysqlGlobal);
 module.exports = router;
 

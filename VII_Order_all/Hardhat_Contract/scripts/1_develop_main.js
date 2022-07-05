@@ -2,7 +2,7 @@ const hre = require("hardhat");
 const { writer_info_all } = require('./tool/hh_log.js');
 
 async function main(){
-  const TB_order = await hre.ethers.getContractFactory("TB_order");
+  const TB_order = await hre.ethers.getContractFactory("TE_order");
   const tb_order = await TB_order.deploy(
     );
   await tb_order.deployed();

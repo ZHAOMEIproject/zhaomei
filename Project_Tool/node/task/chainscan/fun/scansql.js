@@ -1,6 +1,6 @@
 const {sqlcall}=require('../../../nodetool/sqlconnection');
 
-const mysql = require("mysql");
+const mysql = require("mysql2");
 async function checkandcreatdatabase(name,contractinfo){
     // 查/建数据库
     let selSql = "SHOW DATABASES LIKE ?";

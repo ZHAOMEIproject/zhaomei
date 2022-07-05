@@ -1,5 +1,5 @@
 /*Database connection encapsulation*/
-const mysql = require("mysql");
+const mysql = require("mysql2");
 
 // sqlcall
 exports.sqlcall = function sqlcall(selSql,selSqlParams){

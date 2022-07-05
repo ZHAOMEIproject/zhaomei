@@ -1,5 +1,5 @@
 /*Database connection encapsulation*/
-const mysql = require("mysql");
+const mysql = require("mysql2");
 
 // SELECT ALL
 exports.selectAll = function selectAll(sqlAll){

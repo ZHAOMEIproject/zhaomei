@@ -6,6 +6,7 @@ import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import "@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol";
 
 // npx hardhat run scripts/1_develop_main.js --network ropsten
+// npx hardhat verify 0x92E7aBF600701CA7B10d4130AF0653005e1AD6c9 --network ropsten
 
 // contract B_order{
 contract TE_order is EIP712{
@@ -36,7 +37,7 @@ contract TE_order is EIP712{
         payable(owner).transfer(address(this).balance);
 
         require(order_state[order]==0,"order: order completed");
-        order_state[order]=amount;
+        order_state[order]=amount*(10**(18-ERC20(usdc).decimals()));
         emit Order(order,amount);
     }
 

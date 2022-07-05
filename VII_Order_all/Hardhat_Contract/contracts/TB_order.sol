@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import "@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol";
 
 // npx hardhat run scripts/1_develop_main.js --network bnbtest
-// npx hardhat verify 0x2e4D4cb6f1B468f81F440014d6763180bE436F48 --network bnbtest
+// npx hardhat verify 0xd6F596C7E3eb6EadeaE62d6952B83b994665074b --network bnbtest
 
 // contract B_order{
 contract TB_order is EIP712{
@@ -48,7 +48,7 @@ contract TB_order is EIP712{
         ERC20(usdc).transferFrom(msg.sender,owner,amount);
 
         require(order_state[order]==0,"order: order completed");
-        order_state[order]=amount;
+        order_state[order]=amount*(10**(18-ERC20(usdc).decimals()));
         emit Order(order,amount);
     }
 

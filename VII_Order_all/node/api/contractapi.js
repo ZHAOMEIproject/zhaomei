@@ -8,6 +8,17 @@ const {getcontractinfo}=require('../nodetool/id-readcontracts');
 const ethers = require('ethers');
 const secret = require('../../../../privateinfo/.secret.json');
 
+exports.contractinfo = router.get("/", async (req, res) => {
+    const contractinfo = await getcontractinfo();
+    res.send({
+        success:true,
+        data:{
+            contractinfo:contractinfo
+        },
+    });
+    return;
+});
+
 exports.contractapi = router.get("/read", async (req, res) => {
     var params = url.parse(req.url, true).query;
     

@@ -28,7 +28,7 @@ contract TE_order is EIP712{
     mapping(uint256=>uint256) public order_state;
 
     function eorder(uint256 order,uint256 amount ,uint256 deadline ,uint8 v,bytes32 r,bytes32 s)payable public{
-        require(msg.sender.code.length == 0,"order: can't use contract");
+        require(tx.origin==msg.sender,"order: can't use contract");
         require(deadline>block.timestamp,"order: time error");
         check(order,amount,deadline,v,r,s);
         uint256 eamount = amount*uethprice()/10**ERC20(usdc).decimals();

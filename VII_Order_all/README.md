@@ -31,3 +31,8 @@
 ![VII_Order.png](./other_document/VII_Order.png)  
 ![flow_chart.png](./other_document/flow_chart.png)  
 
+## 部署文档
+合约发布
+node更新
+GitHub更新
+

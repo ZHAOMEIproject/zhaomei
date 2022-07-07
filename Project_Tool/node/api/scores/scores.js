@@ -19,6 +19,7 @@ exports.getReleaseList = router.get("/update", async (req, res) => {
     let data = await getnewinfo(address);
 
     if(global.zwjerror){
+        global.zwjerror = false;
         res.send({
             success:false
         });
@@ -55,6 +56,7 @@ exports.getList = router.get("/last", async (req, res) => {
     if(info.length==0){
         let data = await getnewinfo(address);
         if(global.zwjerror){
+            global.zwjerror = false;
             res.send({
                 success:false
             });

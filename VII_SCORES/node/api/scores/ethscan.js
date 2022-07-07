@@ -119,10 +119,6 @@ async function nftinfo(address){
         total_nft+=flag;
     }
 
-    if(total_nft>0){
-        total_nft+=100;
-    }
-
     return {
         main_nft:main_nft,
         main_nft_s:l_max_add(main_nft*20,scores_max.main_nft_max),

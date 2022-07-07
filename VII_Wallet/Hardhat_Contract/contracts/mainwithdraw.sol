@@ -10,6 +10,4 @@ contract mainwithdraw is withdraw{
     {
         
     }
-
-    
 }

@@ -1,8 +1,11 @@
 const hre = require("hardhat");
 const { writer_info } = require('./hh_log.js');
 async function main() {
+  let [owner, addr1] = await ethers.getSigners();
+  // .connect(addr1)
   const VII_owl = await hre.ethers.getContractFactory("VII_OWL");
-  const vii_owl = await VII_owl.deploy();
+  // const vii_owl = await VII_owl.deploy();
+  const vii_owl = await VII_owl.connect(addr1).deploy();
 
   await vii_owl.deployed();
 

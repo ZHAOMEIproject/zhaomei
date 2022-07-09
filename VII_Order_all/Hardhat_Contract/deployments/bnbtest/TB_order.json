@@ -84,32 +84,6 @@
     },
     {
       "inputs": [],
-      "name": "owner",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "pair",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
       "name": "uethprice",
       "outputs": [
         {
@@ -171,23 +145,10 @@
       ],
       "stateMutability": "view",
       "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "weth",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
     }
   ],
-  "address": "0xd6F596C7E3eb6EadeaE62d6952B83b994665074b",
-  "blocknumber": 20790510,
+  "address": "0x3826F11298A0BA99Bc82500eEe4234ca9b62FfA9",
+  "blocknumber": 20888443,
   "constructorArguments": null,
   "network": {
     "name": "bnbtest",

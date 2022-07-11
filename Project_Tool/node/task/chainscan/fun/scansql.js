@@ -75,8 +75,12 @@ async function checkandcreatdatabase(name,contractinfo){
 async function scancontract(contractinfo){
     let web3Show = require("./web3Show");
     // console.log(contractinfo["3"]['TE_order']["network"]["url"]);
-    web3Show.setweb3js(contractinfo["3"]['TE_order']["network"]["url"])
-    console.log(await web3Show.getBlockNumber());;
+    // web3Show.setweb3js(contractinfo["3"]['TE_order']["network"]["url"])
+    // console.log(await web3Show.getBlockNumber());
+
+    for (let i in contractinfo) {
+        console.log(Object.values(contractinfo[i])[0].network.url);
+    }
 }
 
 module.exports = {

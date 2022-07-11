@@ -21,7 +21,7 @@ require("@nomiclabs/hardhat-etherscan");
 require('hardhat-abi-exporter');
 const fs = require('fs');
 // var secretinfo =fs.readFileSync("/home/ubuntu/zwj-learn/.secret.json").toString().trim();
-const secretinfo =require(`/root/learn/.secret.json`);
+const secretinfo =require(`/root/learn/github/privateinfo/.secret.json`);
 const infrakey='';
 const scankey='';
 
@@ -41,6 +41,13 @@ module.exports = {
     ]
   },
   networks:{
+    bsc:{
+      url:"https://bsc-dataseed1.binance.org",
+      chainId:56,
+      accounts:{
+        mnemonic:secretinfo.solidity.mnemonic,
+      },
+    },
     dev:{
       url:"http://127.0.0.1:8545",
       chainId:31337,

@@ -3,8 +3,7 @@ const { writer_info_all } = require('./tool/hh_log.js');
 
 async function main(){
   const TE_order = await hre.ethers.getContractFactory("TE_order");
-  const te_order = await TE_order.deploy(
-    );
+  const te_order = await TE_order.connect(addr2).deploy();
   await te_order.deployed();
   console.log("TE_order deployed to:", te_order.address);
   let Artifact = await artifacts.readArtifact("TE_order");

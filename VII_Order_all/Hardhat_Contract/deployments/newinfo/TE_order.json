@@ -84,32 +84,6 @@
     },
     {
       "inputs": [],
-      "name": "owner",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "pair",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
       "name": "uethprice",
       "outputs": [
         {
@@ -171,23 +145,10 @@
       ],
       "stateMutability": "view",
       "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "weth",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
     }
   ],
-  "address": "0x92E7aBF600701CA7B10d4130AF0653005e1AD6c9",
-  "blocknumber": 12529817,
+  "address": "0x914207582F1B6bDbCEd8F2982fF81e36fefa0b80",
+  "blocknumber": 12568474,
   "constructorArguments": null,
   "network": {
     "name": "ropsten",

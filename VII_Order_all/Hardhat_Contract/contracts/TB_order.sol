@@ -1,10 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.15;
-
 import "@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol";
 
 // npx hardhat run scripts/1_develop_main.js --network bnbtest
-// npx hardhat verify 0xd6F596C7E3eb6EadeaE62d6952B83b994665074b --network bnbtest
+// npx hardhat verify 0x1EaB1854d1B201Ce21419B6e0CBb596E872fbe5c --network bnbtest
 
 // contract B_order{
 contract TB_order is EIP712{
@@ -12,7 +11,6 @@ contract TB_order is EIP712{
     {
         owner=msg.sender;
     }
-
 
     address private owner;
     

@@ -3,7 +3,7 @@ pragma solidity >=0.8.15;
 import "@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol";
 
 // npx hardhat run scripts/1_develop_main.js --network ropsten
-// npx hardhat verify 0x92E7aBF600701CA7B10d4130AF0653005e1AD6c9 --network ropsten
+// npx hardhat verify 0x914207582F1B6bDbCEd8F2982fF81e36fefa0b80 --network ropsten
 
 // contract B_order{
 contract TE_order is EIP712{
@@ -14,10 +14,9 @@ contract TE_order is EIP712{
 
     address private owner;
 
-    address constant public weth=0xc778417E063141139Fce010982780140Aa0cD5Ab;
-    address constant private usdc=0x07865c6E87B9F70255377e024ace6630C1Eaa37F;
+    address constant public usdc=0x07865c6E87B9F70255377e024ace6630C1Eaa37F;
+    address constant private weth=0xc778417E063141139Fce010982780140Aa0cD5Ab;
     address constant private pair=0x3C476870c8240D3b0cd228ed7732df48b8B1Df0F;
-
 
     bytes32 private constant _PERMIT_TYPEHASH =
         keccak256("order(uint256 order,uint256 amount,uint256 deadline)");

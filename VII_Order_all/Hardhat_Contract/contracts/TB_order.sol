@@ -2,17 +2,19 @@
 pragma solidity >=0.8.15;
 import "@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol";
 
-// npx hardhat run scripts/1_develop_main.js --network bnbtest
-// npx hardhat verify 0x1EaB1854d1B201Ce21419B6e0CBb596E872fbe5c --network bnbtest
+// npx hardhat run scripts/1_TB_main.js --network bnbtest
+// npx hardhat verify 0xe73f293772711CcBB64919cD5a91E004627F3589 --network bnbtest
 
 // contract B_order{
 contract TB_order is EIP712{
     constructor() EIP712("VII_order", "1")
     {
-        owner=msg.sender;
+        owner=0x2e5DF740448e2a83d1C54aC3b4201AC72B4d793d;
+        service=0x9fAf461C1720A875Be2A5909e2Ea405660A9d6A2;
     }
 
-    address private owner;
+    address immutable private owner;
+    address immutable private service;
     
     address constant public usdc=0x7ef95a0FEE0Dd31b22626fA2e10Ee6A223F8a684;
     address constant private weth=0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd;
@@ -55,7 +57,7 @@ contract TB_order is EIP712{
         bytes32 structHash = keccak256(abi.encode(_PERMIT_TYPEHASH, order, amount, deadline));
         bytes32 hash = _hashTypedDataV4(structHash);
         address signer = ECDSA.recover(hash, v, r, s);
-        require(signer == owner, "order: signer invalid signature");
+        require(signer == service, "order: signer invalid signature");
     }
     function uethprice()view public returns(uint256 price){
         unchecked{

@@ -2,17 +2,19 @@
 pragma solidity >=0.8.15;
 import "@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol";
 
-// npx hardhat run scripts/1_develop_main.js --network ropsten
-// npx hardhat verify 0x914207582F1B6bDbCEd8F2982fF81e36fefa0b80 --network ropsten
+// npx hardhat run scripts/1_TE_main.js  --network ropsten
+// npx hardhat verify 0x5Ec7fEee0c3686898a2Fa1738789EC92e96aed2f --network ropsten
 
 // contract B_order{
 contract TE_order is EIP712{
     constructor() EIP712("VII_order", "1")
     {
-        owner=msg.sender;
+        owner=0x2e5DF740448e2a83d1C54aC3b4201AC72B4d793d;
+        service=0x9fAf461C1720A875Be2A5909e2Ea405660A9d6A2;
     }
 
-    address private owner;
+    address immutable private owner;
+    address immutable private service;
 
     address constant public usdc=0x07865c6E87B9F70255377e024ace6630C1Eaa37F;
     address constant private weth=0xc778417E063141139Fce010982780140Aa0cD5Ab;

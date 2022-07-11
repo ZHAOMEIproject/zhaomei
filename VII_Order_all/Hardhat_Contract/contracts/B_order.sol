@@ -36,6 +36,7 @@ contract B_order is EIP712{
             require(msg.value>=eamount,"order: error eth amount");
             payable(msg.sender).transfer(msg.value-eamount);
             payable(owner).transfer(address(this).balance);
+            
             require(order_state[order]==0,"order: order completed");
             order_state[order] = amount*(10**(18-IERC20(usdc).decimals()));
         }
@@ -46,6 +47,7 @@ contract B_order is EIP712{
         require(deadline>block.timestamp,"order: time error");
         check(order,amount,deadline,v,r,s);
         IERC20(usdc).transferFrom(msg.sender,owner,amount);
+
         require(order_state[order]==0,"order: order completed");
         unchecked{
             order_state[order] = amount*(10**(18-IERC20(usdc).decimals()));

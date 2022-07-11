@@ -2,8 +2,7 @@ const web3 = require('web3');
 
 var web3js;
 async function setweb3js(url){
-    web3js=url;
-    console.log(web3js);
+    web3js=new web3(url);
 }
 // async function testshow(){
 //     console.log(web3js);

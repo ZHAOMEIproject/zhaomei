@@ -3,13 +3,13 @@ const { writer_info_all } = require('./tool/hh_log.js');
 
 async function main(){
   let [owner, addr1, addr2] = await ethers.getSigners();
-  const TB_order = await hre.ethers.getContractFactory("TB_order");
-  const tb_order = await TB_order.deploy(
+  const B_order = await hre.ethers.getContractFactory("B_order");
+  const b_order = await B_order.deploy(
     );
-  await tb_order.deployed();
-  console.log("TB_order deployed to:", tb_order.address);
-  let Artifact = await artifacts.readArtifact("TB_order");
-  await writer_info_all(network,Artifact, tb_order,null);
+  await b_order.deployed();
+  console.log("B_order deployed to:", b_order.address);
+  let Artifact = await artifacts.readArtifact("B_order");
+  await writer_info_all(network,Artifact, b_order,null);
 }
 main()
   .then(() => process.exit(0))

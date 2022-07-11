@@ -1,13 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.15;
-
 import "@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol";
 
 // npx hardhat run scripts/1_develop_main.js --network bnbtest
-// npx hardhat verify 0xd6F596C7E3eb6EadeaE62d6952B83b994665074b --network bnbtest
+// npx hardhat verify 0x1EaB1854d1B201Ce21419B6e0CBb596E872fbe5c --network bnbtest
 
 // contract B_order{
-contract B_order is EIP712{
+contract TB_order is EIP712{
     constructor() EIP712("VII_order", "1")
     {
         owner=msg.sender;
@@ -15,8 +14,8 @@ contract B_order is EIP712{
 
     address private owner;
     
-    address constant public weth=0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c;
-    address constant private usdc=0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d;
+    address constant public usdc=0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d;
+    address constant private weth=0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c;
     address constant private pair=0xd99c7F6C65857AC913a8f880A4cb84032AB2FC5b;
 
     bytes32 private constant _PERMIT_TYPEHASH =

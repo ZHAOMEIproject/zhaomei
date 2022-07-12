@@ -41,6 +41,13 @@ module.exports = {
     ]
   },
   networks:{
+    eth:{
+      url:"https://rpc.ankr.com/eth",
+      chainId:1,
+      accounts:{
+        mnemonic:secretinfo.solidity.mnemonic,
+      },
+    },
     bsc:{
       url:"https://bsc-dataseed1.binance.org",
       chainId:56,

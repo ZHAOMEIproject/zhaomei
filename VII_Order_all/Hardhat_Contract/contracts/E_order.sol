@@ -2,8 +2,8 @@
 pragma solidity >=0.8.15;
 import "@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol";
 
-// npx hardhat run scripts/1_E_main.js  --network ropsten
-// npx hardhat verify 0xd6F596C7E3eb6EadeaE62d6952B83b994665074b --network bnbtest
+// npx hardhat run scripts/1_E_main.js  --network eth
+// npx hardhat verify 0xd6F596C7E3eb6EadeaE62d6952B83b994665074b --network eth
 
 // contract B_order{
 contract E_order is EIP712{

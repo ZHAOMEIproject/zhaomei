@@ -9,8 +9,8 @@ var port;
 var setinfo;
 function start_test(){
     console.log("start_dev ing")
-    // setinfo = require("../../../privateinfo/.secret_official.json");
-    setinfo = require("../../../privateinfo/.secret.json");
+    setinfo = require("../../../privateinfo/.secret_official.json");
+    // setinfo = require("../../../privateinfo/.secret.json");
     node_info = setinfo.VII_Order_all_NODE;
     host = node_info.host;
     port = node_info.port;

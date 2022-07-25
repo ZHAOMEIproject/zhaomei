@@ -1,0 +1,107 @@
+{
+  "contractName": "Transfer_station",
+  "abi": [
+    {
+      "inputs": [],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "from",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "index",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "Recharge",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "collection",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "index",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "recharge",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "viide_20",
+      "outputs": [
+        {
+          "internalType": "contract IERC20",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "address": "0x9420686A4fb105978e96663369979FA34315e82f",
+  "blocknumber": 21313786,
+  "constructorArguments": [
+    "500000000000000000000",
+    "0x9cb423b85f7A83362cA1fFB4f7Cadd89BBD432Fb",
+    "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
+    "VII_WITHDRAW",
+    "1"
+  ],
+  "network": {
+    "name": "bnbtest",
+    "chainId": 97,
+    "url": "https://data-seed-prebsc-1-s1.binance.org:8545/"
+  }
+}

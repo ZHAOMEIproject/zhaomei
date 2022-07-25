@@ -9,11 +9,6 @@ exports.taskStart = function taskStart(){
 
 }
 
-// async function taskSynchronizationlevelnftEventRecord() {
-//     console.log("task I   (20s)  ========>  synchronization levelnft Event Record ...");
-//     const levelnft = require("./levelnft");
-//     await levelnft.disposeEventslevelnft();// 处理事件结果
-// }
 async function taskSyncchainscan() {
     console.log("task I   (20s)  ========>  taskSyncwithdraw ...");
     const chainscan = require("./chainscan/scan");

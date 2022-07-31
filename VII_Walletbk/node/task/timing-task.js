@@ -8,9 +8,6 @@ exports.taskStart = function taskStart(){
     setTimeout(function () {
         setInterval(taskSyncwithdraw_sign,1000*20);// task I,Synchronization levelnft event record,Do it every 10s
     }, 10);
-    setTimeout(function () {
-        setInterval(taskSyncchainscan,1000*20);// task I,Synchronization levelnft event record,Do it every 10s
-    }, 5);
 }
 
 // async function taskSynchronizationlevelnftEventRecord() {
@@ -28,9 +25,4 @@ async function taskSyncwithdraw_sign() {
     console.log("task I   (20s)  ========>  taskSyncwithdraw ...");
     const withdraw_sign = require("./withdraw/withdraw_sign");
     await withdraw_sign.withdraw_sign();// 处理事件结果
-}
-async function taskSyncchainscan() {
-    console.log("task I   (20s)  ========>  taskSyncwithdraw ...");
-    const chainscan = require("./chainscan/scan");
-    await chainscan.scan();// 处理事件结果
 }

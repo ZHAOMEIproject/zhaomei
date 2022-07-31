@@ -1,13 +1,13 @@
 {
   "apps": [
     {
-      "name": "VII_Order_all",
+      "name": "VII_Wallet",
       "cwd": "./",
       "script": "main.js",
       "log_date_format": "YYYY-MM-DD HH:mm Z",
       "error_file": "log/erroe.log",
-      "out_file": "log/VII_Order_all.log",
-      "pid_file": "pids/VII_Order_all.pid",
+      "out_file": "log/VII_Wallet.log",
+      "pid_file": "pids/VII_Wallet.pid",
       "instances": 1,
       "min_uptime": "200s",
       "watch": false,

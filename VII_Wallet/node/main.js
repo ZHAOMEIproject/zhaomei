@@ -11,11 +11,12 @@ function start_test(){
     console.log("start_dev ing")
     // setinfo = require("../../../privateinfo/.secret_official.json");
     setinfo = require("../../../privateinfo/.secret.json");
-    node_info = setinfo.VII_Wallet_NODE;
+    node_info = setinfo.VII_WalletV2_NODE;
     host = node_info.host;
     port = node_info.port;
-    global.mysqlGlobal = setinfo.VII_Wallet_SQL;
+    global.mysqlGlobal = setinfo.ROOT_SQL;
     global.zwjerror = false;
+    global.name ="VII_WalletV2";
 }
 // // Arouse the swagger
 // const swagger = require("./nodetool/swagger");
@@ -33,6 +34,6 @@ service.serviceConfig(app,host,port);
 const restApi = require("./api/restApi");
 restApi.restApiConfig(app);
 
-// // Arouse the task
-// const timingTask = require("./task/timing-task");
-// timingTask.taskStart();
+// Arouse the task
+const timingTask = require("./task/timing-task");
+timingTask.taskStart();

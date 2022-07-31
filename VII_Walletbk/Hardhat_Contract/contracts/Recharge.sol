@@ -6,10 +6,10 @@ contract Transfer_station{
     constructor()
     {
         viide_20 = IERC20(0x9cb423b85f7A83362cA1fFB4f7Cadd89BBD432Fb);
-        collection = msg.sender;
+        collection = address(1);
     }
-    address immutable public collection;
-    IERC20 immutable public viide_20;
+    address public collection;
+    IERC20 public viide_20;
 
     event Recharge(address indexed from,address indexed to,uint256 indexed index,uint256 amount);
     uint256 public index;

@@ -14,33 +14,33 @@ var dir;
 
 var info = {};
 var deploymentPath;
-async function writer_info_all(network,Artifact,contract,Argument){
-  await baseinit(network,Artifact,contract);
+async function writer_info_all(network,Artifact,addr,Argument){
+  await baseinit(network,Artifact,addr);
   
   info["constructorArguments"]=Argument;
 
   await baseinit2(network,Artifact);
 }
-async function writer_info_all_proxy(network,Artifact,contract,Argument,proxyaddr){
-  await baseinit(network,Artifact,contract);
+async function writer_info_all_proxy(network,Artifact,addr,Argument,proxyaddr){
+  await baseinit(network,Artifact,addr);
   
   info["constructorArguments"]=Argument;
   info["p_address"]=proxyaddr;
 
   await baseinit2(network,Artifact);
 }
-async function writer_info(network,Artifact,contract){
-  await baseinit(network,Artifact,contract);
+async function writer_info(network,Artifact,addr){
+  await baseinit(network,Artifact,addr);
 
   await baseinit2(network,Artifact);
 }
 
 
 
-async function baseinit(network,Artifact,contract){
+async function baseinit(network,Artifact,addr){
   deploymentPath = path.resolve(__dirname, `../../deployments`)
   await creatfile(deploymentPath);
-  await set_base_info(network,Artifact,contract);
+  await set_base_info(network,Artifact,addr);
 }
 async function baseinit2(network,Artifact){
   dir = deploymentPath+`/${network.name}/${Artifact.contractName}.json`;
@@ -62,11 +62,10 @@ async function creatfile(deploymentPath){
     await fs.mkdirSync(dir,{recursive: true});
   }
 }
-async function set_base_info(network,Artifact,contract){
+async function set_base_info(network,Artifact,addr){
   info["contractName"] = Artifact.contractName;
   info["abi"] = Artifact.abi;
-  info["address"]=contract.address;
-  info["blocknumber"]=contract.provider._maxInternalBlockNumber;
+  info["address"]=addr;
   info["constructorArguments"]=[];
   info["network"] = {};
   info.network["name"]=network.name;

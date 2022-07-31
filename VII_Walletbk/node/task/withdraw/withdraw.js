@@ -63,7 +63,6 @@ exports.withdraw = async function withdraw(){
     
     let block = await provider.getBlockNumber()
     var withdrawupdate = await updatewithdrawevent([nonce,block,tx.hash]);
-    
     if(withdrawupdate.changedRows==0){
         console.log("error withdrawupdate");
         return;

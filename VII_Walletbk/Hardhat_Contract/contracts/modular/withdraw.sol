@@ -24,7 +24,7 @@ abstract contract withdraw is EIP712, otherinfo{
         add_withdraw=_add_withdraw;
     }
 
-    bytes32 public constant _PERMIT_TYPEHASH =
+    bytes32 private constant _PERMIT_TYPEHASH =
         keccak256("Permit(address owner,address spender,uint256 amount,uint256 nonce,uint256 deadline)");
     using Counters for Counters.Counter;
     mapping(address => Counters.Counter) private _nonces;
@@ -96,18 +96,5 @@ abstract contract withdraw is EIP712, otherinfo{
         for(uint i=0;i<spenderinfo.length;i++){
             Withdraw_permit_auditor(spenderinfo[i]);
         }
-    }
-
-    function signcheck(
-        _signvrs memory signinfo,uint256 useNonce
-    )public view returns(address signer){
-        uint256 deadline=signinfo.deadline;
-        address auditor=signinfo.auditor;
-        address spender=signinfo.spender;
-        uint256 amount=signinfo.amount;
-        // 验证审核人员签名
-        bytes32 structHash = keccak256(abi.encode(_PERMIT_TYPEHASH, auditor, spender, amount, useNonce, deadline));
-        bytes32 hash = _hashTypedDataV4(structHash);
-        return ECDSA.recover(hash, signinfo.v, signinfo.r, signinfo.s);
     }
 }

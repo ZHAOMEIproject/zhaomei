@@ -11,6 +11,7 @@ function getPermitDigest(
   name,
   address,
   chainId,
+
   auditor, spender, amount, nonce, deadline
 ) {
   const DOMAIN_SEPARATOR = getDomainSeparator(name, address, chainId)

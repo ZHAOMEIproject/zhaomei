@@ -10,10 +10,7 @@
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.6.0",
-    "@openzeppelin/contracts-upgradeable": "^4.6.0",
-    "@openzeppelin/hardhat-upgrades": "^1.19.0",
-    "Hardhat": "npm:hardhat@^2.9.9",
-    "hardhat-abi-exporter": "^2.9.0",
-    "util": "^0.12.4"
+    "@openzeppelin/hardhat-upgrades": "^1.18.3",
+    "hardhat-abi-exporter": "^2.9.0"
   }
 }

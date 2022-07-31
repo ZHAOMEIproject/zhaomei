@@ -1,5 +1,5 @@
 const web3 = require('web3');
-const {getcontractinfo}=require('../nodetool/chainid_readcontracts');
+const {getcontractinfo}=require('../nodetool/id-readcontracts');
 var web3js;
 
 test();

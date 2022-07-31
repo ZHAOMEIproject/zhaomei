@@ -54,10 +54,10 @@ exports.withdraw = async function withdraw(){
     );
 
     let nonce = await provider.getTransactionCount(account.address);
-
-    let contractWithSigner = contract.connect(wallet);
-    let tx = await contractWithSigner.lot_Withdraw_permit(upinfo);
-    console.log(tx.hash);
+    let gasPrice = await provider.getGasPrice()*2;
+    let contractWithSigner = await contract.connect(wallet);
+    let tx = await contractWithSigner.lot_Withdraw_permit(upinfo,{ gasPrice: gasPrice});
+    // console.log(tx.hash);
     // await tx.wait();
     // console.log(tx);
     

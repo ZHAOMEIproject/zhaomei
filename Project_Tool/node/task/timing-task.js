@@ -1,8 +1,8 @@
 /*Timing task*/
 // After the project starts, the scheduled task will be started in five seconds
-exports.taskStart = function taskStart(){
+exports.taskStart = async function taskStart(){
     console.log(`Tasks start loading`);
-    taskSyncchainscan();
+    await taskSyncchainscan();
     // setTimeout(function () {
     //     setInterval(taskSyncchainscan,1000);// task I,Synchronization levelnft event record,Do it every 10s
     // }, 0);

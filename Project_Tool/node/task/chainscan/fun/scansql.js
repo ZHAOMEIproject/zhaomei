@@ -69,7 +69,7 @@ async function checkandcreatdatabase(name,contractinfo){
                     "`update_time` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,"+
                     "PRIMARY KEY (`event_id`) USING BTREE,"+
                     "UNIQUE INDEX `hash`(`transaction_hash`, `block_logIndex`) USING BTREE,"+
-                    "INDEX `data`(`data0"+ data_sql +"`) USING BTREE"+
+                    // "INDEX `data`(`data0"+ data_sql +"`) USING BTREE"+
                 ") ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic"
                 await sqlcall(selSql,null);
             }
@@ -94,9 +94,14 @@ async function scancontract(contractinfo){
             let blocknumber = await sqlcall(slq_dictionary,sqlinfo);
             // console.log();
             // console.log(blocknumber[0].url);
-            let fromBlock=blocknumber[0].blocknumber++;
+            let fromBlock=parseInt(blocknumber[0].blocknumber);
+            let toBlock = fromBlock+parseInt(100);
+            let now_blockNumber = await web3Show.getBlockNumber();
+            if(toBlock>now_blockNumber){
+                toBlock = now_blockNumber; // update toBlock
+            }
             // console.log(fromBlock,fromBlock+100);
-            let eventinfo = await web3Show.getContractEvents(contractinfo[i][j],fromBlock,fromBlock+100);
+            let eventinfo = await web3Show.getContractEvents(contractinfo[i][j],fromBlock,now_blockNumber);
             // console.log(eventinfo);
             
             for(let k in eventinfo){

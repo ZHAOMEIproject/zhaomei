@@ -1,4 +1,4 @@
-const {getcontractinfo}=require('../../nodetool/chainid_readcontracts');
+const {getcontractinfo}=require('../../nodetool/id-readcontracts');
 const {checkandcreatdatabase,scancontract} =require('./fun/scansql');
 
 exports.scan = async function scan(){

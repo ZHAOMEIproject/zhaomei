@@ -8,7 +8,7 @@ exports.sqlcall = function sqlcall(selSql,selSqlParams){
     return new Promise(function (resolve, reject) {
         conn.query(selSql, selSqlParams, function (err, result) {
             if (err) {
-                console.log('[SQLCALL ERROR] - ', err.message);
+                console.log('[SQLCALL ERROR] - ', selSql , err.message);
                 resolve(err);
                 global.zwjerror = true;
                 return;

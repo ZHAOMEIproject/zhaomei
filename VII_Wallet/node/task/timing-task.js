@@ -1,16 +1,23 @@
 /*Timing task*/
 // After the project starts, the scheduled task will be started in five seconds
-exports.taskStart = function taskStart(){
+exports.taskStart = async function taskStart(){
     console.log(`Tasks start loading`);
+    // await taskSyncchainscan()
+    // console.log(`scan set out`);
+    global.mysqlGlobal.database=global.name;
+
+    // await taskSyncwithdraw()
+    // await taskSyncwithdraw_sign()
+
     setTimeout(function () {
-        setInterval(taskSyncwithdraw,1000*20);// task I,Synchronization levelnft event record,Do it every 10s
+        setInterval(taskSyncchainscan,1000*30);// task I,Synchronization levelnft event record,Do it every 10s
     }, 0);
     setTimeout(function () {
-        setInterval(taskSyncwithdraw_sign,1000*20);// task I,Synchronization levelnft event record,Do it every 10s
+        setInterval(taskSyncwithdraw,1000*30);// task I,Synchronization levelnft event record,Do it every 10s
     }, 10);
     setTimeout(function () {
-        setInterval(taskSyncchainscan,1000*20);// task I,Synchronization levelnft event record,Do it every 10s
-    }, 5);
+        setInterval(taskSyncwithdraw_sign,1000*30);// task I,Synchronization levelnft event record,Do it every 10s
+    }, 20);
 }
 
 // async function taskSynchronizationlevelnftEventRecord() {

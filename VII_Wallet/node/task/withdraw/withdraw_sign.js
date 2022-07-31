@@ -29,9 +29,9 @@ exports.withdraw_sign = async function withdraw_sign(){
         console.log("error withdrawcheck");
         return;
     }
-    var withdrawlock = await lockwithdrawevent();
-    if(withdrawlock.changedRows==0){
-        console.log("success withdrawlock");
+    var withdrawsignlock = await lockwithdrawevent();
+    if(withdrawsignlock.changedRows==0){
+        console.log("success withdrawsignlock");
         return;
     }
     var withdrawevent = await getwithdrawevent();
@@ -52,11 +52,13 @@ exports.withdraw_sign = async function withdraw_sign(){
     );
 
     let nonce = await provider.getTransactionCount(account.address);
-
-    let contractWithSigner = contract.connect(wallet);
+    let gasPrice = await provider.getGasPrice()*2;
+    let contractWithSigner = await contract.connect(wallet);
     // 合约交互
-    let tx = await contractWithSigner.lot_Withdraw_permit_auditor(upinfo);
-    console.log(tx.hash);
+    // console.log("load test");
+    // console.log(upinfo);
+    let tx = await contractWithSigner.lot_Withdraw_permit_auditor(upinfo,{ gasPrice: gasPrice});
+    // console.log(tx.hash);
     // await tx.wait();
     // console.log(tx);
     

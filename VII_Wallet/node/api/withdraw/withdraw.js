@@ -45,9 +45,9 @@ exports.postwirhdraw = router.get("/postwirhdrawsign", async (req, res) => {
     for(let i in check){
         sqlparams.push(params[check[i]]);
     }
-    let sqlStr = "INSERT INTO withdraw_sign("+
-    "auditor,spender,amount,auditor_nonce,sign_r,sign_s,sign_v,deadline)VALUES("+
-    "?,?,?,?,?,?,?,?,?)";
+    let sqlStr = "INSERT INTO withdraw_auditor("+
+    "auditor,spender,amount,auditor_nonce,deadline,sign_r,sign_s,sign_v)VALUES("+
+    "?,?,?,?,?,?,?,?)";
     await conn.select(sqlStr,sqlparams)
 
     res.send({
@@ -65,5 +65,22 @@ exports.postwirhdraw = router.get("/getwirhdrawnonce", async (req, res) => {
             nonce:nonce[0].nonce
         }
     });
+    
+    // if(nonce[0].nonce==nonce[0].id){
+    //     res.send({
+    //         success:true,
+    //         data:{
+    //             nonce:nonce[0].nonce
+    //         }
+    //     });
+    // }else{
+    //     res.send({
+    //         success:false,
+    //         data:{
+    //             nonce:"nonce error"
+    //         }
+    //     });
+    // }
+    
     return;
 });

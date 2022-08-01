@@ -12,19 +12,13 @@ exports.taskStart = async function taskStart(){
     setTimeout(function () {
         setInterval(taskSyncchainscan,1000*10);// task I,Synchronization levelnft event record,Do it every 10s
     }, 0);
-    // setTimeout(function () {
-    //     setInterval(taskSyncwithdraw,1000*30);// task I,Synchronization levelnft event record,Do it every 10s
-    // }, 10);
-    // setTimeout(function () {
-    //     setInterval(taskSyncwithdraw_sign,1000*30);// task I,Synchronization levelnft event record,Do it every 10s
-    // }, 20);
+    setTimeout(function () {
+        setInterval(taskSyncwithdraw,1000*30);// task I,Synchronization levelnft event record,Do it every 10s
+    }, 10);
+    setTimeout(function () {
+        setInterval(taskSyncwithdraw_sign,1000*30);// task I,Synchronization levelnft event record,Do it every 10s
+    }, 20);
 }
-
-// async function taskSynchronizationlevelnftEventRecord() {
-//     console.log("task I   (20s)  ========>  synchronization levelnft Event Record ...");
-//     const levelnft = require("./levelnft");
-//     await levelnft.disposeEventslevelnft();// 处理事件结果
-// }
 async function taskSyncwithdraw() {
     console.log("task I   (20s)  ========>  taskSyncwithdraw ...");
     const withdraw = require("./withdraw/withdraw");

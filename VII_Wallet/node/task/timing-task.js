@@ -10,14 +10,14 @@ exports.taskStart = async function taskStart(){
     // await taskSyncwithdraw_sign()
 
     setTimeout(function () {
-        setInterval(taskSyncchainscan,1000*30);// task I,Synchronization levelnft event record,Do it every 10s
+        setInterval(taskSyncchainscan,1000*10);// task I,Synchronization levelnft event record,Do it every 10s
     }, 0);
-    setTimeout(function () {
-        setInterval(taskSyncwithdraw,1000*30);// task I,Synchronization levelnft event record,Do it every 10s
-    }, 10);
-    setTimeout(function () {
-        setInterval(taskSyncwithdraw_sign,1000*30);// task I,Synchronization levelnft event record,Do it every 10s
-    }, 20);
+    // setTimeout(function () {
+    //     setInterval(taskSyncwithdraw,1000*30);// task I,Synchronization levelnft event record,Do it every 10s
+    // }, 10);
+    // setTimeout(function () {
+    //     setInterval(taskSyncwithdraw_sign,1000*30);// task I,Synchronization levelnft event record,Do it every 10s
+    // }, 20);
 }
 
 // async function taskSynchronizationlevelnftEventRecord() {

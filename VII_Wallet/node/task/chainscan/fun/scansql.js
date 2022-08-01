@@ -111,6 +111,15 @@ async function scancontract(contractinfo){
                     eventinfo[k].transactionHash,
                     eventinfo[k].event,
                 ]
+                if(eventinfo[k].blockNumber>toBlock){
+                    toBlock = eventinfo[k].blockNumber
+                }
+                // I. events_name+transaction_hash 唯一索引
+                let isExistCurrentRecord = await getIsExistCurrentRecord(contractinfo[i][j].contractName,eventinfo[k].event,eventinfo[k].transactionHash,eventinfo[k].logIndex);
+                if(isExistCurrentRecord[0].count>=1){
+                    continue;//结束此轮循环
+                }
+
                 let value_l = Object.values(eventinfo[k].returnValues).length/2;
 
                 let data_n_sql="";
@@ -128,15 +137,21 @@ async function scancontract(contractinfo){
                 
                 await sqlcall(insertsql,sqleventinfo);
             }
-            sqlinfo.unshift(fromBlock+100);
+            sqlinfo.unshift(toBlock);
             let update_blocknumber = "UPDATE dictionary_value SET blocknumber=? where contract=? and chainid=? and url=? and address=?";
             await sqlcall(update_blocknumber,sqlinfo);
+            // console.log(fromBlock,toBlock);
         }
     }
     // await test();
 }
 
-
+// 交易哈希 唯一索引
+async function getIsExistCurrentRecord(contractName,event_name,transaction_hash,block_logIndex){
+    let selSql = "select count(0) as count from "+contractName+" WHERE event_name=? and transaction_hash=? and block_logIndex=?";
+    let selectParams = [ event_name,transaction_hash,block_logIndex];
+    return await sqlcall(selSql,selectParams);
+}
 
 
 

@@ -47,7 +47,7 @@ async function checkandcreatdatabase(name,contractinfo){
             }
             let abi_sql='';
             for (let x = 0; x < abi_max; x++) {
-                abi_sql+="`data"+x+"` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,";
+                abi_sql+="`data"+x+"` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,";
             }
 
             let data_sql='';
@@ -68,8 +68,8 @@ async function checkandcreatdatabase(name,contractinfo){
 
                     "`update_time` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,"+
                     "PRIMARY KEY (`event_id`) USING BTREE,"+
-                    "UNIQUE INDEX `hash`(`transaction_hash`, `block_logIndex`) USING BTREE,"+
-                    // "INDEX `data`(`data0"+ data_sql +"`) USING BTREE"+
+                    "UNIQUE INDEX `hash`(`transaction_hash`, `block_logIndex`) USING BTREE"+
+                    // ",INDEX `data`(`data0"+ data_sql +"`) USING BTREE"+
                 ") ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic"
                 await sqlcall(selSql,null);
             }
@@ -111,6 +111,15 @@ async function scancontract(contractinfo){
                     eventinfo[k].transactionHash,
                     eventinfo[k].event,
                 ]
+                if(eventinfo[k].blockNumber>toBlock){
+                    toBlock = eventinfo[k].blockNumber
+                }
+                // I. events_name+transaction_hash 唯一索引
+                let isExistCurrentRecord = await getIsExistCurrentRecord(contractinfo[i][j].contractName,eventinfo[k].event,eventinfo[k].transactionHash,eventinfo[k].logIndex);
+                if(isExistCurrentRecord[0].count>=1){
+                    continue;//结束此轮循环
+                }
+
                 let value_l = Object.values(eventinfo[k].returnValues).length/2;
 
                 let data_n_sql="";
@@ -128,15 +137,21 @@ async function scancontract(contractinfo){
                 
                 await sqlcall(insertsql,sqleventinfo);
             }
-            sqlinfo.unshift(fromBlock+100);
+            sqlinfo.unshift(toBlock);
             let update_blocknumber = "UPDATE dictionary_value SET blocknumber=? where contract=? and chainid=? and url=? and address=?";
             await sqlcall(update_blocknumber,sqlinfo);
+            console.log(fromBlock,toBlock);
         }
     }
     // await test();
 }
 
-
+// 交易哈希 唯一索引
+async function getIsExistCurrentRecord(contractName,event_name,transaction_hash,block_logIndex){
+    let selSql = "select count(0) as count from "+contractName+" WHERE event_name=? and transaction_hash=? and block_logIndex=?";
+    let selectParams = [ event_name,transaction_hash,block_logIndex];
+    return await sqlcall(selSql,selectParams);
+}
 
 
 

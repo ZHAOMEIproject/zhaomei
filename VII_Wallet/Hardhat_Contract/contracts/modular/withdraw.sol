@@ -60,6 +60,7 @@ abstract contract withdraw is EIP712, otherinfo{
         address spender=signinfo.spender;
         uint256 amount=signinfo.amount;
         // 验证审核人员签名
+        emit e_Withdraw(auditor,spender,amount,_nonces[auditor].current());
         bytes32 structHash = keccak256(abi.encode(_PERMIT_TYPEHASH, auditor, spender, amount, _useNonce(auditor), deadline));
         bytes32 hash = _hashTypedDataV4(structHash);
         address signer = ECDSA.recover(hash, signinfo.v, signinfo.r, signinfo.s);
@@ -67,7 +68,6 @@ abstract contract withdraw is EIP712, otherinfo{
         
         // 进行操作
         IERC20(token).transferFrom(add_withdraw,spender,amount);
-        emit e_Withdraw(auditor,spender,amount,_nonces[auditor].current());
     }
 
     struct _spenderinfo{

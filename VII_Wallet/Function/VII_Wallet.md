@@ -56,6 +56,7 @@ params输入的内容：[auditor,spender,amount,deadline,v,r,s],nonce
 | nonce  | 1 | 审核人员审核序号，预防重复提交或者是其他问题  |
 
 5、获取一个签名例子
+签名地址是：0xC66f6B7814B886aA104573FCe17862c2ce906740  
 http://154.91.156.113:10903/v1/apigetsign/getsign?id=80001&contractname=mainwithdraw&params={"auditor":"0xd7B74f2133C011110a7A38038fFF30bDc9ACe6d1","spender":"0xd7B74f2133C011110a7A38038fFF30bDc9ACe6d1","amount":"1000","nonce":"100","deadline":"9999999999"}
 
 ## 前端业务逻辑

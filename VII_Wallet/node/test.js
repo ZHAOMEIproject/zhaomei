@@ -14,8 +14,9 @@ function start_test(){
     node_info = setinfo.VII_test_NODE;
     host = node_info.host;
     port = node_info.port;
-    // global.mysqlGlobal = setinfo.VII_Order_SQL;
+    global.mysqlGlobal = setinfo.ROOT_SQL;
     global.zwjerror = false;
+    global.name ="VII_Wallet";
 }
 // // Arouse the swagger
 // const swagger = require("./nodetool/swagger");
@@ -33,6 +34,6 @@ service.serviceConfig(app,host,port);
 const restApi = require("./api/restApi");
 restApi.restApiConfig(app);
 
-// // Arouse the task
-// const timingTask = require("./task/timing-task");
-// timingTask.taskStart();
+// Arouse the task
+const timingTask = require("./task/timing-task");
+timingTask.taskStart();

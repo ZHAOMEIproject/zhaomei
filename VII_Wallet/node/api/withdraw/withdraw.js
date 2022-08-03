@@ -4,7 +4,7 @@ const router = express.Router();
 const url = require('url');
 module.exports = router;
 const conn = require("../../nodetool/sqlconnection");
-const {sendEmail} = require("../../../../../privateinfo/secrettool/email");
+const {sendEmail} = require("../../nodetool/email");
 
 exports.postwirhdraw = router.get("/postwirhdraw", async (req, res) => {
     var params = url.parse(req.url, true).query;

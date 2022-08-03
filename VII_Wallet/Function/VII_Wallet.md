@@ -40,7 +40,7 @@ http://154.91.156.113:10903/v1/withdraw/postwirhdrawsign?auditor=0xC66f6B7814B88
 | sign_v  | 0x6a0f776ba03b9462828e6824eb7dc9df1426ea376b5f2d3ee2473bcb53718e33  | 签名的v |
 
 4、查询签名的地址
-http://154.91.156.113:10903/v1/contractapi/read?id=80001&contractname=mainwithdraw&fun=signcheck&params=[["0xC66f6B7814B886aA104573FCe17862c2ce906740","0xd7B74f2133C011110a7A38038fFF30bDc9ACe6d1","1000","9999999999","28","0xa46083a905d136486f511b08692b2f8741f3d9ef692b36e7b85725dbdafe5e41","0x2a2466d10cf80acc260482dd228336e0996d8ccbabd69bce359f66bd8ad0584d"],0]  
+http://154.91.156.113:10903/v1/contractapi/read?id=80001&contractname=mainwithdraw&fun=signcheck&params=[["0xC66f6B7814B886aA104573FCe17862c2ce906740","0xC66f6B7814B886aA104573FCe17862c2ce906740","1000","9999999999","28","0xa46083a905d136486f511b08692b2f8741f3d9ef692b36e7b85725dbdafe5e41","0x2a2466d10cf80acc260482dd228336e0996d8ccbabd69bce359f66bd8ad0584d"],0]  
 params输入的内容：[auditor,spender,amount,deadline,v,r,s],nonce
 
 |       |       |       |
@@ -57,17 +57,17 @@ params输入的内容：[auditor,spender,amount,deadline,v,r,s],nonce
 
 5、获取一个签名例子
 签名地址是：0xC66f6B7814B886aA104573FCe17862c2ce906740  
-http://154.91.156.113:10903/v1/apigetsign/getsign?id=80001&contractname=mainwithdraw&params={"auditor":"0xd7B74f2133C011110a7A38038fFF30bDc9ACe6d1","spender":"0xd7B74f2133C011110a7A38038fFF30bDc9ACe6d1","amount":"1000","nonce":"100","deadline":"9999999999"}
+http://154.91.156.113:10903/v1/apigetsign/getsign?id=80001&contractname=mainwithdraw&params={"auditor":"0xC66f6B7814B886aA104573FCe17862c2ce906740","spender":"0xC66f6B7814B886aA104573FCe17862c2ce906740","amount":"1000","nonce":"100","deadline":"9999999999"}
 
 ## 前端业务逻辑
     1、获取审核人员授权nonce。
     2、将各种数据签名并传给后端。
     签名数据：
-    （接口哈希，审核人员钱包地址，接收代币的钱包的地址，审核人员nonce，时间戳(秒级)）
+    （接口哈希，审核人员钱包地址，接收代币的钱包的地址，审核人员nonces，时间戳(秒级)）
     签名版本_hashTypedDataV4。（tip:_hashTypedDataV4涉及哪条链哪条）
 
 ### 合约接口
-    1、获取审核人员的nonce: nonce(address).call
+    1、获取审核人员的nonces: nonces(address).call
     2、获取接口哈希 _PERMIT_TYPEHASH().call
     3、输出签名的地址 signer = signcheck([auditor,spender,amount,deadline,v,r,s],nonce).call
     auditor:签名地址
@@ -77,10 +77,10 @@ http://154.91.156.113:10903/v1/apigetsign/getsign?id=80001&contractname=mainwith
     v,r,s:签名信息
 ### 后端接口
 1、输出签名的地址  
-http://154.91.156.113:10903/v1/contractapi/read?id=80001&contractname=mainwithdraw&fun=signcheck&params=[["0xC66f6B7814B886aA104573FCe17862c2ce906740","0xd7B74f2133C011110a7A38038fFF30bDc9ACe6d1","1000","9999999999","28","0xd65802cb772a0ae078ba4d0b69056e55b2e775e962f413549c8cf8a2d22b7778","0x642b063113ec9f89343e2920e7508e0620b1f38efc0379af8c0770b9d0275008"],100]  
+http://154.91.156.113:10903/v1/contractapi/read?id=80001&contractname=mainwithdraw&fun=signcheck&params=[["0xC66f6B7814B886aA104573FCe17862c2ce906740","0xd7B74f2133C011110a7A38038fFF30bDc9ACe6d1","1000","9999999999","27","0x402b9edcf86f9f47f8c3ffc8d02d006cf86cc7cfa6774e062899993a7d803f58","0x3c275a3fdaa4856af226c9dde354971ac53b9608668aa2330c684d0766b6f083"],3]  
 
 2、获取一个签名例子
 签名地址是：0xC66f6B7814B886aA104573FCe17862c2ce906740  
-http://154.91.156.113:10903/v1/apigetsign/getsign?id=80001&contractname=mainwithdraw&params={"auditor":"0xd7B74f2133C011110a7A38038fFF30bDc9ACe6d1","spender":"0xd7B74f2133C011110a7A38038fFF30bDc9ACe6d1","amount":"1000","nonce":"100","deadline":"9999999999"}
+http://154.91.156.113:10903/v1/apigetsign/getsign?id=80001&contractname=mainwithdraw&params={"auditor":"0xC66f6B7814B886aA104573FCe17862c2ce906740","spender":"0xd7B74f2133C011110a7A38038fFF30bDc9ACe6d1","amount":"1000","nonce":"3","deadline":"9999999999"}
 
 

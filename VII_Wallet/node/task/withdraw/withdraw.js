@@ -40,8 +40,6 @@ exports.withdraw = async function withdraw(){
         upinfo.push(Object.values(withdrawevent[i]));
     }
 
-
-
     const contractinfo = await getcontractinfo();
     var path = "m/44'/60'/0'/0/0";
     const account = ethers.Wallet.fromMnemonic(secret.solidity.mnemonic, path);
@@ -54,20 +52,27 @@ exports.withdraw = async function withdraw(){
     );
 
     let nonce = await provider.getTransactionCount(account.address);
-    let gasPrice = await provider.getGasPrice()*2;
+    let gasPrice = await provider.getGasPrice()*1.2;
     let contractWithSigner = await contract.connect(wallet);
-    let tx = await contractWithSigner.lot_Withdraw_permit(upinfo,{ gasPrice: gasPrice});
-    // console.log(tx.hash);
-    // await tx.wait();
-    // console.log(tx);
-    
-    let block = await provider.getBlockNumber()
-    var withdrawupdate = await updatewithdrawevent([nonce,block,tx.hash]);
-    
-    if(withdrawupdate.changedRows==0){
-        console.log("error withdrawupdate");
-        return;
+
+    try {
+        await contractWithSigner.estimateGas.lot_Withdraw_permit(upinfo);
+        let tx = await contractWithSigner.lot_Withdraw_permit(upinfo,{ gasPrice: gasPrice});
+        // console.log(tx.hash);
+        // await tx.wait();
+        // console.log(tx);
+        
+        let block = await provider.getBlockNumber()
+        var withdrawupdate = await updatewithdrawevent([nonce,block,tx.hash]);
+        
+        if(withdrawupdate.changedRows==0){
+            console.log("error withdrawupdate");
+            return;
+        }
+        console.log("success withdrawupdate");
+    } catch (error) {
+        console.log("withdraw error");
+        sendEmail("Wallet error","lot_Withdraw_permit");
     }
-    console.log("success withdrawupdate");
     return;
 }

@@ -23,6 +23,7 @@ async function updatewithdrawevent(selectParams){
     return await connection.select(selsql,selectParams);
 }
 
+const {sendEmail} = require("../../nodetool/email");
 exports.withdraw_sign = async function withdraw_sign(){
     var withdrawcheck = await checkwithdrawevent();
     if(withdrawcheck.length>0){
@@ -52,22 +53,27 @@ exports.withdraw_sign = async function withdraw_sign(){
     );
 
     let nonce = await provider.getTransactionCount(account.address);
-    let gasPrice = await provider.getGasPrice()*2;
+    let gasPrice = await provider.getGasPrice()*1.2;
     let contractWithSigner = await contract.connect(wallet);
-    // 合约交互
-    // console.log("load test");
-    // console.log(upinfo);
-    let tx = await contractWithSigner.lot_Withdraw_permit_auditor(upinfo,{ gasPrice: gasPrice});
-    // console.log(tx.hash);
-    // await tx.wait();
-    // console.log(tx);
-    
-    let block = await provider.getBlockNumber()
-    var withdrawupdate = await updatewithdrawevent([nonce,block,tx.hash]);
-    if(withdrawupdate.changedRows==0){
-        console.log("error withdrawupdate");
-        return;
+
+    try {
+        await contractWithSigner.estimateGas.lot_Withdraw_permit_auditor(upinfo);
+        let tx = await contractWithSigner.lot_Withdraw_permit_auditor(upinfo,{ gasPrice: gasPrice});
+        // console.log(tx.hash);
+        // await tx.wait();
+        // console.log(tx);
+        
+        let block = await provider.getBlockNumber()
+        var withdrawupdate = await updatewithdrawevent([nonce,block,tx.hash]);
+        if(withdrawupdate.changedRows==0){
+            console.log("error withdrawupdate");
+            return;
+        }
+        console.log("success withdrawupdate");
+        
+    } catch (error) {
+        console.log("withdraw_sign error");
+        sendEmail("Wallet error","lot_Withdraw_permit_auditor");
     }
-    console.log("success withdrawupdate");
     return;
 }

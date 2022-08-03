@@ -15,5 +15,8 @@
     "swagger-jsdoc": "^6.2.1",
     "swagger-ui-express": "^4.4.0",
     "web3": "^1.7.4"
+  },
+  "devDependencies": {
+    "pkg": "^5.8.0"
   }
 }

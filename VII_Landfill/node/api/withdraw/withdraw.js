@@ -6,7 +6,7 @@ module.exports = router;
 const conn = require("../../nodetool/sqlconnection");
 const {sendEmail} = require("../../nodetool/email");
 
-exports.postwirhdraw = router.get("/postwirhdraw", async (req, res) => {
+exports.postwithdraw = router.get("/postwithdraw", async (req, res) => {
     var params = url.parse(req.url, true).query;
 
     let check =["spender","amount","servicenonce"];
@@ -44,7 +44,7 @@ exports.postwirhdraw = router.get("/postwirhdraw", async (req, res) => {
     return;
 });
 
-exports.postwirhdraw = router.get("/postwirhdrawsign", async (req, res) => {
+exports.postwithdraw = router.get("/postwithdrawsign", async (req, res) => {
     var params = url.parse(req.url, true).query;
 
     let check =["auditor","spender","amount","auditor_nonce","deadline","sign_r","sign_s","sign_v"];
@@ -70,7 +70,7 @@ exports.postwirhdraw = router.get("/postwirhdrawsign", async (req, res) => {
     return;
 });
 
-exports.postwirhdraw = router.get("/getwirhdrawnonce", async (req, res) => {
+exports.postwithdraw = router.get("/getwithdrawnonce", async (req, res) => {
     let sqlStr = "select servicenonce from withdraw ORDER BY servicenonce DESC LIMIT 0,1;";
     let nonce = await conn.select(sqlStr,null)
     res.send({

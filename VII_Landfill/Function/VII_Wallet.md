@@ -6,12 +6,12 @@ Contract name: VII_FRAME.sol
     * [合约接口](#合约接口)
 
 ## BACK业务逻辑
-1、getwirhdrawnonce获取服务器nonce。
-2、postwirhdraw提交提现请求。
-（postwirhdrawsign）审核人员签名版。
+1、getwithdrawnonce获取服务器nonce。
+2、postwithdraw提交提现请求。
+（postwithdrawsign）审核人员签名版。
 ### 后端接口
 1、服务器提交提现请求：
-http://154.91.156.113:10903/v1/withdraw/postwirhdraw?servicenonce=2&spender=0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2&amount=10000
+http://154.91.156.113:10903/v1/withdraw/postwithdraw?servicenonce=2&spender=0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2&amount=10000
 
 |       |       |       |
 |   -------------   |   -------------   |   -------------   |
@@ -21,11 +21,11 @@ http://154.91.156.113:10903/v1/withdraw/postwirhdraw?servicenonce=2&spender=0x8C
 | servicenonce  | 1 | 提交序号，预防重复提交或者是其他问题  |
 
 2、获取服务器最新nonce:
-http://154.91.156.113:10903/v1/withdraw/getwirhdrawnonce
+http://154.91.156.113:10903/v1/withdraw/getwithdrawnonce
 
 
 3、审核人员签名版提现接口：
-http://154.91.156.113:10903/v1/withdraw/postwirhdrawsign?auditor=0xC66f6B7814B886aA104573FCe17862c2ce906740&spender=0xd7B74f2133C011110a7A38038fFF30bDc9ACe6d1&amount=1000&auditor_nonce=2&sign_v=28&sign_r=0xd65802cb772a0ae078ba4d0b69056e55b2e775e962f413549c8cf8a2d22b7778&sign_s=0x642b063113ec9f89343e2920e7508e0620b1f38efc0379af8c0770b9d0275008&deadline=9999999999
+http://154.91.156.113:10903/v1/withdraw/postwithdrawsign?auditor=0xC66f6B7814B886aA104573FCe17862c2ce906740&spender=0xd7B74f2133C011110a7A38038fFF30bDc9ACe6d1&amount=1000&auditor_nonce=2&sign_v=28&sign_r=0xd65802cb772a0ae078ba4d0b69056e55b2e775e962f413549c8cf8a2d22b7778&sign_s=0x642b063113ec9f89343e2920e7508e0620b1f38efc0379af8c0770b9d0275008&deadline=9999999999
 
 |       |       |       |
 |   -------------   |   -------------   |   -------------   |

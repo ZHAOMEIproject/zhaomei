@@ -16,7 +16,7 @@ function start_test(){
     console.log("start_dev ing")
     // setinfo = require("../../../privateinfo/.secret_official.json");
     setinfo = require("../../../privateinfo/.secret.json");
-    node_info = setinfo.VII_SCORES_NODE;
+    node_info = setinfo.VII_test_NODE;
     host = node_info.host;
     port = node_info.port;
     global.mysqlGlobal = setinfo.VII_SCORES_SQL;

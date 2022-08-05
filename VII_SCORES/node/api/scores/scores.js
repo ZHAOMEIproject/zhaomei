@@ -92,17 +92,15 @@ exports.getList = router.get("/last", async (req, res) => {
 
 
 async function getnewinfo(address){
-    let data = await Promise.all([ethscan.otherinfo(address),ethscan.nftinfo(address)]);
+    // let data = await Promise.all([ethscan.otherinfo(address),ethscan.nftinfo(address)]);
+    // for(let i in data){
+    //     if(global.zwjerror){
+    //         return;
+    //     }
+    // }
+    // data = Object.assign({},data[0],data[1]);
+    let data = await ethscan.otherinfov2(address);
     
-    for(let i in data){
-        if(global.zwjerror){
-            return;
-        }
-    }
-
-    
-    
-    data = Object.assign({},data[0],data[1]);
     let sqlStr = "replace into address_scores("
     +"address,opensea_buy,opensea_buy_s,"
     +"opensea_gas_use,opensea_gas_use_s,"

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: AGPL
 pragma solidity ^0.8.4;
 import "../ZM_tool/ZMMainControl.sol";
 

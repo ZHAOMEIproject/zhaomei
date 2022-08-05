@@ -39,7 +39,7 @@ async function withdrawsign(){
     for(let i=0;i<10;i++){
         await contract.methods.c_monitor_lock("true").send({
             gas:~~(await contract.methods.c_monitor_lock("true").estimateGas()*1.1)
-            nonce: 
+            ,nonce
         }).on('transactionHash',function(hash){
             console.log("transactionHash:",hash);
         }).on('receipt', function(receipt){

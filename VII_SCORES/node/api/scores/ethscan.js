@@ -169,8 +169,85 @@ function Exponential(score,max){
     }
     return score*max/1950;
 }
+async function otherinfov2(address){
+    console.log("test3");
+    const sdk = require('api')('@reservoirprotocol/v1.0#2fkbk3fl6e9wi9x');
+    await sdk.auth('f9e65d81-69b3-46d2-87b3-491bc1680ec4');
+    let userscaninfo = await sdk.getUsersActivityV2({
+        users: address,
+        limit: '20',
+        accept: '*/*'
+    })
+    let activitiesinfo =[];
+    let [opensea_buy,opensea_gas_use,opensea_eth_use,success_nonce,fistopenseatime]=[0,0,0,0,0];
+    let [main_nft,blue,superblue,total_nft,fist721time]=[0,0,0,0,0];
+
+    do {
+        activitiesinfo= [...activitiesinfo,...userscaninfo.activities]
+        // console.log(userscaninfo.continuation);
+        if(userscaninfo.continuation==null){
+            break;
+        }
+        userscaninfo = await  sdk.getUsersActivityV2({
+            users: address,
+            limit: '100',
+            continuation: userscaninfo.continuation,
+            accept: '*/*'
+        })
+    } while (true);
+    if(activitiesinfo.length!=0){
+        fist721time=activitiesinfo[activitiesinfo.length-1].timestamp;
+    }
+    for (let i in activitiesinfo) {
+        if (activitiesinfo[i].type=="sale") {
+            opensea_buy++;
+            opensea_eth_use+=activitiesinfo[i].price*10**18
+            fistopenseatime=activitiesinfo[i].timestamp;
+        }else if(activitiesinfo[i].type=="transfer"){
+            let flag =1;
+            if(activitiesinfo[i].fromAddress==address){
+                flag=-1;
+            }
+            if(totalinfo.blue.includes(activitiesinfo[i].collection.collectionId)){
+                blue+=flag;
+            }
+            if(totalinfo.superblue.includes(activitiesinfo[i].collection.collectionId)){
+                superblue+=flag;
+            }
+            if(totalinfo.topnft.includes(activitiesinfo[i].collection.collectionId)){
+                main_nft+=flag;
+            }
+            total_nft+=flag;
+        }
+    }
+
+
+
+    return {
+        opensea_buy:opensea_buy,
+        opensea_buy_s:l_max_add(opensea_buy*5,scores_max.opensea_buy_max),
+        opensea_gas_use:opensea_gas_use,
+        opensea_gas_use_s:l_max_add(opensea_gas_use/(10**16)*3*5,scores_max.opensea_gas_use_max),
+        opensea_eth_use:opensea_eth_use,
+        opensea_eth_use_s:l_max_add(opensea_eth_use/(10**18)*5,scores_max.opensea_eth_use_max),
+        fistopenseatime:fistopenseatime,
+        success_nonce:success_nonce,
+        success_nonce_s:l_max_add(success_nonce*5,scores_max.success_nonce_max),
+        main_nft:main_nft,
+        main_nft_s:l_max_add(main_nft*20,scores_max.main_nft_max),
+        blue:blue,
+        blue_s:l_max(blue*50,scores_max.blue_max),
+        superblue:superblue,
+        superblue_s:l_max(superblue*125,scores_max.superblue_max),
+        fist721time:fist721time,
+        total_nft:total_nft,
+        total_nft_s:l_max(total_nft*5,scores_max.total_nft_max),
+        topaccount:(address in totalinfo.topaccount)
+    }
+}
 module.exports={
     otherinfo,
+    otherinfov2,
     nftinfo,
     scores_max_out,
     // usdtbalance,

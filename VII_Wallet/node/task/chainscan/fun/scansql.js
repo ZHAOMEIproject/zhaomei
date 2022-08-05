@@ -96,7 +96,7 @@ async function scancontract(contractinfo){
             // console.log(blocknumber[0].url);
             let fromBlock=parseInt(blocknumber[0].blocknumber);
             let toBlock = fromBlock+parseInt(100);
-            let now_blockNumber = await web3Show.getBlockNumber();
+            let now_blockNumber = await web3Show.getBlockNumber()-15;
             if(toBlock>now_blockNumber){
                 toBlock = now_blockNumber; // update toBlock
             }

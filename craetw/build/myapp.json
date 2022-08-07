@@ -1,0 +1,21 @@
+{
+    "pkg": {
+        "targets": [
+            "node18-win"
+        ],
+        "outputPath": "dist",
+        "assets": [
+            "node_modules/printer/lib/node_printer.node"
+        ]
+    },
+    "pkg_fetch_version": "3.4",
+    "node_version": "18.5.0",
+    "pkg_cache_path": ".pkg-cache",
+    "icon": "icon.ico",
+    "name": "myapp",
+    "description": "myapp description",
+    "company": "mycompany",
+    "version": "1.0.0",
+    "copyright": "mycopyright Ltd",
+    "file": "../nice/cluster_primes.js"
+}

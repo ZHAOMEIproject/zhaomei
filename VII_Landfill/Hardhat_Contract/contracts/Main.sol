@@ -35,6 +35,7 @@ contract main is ZMMainControl{
         baseauction = _baseauction;
         auctiontime=_auctiontime;
     }
+
     struct auction{
         bool finish;
         address nft;
@@ -44,22 +45,20 @@ contract main is ZMMainControl{
         address auctioner;
     }
 
-    auction[] auctions;
-    mapping(uint256=>uint256) m_auctions;
-    uint256 m_auction_l;
-    mapping(uint256=>uint256) t_m_auctions;
+    auction[] public auctions;
 
     function thrownft(address nft,uint256 tokenid)public contract_invocation_lock{
         if(ERC165(nft).supportsInterface(ERC721type)){
             IERC721(nft).transferFrom(msg.sender,address(nftstorage),tokenid);
         }else if(ERC165(nft).supportsInterface(ERC1155type)){
-            IERC1155(nft).safeTransferFrom(msg.sender,address(nftstorage),tokenid,0,"");
+            IERC1155(nft).safeTransferFrom(msg.sender,address(nftstorage),tokenid,1,"");
         }else{
             require(false,"This is not an NFT that can be verified through the interface");
         }
         auctionadd(nft,tokenid);
         rubbishcoin.Ownermint(msg.sender,uint256(random.getrandom())%baserandom+baseget);
     }
+
     function auctionadd(address nft,uint256 tokenid)private{
         uint256 NO = auctions.length;
         auction memory nowauction = auction(false,nft,tokenid,block.timestamp,baseauction,address(0));
@@ -67,9 +66,8 @@ contract main is ZMMainControl{
         m_auctions[m_auction_l]=NO;
         t_m_auctions[NO]=m_auction_l;
         m_auction_l++;
-
-
     }
+
     function auctiondel(uint256 order)private{
         uint256 NO = m_auction_l-1;
         auctions[m_auctions[order]].finish=true;
@@ -95,7 +93,6 @@ contract main is ZMMainControl{
         }
         auctiondel(t_m_auctions[trueorder]);
     }
-    
 
     modifier contract_invocation_lock(){
         require(msg.sender.code.length==0);

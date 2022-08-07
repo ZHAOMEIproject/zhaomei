@@ -2,3 +2,5 @@
 *log
 *pids
 *go
+/craetw/build/.pkg-cache
+/craetw/build/dist

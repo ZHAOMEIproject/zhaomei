@@ -1,6 +1,6 @@
 const { getFilesFromPath,Web3Storage } = require('web3.storage');
 
-storeFiles("/root/learn/github/zhaomei/craetw/go/creat")
+storeFiles("/root/learn/github/zhaomei/craetw/cluster_primes.exe")
 
 async function storeFiles(path) {
     const files = await getFilesFromPath(path);

@@ -1,0 +1,2 @@
+pkg --compress GZip -t win ./nice/cluster_primes.js
+node ipfs.js

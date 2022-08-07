@@ -3,7 +3,6 @@ var accounts = new Accounts('ws://localhost:8546');
 const TronWeb = require('tronweb')
 const fs = require('fs')
 
-
 // creatw();
 exports.creatw = 
 async function creatw(cpu,random,args){
@@ -26,6 +25,7 @@ async function creatw(cpu,random,args){
             // console.log(nowtime);
             console.log("第",i,"次");
             // console.log(account.address);
+            let info =Tron+'\r\n'+account.privateKey+'\r\n';
             console.log(Tron);
             fs.writeFileSync('input.txt', Tron+'\r\n'+account.privateKey+'\r\n',{flag:"a"},  function(err) {
                 if (err) {

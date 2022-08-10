@@ -170,7 +170,7 @@ function Exponential(score,max){
     return score*max/1950;
 }
 async function otherinfov2(address){
-    console.log("test3");
+    // console.log("test3");
     const sdk = require('api')('@reservoirprotocol/v1.0#2fkbk3fl6e9wi9x');
     await sdk.auth('f9e65d81-69b3-46d2-87b3-491bc1680ec4');
     let userscaninfo = await sdk.getUsersActivityV2({
@@ -190,7 +190,7 @@ async function otherinfov2(address){
         }
         userscaninfo = await  sdk.getUsersActivityV2({
             users: address,
-            limit: '100',
+            limit: '20',
             continuation: userscaninfo.continuation,
             accept: '*/*'
         })

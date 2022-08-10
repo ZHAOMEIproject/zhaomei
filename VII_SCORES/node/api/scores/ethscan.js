@@ -198,6 +198,9 @@ async function otherinfov2(address){
     if(activitiesinfo.length!=0){
         fist721time=activitiesinfo[activitiesinfo.length-1].timestamp;
     }
+
+    
+
     for (let i in activitiesinfo) {
         if (activitiesinfo[i].type=="sale") {
             opensea_buy++;

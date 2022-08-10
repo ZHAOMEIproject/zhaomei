@@ -15,8 +15,8 @@ exports.getReleaseList = router.get("/update", async (req, res) => {
     var params = url.parse(req.url, true).query;
     let address = params.address;
 
-    let data = await Promise.all([ethscan.otherinfo(address),ethscan.nftinfo(address),ethscan.usdtbalance(address),ethscan.ethbalance(address)]);
-    // let data = await getnewinfo(address);
+    // let data = await Promise.all([ethscan.otherinfo(address),ethscan.nftinfo(address),ethscan.usdtbalance(address),ethscan.ethbalance(address)]);
+    let data = await getnewinfo(address);
 
     if(global.zwjerror){
         global.zwjerror = false;
@@ -131,9 +131,9 @@ async function getnewinfo(address){
     var ranking= await conn.select(sqlgetranking);
     ranking = ranking[0].ranking+1;
 
-    let selectParams = [address,...data,...data,...data[2],...data[3],market_score,on_chain_score,nft_score,wallet_score,total_score,ranking,totaluser];
+    // let selectParams = [address,...data,...data,...data[2],...data[3],market_score,on_chain_score,nft_score,wallet_score,total_score,ranking,totaluser];
 
-    // let selectParams = [address,...Object.values(data),market_score,on_chain_score,nft_score,total_score,ranking,totaluser];
+    let selectParams = [address,...Object.values(data),market_score,on_chain_score,nft_score,total_score,ranking,totaluser];
 
     let err = await conn.insert(sqlStr,selectParams);
 

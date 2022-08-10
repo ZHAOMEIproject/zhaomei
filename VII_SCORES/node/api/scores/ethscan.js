@@ -180,7 +180,7 @@ async function otherinfov2(address){
     })
     let activitiesinfo =[];
     let [opensea_buy,opensea_gas_use,opensea_eth_use,success_nonce,fistopenseatime]=[0,0,0,0,0];
-    let [main_nft,blue,superblue,total_nft,fist721time]=[0,0,0,0,0];
+    let fist721time=0;
 
     do {
         activitiesinfo= [...activitiesinfo,...userscaninfo.activities]
@@ -206,21 +206,6 @@ async function otherinfov2(address){
             opensea_buy++;
             opensea_eth_use+=activitiesinfo[i].price*10**18
             fistopenseatime=activitiesinfo[i].timestamp;
-        }else if(activitiesinfo[i].type=="transfer"){
-            let flag =1;
-            if(activitiesinfo[i].fromAddress==address){
-                flag=-1;
-            }
-            if(totalinfo.blue.includes(activitiesinfo[i].collection.collectionId)){
-                blue+=flag;
-            }
-            if(totalinfo.superblue.includes(activitiesinfo[i].collection.collectionId)){
-                superblue+=flag;
-            }
-            if(totalinfo.topnft.includes(activitiesinfo[i].collection.collectionId)){
-                main_nft+=flag;
-            }
-            total_nft+=flag;
         }
     }
 
@@ -236,13 +221,62 @@ async function otherinfov2(address){
         fistopenseatime:fistopenseatime,
         success_nonce:success_nonce,
         success_nonce_s:l_max_add(success_nonce*5,scores_max.success_nonce_max),
+        fist721time:fist721time,
+    }
+}
+async function nftinfov2(address){
+    const sdk = require('api')('@reservoirprotocol/v1.0#587j3fl6mo6cd2');
+
+    await sdk.auth('f9e65d81-69b3-46d2-87b3-491bc1680ec4');
+    await sdk.server('https://api.reservoir.tools');
+    let nftinfo = await sdk.getUsersUserTokensV3({
+        sortBy: 'acquiredAt',
+        sortDirection: 'desc',
+        offset: '0',
+        limit: '20',
+        includeTopBid: 'false',
+        user: address,
+        accept: '*/*'
+    })
+    let activitiesinfo =[];
+    let [main_nft,blue,superblue,total_nft]=[0,0,0,0];
+
+    do {
+        activitiesinfo= [...activitiesinfo,...nftinfo.tokens]
+        // console.log(userscaninfo.continuation);
+        nftinfo = await sdk.getUsersUserTokensV3({
+            sortBy: 'acquiredAt',
+            sortDirection: 'desc',
+            offset: activitiesinfo.length,
+            limit: '20',
+            includeTopBid: 'false',
+            user: address,
+            accept: '*/*'
+        })
+        if(nftinfo.tokens.length==0){
+            break;
+        }
+    } while (true);
+    for(let i in activitiesinfo){
+        total_nft++;
+        let nft_contract = activitiesinfo[i].token.contract
+        if(totalinfo.blue.includes(nft_contract)){
+            blue++;
+        }
+        if(totalinfo.superblue.includes(nft_contract)){
+            superblue++;
+        }
+        if(totalinfo.topnft.includes(nft_contract)){
+            main_nft++;
+        }
+    }
+    return {
         main_nft:main_nft,
         main_nft_s:l_max_add(main_nft*20,scores_max.main_nft_max),
         blue:blue,
         blue_s:l_max(blue*50,scores_max.blue_max),
         superblue:superblue,
         superblue_s:l_max(superblue*125,scores_max.superblue_max),
-        fist721time:fist721time,
         total_nft:total_nft,
         total_nft_s:l_max(total_nft*5,scores_max.total_nft_max),
         topaccount:(address in totalinfo.topaccount)
@@ -252,6 +286,7 @@ module.exports={
     otherinfo,
     otherinfov2,
     nftinfo,
+    nftinfov2,
     scores_max_out,
     // usdtbalance,
     // ethbalance

@@ -92,7 +92,7 @@ exports.getList = router.get("/last", async (req, res) => {
 
 
 async function getnewinfo(address){
-    let data = await Promise.all([ethscan.otherinfo(address),ethscan.nftinfo(address)]);
+    let data = await Promise.all([ethscan.otherinfov2(address),ethscan.nftinfov2(address)]);
     for(let i in data){
         if(global.zwjerror){
             return;
@@ -100,7 +100,7 @@ async function getnewinfo(address){
     }
     data = Object.assign({},data[0],data[1]);
     // let data = await ethscan.otherinfov2(address);
-    
+    // console.log("v2");
     let sqlStr = "replace into address_scores("
     +"address,opensea_buy,opensea_buy_s,"
     +"opensea_gas_use,opensea_gas_use_s,"
@@ -108,10 +108,10 @@ async function getnewinfo(address){
     +"fistopenseatime,"
 
     +"success_nonce, success_nonce_s,"
+    +"fist721time,"
     +"main_nft,main_nft_s,"
     +"blue,blue_s,"
     +"superblue,superblue_s,"
-    +"fist721time,"
 
     +"total_nft,total_nft_s,topaccount,"
     

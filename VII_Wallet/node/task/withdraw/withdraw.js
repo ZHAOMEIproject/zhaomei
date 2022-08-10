@@ -2,6 +2,7 @@ const {getcontractinfo}=require('../../nodetool/readcontracts');
 const connection = require("../../nodetool/sqlconnection");
 const ethers = require('ethers');
 const secret = require('../../../../../privateinfo/.secret.json');
+const {sendEmail} = require("../../nodetool/email");
 // 查报错事件
 async function checkwithdrawevent(selectParams){
     let selsql = "SELECT * FROM withdraw where flag_withdraw ='F' and flag_now = 'S'";
@@ -72,7 +73,7 @@ exports.withdraw = async function withdraw(){
         console.log("success withdrawupdate");
     } catch (error) {
         console.log("withdraw error");
-        sendEmail("Wallet error","lot_Withdraw_permit");
+        // sendEmail("Wallet error","lot_Withdraw_permit");
     }
     return;
 }

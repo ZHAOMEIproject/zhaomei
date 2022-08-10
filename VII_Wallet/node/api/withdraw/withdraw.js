@@ -24,14 +24,15 @@ exports.postwithdraw = router.get("/postwithdraw", async (req, res) => {
     // check
     let checkservicenonce ="select servicenonce from withdraw ORDER BY servicenonce DESC LIMIT 0,1"
     let servicenonce = await conn.select(checkservicenonce,null)
-    if((servicenonce[0].nonce+1)!=params.servicenonce){
+    console.log(servicenonce[0].servicenonce+1,params.servicenonce);
+    if((servicenonce[0].servicenonce+1)!=params.servicenonce){
         res.send({
             success:false,
             data:{
                 error:"error servicenonce"
             }
         });
-        sendEmail("Wallet error","error servicenonce");
+        // sendEmail("Wallet error","error servicenonce");
         return;
     }
 

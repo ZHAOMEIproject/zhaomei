@@ -2,7 +2,7 @@
 // After the project starts, the scheduled task will be started in five seconds
 exports.taskStart = async function taskStart(){
     console.log(`Tasks start loading`);
-    await taskcheckerc721();
+    await taskscanblock();
 
     // await taskSyncchainscan();
     // setTimeout(function () {
@@ -10,10 +10,10 @@ exports.taskStart = async function taskStart(){
     // }, 0);
 }
 
-async function taskcheckerc721() {
-    console.log("task I   (20s)  ========>  taskSyncwithdraw ...");
-    const checkerc721 = require("./checkerc721/scan");
-    await checkerc721.scan();// 处理事件结果
+async function taskscanblock() {
+    console.log("task I   (20s)  ========>  taskscanblock ...");
+    const scanblock = require("./scanblock/main");
+    await scanblock.main();// 处理事件结果
 }
 
 // async function taskSyncchainscan() {

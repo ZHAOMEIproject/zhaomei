@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: AGPL
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -37,7 +37,7 @@ abstract contract withdraw is EIP712, otherinfo{
         nonce.increment();
     }
 
-    event e_Withdraw(address indexed sender,address indexed to,uint256 amount,uint256 nonce);
+    event e_Withdraw(address indexed sender,address indexed to,uint256 amount,uint256 nonce,bytes12 indexed orderid);
 
     struct _signvrs{
         address auditor;
@@ -47,25 +47,31 @@ abstract contract withdraw is EIP712, otherinfo{
         uint8 v;
         bytes32 r;
         bytes32 s;
+        bytes12 orderid;
     }
 
 
 
+    mapping(bytes12=>bool) public orderid;
     function Withdraw_permit_auditor (
         _signvrs memory signinfo
     ) public  onlyRole(WITHDRAW_ROLE) monitor_lock{
+        if(orderid[signinfo.orderid]){
+
+            return;
+        }
         uint256 deadline=signinfo.deadline;
         require(block.timestamp <= deadline, "VIIDER_Withdraw: expired deadline");
         address auditor=signinfo.auditor;
         address spender=signinfo.spender;
         uint256 amount=signinfo.amount;
         // 验证审核人员签名
-        emit e_Withdraw(auditor,spender,amount,_nonces[auditor].current());
+        emit e_Withdraw(auditor,spender,amount,_nonces[auditor].current(),signinfo.orderid);
         bytes32 structHash = keccak256(abi.encode(_PERMIT_TYPEHASH, auditor, spender, amount, _useNonce(auditor), deadline));
         bytes32 hash = _hashTypedDataV4(structHash);
         address signer = ECDSA.recover(hash, signinfo.v, signinfo.r, signinfo.s);
         require(signer == auditor, "VIIDER_Withdraw: auditor invalid signature");
-        
+        orderid[signinfo.orderid]=true;
         // 进行操作
         IERC20(token).transferFrom(add_withdraw,spender,amount);
     }
@@ -73,14 +79,16 @@ abstract contract withdraw is EIP712, otherinfo{
     struct _spenderinfo{
         address spender;
         uint256 amount;
+        bytes12 orderid;
     }
 
     function Withdraw_permit(
         _spenderinfo calldata spenderinfo
     ) public  onlyRole(WITHDRAW_ROLE) monitor_lock{
         require(spenderinfo.amount <= mini_amount, "VIIDER_Withdraw: error amount");
+        orderid[spenderinfo.orderid]=true;
         IERC20(token).transferFrom(add_withdraw,spenderinfo.spender,spenderinfo.amount);
-        emit e_Withdraw(msg.sender,spenderinfo.spender,spenderinfo.amount,_useNonce(msg.sender));
+        emit e_Withdraw(msg.sender,spenderinfo.spender,spenderinfo.amount,_useNonce(msg.sender),spenderinfo.orderid);
     }
     function lot_Withdraw_permit(
          _spenderinfo[] calldata spenderinfo

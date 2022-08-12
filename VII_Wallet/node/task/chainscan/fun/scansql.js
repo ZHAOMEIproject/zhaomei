@@ -100,9 +100,9 @@ async function scancontract(contractinfo){
             if(toBlock>now_blockNumber){
                 toBlock = now_blockNumber; // update toBlock
             }
-            // console.log(fromBlock,fromBlock+100);
-            let eventinfo = await web3Show.getContractEvents(contractinfo[i][j],fromBlock,now_blockNumber);
-            // console.log(eventinfo);
+            // console.log(fromBlock,toBlock);
+            let eventinfo = await web3Show.getContractEvents(contractinfo[i][j],fromBlock,toBlock);
+            // console.log("???",eventinfo);
             
             for(let k in eventinfo){
                 let sqleventinfo=[

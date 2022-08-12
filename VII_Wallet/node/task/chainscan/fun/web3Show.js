@@ -25,6 +25,8 @@ const getContractEvents = (info,from_timestamp,toBlock) =>{
             fromBlock: from_timestamp,
             toBlock: toBlock,
         }, function(error, result){
+            // console.log(error);
+            // console.log(result);
             resolve(result);
         })
     })

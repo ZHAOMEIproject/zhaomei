@@ -14,7 +14,7 @@ async function lockwithdrawevent(){
 }
 // 获取转账事件
 async function getwithdrawevent(){
-    let selsql = "SELECT auditor,spender,amount,deadline,sign_v,sign_r,sign_s FROM withdraw_auditor where flag_withdraw ='F' and flag_now = 'S'";
+    let selsql = "SELECT auditor,spender,amount,deadline,sign_v,sign_r,sign_s,orderid FROM withdraw_auditor where flag_withdraw ='F' and flag_now = 'S'";
     return await connection.select(selsql,null);
 }
 // 更新转账事件

@@ -45,6 +45,7 @@ exports.select = function select(selSql,selSqlParams){
         conn.query(selSql, selSqlParams, function (err, result) {
             if (err) {
                 console.log('[SELECT ERROR] - ', err.message,selSql);
+                reject('[SELECT ERROR] - ', err.message,selSql)
                 return;
             }
             let dataString = JSON.stringify(result);

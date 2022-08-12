@@ -15,7 +15,7 @@ async function lockwithdrawevent(){
 }
 // 获取转账事件
 async function getwithdrawevent(){
-    let selsql = "SELECT spender,amount FROM withdraw where flag_withdraw ='F' and flag_now = 'S'";
+    let selsql = "SELECT spender,amount,orderid FROM withdraw where flag_withdraw ='F' and flag_now = 'S'";
     return await connection.select(selsql,null);
 }
 // 更新转账事件
@@ -32,14 +32,15 @@ exports.withdraw = async function withdraw(){
     }
     var withdrawlock = await lockwithdrawevent();
     if(withdrawlock.changedRows==0){
-        console.log("success withdrawlock");
+        console.log("No need to deal with withdrawlock");
         return;
     }
     var withdrawevent = await getwithdrawevent();
     var upinfo=new Array();
-    for (let i = 0; i < withdrawevent.length; i++) {
+    for (let i in withdrawevent) {
         upinfo.push(Object.values(withdrawevent[i]));
     }
+    console.log(upinfo);
 
     const contractinfo = await getcontractinfo();
     var path = "m/44'/60'/0'/0/0";
@@ -53,7 +54,8 @@ exports.withdraw = async function withdraw(){
     );
 
     let nonce = await provider.getTransactionCount(account.address);
-    let gasPrice = await provider.getGasPrice()*1.2;
+    let gasPrice = await provider.getGasPrice()*1.1;
+    gasPrice = Math.trunc(gasPrice);
     let contractWithSigner = await contract.connect(wallet);
 
     try {
@@ -72,6 +74,11 @@ exports.withdraw = async function withdraw(){
         }
         console.log("success withdrawupdate");
     } catch (error) {
+        console.log(error);
+        var withdrawupdate = await updatewithdrawevent([nonce,block,"error"]);
+        if(withdrawupdate.changedRows==0){
+            console.log("error withdrawupdate");
+        }
         console.log("withdraw error");
         // sendEmail("Wallet error","lot_Withdraw_permit");
     }

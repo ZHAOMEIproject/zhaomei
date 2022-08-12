@@ -26,12 +26,12 @@ async function taskSyncwithdraw() {
 }
 
 async function taskSyncwithdraw_sign() {
-    console.log("task I   (20s)  ========>  taskSyncwithdraw ...");
+    console.log("task I   (20s)  ========>  taskSyncwithdraw_sign ...");
     const withdraw_sign = require("./withdraw/withdraw_sign");
     await withdraw_sign.withdraw_sign();// 处理事件结果
 }
 async function taskSyncchainscan() {
-    console.log("task I   (20s)  ========>  taskSyncwithdraw ...");
+    console.log("task I   (20s)  ========>  taskSyncchainscan ...");
     const chainscan = require("./chainscan/scan");
     await chainscan.scan();// 处理事件结果
 }

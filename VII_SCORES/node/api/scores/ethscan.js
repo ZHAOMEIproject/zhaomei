@@ -224,6 +224,12 @@ async function otherinfov2(address){
         fist721time:fist721time,
     }
 }
+
+let nftbalanceofabi=[{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"balanceOf","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"}]
+const web3 = require('web3');
+var web3js=new web3("https://api.mycryptoapi.com/eth");
+
+
 async function nftinfov2(address){
     const sdk = require('api')('@reservoirprotocol/v1.0#587j3fl6mo6cd2');
 
@@ -270,6 +276,9 @@ async function nftinfov2(address){
             main_nft++;
         }
     }
+    let contract = new web3js.eth.Contract(nftbalanceofabi,"0xb47e3cd837dDF8e4c57F05d70Ab865de6e193BBB");
+    let userbalanceof = await contract.methods.balanceOf(address).call();
+    superblue+=userbalanceof;
     return {
         main_nft:main_nft,
         main_nft_s:l_max_add(main_nft*20,scores_max.main_nft_max),

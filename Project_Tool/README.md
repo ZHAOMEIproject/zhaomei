@@ -3,7 +3,7 @@
 [Hardhat_Contract](./Hardhat_Contract)：合约的部署与测试  
 [Function](./Function)：项目业务逻辑和合约的交互接口   
 [Contract_info](./Hardhat_Contract/deployments/): 查看具体合约信息(newinfo为最新版)(network id，chain name，合约名称，abi，合约地址)  
-[operate](./Operate)： Opensea的运营管理。
+
 
 ## Tip
 * [项目框架](#项目框架)

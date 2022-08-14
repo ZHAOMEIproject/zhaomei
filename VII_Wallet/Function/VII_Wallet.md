@@ -11,18 +11,18 @@ Contract name: VII_FRAME.sol
 （postwithdrawsign）审核人员签名版。
 ### 后端接口
 1、服务器提交提现请求：
-http://154.91.156.113:10903/v1/withdraw/postwithdraw?servicenonce=2&spender=0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2&amount=10000&orderid="0x62f362b0c1202b1a7d8fe85c"
+http://154.91.156.113:10903/v1/withdraw/postwithdraw?spender=0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2&amount=10000&orderid="0x62f362b0c1202b1a7d8fe85c"
 
 |       |       |       |
 |   -------------   |   -------------   |   -------------   |
 | 参数  | 例子  | 说明  |
 | spender | 0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2  | 收款地址  |
 | amount  | 100 | 收款数量，需要传原值，如果传1个币，精度为18，则要传10**18 |
-| servicenonce  | 1 | 提交序号，预防重复提交或者是其他问题  |
+<!-- | servicenonce  | 1 | 提交序号，预防重复提交或者是其他问题  | -->
 | orderid  | 0x62f362b0c1202b1a7d8fe85c | 提交订单号，预防重复提交或者是其他问题  |
 
-2、获取服务器最新nonce:
-http://154.91.156.113:10903/v1/withdraw/getwithdrawnonce
+<!-- 2、获取服务器最新nonce:
+http://154.91.156.113:10903/v1/withdraw/getwithdrawnonce -->
 
 
 3、审核人员签名版提现接口：

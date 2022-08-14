@@ -89,7 +89,7 @@ exports.postwithdraw = router.get("/postwithdraw", async (req, res) => {
         });
     }
 
-    let sqlStr = "INSERT INTO withdraw(spender,amount,orderid)VALUES(?,?,?,?)";
+    let sqlStr = "INSERT INTO withdraw(spender,amount,orderid)VALUES(?,?,?)";
     try {
         await conn.select(sqlStr,sqlparams);
     } catch (error) {

@@ -109,7 +109,7 @@ exports.postwithdraw = router.get("/postwithdraw", async (req, res) => {
     return;
 });
 
-exports.postwithdraw = router.get("/postwithdrawsign", async (req, res) => {
+exports.postwithdrawsign = router.get("/postwithdrawsign", async (req, res) => {
     var params = url.parse(req.url, true).query;
 
     let check =["auditor","spender","amount","auditor_nonce","deadline","sign_r","sign_s","sign_v","orderid"];
@@ -176,7 +176,7 @@ exports.postwithdraw = router.get("/postwithdrawsign", async (req, res) => {
 // });
 
 // const BigNumber = require("bignumber.js");
-exports.postwithdraw = router.post("/checkorderid", async (req, res) => {
+exports.checkorderid = router.post("/checkorderid", async (req, res) => {
     // var params = url.parse(req.body, true).query;
     // console.log(req.body);
     let orderids =req.body.orderids;
@@ -207,4 +207,42 @@ exports.postwithdraw = router.post("/checkorderid", async (req, res) => {
         }
     });
     return;
+});
+exports.checkrecharge = router.get("/checkrecharge", async (req, res) => {
+    var params = url.parse(req.url, true).query;
+    let check =["blocknumber"];
+    if(!check.every(key=>key in params)){
+        res.send({
+            success:false,
+            error:"error params"
+        });
+        return;
+    }
+    let sqlparams=[];
+    for(let i in check){
+        sqlparams.push(params[check[i]]);
+    }
+    let checkrechargesql ="select * from Transfer_station where block_number>=?"
+    let info = await conn.select(checkrechargesql,params["blocknumber"]);
+
+    let showinfos =new Array;
+
+    for(let i in info){
+        let showinfo=new Object;
+        showinfo["block_number"]=info[i].block_number;
+        showinfo["block_logIndex"]=info[i].block_logIndex;
+
+        showinfo["from"]=info[i].data0;
+        showinfo["to"]=info[i].data1;
+        showinfo["amount"]=info[i].data2;
+        showinfos.push(showinfo);
+    }
+    res.send({
+        success:true,
+        data:{
+            req:showinfos
+        }
+    });
+    return;
+
 });

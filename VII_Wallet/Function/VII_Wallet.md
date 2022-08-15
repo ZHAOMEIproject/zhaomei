@@ -6,6 +6,7 @@ Contract name: VII_Wallet.sol
         * [审核人员签名版提现接口](#审核人员签名版提现接口)
         * [查询订单详情](#查询订单详情)
         * [获取查询签名接口](#查询签名的地址)
+        * [查询充值订单](#查询充值订单)
 * [前端业务逻辑](#前端业务逻辑)
     * [合约接口](#合约接口)
 
@@ -96,6 +97,13 @@ params输入的内容：[auditor,spender,amount,deadline,v,r,s],nonce
 5、获取一个签名例子
 签名地址是：0xC66f6B7814B886aA104573FCe17862c2ce906740  
 http://154.91.156.113:10903/v1/apigetsign/getsign?id=80001&contractname=mainwithdraw&params={"auditor":"0xC66f6B7814B886aA104573FCe17862c2ce906740","spender":"0xC66f6B7814B886aA104573FCe17862c2ce906740","amount":"1000","nonce":"100","deadline":"9999999999"}
+
+### 查询充值订单
+http://154.91.156.113:10903/v1/withdraw/checkrecharge?blocknumber=0
+
+查询block_number之后的订单。
+
+
 
 ## 前端业务逻辑
     1、获取审核人员授权nonce。

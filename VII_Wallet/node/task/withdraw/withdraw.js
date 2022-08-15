@@ -28,6 +28,7 @@ exports.withdraw = async function withdraw(){
     var withdrawcheck = await checkwithdrawevent();
     if(withdrawcheck.length>0){
         console.log("error withdrawcheck");
+        var withdrawupdate = await updatewithdrawevent(["error","error","error"]);
         return;
     }
     var withdrawlock = await lockwithdrawevent();
@@ -54,6 +55,7 @@ exports.withdraw = async function withdraw(){
     );
 
     let nonce = await provider.getTransactionCount(account.address);
+    let block = await provider.getBlockNumber()
     let gasPrice = await provider.getGasPrice()*1.1;
     gasPrice = Math.trunc(gasPrice);
     let contractWithSigner = await contract.connect(wallet);
@@ -65,7 +67,6 @@ exports.withdraw = async function withdraw(){
         // await tx.wait();
         // console.log(tx);
         
-        let block = await provider.getBlockNumber()
         var withdrawupdate = await updatewithdrawevent([nonce,block,tx.hash]);
         
         if(withdrawupdate.changedRows==0){
@@ -75,11 +76,7 @@ exports.withdraw = async function withdraw(){
         console.log("success withdrawupdate");
     } catch (error) {
         console.log(error);
-        let block = await provider.getBlockNumber()
-        var withdrawupdate = await updatewithdrawevent([nonce,block,"error"]);
-        if(withdrawupdate.changedRows==0){
-            console.log("error withdrawupdate");
-        }
+        var withdrawupdate = await updatewithdrawevent(["error","error","error"]);
         console.log("withdraw error");
         // sendEmail("Wallet error","lot_Withdraw_permit");
     }

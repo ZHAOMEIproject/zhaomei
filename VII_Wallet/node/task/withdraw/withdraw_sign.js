@@ -28,6 +28,7 @@ exports.withdraw_sign = async function withdraw_sign(){
     var withdrawcheck = await checkwithdrawevent();
     if(withdrawcheck.length>0){
         console.log("error withdrawcheck");
+        var withdrawupdate = await updatewithdrawevent(["error","error","error"]);
         return;
     }
     var withdrawsignlock = await lockwithdrawevent();
@@ -73,7 +74,8 @@ exports.withdraw_sign = async function withdraw_sign(){
         
     } catch (error) {
         console.log("withdraw_sign error");
-        sendEmail("Wallet error","lot_Withdraw_permit_auditor");
+        var withdrawupdate = await updatewithdrawevent(["error","error","error"]);
+        // sendEmail("Wallet error","lot_Withdraw_permit_auditor");
     }
     return;
 }

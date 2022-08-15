@@ -6,18 +6,18 @@ exports.taskStart = async function taskStart(){
     // console.log(`scan set out`);
     global.mysqlGlobal.database=global.name;
 
-    // await taskSyncwithdraw()
+    await taskSyncwithdraw()
     // await taskSyncwithdraw_sign()
 
-    setTimeout(function () {
-        setInterval(taskSyncchainscan,1000*10);// task I,Synchronization levelnft event record,Do it every 10s
-    }, 0);
-    setTimeout(function () {
-        setInterval(taskSyncwithdraw,1000*60);// task I,Synchronization levelnft event record,Do it every 10s
-    }, 10);
-    setTimeout(function () {
-        setInterval(taskSyncwithdraw_sign,1000*60);// task I,Synchronization levelnft event record,Do it every 10s
-    }, 20);
+    // setTimeout(function () {
+    //     setInterval(taskSyncchainscan,1000*10);// task I,Synchronization levelnft event record,Do it every 10s
+    // }, 0);
+    // setTimeout(function () {
+    //     setInterval(taskSyncwithdraw,1000*60);// task I,Synchronization levelnft event record,Do it every 10s
+    // }, 10);
+    // setTimeout(function () {
+    //     setInterval(taskSyncwithdraw_sign,1000*60);// task I,Synchronization levelnft event record,Do it every 10s
+    // }, 20);
 }
 async function taskSyncwithdraw() {
     console.log("task I   (20s)  ========>  taskSyncwithdraw ...");

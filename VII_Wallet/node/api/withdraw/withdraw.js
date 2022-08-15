@@ -126,7 +126,7 @@ exports.postwithdraw = router.get("/postwithdrawsign", async (req, res) => {
     }
 
     let checkorderid ="select orderid from withdraw_auditor where orderid=?"
-    let orderidsql = await conn.select(checkorderid,params[orderid])
+    let orderidsql = await conn.select(checkorderid,params["orderid"])
     if(orderidsql.length!=0){
         res.send({
             success:true,
@@ -135,6 +135,7 @@ exports.postwithdraw = router.get("/postwithdrawsign", async (req, res) => {
             }
         });
     }
+    
 
     let sqlStr = "INSERT INTO withdraw_auditor("+
     "auditor,spender,amount,auditor_nonce,deadline,sign_r,sign_s,sign_v,orderid)VALUES("+

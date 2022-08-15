@@ -75,6 +75,7 @@ exports.withdraw = async function withdraw(){
         console.log("success withdrawupdate");
     } catch (error) {
         console.log(error);
+        let block = await provider.getBlockNumber()
         var withdrawupdate = await updatewithdrawevent([nonce,block,"error"]);
         if(withdrawupdate.changedRows==0){
             console.log("error withdrawupdate");

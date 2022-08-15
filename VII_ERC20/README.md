@@ -1,4 +1,4 @@
-# Vii_ERC20: Subproject of viide, An ERC20 project using agency contracts.
+# Vii_ERC20: Subproject of vii, An ERC20 project using agency contracts.
 [更新](./update): 更新时间 v0.1 2022/05/10 16:16  
 [Hardhat_Contract](./Hardhat_Contract)：合约的部署与测试  
 [Function](./Function)：项目业务逻辑和合约的交互接口   

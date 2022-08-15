@@ -1,31 +1,35 @@
 # Contract Function
-Contract name: VII_FRAME.sol
+Contract name: VII_Wallet.sol
 * [BACK业务逻辑](#BACK业务逻辑)
     * [后端接口](#后端接口)
+        * [服务器提交提现请求](#服务器提交提现请求)
+        * [审核人员签名版提现接口](#审核人员签名版提现接口)
+        * [查询订单详情](#查询订单详情)
+        * [获取查询签名接口](#查询签名的地址)
 * [前端业务逻辑](#前端业务逻辑)
     * [合约接口](#合约接口)
 
 ## BACK业务逻辑
-1、getwithdrawnonce获取服务器nonce。
-2、postwithdraw提交提现请求。
+1、postwithdraw提交提现请求。
 （postwithdrawsign）审核人员签名版。
 ### 后端接口
-1、服务器提交提现请求：
-http://154.91.156.113:10903/v1/withdraw/postwithdraw?servicenonce=2&spender=0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2&amount=10000&orderid="0x62f362b0c1202b1a7d8fe85c"
+
+### 服务器提交提现请求
+http://154.91.156.113:10903/v1/withdraw/postwithdraw?spender=0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2&amount=10000&orderid="0x62f362b0c1202b1a7d8fe85c"
 
 |       |       |       |
 |   -------------   |   -------------   |   -------------   |
 | 参数  | 例子  | 说明  |
 | spender | 0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2  | 收款地址  |
 | amount  | 100 | 收款数量，需要传原值，如果传1个币，精度为18，则要传10**18 |
-| servicenonce  | 1 | 提交序号，预防重复提交或者是其他问题  |
+<!-- | servicenonce  | 1 | 提交序号，预防重复提交或者是其他问题  | -->
 | orderid  | 0x62f362b0c1202b1a7d8fe85c | 提交订单号，预防重复提交或者是其他问题  |
 
-2、获取服务器最新nonce:
-http://154.91.156.113:10903/v1/withdraw/getwithdrawnonce
+<!-- 2、获取服务器最新nonce:
+http://154.91.156.113:10903/v1/withdraw/getwithdrawnonce -->
 
 
-3、审核人员签名版提现接口：
+### 审核人员签名版提现接口
 http://154.91.156.113:10903/v1/withdraw/postwithdrawsign?auditor=0xC66f6B7814B886aA104573FCe17862c2ce906740&spender=0xd7B74f2133C011110a7A38038fFF30bDc9ACe6d1&amount=1000&auditor_nonce=2&sign_v=28&sign_r=0xd65802cb772a0ae078ba4d0b69056e55b2e775e962f413549c8cf8a2d22b7778&sign_s=0x642b063113ec9f89343e2920e7508e0620b1f38efc0379af8c0770b9d0275008&deadline=9999999999&orderid="0x62f362b0c1202b1a7d8fe85c"
 
 |       |       |       |
@@ -41,7 +45,7 @@ http://154.91.156.113:10903/v1/withdraw/postwithdrawsign?auditor=0xC66f6B7814B88
 | sign_v  | 0x6a0f776ba03b9462828e6824eb7dc9df1426ea376b5f2d3ee2473bcb53718e33  | 签名的v |
 | orderid  | 0x62f362b0c1202b1a7d8fe85c | 提交订单号，预防重复提交或者是其他问题  |
 
-4、查询订单详情
+### 查询订单详情
 http://154.91.156.113:10903/v1/withdraw/checkorderid
 
 post  
@@ -73,7 +77,7 @@ post
 ]
 ```
 
-5、查询签名的地址
+### 查询签名的地址
 http://154.91.156.113:10903/v1/contractapi/read?id=80001&contractname=mainwithdraw&fun=signcheck&params=[["0xC66f6B7814B886aA104573FCe17862c2ce906740","0xC66f6B7814B886aA104573FCe17862c2ce906740","1000","9999999999","28","0xa46083a905d136486f511b08692b2f8741f3d9ef692b36e7b85725dbdafe5e41","0x2a2466d10cf80acc260482dd228336e0996d8ccbabd69bce359f66bd8ad0584d"],0]  
 params输入的内容：[auditor,spender,amount,deadline,v,r,s],nonce
 
@@ -89,7 +93,7 @@ params输入的内容：[auditor,spender,amount,deadline,v,r,s],nonce
 | sign_v  | 0x6a0f776ba03b9462828e6824eb7dc9df1426ea376b5f2d3ee2473bcb53718e33  | 签名的v |
 | nonce  | 1 | 审核人员审核序号，预防重复提交或者是其他问题  |
 
-6、获取一个签名例子
+5、获取一个签名例子
 签名地址是：0xC66f6B7814B886aA104573FCe17862c2ce906740  
 http://154.91.156.113:10903/v1/apigetsign/getsign?id=80001&contractname=mainwithdraw&params={"auditor":"0xC66f6B7814B886aA104573FCe17862c2ce906740","spender":"0xC66f6B7814B886aA104573FCe17862c2ce906740","amount":"1000","nonce":"100","deadline":"9999999999"}
 

@@ -39,7 +39,7 @@ const {sendEmail} = require("../../nodetool/email");
 //                 servicenonce:servicenonce[0].servicenonce
 //             }
 //         });
-//         sendEmail("Wallet:servicenonce error","error servicenonce");
+//         // sendEmail("Wallet:servicenonce error","error servicenonce");
 //         return;
 //     }
 
@@ -53,7 +53,7 @@ const {sendEmail} = require("../../nodetool/email");
 //                 error:error
 //             }
 //         });
-//         sendEmail("Wallet:orderid error ","error orderid");
+//         // sendEmail("Wallet:orderid error ","error orderid");
 //         return;
 //     }
 
@@ -99,7 +99,7 @@ exports.postwithdraw = router.get("/postwithdraw", async (req, res) => {
                 error:error
             }
         });
-        sendEmail("Wallet:orderid error ","error orderid");
+        // sendEmail("Wallet:orderid error ","error orderid");
         return;
     }
 
@@ -149,7 +149,7 @@ exports.postwithdrawsign = router.get("/postwithdrawsign", async (req, res) => {
                 error:error
             }
         });
-        sendEmail("Wallet:sign orderid error ","error orderid");
+        // sendEmail("Wallet:sign orderid error ","error orderid");
         return;
     }
 

@@ -47,10 +47,29 @@ exports.contractapi = router.get("/read", async (req, res) => {
     );
     let contractWithSigner = contract.connect(wallet);
     let tx;
-    if(params.params.length>0){
-        tx = await contractWithSigner[params.fun](...params.params);
-    }else{
-        tx = await contractWithSigner[params.fun]();
+    // console.log(contract);
+    try {
+        if(params.params.length>0){
+            // tx = await contractWithSigner[params.fun](...params.params);
+            tx = await contractWithSigner[params.fun](...params.params);
+        }else{
+            tx = await contractWithSigner[params.fun]();
+        }
+        // if(params.params.length>0){
+        //     // tx = await contractWithSigner[params.fun](...params.params);
+        //     tx = await contractWithSigner.estimateGas[params.fun](...params.params);
+        // }else{
+        //     tx = await contractWithSigner.estimateGas[params.fun]();
+        // }
+    } catch (error) {
+        console.log(error);
+        res.send({
+            success:false,
+            account:account.address,
+            data:{
+                result:tx
+            },
+        });
     }
     
     

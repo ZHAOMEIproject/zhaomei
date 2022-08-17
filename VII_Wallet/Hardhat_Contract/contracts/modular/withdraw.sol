@@ -57,7 +57,6 @@ abstract contract withdraw is EIP712, otherinfo{
         _signvrs memory signinfo
     ) public  onlyRole(WITHDRAW_ROLE) monitor_lock{
         if(orderid[signinfo.orderid]){
-
             return;
         }
         uint256 deadline=signinfo.deadline;
@@ -86,6 +85,9 @@ abstract contract withdraw is EIP712, otherinfo{
         _spenderinfo calldata spenderinfo
     ) public  onlyRole(WITHDRAW_ROLE) monitor_lock{
         require(spenderinfo.amount <= mini_amount, "vii_Withdraw: error amount");
+        if(orderid[signinfo.orderid]){
+            return;
+        }
         orderid[spenderinfo.orderid]=true;
         IERC20(token).transferFrom(add_withdraw,spenderinfo.spender,spenderinfo.amount);
         emit e_Withdraw(msg.sender,spenderinfo.spender,spenderinfo.amount,_useNonce(msg.sender),spenderinfo.orderid);

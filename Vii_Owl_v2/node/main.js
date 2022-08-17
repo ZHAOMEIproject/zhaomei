@@ -11,12 +11,12 @@ function start_test(){
     console.log("start_dev ing")
     // setinfo = require("../../../privateinfo/.secret_official.json");
     setinfo = require("../../../privateinfo/.secret.json");
-    node_info = setinfo.Vii_Owl_v2_NODE;
+    node_info = setinfo.VII_Owl_v2_NODE;
     host = node_info.host;
     port = node_info.port;
     global.mysqlGlobal = setinfo.ROOT_SQL;
     global.zwjerror = false;
-    global.name ="Vii_Owl_v2";
+    global.name ="VII_Owl_v2";
 }
 // // Arouse the swagger
 // const swagger = require("./nodetool/swagger");
@@ -34,6 +34,6 @@ service.serviceConfig(app,host,port);
 const restApi = require("./api/restApi");
 restApi.restApiConfig(app);
 
-// Arouse the task
-const timingTask = require("./task/timing-task");
-timingTask.taskStart();
+// // Arouse the task
+// const timingTask = require("./task/timing-task");
+// timingTask.taskStart();

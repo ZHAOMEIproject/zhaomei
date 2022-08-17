@@ -89,6 +89,7 @@ async function otherinfo(address){
 }
 
 async function nftinfo(address){
+    address=address.toLowerCase();
     let nftinfo = await ScanApi("https://api.etherscan.io/api?module=account&action=tokennfttx&sort=asc"
     +"&apikey=7FYH9WPWUNJYUEK7992KHGFHI6W1B8EMAK&address="
     +address
@@ -120,13 +121,13 @@ async function nftinfo(address){
     }
 
     return {
+        fist721time:fist721time,
         main_nft:main_nft,
         main_nft_s:l_max_add(main_nft*20,scores_max.main_nft_max),
         blue:blue,
         blue_s:l_max(blue*50,scores_max.blue_max),
         superblue:superblue,
         superblue_s:l_max(superblue*125,scores_max.superblue_max),
-        fist721time:fist721time,
         total_nft:total_nft,
         total_nft_s:l_max(total_nft*5,scores_max.total_nft_max),
         topaccount:(address in totalinfo.topaccount)
@@ -178,7 +179,7 @@ async function otherinfov2(address){
         limit: '20',
         accept: '*/*'
     })
-    let activitiesinfo =[];
+    let activitiesinfo = [];
     let [opensea_buy,opensea_gas_use,opensea_eth_use,success_nonce,fistopenseatime]=[0,0,0,0,0];
     let fist721time=0;
 

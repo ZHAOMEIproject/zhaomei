@@ -1,5 +1,5 @@
 (eth版)  
-# VII_Order: Subproject of vii, 订单处理。  
+# VII_Wallet: Subproject of vii, 充提。  
 [更新](./update): 更新时间 v0.1 2022/05/10 16:16  
 [Hardhat_Contract](./Hardhat_Contract)：合约的部署与测试  
 [Function](./Function)：项目业务逻辑和合约的交互接口  

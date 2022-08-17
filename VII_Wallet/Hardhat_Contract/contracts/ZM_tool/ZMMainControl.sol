@@ -15,7 +15,6 @@ abstract contract ZMMainControl is AccessControl {
         _grantRole(DEFAULT_ADMIN_ROLE, admin);
         _grantRole(MANAGE_ROLE, manage);
         _grantRole(MONITOR_ROLE, monitor);
-        
     }
 
     modifier monitor_lock(){

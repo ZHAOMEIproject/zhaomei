@@ -57,11 +57,10 @@ abstract contract withdraw is EIP712, otherinfo{
         _signvrs memory signinfo
     ) public  onlyRole(WITHDRAW_ROLE) monitor_lock{
         if(orderid[signinfo.orderid]){
-
             return;
         }
         uint256 deadline=signinfo.deadline;
-        require(block.timestamp <= deadline, "VIIDER_Withdraw: expired deadline");
+        require(block.timestamp <= deadline, "vii_Withdraw: expired deadline");
         address auditor=signinfo.auditor;
         address spender=signinfo.spender;
         uint256 amount=signinfo.amount;
@@ -70,7 +69,7 @@ abstract contract withdraw is EIP712, otherinfo{
         bytes32 structHash = keccak256(abi.encode(_PERMIT_TYPEHASH, auditor, spender, amount, _useNonce(auditor), deadline));
         bytes32 hash = _hashTypedDataV4(structHash);
         address signer = ECDSA.recover(hash, signinfo.v, signinfo.r, signinfo.s);
-        require(signer == auditor, "VIIDER_Withdraw: auditor invalid signature");
+        require(signer == auditor, "vii_Withdraw: auditor invalid signature");
         orderid[signinfo.orderid]=true;
         // 进行操作
         IERC20(token).transferFrom(add_withdraw,spender,amount);
@@ -85,7 +84,10 @@ abstract contract withdraw is EIP712, otherinfo{
     function Withdraw_permit(
         _spenderinfo calldata spenderinfo
     ) public  onlyRole(WITHDRAW_ROLE) monitor_lock{
-        require(spenderinfo.amount <= mini_amount, "VIIDER_Withdraw: error amount");
+        require(spenderinfo.amount <= mini_amount, "vii_Withdraw: error amount");
+        if(orderid[signinfo.orderid]){
+            return;
+        }
         orderid[spenderinfo.orderid]=true;
         IERC20(token).transferFrom(add_withdraw,spenderinfo.spender,spenderinfo.amount);
         emit e_Withdraw(msg.sender,spenderinfo.spender,spenderinfo.amount,_useNonce(msg.sender),spenderinfo.orderid);

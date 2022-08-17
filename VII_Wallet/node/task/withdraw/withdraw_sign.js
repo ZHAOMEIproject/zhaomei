@@ -28,6 +28,7 @@ exports.withdraw_sign = async function withdraw_sign(){
     var withdrawcheck = await checkwithdrawevent();
     if(withdrawcheck.length>0){
         console.log("error withdrawcheck");
+        var withdrawupdate = await updatewithdrawevent(["error","error","error"]);
         return;
     }
     var withdrawsignlock = await lockwithdrawevent();
@@ -37,7 +38,7 @@ exports.withdraw_sign = async function withdraw_sign(){
     }
     var withdrawevent = await getwithdrawevent();
     var upinfo=new Array();
-    for (let i = 0; i < withdrawevent.length; i++) {
+    for (let i in withdrawevent) {
         upinfo.push(Object.values(withdrawevent[i]));
     }
 
@@ -54,9 +55,11 @@ exports.withdraw_sign = async function withdraw_sign(){
 
     let nonce = await provider.getTransactionCount(account.address);
     let gasPrice = await provider.getGasPrice()*1.2;
+    gasPrice = Math.trunc(gasPrice);
     let contractWithSigner = await contract.connect(wallet);
 
     try {
+        // console.log(contractWithSigner);
         await contractWithSigner.estimateGas.lot_Withdraw_permit_auditor(upinfo);
         let tx = await contractWithSigner.lot_Withdraw_permit_auditor(upinfo,{ gasPrice: gasPrice});
         // console.log(tx.hash);
@@ -72,8 +75,10 @@ exports.withdraw_sign = async function withdraw_sign(){
         console.log("success withdrawupdate");
         
     } catch (error) {
+        console.log(error)
         console.log("withdraw_sign error");
-        sendEmail("Wallet error","lot_Withdraw_permit_auditor");
+        var withdrawupdate = await updatewithdrawevent(["error","error","error"]);
+        // sendEmail("Wallet error","lot_Withdraw_permit_auditor");
     }
     return;
 }

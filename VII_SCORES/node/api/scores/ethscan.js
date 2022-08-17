@@ -202,7 +202,7 @@ async function otherinfov2(address){
     
 
     for (let i in activitiesinfo) {
-        if (activitiesinfo[i].type=="sale") {
+        if (activitiesinfo[i].type=="ask") {
             opensea_buy++;
             opensea_eth_use+=activitiesinfo[i].price*10**18
             fistopenseatime=activitiesinfo[i].timestamp;

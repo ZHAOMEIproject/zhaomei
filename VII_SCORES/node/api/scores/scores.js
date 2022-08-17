@@ -93,10 +93,8 @@ exports.getList = router.get("/last", async (req, res) => {
 
 async function getnewinfo(address){
     let data = await Promise.all([ethscan.otherinfo(address),ethscan.nftinfo(address)]);
-    for(let i in data){
-        if(global.zwjerror){
-            return;
-        }
+    if(global.zwjerror){
+        return;
     }
     data = Object.assign({},data[0],data[1]);
     // let data = await ethscan.otherinfov2(address);

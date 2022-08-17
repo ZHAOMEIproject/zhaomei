@@ -202,9 +202,9 @@ async function otherinfov2(address){
     
 
     for (let i in activitiesinfo) {
-        if (activitiesinfo[i].type=="ask") {
+        if (activitiesinfo[i].type=="sale") {
             opensea_buy++;
-            opensea_eth_use+=activitiesinfo[i].price*10**18
+            opensea_eth_use= opensea_eth_use + (activitiesinfo[i].price*10**18)
             fistopenseatime=activitiesinfo[i].timestamp;
         }
     }
@@ -293,8 +293,8 @@ async function nftinfov2(address){
 }
 module.exports={
     otherinfo,
-    otherinfov2,
     nftinfo,
+    otherinfov2,
     nftinfov2,
     scores_max_out,
     // usdtbalance,

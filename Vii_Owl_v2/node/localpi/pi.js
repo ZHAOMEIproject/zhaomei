@@ -15,9 +15,10 @@ async function main(){
     let reinfo = await mysqlconn.sqlcall(sql,null);
     // console.log(reinfo);
     let sign_info={
-        
+        "id":80001,
+        "contractname":"VII_OWL"
     }
     for(let i in reinfo){
-
+        getsign(sign_info.id,sign_info.contractname,)
     }
 }

@@ -2,7 +2,7 @@ const { keccak256, defaultAbiCoder, toUtf8Bytes, solidityPack } = require('ether
 // const { BigNumberish } = require('ethers');
 
 const PERMIT_TYPEHASH = keccak256(
-  toUtf8Bytes("PermitMint(address gainer,uint256 nonce,uint256 typemint,uint256 deadline)")
+  toUtf8Bytes("PermitMint(address gainer,uint256 typemint,uint256 deadline,uint256 nonce)")
 )
 
 // Returns the EIP712 hash which should be signed by the user

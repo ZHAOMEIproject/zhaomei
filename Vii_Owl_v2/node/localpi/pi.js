@@ -24,12 +24,18 @@ async function main(){
         contractname:"VII_OWL",
         fun:"signcheck"
     }
+    let check =["address","typemint","deadline"];
+
     for(let i in rqinfo){
         console.log(rqinfo[i]);
-        let values = Object.values(rqinfo[i]);
-        let sign_rq = await getsign(sign_info.id,sign_info.contractname,values)
+        let input = new Array();
+        for(let j in check){
+            input.push(rqinfo[i][check[j]]);
+        }
+
+        let sign_rq = await getsign(sign_info.id,sign_info.contractname,[...input,rqinfo[i].nonce])
         console.log(sign_rq);
-        params["params"]=[[...values,...Object.values(sign_rq)]]
+        params["params"]=[[...input,...Object.values(sign_rq)],rqinfo[i].nonce]
         let result = await readcontracts(params);
         console.log(result);
         

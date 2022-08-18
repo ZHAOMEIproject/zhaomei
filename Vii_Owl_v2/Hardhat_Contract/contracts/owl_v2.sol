@@ -51,7 +51,7 @@ contract VII_OWL is ERC721, Ownable, EIP712{
     }
 
     bytes32 public constant _PERMIT_TYPEHASH =
-        keccak256("PermitMint(address gainer,uint256 nonce,uint256 typemint,uint256 deadline)");
+        keccak256("PermitMint(address gainer,uint256 typemint,uint256 deadline,uint256 nonce)");
 
     struct _signvrs{
         address gainer;
@@ -67,7 +67,7 @@ contract VII_OWL is ERC721, Ownable, EIP712{
         address gainer = signinfo.gainer;
         uint256 deadline = signinfo.deadline;
         uint256 typemint = signinfo.typemint;
-        bytes32 structHash = keccak256(abi.encode(_PERMIT_TYPEHASH, gainer,nonce,typemint,deadline));
+        bytes32 structHash = keccak256(abi.encode(_PERMIT_TYPEHASH, gainer,typemint,deadline,nonce));
         bytes32 hash = _hashTypedDataV4(structHash);
         return ECDSA.recover(hash, signinfo.v, signinfo.r, signinfo.s);
     }

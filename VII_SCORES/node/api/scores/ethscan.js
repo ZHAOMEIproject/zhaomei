@@ -152,7 +152,7 @@ async function nftinfo(address){
 // }
 
 function l_max(score,max){
-    return Exponential(score,max);;
+    return parseInt(Exponential(score,max));
 }
 function l_max_add(score,max){
     if(score>0){

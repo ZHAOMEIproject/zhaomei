@@ -51,9 +51,10 @@ contract VII_OWL is ERC721, Ownable, EIP712{
     }
 
     bytes32 public constant _PERMIT_TYPEHASH =
-        keccak256("PermitMint(address gainer,uint256 nonce)");
+        keccak256("PermitMint(address gainer,uint256 nonce,uint256 typemint,uint256 deadline)");
 
     struct _signvrs{
+        address gainer;
         uint256 nonce;
         uint256 typemint;
         uint256 deadline;
@@ -63,14 +64,14 @@ contract VII_OWL is ERC721, Ownable, EIP712{
     }
 
 
-    function checkPermitMint(_signvrs calldata signinfo)public view returns(bool){
+    function signcheck(_signvrs calldata signinfo)public view returns(address signer){
+        address gainer = signinfo.gainer;
         uint256 nonce = signinfo.nonce;
         uint256 deadline = signinfo.deadline;
-        bytes32 structHash = keccak256(abi.encode(_PERMIT_TYPEHASH, msg.sender,nonce,deadline));
+        uint256 typemint = signinfo.typemint;
+        bytes32 structHash = keccak256(abi.encode(_PERMIT_TYPEHASH, gainer,nonce,typemint,deadline));
         bytes32 hash = _hashTypedDataV4(structHash);
-        address signer = ECDSA.recover(hash, signinfo.v, signinfo.r, signinfo.s);
-        require(signer == owner(), "vii_Withdraw: auditor invalid signature");
-        return true;
+        return ECDSA.recover(hash, signinfo.v, signinfo.r, signinfo.s);
     }
 
     mapping(address => Counters.Counter) private _nonces;
@@ -84,8 +85,9 @@ contract VII_OWL is ERC721, Ownable, EIP712{
     }
     
     function FreeMint(_signvrs calldata signinfo)public{
+        require(signinfo.deadline<block.timestamp,"time out");
         require(block.timestamp>opentime,"It's not time to mint");
-        checkPermitMint(signinfo);
+        require(owner()==signcheck(signinfo),"error signature");
         
         if(signinfo.typemint==0){
             require(block.timestamp<limit_time,"The restricted pool has timed out and the mintable tokens have been moved to the snap up pool");
@@ -104,7 +106,7 @@ contract VII_OWL is ERC721, Ownable, EIP712{
         }
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
-        _mint(msg.sender,tokenId);
+        _mint(signinfo.gainer,tokenId);
     }
     mapping(address=>uint256) public locktime;
     event locknft(address indexed owner,uint256 indexed tokenId,uint256 time,uint256 endtime);
@@ -123,7 +125,10 @@ contract VII_OWL is ERC721, Ownable, EIP712{
         address from,
         address to,
         uint256 tokenId
-    ) internal override{
+    ) internal view override{
+        from;
+        to;
+        tokenId;
         require(locktime[msg.sender]<block.timestamp,"lock time");
         
     }

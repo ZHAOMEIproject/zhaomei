@@ -49,3 +49,11 @@ ownerOf(uint256 tokenid).call                       //读取拥有tokenid的钱�
 ### 后端接口
 待定接口A  
 待定接口B  
+
+1、输出签名的地址  
+http://154.91.156.113:10909/v1/contractapi/read?id=80001&contractname=VII_OWL&fun=signcheck&params=[["0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2","0","0","9999999999","28","0x8ca02070e2e07c9f2c8de396381d981686d2753cd6534d2dbfce1840121eae77","0x5902e5739a6266d90f1bb37bfbf3bd6a63c1511403ef4f55664920bfff9989f6"]]  
+
+2、获取一个签名例子
+签名地址是：0xC66f6B7814B886aA104573FCe17862c2ce906740  
+http://154.91.156.113:10909/v1/apigetsign/getsign?id=80001&contractname=VII_OWL&params={"gainer":"0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2","nonce":"0","typemint":"0","deadline":"9999999999"}
+

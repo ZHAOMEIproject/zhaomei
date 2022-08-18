@@ -31,6 +31,16 @@ exports.contractapi = router.get("/read", async (req, res) => {
         return;
     }
     params.params= JSON.parse(params.params);
+    let result = await readcontracts(params)
+    
+    
+    res.send({
+        ...result
+    });
+    return;
+});
+
+async function readcontracts(params){
     let id = params.id;
     let contractname = params.contractname;
 
@@ -47,48 +57,39 @@ exports.contractapi = router.get("/read", async (req, res) => {
     );
     let contractWithSigner = contract.connect(wallet);
     let tx;
-    // console.log(contract);
+
     try {
         if(params.params.length>0){
-            // tx = await contractWithSigner[params.fun](...params.params);
             tx = await contractWithSigner[params.fun](...params.params);
         }else{
             tx = await contractWithSigner[params.fun]();
         }
-        // if(params.params.length>0){
-        //     // tx = await contractWithSigner[params.fun](...params.params);
-        //     tx = await contractWithSigner.estimateGas[params.fun](...params.params);
-        // }else{
-        //     tx = await contractWithSigner.estimateGas[params.fun]();
-        // }
     } catch (error) {
         console.log(error);
-        res.send({
+        return {
             success:false,
             account:account.address,
             data:{
                 result:tx
             },
-        });
+        }
+        // res.send({
+        //     success:false,
+        //     account:account.address,
+        //     data:{
+        //         result:tx
+        //     },
+        // });
     }
     
-    
-    res.send({
+    return {
         success:true,
         account:account.address,
         data:{
             result:tx
         },
-    });
-
-    // params.params= JSON.parse(params.params);
-    // console.log(...(params.params));
-    // res.send({
-    //     success:true,
-    //     data:{
-    //         result:params.params,
-    //         tx:params.params,
-    //     },
-    // });
-    return;
-});
+    }
+}
+module.exports = {
+    readcontracts
+}

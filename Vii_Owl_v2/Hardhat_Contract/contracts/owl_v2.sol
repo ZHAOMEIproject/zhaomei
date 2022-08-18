@@ -55,7 +55,6 @@ contract VII_OWL is ERC721, Ownable, EIP712{
 
     struct _signvrs{
         address gainer;
-        uint256 nonce;
         uint256 typemint;
         uint256 deadline;
         uint8 v;
@@ -64,9 +63,8 @@ contract VII_OWL is ERC721, Ownable, EIP712{
     }
 
 
-    function signcheck(_signvrs calldata signinfo)public view returns(address signer){
+    function signcheck(_signvrs calldata signinfo,uint256 nonce)public view returns(address signer){
         address gainer = signinfo.gainer;
-        uint256 nonce = signinfo.nonce;
         uint256 deadline = signinfo.deadline;
         uint256 typemint = signinfo.typemint;
         bytes32 structHash = keccak256(abi.encode(_PERMIT_TYPEHASH, gainer,nonce,typemint,deadline));
@@ -87,7 +85,8 @@ contract VII_OWL is ERC721, Ownable, EIP712{
     function FreeMint(_signvrs calldata signinfo)public{
         require(signinfo.deadline<block.timestamp,"time out");
         require(block.timestamp>opentime,"It's not time to mint");
-        require(owner()==signcheck(signinfo),"error signature");
+        address gainer = signinfo.gainer;
+        require(owner()==signcheck(signinfo,_useNonce(gainer)),"error signature");
         
         if(signinfo.typemint==0){
             require(block.timestamp<limit_time,"The restricted pool has timed out and the mintable tokens have been moved to the snap up pool");
@@ -106,7 +105,7 @@ contract VII_OWL is ERC721, Ownable, EIP712{
         }
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
-        _mint(signinfo.gainer,tokenId);
+        _mint(gainer,tokenId);
     }
     mapping(address=>uint256) public locktime;
     event locknft(address indexed owner,uint256 indexed tokenId,uint256 time,uint256 endtime);

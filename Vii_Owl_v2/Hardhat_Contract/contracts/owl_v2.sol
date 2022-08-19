@@ -6,21 +6,37 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import "@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 
-contract VII_OWL is ERC721, Ownable, EIP712{
+contract VII_OWL is ERC721, Ownable, EIP712, ERC721Enumerable{
     using Counters for Counters.Counter;
     using Strings for uint256;
     Counters.Counter private _tokenIdCounter;
 
-    uint256 constant total = 3010;
-    uint256 constant opentime = 1661904000;
-    uint256 constant limit_time = opentime+86400*2;
-    uint256 constant Snap_time = opentime+86400*3;
+    // uint256 constant total = 3010;
+    // uint256 constant opentime = 1661904000;
+    // uint256 constant limit_time = opentime+86400*2;
+    // uint256 constant Snap_time = opentime+86400*3;
+    // uint256 limitpool_m;
+    // uint256 Snappool_m;
+    // uint256 constant limitpool = 500*3;
+    // uint256 constant Snappool = total-limitpool;
+
+    uint256  total = 3010;
+    uint256  opentime = 1661904000;
+    uint256  limit_time = opentime+86400*2;
+    uint256  Snap_time = opentime+86400*3;
 
     uint256 limitpool_m;
     uint256 Snappool_m;
-    uint256 constant limitpool = 500*3;
-    uint256 constant Snappool = total-limitpool;
+    uint256  limitpool = 500*3;
+    uint256  Snappool = total-limitpool;
+
+    function dbug(uint256 _opentime,uint256 _limit_time,uint256 _Snap_time)public{
+        opentime=_opentime;
+        limit_time=_limit_time;
+        Snap_time=_Snap_time;
+    }
 
 
     constructor() ERC721("VII_OWL", "VOL") EIP712("VII_OWL", "1"){
@@ -120,15 +136,19 @@ contract VII_OWL is ERC721, Ownable, EIP712{
         }
         emit locknft(msg.sender,tokenId,locktype,locktime[msg.sender]);
     }
-    function _beforeTokenTransfer(
-        address from,
-        address to,
-        uint256 tokenId
-    ) internal view override{
-        from;
-        to;
-        tokenId;
+    function _beforeTokenTransfer(address from, address to, uint256 tokenId)
+        internal
+        override(ERC721, ERC721Enumerable)
+    {
         require(locktime[msg.sender]<block.timestamp,"lock time");
-        
+        super._beforeTokenTransfer(from, to, tokenId);
+    }
+    function supportsInterface(bytes4 interfaceId)
+        public
+        view
+        override(ERC721, ERC721Enumerable)
+        returns (bool)
+    {
+        return super.supportsInterface(interfaceId);
     }
 }

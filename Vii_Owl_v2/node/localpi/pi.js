@@ -12,7 +12,7 @@ main();
 
 async function main(){
     global.mysqlGlobal.database="Vii_Owl_v2";
-    let sql = "select address,nonce,typemint,deadline from address_sign where center = 'S';"
+    let sql = "select address,nonce,typemint,deadline from address_sign where center = 'F';"
     let rqinfo = await mysqlconn.sqlcall(sql,null);
     // console.log(reinfo);
     let sign_info={

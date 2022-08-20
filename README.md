@@ -1,5 +1,5 @@
 # Blockchain_project
-[Vii_Owl](./Vii_Owl/): Subproject of vii, A simple NFT project.
+[Vii_Owl_v2](./Vii_Owl_v2/): Subproject of vii, A simple NFT project.
 
 [VII_ERC20](./VII_ERC20/): Subproject of vii, An ERC20 project using agency contracts.
 

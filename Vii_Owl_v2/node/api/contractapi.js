@@ -40,6 +40,8 @@ exports.contractapi = router.get("/read", async (req, res) => {
     return;
 });
 
+exports.readcontracts = readcontracts;
+
 async function readcontracts(params){
     let id = params.id;
     let contractname = params.contractname;
@@ -90,6 +92,6 @@ async function readcontracts(params){
         },
     }
 }
-module.exports = {
-    readcontracts
-}
+// module.exports = {
+//     readcontracts
+// }

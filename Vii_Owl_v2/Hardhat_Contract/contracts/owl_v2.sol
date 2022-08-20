@@ -54,7 +54,7 @@ contract VII_OWL is ERC721, Ownable, EIP712, ERC721Enumerable{
     }
     function tokenURI(uint256 tokenId)public view override returns (string memory){
         string memory baseURI = _baseURI();
-        return bytes(baseURI).length > 0 ? string(abi.encodePacked(baseURI, tokenId.toString(),".json")) : "ipfs://bafybeiavjuajpj3hhtnca4v3fsqq2jrxwtgg2lvw7yczrdx7mltd2n74ua/nftowlegg.json";
+        return bytes(baseURI).length > 0 ? string(abi.encodePacked(baseURI, tokenId.toString(),".json")) : "ipfs://bafybeiacwutogdxuso375yqeueux6egecrzxxjfxai2lndsd2jfk7s4jo4/owlbox.json";
     }
 
 

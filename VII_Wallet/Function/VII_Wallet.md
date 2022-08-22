@@ -122,3 +122,10 @@ http://154.91.156.113:10903/v1/contractapi/read?id=80001&contractname=mainwithdr
 http://154.91.156.113:10903/v1/apigetsign/getsign?id=80001&contractname=mainwithdraw&params={"auditor":"0xC66f6B7814B886aA104573FCe17862c2ce906740","spender":"0xd7B74f2133C011110a7A38038fFF30bDc9ACe6d1","amount":"1000","orderid":"0","deadline":"9999999999"}
 
 
+#### 充值
+1、erc20代币：0x9cb423b85f7A83362cA1fFB4f7Cadd89BBD432Fb  
+获取余额balanceOf(address).call  
+授权approve(address,uint256).send
+
+2、充值合约：0x688C94ec12CDC187d3D623B60917812aedB8C56b  
+recharge(address to,uint256 amount).send

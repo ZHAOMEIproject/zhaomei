@@ -13,6 +13,7 @@ Contract name: owl_base.sol
 3、然后json文件（直接一个文件形式）读取用户下一次铸nft的操作信息。  
 4、json例子,用户地址=>铸造池类型=>nonces=>得到要上链的参数。如果为null，则不在白名单。  
 获取的信息的注释：收nft的地址，铸造池类型，时间戳，签名vrs.
+5、FreeMint(json里对应的数组参数).send
 ```json
 {
  "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2": {

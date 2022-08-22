@@ -33,7 +33,7 @@ module.exports = {
         version: "0.8.15",
         settings:{
           optimizer:{
-            enable:true,
+            enabled:true,
             runs:200
           }
         }
@@ -41,6 +41,20 @@ module.exports = {
     ]
   },
   networks:{
+    eth:{
+      url:"https://rpc.ankr.com/eth",
+      chainId:1,
+      accounts:{
+        mnemonic:secretinfo.solidity.mnemonic,
+      },
+    },
+    bsc:{
+      url:"https://bsc-dataseed1.binance.org",
+      chainId:56,
+      accounts:{
+        mnemonic:secretinfo.solidity.mnemonic,
+      },
+    },
     dev:{
       url:"http://127.0.0.1:8545",
       chainId:31337,
@@ -77,7 +91,7 @@ module.exports = {
       },
     },
     zhaomei:{
-      url:"http://154.91.156.113:8545",
+      url:"http://203.20.113.61:8545",
       chainId:7156777,
       accounts:{
         mnemonic:secretinfo.solidity.mnemonic,

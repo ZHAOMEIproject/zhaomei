@@ -6,21 +6,37 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import "@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 
-contract VII_OWL is ERC721, Ownable, EIP712{
+contract VII_OWL is ERC721, Ownable, EIP712, ERC721Enumerable{
     using Counters for Counters.Counter;
     using Strings for uint256;
     Counters.Counter private _tokenIdCounter;
 
-    uint256 constant total = 3010;
-    uint256 constant opentime = 1661904000;
-    uint256 constant limit_time = opentime+86400*2;
-    uint256 constant Snap_time = opentime+86400*3;
+    // uint256 constant total = 3010;
+    // uint256 constant opentime = 1661904000;
+    // uint256 constant limit_time = opentime+86400*2;
+    // uint256 constant Snap_time = opentime+86400*3;
+    // uint256 limitpool_m;
+    // uint256 Snappool_m;
+    // uint256 constant limitpool = 500*3;
+    // uint256 constant Snappool = total-limitpool;
+
+    uint256  total = 3010;
+    uint256  opentime = 1661904000;
+    uint256  limit_time = opentime+86400*2;
+    uint256  Snap_time = opentime+86400*3;
 
     uint256 limitpool_m;
     uint256 Snappool_m;
-    uint256 constant limitpool = 500*3;
-    uint256 constant Snappool = total-limitpool;
+    uint256  limitpool = 500*3;
+    uint256  Snappool = total-limitpool;
+
+    function dbug(uint256 _opentime,uint256 _limit_time,uint256 _Snap_time)public{
+        opentime=_opentime;
+        limit_time=_limit_time;
+        Snap_time=_Snap_time;
+    }
 
 
     constructor() ERC721("VII_OWL", "VOL") EIP712("VII_OWL", "1"){
@@ -38,7 +54,7 @@ contract VII_OWL is ERC721, Ownable, EIP712{
     }
     function tokenURI(uint256 tokenId)public view override returns (string memory){
         string memory baseURI = _baseURI();
-        return bytes(baseURI).length > 0 ? string(abi.encodePacked(baseURI, tokenId.toString(),".json")) : "ipfs://bafybeiavjuajpj3hhtnca4v3fsqq2jrxwtgg2lvw7yczrdx7mltd2n74ua/nftowlegg.json";
+        return bytes(baseURI).length > 0 ? string(abi.encodePacked(baseURI, tokenId.toString(),".json")) : "ipfs://bafybeiacwutogdxuso375yqeueux6egecrzxxjfxai2lndsd2jfk7s4jo4/owlbox.json";
     }
 
 
@@ -51,10 +67,10 @@ contract VII_OWL is ERC721, Ownable, EIP712{
     }
 
     bytes32 public constant _PERMIT_TYPEHASH =
-        keccak256("PermitMint(address gainer,uint256 nonce)");
+        keccak256("PermitMint(address gainer,uint256 typemint,uint256 deadline,uint256 nonce)");
 
     struct _signvrs{
-        uint256 nonce;
+        address gainer;
         uint256 typemint;
         uint256 deadline;
         uint8 v;
@@ -63,14 +79,13 @@ contract VII_OWL is ERC721, Ownable, EIP712{
     }
 
 
-    function checkPermitMint(_signvrs calldata signinfo)public view returns(bool){
-        uint256 nonce = signinfo.nonce;
+    function signcheck(_signvrs calldata signinfo,uint256 nonce)public view returns(address signer){
+        address gainer = signinfo.gainer;
         uint256 deadline = signinfo.deadline;
-        bytes32 structHash = keccak256(abi.encode(_PERMIT_TYPEHASH, msg.sender,nonce,deadline));
+        uint256 typemint = signinfo.typemint;
+        bytes32 structHash = keccak256(abi.encode(_PERMIT_TYPEHASH, gainer,typemint,deadline,nonce));
         bytes32 hash = _hashTypedDataV4(structHash);
-        address signer = ECDSA.recover(hash, signinfo.v, signinfo.r, signinfo.s);
-        require(signer == owner(), "vii_Withdraw: auditor invalid signature");
-        return true;
+        return ECDSA.recover(hash, signinfo.v, signinfo.r, signinfo.s);
     }
 
     mapping(address => Counters.Counter) private _nonces;
@@ -84,8 +99,10 @@ contract VII_OWL is ERC721, Ownable, EIP712{
     }
     
     function FreeMint(_signvrs calldata signinfo)public{
+        require(signinfo.deadline<block.timestamp,"time out");
         require(block.timestamp>opentime,"It's not time to mint");
-        checkPermitMint(signinfo);
+        address gainer = signinfo.gainer;
+        require(owner()==signcheck(signinfo,_useNonce(gainer)),"error signature");
         
         if(signinfo.typemint==0){
             require(block.timestamp<limit_time,"The restricted pool has timed out and the mintable tokens have been moved to the snap up pool");
@@ -104,7 +121,7 @@ contract VII_OWL is ERC721, Ownable, EIP712{
         }
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
-        _mint(msg.sender,tokenId);
+        _mint(gainer,tokenId);
     }
     mapping(address=>uint256) public locktime;
     event locknft(address indexed owner,uint256 indexed tokenId,uint256 time,uint256 endtime);
@@ -119,12 +136,19 @@ contract VII_OWL is ERC721, Ownable, EIP712{
         }
         emit locknft(msg.sender,tokenId,locktype,locktime[msg.sender]);
     }
-    function _beforeTokenTransfer(
-        address from,
-        address to,
-        uint256 tokenId
-    ) internal override{
+    function _beforeTokenTransfer(address from, address to, uint256 tokenId)
+        internal
+        override(ERC721, ERC721Enumerable)
+    {
         require(locktime[msg.sender]<block.timestamp,"lock time");
-        
+        super._beforeTokenTransfer(from, to, tokenId);
+    }
+    function supportsInterface(bytes4 interfaceId)
+        public
+        view
+        override(ERC721, ERC721Enumerable)
+        returns (bool)
+    {
+        return super.supportsInterface(interfaceId);
     }
 }

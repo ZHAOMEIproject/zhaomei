@@ -13,8 +13,8 @@ contract Transfer_station{
 
     event Recharge(address indexed from,address indexed to,uint256 indexed index,uint256 amount);
     uint256 public index;
-    function recharge(uint256 amount)public{
+    function recharge(address to,uint256 amount)public{
         vii_20.transferFrom(msg.sender,collection,amount);
-        emit Recharge(msg.sender,collection,amount,index++);
+        emit Recharge(to,collection,amount,index++);
     }
 }

@@ -25,19 +25,9 @@ abstract contract withdraw is EIP712, otherinfo{
     }
 
     bytes32 public constant _PERMIT_TYPEHASH =
-        keccak256("Permit(address owner,address spender,uint256 amount,uint256 nonce,uint256 deadline)");
-    using Counters for Counters.Counter;
-    mapping(address => Counters.Counter) private _nonces;
-    function nonces(address owner) public view  returns (uint256) {
-        return _nonces[owner].current();
-    }
-    function _useNonce(address owner) internal returns (uint256 current) {
-        Counters.Counter storage nonce = _nonces[owner];
-        current = nonce.current();
-        nonce.increment();
-    }
+        keccak256("Permit(address owner,address spender,uint256 amount,bytes12 orderid,uint256 deadline)");
 
-    event e_Withdraw(address indexed sender,address indexed to,uint256 amount,uint256 nonce,bytes12 indexed orderid);
+    event e_Withdraw(address indexed sender,address indexed to,uint256 amount,bytes12 indexed orderid);
 
     struct _signvrs{
         address auditor;
@@ -50,13 +40,11 @@ abstract contract withdraw is EIP712, otherinfo{
         bytes12 orderid;
     }
 
-
-
-    mapping(bytes12=>bool) public orderid;
+    mapping(bytes12=>bool) public orderids;
     function Withdraw_permit_auditor (
         _signvrs memory signinfo
     ) public  onlyRole(WITHDRAW_ROLE) monitor_lock{
-        if(orderid[signinfo.orderid]){
+        if(orderids[signinfo.orderid]){
             return;
         }
         uint256 deadline=signinfo.deadline;
@@ -65,12 +53,12 @@ abstract contract withdraw is EIP712, otherinfo{
         address spender=signinfo.spender;
         uint256 amount=signinfo.amount;
         // 验证审核人员签名
-        emit e_Withdraw(auditor,spender,amount,_nonces[auditor].current(),signinfo.orderid);
-        bytes32 structHash = keccak256(abi.encode(_PERMIT_TYPEHASH, auditor, spender, amount, _useNonce(auditor), deadline));
+        emit e_Withdraw(auditor,spender,amount,signinfo.orderid);
+        bytes32 structHash = keccak256(abi.encode(_PERMIT_TYPEHASH, auditor, spender, amount, signinfo.orderid, deadline));
         bytes32 hash = _hashTypedDataV4(structHash);
         address signer = ECDSA.recover(hash, signinfo.v, signinfo.r, signinfo.s);
         require(signer == auditor, "vii_Withdraw: auditor invalid signature");
-        orderid[signinfo.orderid]=true;
+        orderids[signinfo.orderid]=true;
         // 进行操作
         IERC20(token).transferFrom(add_withdraw,spender,amount);
     }
@@ -85,12 +73,12 @@ abstract contract withdraw is EIP712, otherinfo{
         _spenderinfo calldata spenderinfo
     ) public  onlyRole(WITHDRAW_ROLE) monitor_lock{
         require(spenderinfo.amount <= mini_amount, "vii_Withdraw: error amount");
-        if(orderid[signinfo.orderid]){
+        if(orderids[spenderinfo.orderid]){
             return;
         }
-        orderid[spenderinfo.orderid]=true;
+        orderids[spenderinfo.orderid]=true;
         IERC20(token).transferFrom(add_withdraw,spenderinfo.spender,spenderinfo.amount);
-        emit e_Withdraw(msg.sender,spenderinfo.spender,spenderinfo.amount,_useNonce(msg.sender),spenderinfo.orderid);
+        emit e_Withdraw(msg.sender,spenderinfo.spender,spenderinfo.amount,spenderinfo.orderid);
     }
     function lot_Withdraw_permit(
          _spenderinfo[] calldata spenderinfo
@@ -109,14 +97,15 @@ abstract contract withdraw is EIP712, otherinfo{
     }
 
     function signcheck(
-        _signvrs memory signinfo,uint256 useNonce
+        _signvrs memory signinfo
     )public view returns(address signer){
         uint256 deadline=signinfo.deadline;
         address auditor=signinfo.auditor;
         address spender=signinfo.spender;
         uint256 amount=signinfo.amount;
+        bytes12 orderid= signinfo.orderid;
         // 验证审核人员签名
-        bytes32 structHash = keccak256(abi.encode(_PERMIT_TYPEHASH, auditor, spender, amount, useNonce, deadline));
+        bytes32 structHash = keccak256(abi.encode(_PERMIT_TYPEHASH, auditor, spender, amount,orderid, deadline));
         bytes32 hash = _hashTypedDataV4(structHash);
         return ECDSA.recover(hash, signinfo.v, signinfo.r, signinfo.s);
     }

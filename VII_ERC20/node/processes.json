@@ -1,0 +1,21 @@
+{
+  "apps": [
+    {
+      "name": "VII_ERC20",
+      "cwd": "./",
+      "script": "main.js",
+      "log_date_format": "YYYY-MM-DD HH:mm Z",
+      "error_file": "log/erroe.log",
+      "out_file": "log/VII_ERC20.log",
+      "pid_file": "pids/VII_ERC20.pid",
+      "instances": 1,
+      "min_uptime": "200s",
+      "watch": false,
+      "merge_logs": true,
+      "exec_interpreter": "node",
+      "exec_mode": "fork",
+      "autorestart": false,
+      "vizion": false
+    }
+  ]
+}

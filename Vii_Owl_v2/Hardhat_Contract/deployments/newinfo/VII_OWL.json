@@ -336,6 +336,19 @@
     },
     {
       "inputs": [],
+      "name": "mintednumber",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
       "name": "name",
       "outputs": [
         {
@@ -718,8 +731,8 @@
       "type": "function"
     }
   ],
-  "address": "0xa91d6531C3A51Abe43e2782b3fe29D2376b54081",
-  "blocknumber": 27700501,
+  "address": "0xdaaA05AD966F127BFc073Dcf79365f13CC02c338",
+  "blocknumber": 27739340,
   "constructorArguments": [],
   "network": {
     "name": "polygonMumbai",

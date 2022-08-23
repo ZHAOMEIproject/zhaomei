@@ -70,11 +70,6 @@ async function otherinfo(address){
         }
     }
 
-
-
-
-
-
     return {
         opensea_buy:opensea_buy,
         opensea_buy_s:l_max_add(opensea_buy*5,scores_max.opensea_buy_max),
@@ -164,7 +159,7 @@ function l_max_add(score,max){
 function Exponential(score,max){
     score=score*1950/max;
     if(score>2522.576){
-        score = 200*(Math.log(score,2))
+        score = 200*(Math.log(score)/Math.log(2))
     }else{
         score = 45*Math.sqrt(score)
     }
@@ -203,13 +198,12 @@ async function otherinfov2(address){
     
 
     for (let i in activitiesinfo) {
-        if (activitiesinfo[i].type=="ask") {
+        if (activitiesinfo[i].type=="sale") {
             opensea_buy++;
-            opensea_eth_use+=activitiesinfo[i].price*10**18
+            opensea_eth_use= opensea_eth_use + (activitiesinfo[i].price*10**18)
             fistopenseatime=activitiesinfo[i].timestamp;
         }
     }
-
 
 
     return {
@@ -294,8 +288,8 @@ async function nftinfov2(address){
 }
 module.exports={
     otherinfo,
-    otherinfov2,
     nftinfo,
+    otherinfov2,
     nftinfov2,
     scores_max_out,
     // usdtbalance,

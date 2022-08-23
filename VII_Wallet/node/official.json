@@ -1,0 +1,21 @@
+{
+  "apps": [
+    {
+      "name": "VII_Wallet",
+      "cwd": "./",
+      "script": "official.js",
+      "log_date_format": "YYYY-MM-DD HH:mm Z",
+      "error_file": "log/erroe.log",
+      "out_file": "log/VII_Wallet.log",
+      "pid_file": "pids/VII_Wallet.pid",
+      "instances": 1,
+      "min_uptime": "200s",
+      "watch": false,
+      "merge_logs": true,
+      "exec_interpreter": "node",
+      "exec_mode": "fork",
+      "autorestart": false,
+      "vizion": false
+    }
+  ]
+}

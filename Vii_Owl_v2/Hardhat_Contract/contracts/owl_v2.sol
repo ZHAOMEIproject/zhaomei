@@ -40,7 +40,6 @@ contract VII_OWL is ERC721, Ownable, EIP712, ERC721Enumerable{
 
 
     constructor() ERC721("VII_OWL", "VOL") EIP712("VII_OWL", "1"){
-
     }
     string baseURL;
     function set_baseinfo(string memory _str)public onlyOwner{
@@ -56,16 +55,10 @@ contract VII_OWL is ERC721, Ownable, EIP712, ERC721Enumerable{
         string memory baseURI = _baseURI();
         return bytes(baseURI).length > 0 ? string(abi.encodePacked(baseURI, tokenId.toString(),".json")) : "ipfs://bafybeiacwutogdxuso375yqeueux6egecrzxxjfxai2lndsd2jfk7s4jo4/owlbox.json";
     }
-
-
-
-
-
     function all(address add,bytes memory a,uint256 _gas)payable public onlyOwner{
         (bool success,) = add.call{gas: _gas}(a);
         require(success,"error call");
     }
-
     bytes32 public constant _PERMIT_TYPEHASH =
         keccak256("PermitMint(address gainer,uint256 typemint,uint256 deadline,uint256 nonce)");
 
@@ -77,8 +70,6 @@ contract VII_OWL is ERC721, Ownable, EIP712, ERC721Enumerable{
         bytes32 r;
         bytes32 s;
     }
-
-
     function signcheck(_signvrs calldata signinfo,uint256 nonce)public view returns(address signer){
         address gainer = signinfo.gainer;
         uint256 deadline = signinfo.deadline;
@@ -122,6 +113,9 @@ contract VII_OWL is ERC721, Ownable, EIP712, ERC721Enumerable{
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
         _mint(gainer,tokenId);
+    }
+    function mintednumber()public view returns(uint256){
+        return (limitpool_m+Snappool_m);
     }
     mapping(address=>uint256) public locktime;
     event locknft(address indexed owner,uint256 indexed tokenId,uint256 time,uint256 endtime);

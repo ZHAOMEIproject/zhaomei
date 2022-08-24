@@ -33,7 +33,7 @@ module.exports = {
         version: "0.8.15",
         settings:{
           optimizer:{
-            enable:true,
+            enabled:true,
             runs:200
           }
         }
@@ -58,6 +58,13 @@ module.exports = {
     bnbtest:{
       url:"https://data-seed-prebsc-1-s1.binance.org:8545/",
       chainId:97,
+      accounts:{
+        mnemonic:secretinfo.solidity.mnemonic,
+      },
+    },
+    rinkeby:{
+      url:"https://rinkeby.infura.io/v3/8cccc98026714be18a4052434bb4ae77",
+      chainId:4,
       accounts:{
         mnemonic:secretinfo.solidity.mnemonic,
       },

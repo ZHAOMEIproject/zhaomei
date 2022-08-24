@@ -112,7 +112,7 @@ exports.postwithdraw = router.get("/postwithdraw", async (req, res) => {
 exports.postwithdrawsign = router.get("/postwithdrawsign", async (req, res) => {
     var params = url.parse(req.url, true).query;
 
-    let check =["auditor","spender","amount","auditor_nonce","deadline","sign_r","sign_s","sign_v","orderid"];
+    let check =["auditor","spender","amount","deadline","sign_r","sign_s","sign_v","orderid"];
     if(!check.every(key=>key in params)){
         res.send({
             success:false,
@@ -138,8 +138,8 @@ exports.postwithdrawsign = router.get("/postwithdrawsign", async (req, res) => {
     
 
     let sqlStr = "INSERT INTO withdraw_auditor("+
-    "auditor,spender,amount,auditor_nonce,deadline,sign_r,sign_s,sign_v,orderid)VALUES("+
-    "?,?,?,?,?,?,?,?,?)";
+    "auditor,spender,amount,deadline,sign_r,sign_s,sign_v,orderid)VALUES("+
+    "?,?,?,?,?,?,?,?)";
     try {
         await conn.select(sqlStr,sqlparams);
     } catch (error) {

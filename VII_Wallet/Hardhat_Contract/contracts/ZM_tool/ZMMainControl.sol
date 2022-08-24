@@ -8,10 +8,11 @@ abstract contract ZMMainControl is AccessControl {
 
     bool public MONITOR_switch=true;
 
-    constructor(){
-        address admin=msg.sender;
-        address manage=msg.sender;
-        address monitor=msg.sender;
+    constructor(address admin,address manage,address monitor){
+    // constructor(){
+        // address admin=msg.sender;
+        // address manage=msg.sender;
+        // address monitor=msg.sender;
         _grantRole(DEFAULT_ADMIN_ROLE, admin);
         _grantRole(MANAGE_ROLE, manage);
         _grantRole(MONITOR_ROLE, monitor);

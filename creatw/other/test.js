@@ -1,21 +1,10 @@
-const prompt = require('prompt');
+var Accounts = require('web3-eth-accounts');
+var accounts = new Accounts('ws://localhost:8546');
+let bip39 = require('bip39')
 
-// start the prompt
-prompt.start();
+creatw();
 
-// create an object
-const user = {
-    name: 'John Doe',
-    country: 'USA'
-};
-
-// extend `user` object
-prompt.addProperties(user, ['email', 'age'], (err) => {
-    if (err) {
-        throw err;
-    }
-
-    // print modified object
-    console.dir(user);
-
-});
+async function creatw(){
+    let mnemonic = bip39.generateMnemonic()
+    console.log(mnemonic);
+}

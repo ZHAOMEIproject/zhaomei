@@ -51,6 +51,7 @@ exports.contractapi = router.get("/read", async (req, res) => {
     try {
         if(params.params.length>0){
             // tx = await contractWithSigner[params.fun](...params.params);
+            // console.log(...params.params);
             tx = await contractWithSigner[params.fun](...params.params);
         }else{
             tx = await contractWithSigner[params.fun]();

@@ -32,13 +32,23 @@ exports.contractapi = router.get("/getsign", async (req, res) => {
         });
         return;
     }
-
-
-    let tx = await getsign(
-        params.id,
-        params.contractname,
-        Object.values(params.params)
-    );
+    let tx
+    try {
+        tx = await getsign(
+            params.id,
+            params.contractname,
+            Object.values(params.params)
+        );
+    } catch (error) {
+        res.send({
+            success:false,
+            signer:"0xC66f6B7814B886aA104573FCe17862c2ce906740",
+            data:{
+                result:"getsign error"
+            },
+        });
+    }
+    
     res.send({
         success:true,
         signer:"0xC66f6B7814B886aA104573FCe17862c2ce906740",

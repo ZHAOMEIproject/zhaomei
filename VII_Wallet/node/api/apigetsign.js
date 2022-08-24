@@ -31,7 +31,6 @@ exports.contractapi = router.get("/getsign", async (req, res) => {
             error:"error key"
         });
         return;
-
     }
     let tx
     try {
@@ -45,7 +44,7 @@ exports.contractapi = router.get("/getsign", async (req, res) => {
             success:false,
             signer:"0xC66f6B7814B886aA104573FCe17862c2ce906740",
             data:{
-                result:"getsign error";
+                result:"getsign error"
             },
         });
     }

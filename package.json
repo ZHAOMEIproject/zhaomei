@@ -4,6 +4,7 @@
     "api": "^4.5.2",
     "bignumber": "^1.1.0",
     "bignumber.js": "^9.1.0",
+    "bip39": "^3.0.4",
     "body-parser": "^1.20.0",
     "canvas": "^2.9.3",
     "ethereumjs-tx": "^2.1.2",

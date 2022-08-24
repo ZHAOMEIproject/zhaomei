@@ -1,7 +1,5 @@
 # VII_SCORES: Subproject of vii, 返回以太坊地址的用户数据，并根据权重计算分数。
 [更新](./update): 更新时间 v0.1 2022/06/29 16:38  
-_max的参数都要乘以1.5  
-
 
 [node](./node): 接口程序
 

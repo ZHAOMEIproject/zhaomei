@@ -66,10 +66,8 @@ abstract contract withdraw is EIP712, otherinfo{
         uint256 amount=signinfo.amount;
         // 验证审核人员签名
         emit e_Withdraw(auditor,spender,amount,signinfo.orderid);
-        bytes32 structHash = keccak256(abi.encode(_PERMIT_TYPEHASH, auditor, spender, amount, signinfo.orderid, deadline));
-        bytes32 hash = _hashTypedDataV4(structHash);
-        address signer = ECDSA.recover(hash, signinfo.v, signinfo.r, signinfo.s);
-        require(hasRole(AUDITOR_ROLE,signer), "vii_Withdraw: auditor invalid signature");
+        address signer = signcheck(signinfo);
+        require(hasRole(AUDITOR_ROLE,signer)&&signer==auditor, "vii_Withdraw: auditor invalid signature");
         orderids[signinfo.orderid]=true;
         // 进行操作
         IERC20(token).transferFrom(add_withdraw,spender,amount);

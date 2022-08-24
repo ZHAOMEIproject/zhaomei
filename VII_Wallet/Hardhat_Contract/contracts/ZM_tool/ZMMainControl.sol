@@ -25,5 +25,4 @@ abstract contract ZMMainControl is AccessControl {
     function c_monitor_lock(bool _switch)public onlyRole(MONITOR_ROLE){
         MONITOR_switch=_switch;
     }
-
 }

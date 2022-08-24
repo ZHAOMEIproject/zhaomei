@@ -119,7 +119,7 @@ http://154.91.156.113:10903/v1/contractapi/read?id=80001&contractname=mainwithdr
 
 2、获取一个签名例子
 签名地址是：0xC66f6B7814B886aA104573FCe17862c2ce906740  
-http://154.91.156.113:10903/v1/apigetsign/getsign?id=80001&contractname=mainwithdraw&params={"auditor":"0xC66f6B7814B886aA104573FCe17862c2ce906740","spender":"0xd7B74f2133C011110a7A38038fFF30bDc9ACe6d1","amount":"1000","orderid":"0","deadline":"9999999999"}
+http://154.91.156.113:10903/v1/apigetsign/getsign?id=80001&contractname=mainwithdraw&params={"auditor":"0xC66f6B7814B886aA104573FCe17862c2ce906740","spender":"0xd7B74f2133C011110a7A38038fFF30bDc9ACe6d1","amount":"1000","orderid":"0x6304a1cf17cfb379e204586d","deadline":"9999999999"}
 
 
 #### 充值

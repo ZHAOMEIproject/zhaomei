@@ -47,6 +47,7 @@ exports.contractapi = router.get("/getsign", async (req, res) => {
                 result:"getsign error"
             },
         });
+        return;
     }
     
     res.send({

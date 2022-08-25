@@ -10,9 +10,6 @@ contract mainwithdraw is withdraw{
             _mini_amount,_token,_add_withdraw,name,version,
             _withdraw,_admin,_manage,_monitor
         )
-        ZMMainControl(
-
-        )
     {
         _grantRole(WITHDRAW_ROLE, _withdraw);
         _grantRole(AUDITOR_ROLE, 0x452Ae8BEc379698ff9106611865Ecf042AeE20D1);

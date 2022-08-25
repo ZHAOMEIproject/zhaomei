@@ -12,8 +12,19 @@ interface IERC20 {
 }
 // abstract 
 abstract contract withdraw is EIP712, otherinfo{
-    constructor(uint256 _mini_amount,address _token,address _add_withdraw,string memory name, string memory version) EIP712(name, version){
+    constructor(
+            uint256 _mini_amount,address _token,address _add_withdraw,string memory name, string memory version,
+            address _withdraw,address _admin,address _manage,address _monitor
+        ) 
+        EIP712(
+            name, version
+        )
+        otherinfo(
+            _withdraw,_admin,_manage,_monitor
+        )
+        {
         set_info(_mini_amount,_token,_add_withdraw);
+        
     }
     uint256 mini_amount;
     address token;
@@ -40,6 +51,7 @@ abstract contract withdraw is EIP712, otherinfo{
         bytes12 orderid;
     }
 
+
     mapping(bytes12=>bool) public orderids;
     function Withdraw_permit_auditor (
         _signvrs memory signinfo
@@ -54,10 +66,8 @@ abstract contract withdraw is EIP712, otherinfo{
         uint256 amount=signinfo.amount;
         // 验证审核人员签名
         emit e_Withdraw(auditor,spender,amount,signinfo.orderid);
-        bytes32 structHash = keccak256(abi.encode(_PERMIT_TYPEHASH, auditor, spender, amount, signinfo.orderid, deadline));
-        bytes32 hash = _hashTypedDataV4(structHash);
-        address signer = ECDSA.recover(hash, signinfo.v, signinfo.r, signinfo.s);
-        require(signer == auditor, "vii_Withdraw: auditor invalid signature");
+        address signer = signcheck(signinfo);
+        require(hasRole(AUDITOR_ROLE,signer)&&signer==auditor, "vii_Withdraw: auditor invalid signature");
         orderids[signinfo.orderid]=true;
         // 进行操作
         IERC20(token).transferFrom(add_withdraw,spender,amount);

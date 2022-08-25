@@ -1,7 +1,7 @@
 const {getcontractinfo}=require('../../nodetool/readcontracts');
 const connection = require("../../nodetool/sqlconnection");
 const ethers = require('ethers');
-const secret = require('../../../../../privateinfo/.secret.json');
+const secret = global.secret;
 // 查报错事件
 async function checkwithdrawevent(selectParams){
     let selsql = "SELECT * FROM withdraw_auditor where flag_withdraw ='F' and flag_now = 'S'";

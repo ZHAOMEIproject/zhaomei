@@ -6,7 +6,7 @@ module.exports = router;
 
 const {getcontractinfo}=require('../nodetool/id-readcontracts');
 const ethers = require('ethers');
-const secret = require('../../../../privateinfo/.secret.json');
+const secret = global.secret;
 
 exports.contractinfo = router.get("/", async (req, res) => {
     const contractinfo = await getcontractinfo();

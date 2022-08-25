@@ -1,6 +1,6 @@
 
 let nodemailer = require("nodemailer")
-let setinfo = require("../../../../privateinfo/.secret.json");
+let setinfo = global.secret;
 let transporter = nodemailer.createTransport({
     // host: 'smtp.163.com',
     service: setinfo.email.transporter.service, //邮箱类型 例如service:'163'

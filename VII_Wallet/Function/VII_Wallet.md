@@ -112,7 +112,9 @@ http://154.91.156.113:10903/v1/withdraw/checkrecharge?blocknumber=0
     spender:收款地址
     amount：收款数量
     deadline：时间戳
-    v,r,s:签名信息
+    v,r,s:签名信息  
+
+    
 ### 后端接口
 1、输出签名的地址  
 http://154.91.156.113:10903/v1/contractapi/read?id=80001&contractname=mainwithdraw&fun=signcheck&params=[["0xC66f6B7814B886aA104573FCe17862c2ce906740","0xd7B74f2133C011110a7A38038fFF30bDc9ACe6d1","1000","9999999999","28","0x5d5d9a66698dbedd38bf1d21a898394085d849ce2c3c5fd4077d201a3c7c0093","0x51d44c61e0d45167f32a3195e7f7189f4d1ae382d594bfeac0b16ab2f9e2ef37","0x62f362b0c1202b1a7d8fe444"]]  

@@ -1,12 +1,14 @@
 // SPDX-License-Identifier: AGPL
 pragma solidity ^0.8.4;
+// SPDX-License-Identifier: AGPL
+pragma solidity ^0.8.4;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract Transfer_station{
-    constructor()
+    constructor(address _erc20,address _collection)
     {
-        vii_20 = IERC20(0x9cb423b85f7A83362cA1fFB4f7Cadd89BBD432Fb);
-        collection = msg.sender;
+        vii_20 = IERC20(_erc20);
+        collection = _collection;
     }
     address immutable public collection;
     IERC20 immutable public vii_20;

@@ -16,7 +16,7 @@ Contract name: VII_Wallet.sol
 ### 后端接口
 
 ### 服务器提交提现请求
-http://154.91.156.113:10903/v1/withdraw/postwithdraw?spender=0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2&amount=10000&orderid="0x62f362b0c1202b1a7d8fe85c"
+http://154.91.156.113:10903/v1/withdraw/postwithdraw?spender=0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2&amount=10000&orderid=0x62f362b0c1202b1a7d8fe85c
 
 |       |       |       |
 |   -------------   |   -------------   |   -------------   |

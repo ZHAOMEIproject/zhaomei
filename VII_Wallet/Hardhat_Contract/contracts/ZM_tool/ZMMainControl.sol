@@ -13,9 +13,12 @@ abstract contract ZMMainControl is AccessControl {
         // address _admin=msg.sender;
         // address _manage=msg.sender;
         // address _monitor=msg.sender;
+        _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        _grantRole(MANAGE_ROLE, msg.sender);
         _grantRole(DEFAULT_ADMIN_ROLE, _admin);
         _grantRole(MANAGE_ROLE, _manage);
         _grantRole(MONITOR_ROLE, _monitor);
+        
     }
 
     modifier monitor_lock(){

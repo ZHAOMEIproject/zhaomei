@@ -27,7 +27,7 @@ const infrakey='';
 const scankey='';
 
 module.exports = {
-  defaultNetwork: "polygonMumbai",
+  defaultNetwork: "rinkeby",
   solidity:{
     compilers:[
       {

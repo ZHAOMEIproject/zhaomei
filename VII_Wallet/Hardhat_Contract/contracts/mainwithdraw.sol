@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: AGPL
 pragma solidity ^0.8.4;
-import "./modular/otherinfo.sol";
 import "./modular/withdraw.sol";
 contract mainwithdraw is withdraw{
     constructor(

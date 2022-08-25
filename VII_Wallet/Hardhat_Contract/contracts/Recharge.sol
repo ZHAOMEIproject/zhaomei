@@ -1,7 +1,5 @@
 // SPDX-License-Identifier: AGPL
 pragma solidity ^0.8.4;
-// SPDX-License-Identifier: AGPL
-pragma solidity ^0.8.4;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract Transfer_station{

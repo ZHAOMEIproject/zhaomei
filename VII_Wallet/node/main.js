@@ -6,15 +6,14 @@ start_test();
 var node_info;
 var host;
 var port;
-var setinfo;
 function start_test(){
     console.log("start_dev ing")
-    // setinfo = require("../../../privateinfo/.secret_official.json");
-    setinfo = require("../../../privateinfo/.secret.json");
-    node_info = setinfo.VII_Wallet_NODE;
+    // global.secret = require("../../../privateinfoWallet/.secret_official.json");
+    global.secret = require("../../../privateinfo/.secret.json");
+    node_info = global.secret.VII_Wallet_NODE;
     host = node_info.host;
     port = node_info.port;
-    global.mysqlGlobal = setinfo.ROOT_SQL;
+    global.mysqlGlobal = global.secret.ROOT_SQL;
     global.zwjerror = false;
     global.name ="VII_Wallet";
 }

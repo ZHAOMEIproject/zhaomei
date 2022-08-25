@@ -2,7 +2,7 @@ const {getcontractinfo}=require('../../nodetool/readcontracts');
 const connection = require("../../nodetool/sqlconnection");
 const Web3 = require('web3');
 const ethers = require('ethers');
-const secret = require('../../../../../privateinfo/.secret.json');
+const secret = global.secret;
 async function getwithdrawevent(){
     let selsql = "SELECT * FROM withdraw where flag_withdraw ='F'";
     return await connection.select(selsql,null);

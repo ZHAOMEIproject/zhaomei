@@ -1,6 +1,6 @@
 const {getcontractinfo}=require('../../nodetool/readcontracts');
 const ethers = require('ethers');
-const secret = require('../../../../../privateinfo/.secret.json');
+const secret = global.secret;
 
 test();
 async function test(){

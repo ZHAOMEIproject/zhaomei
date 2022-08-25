@@ -1,7 +1,7 @@
 const { ecsign } = require('ethereumjs-util');
 const ethers = require("ethers");
 const {getPermitDigest} = require('./VII_WITHDRAW_sign')
-const secret = require('../../../../../privateinfo/.secret.json');
+const secret = global.secret;
 const {getcontractinfo}=require('../../nodetool/id-readcontracts');
 
 exports.getsign = async function getsign(id,contractname,params){

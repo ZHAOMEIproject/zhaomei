@@ -1,7 +1,7 @@
 const { ecsign } = require('ethereumjs-util');
 const ethers = require("ethers");
 const {getPermitDigest} = require('./signatures')
-const secret = require('../../../../../../privateinfo/.secret.json');
+const secret = global.secret;
 
 test()
 async function test(){

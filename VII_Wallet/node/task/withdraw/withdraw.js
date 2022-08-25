@@ -1,7 +1,7 @@
 const {getcontractinfo}=require('../../nodetool/readcontracts');
 const connection = require("../../nodetool/sqlconnection");
 const ethers = require('ethers');
-const secret = require('../../../../../privateinfo/.secret.json');
+const secret = global.secret;
 const {sendEmail} = require("../../nodetool/email");
 // 查报错事件
 async function checkwithdrawevent(selectParams){

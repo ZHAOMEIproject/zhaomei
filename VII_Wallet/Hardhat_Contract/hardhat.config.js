@@ -21,7 +21,8 @@ require("@nomiclabs/hardhat-etherscan");
 require('hardhat-abi-exporter');
 const fs = require('fs');
 // var secretinfo =fs.readFileSync("/home/ubuntu/zwj-learn/.secret.json").toString().trim();
-const secretinfo =require(`/root/learn/github/privateinfo/.secret.json`);
+// const secretinfo =require(`/root/learn/github/privateinfo/.secret.json`);
+const secretinfo =require(`/root/learn/github/privateinfoWallet/.secret_official.json`);
 const infrakey='';
 const scankey='';
 
@@ -41,20 +42,6 @@ module.exports = {
     ]
   },
   networks:{
-    eth:{
-      url:"https://rpc.ankr.com/eth",
-      chainId:1,
-      accounts:{
-        mnemonic:secretinfo.solidity.mnemonic,
-      },
-    },
-    bsc:{
-      url:"https://bsc-dataseed1.binance.org",
-      chainId:56,
-      accounts:{
-        mnemonic:secretinfo.solidity.mnemonic,
-      },
-    },
     dev:{
       url:"http://127.0.0.1:8545",
       chainId:31337,
@@ -76,6 +63,13 @@ module.exports = {
         mnemonic:secretinfo.solidity.mnemonic,
       },
     },
+    rinkeby:{
+      url:"https://rinkeby.infura.io/v3/8cccc98026714be18a4052434bb4ae77",
+      chainId:4,
+      accounts:{
+        mnemonic:secretinfo.solidity.mnemonic,
+      },
+    },
     ropsten:{
       url:"https://ropsten.infura.io/v3/8cccc98026714be18a4052434bb4ae77",
       chainId:3,
@@ -91,7 +85,7 @@ module.exports = {
       },
     },
     zhaomei:{
-      url:"http://203.20.113.61:8545",
+      url:"http://154.91.156.113:8545",
       chainId:7156777,
       accounts:{
         mnemonic:secretinfo.solidity.mnemonic,

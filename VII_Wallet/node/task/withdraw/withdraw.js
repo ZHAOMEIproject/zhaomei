@@ -54,26 +54,26 @@ exports.withdraw = async function withdraw(){
         provider
     );
 
-    let nonce = await provider.getTransactionCount(account.address);
-    let block = await provider.getBlockNumber()
-    let gasPrice = await provider.getGasPrice()*1.1;
-    gasPrice = Math.trunc(gasPrice);
+    // let nonce = await provider.getTransactionCount(account.address);
     let contractWithSigner = await contract.connect(wallet);
 
     try {
         await contractWithSigner.estimateGas.lot_Withdraw_permit(upinfo);
+        let gasPrice = Math.trunc(await provider.getGasPrice()*1.1);
         let tx = await contractWithSigner.lot_Withdraw_permit(upinfo,{ gasPrice: gasPrice});
+        let block = await provider.getBlockNumber()
         // console.log(tx.hash);
         // await tx.wait();
         // console.log(tx);
-        
+
+        let nonce = tx.nonce;
         var withdrawupdate = await updatewithdrawevent([nonce,block,tx.hash]);
         
         if(withdrawupdate.changedRows==0){
-            console.log("error withdrawupdate");
+            console.log("error withdraw_update");
             return;
         }
-        console.log("success withdrawupdate");
+        console.log("success withdraw_update");
     } catch (error) {
         console.log(error);
         var withdrawupdate = await updatewithdrawevent(["error","error","error"]);
@@ -81,4 +81,8 @@ exports.withdraw = async function withdraw(){
         // sendEmail("Wallet error","lot_Withdraw_permit");
     }
     return;
+}
+
+function Order_repair(){
+    let sqlstr 
 }

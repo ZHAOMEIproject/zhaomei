@@ -27,13 +27,13 @@ const {sendEmail} = require("../../nodetool/email");
 exports.withdraw_sign = async function withdraw_sign(){
     var withdrawcheck = await checkwithdrawevent();
     if(withdrawcheck.length>0){
-        console.log("error withdrawcheck");
+        console.log("error withdraw_sign_check");
         var withdrawupdate = await updatewithdrawevent(["error","error","error"]);
         return;
     }
     var withdrawsignlock = await lockwithdrawevent();
     if(withdrawsignlock.changedRows==0){
-        console.log("success withdrawsignlock");
+        console.log("No need to deal with withdraw_sign_lock");
         return;
     }
     var withdrawevent = await getwithdrawevent();
@@ -69,10 +69,10 @@ exports.withdraw_sign = async function withdraw_sign(){
         let block = await provider.getBlockNumber()
         var withdrawupdate = await updatewithdrawevent([nonce,block,tx.hash]);
         if(withdrawupdate.changedRows==0){
-            console.log("error withdrawupdate");
+            console.log("error withdraw_sign_update");
             return;
         }
-        console.log("success withdrawupdate");
+        console.log("success withdraw_sign_update");
         
     } catch (error) {
         console.log(error)

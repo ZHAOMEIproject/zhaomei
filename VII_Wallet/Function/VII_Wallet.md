@@ -113,7 +113,7 @@ http://154.91.156.113:10903/v1/withdraw/checkrecharge?blocknumber=0
     amount：收款数量
     deadline：时间戳
     v,r,s:签名信息  
-
+    4、查询是否是审核人员hasRole("0x59a1c48e5837ad7a7f3dcedcbe129bf3249ec4fbf651fd4f5e2600ead39fe2f5",钱包地址).call
     
 ### 后端接口
 1、输出签名的地址  

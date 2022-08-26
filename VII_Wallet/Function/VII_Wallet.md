@@ -26,7 +26,7 @@ http://154.91.156.113:10903/v1/withdraw/postwithdraw?spender=0x8C327f1Aa6327F01A
 | orderid  | 0x62f362b0c1202b1a7d8fe85c | 提交订单号，预防重复提交或者是其他问题  |
 
 ### 审核人员签名版提现接口
-http://154.91.156.113:10903/v1/withdraw/postwithdrawsign?auditor=0xC66f6B7814B886aA104573FCe17862c2ce906740&spender=0xd7B74f2133C011110a7A38038fFF30bDc9ACe6d1&amount=1000&sign_v=28&sign_r=0x5d5d9a66698dbedd38bf1d21a898394085d849ce2c3c5fd4077d201a3c7c0093&sign_s=0x51d44c61e0d45167f32a3195e7f7189f4d1ae382d594bfeac0b16ab2f9e2ef37&deadline=9999999999&orderid=0x62f362b0c1202b1a7d8fe85c
+http://154.91.156.113:10903/v1/withdraw/postwithdrawsign?auditor=0xC66f6B7814B886aA104573FCe17862c2ce906740&spender=0xd7B74f2133C011110a7A38038fFF30bDc9ACe6d1&amount=1000&sign_v=27&sign_r=0x61bade0db8649c0d4169a66c77b79e222f393228c5b2b40ef635b4e33b7f7d08&sign_s=0x02dea5098f61b847e69b8509e917821efd5c25da5d1b9d38cbfb16b689bfe484&deadline=9999999999&orderid=0x6304a1cf17cfb379e204586d
 
 |       |       |       |
 |   -------------   |   -------------   |   -------------   |
@@ -73,7 +73,7 @@ post
 ```
 
 ### 查询签名的地址
-http://154.91.156.113:10903/v1/contractapi/read?id=80001&contractname=mainwithdraw&fun=signcheck&params=[["0xC66f6B7814B886aA104573FCe17862c2ce906740","0xd7B74f2133C011110a7A38038fFF30bDc9ACe6d1","1000","9999999999","28","0x5d5d9a66698dbedd38bf1d21a898394085d849ce2c3c5fd4077d201a3c7c0093","0x51d44c61e0d45167f32a3195e7f7189f4d1ae382d594bfeac0b16ab2f9e2ef37","0x62f362b0c1202b1a7d8fe444"]]  
+http://154.91.156.113:10903/v1/contractapi/read?id=4&contractname=mainwithdraw&fun=signcheck&params=[["0xC66f6B7814B886aA104573FCe17862c2ce906740","0xd7B74f2133C011110a7A38038fFF30bDc9ACe6d1","1000","9999999999","28","0x5d5d9a66698dbedd38bf1d21a898394085d849ce2c3c5fd4077d201a3c7c0093","0x51d44c61e0d45167f32a3195e7f7189f4d1ae382d594bfeac0b16ab2f9e2ef37","0x62f362b0c1202b1a7d8fe444"]]  
 params输入的内容：[auditor,spender,amount,deadline,v,r,s,orderid]
 
 |       |       |       |
@@ -90,7 +90,7 @@ params输入的内容：[auditor,spender,amount,deadline,v,r,s,orderid]
 
 5、获取一个签名例子
 签名地址是：0xC66f6B7814B886aA104573FCe17862c2ce906740  
-http://154.91.156.113:10903/v1/apigetsign/getsign?id=80001&contractname=mainwithdraw&params={"auditor":"0xC66f6B7814B886aA104573FCe17862c2ce906740","spender":"0xd7B74f2133C011110a7A38038fFF30bDc9ACe6d1","amount":"1000","orderid":"0x6304a1cf17cfb379e204586d","deadline":"9999999999"}
+http://154.91.156.113:10903/v1/apigetsign/getsign?id=4&contractname=mainwithdraw&params={"auditor":"0xC66f6B7814B886aA104573FCe17862c2ce906740","spender":"0xd7B74f2133C011110a7A38038fFF30bDc9ACe6d1","amount":"1000","orderid":"0x6304a1cf17cfb379e204586d","deadline":"9999999999"}
 
 ### 查询充值订单
 http://154.91.156.113:10903/v1/withdraw/checkrecharge?blocknumber=0
@@ -117,11 +117,11 @@ http://154.91.156.113:10903/v1/withdraw/checkrecharge?blocknumber=0
     
 ### 后端接口
 1、输出签名的地址  
-http://154.91.156.113:10903/v1/contractapi/read?id=80001&contractname=mainwithdraw&fun=signcheck&params=[["0xC66f6B7814B886aA104573FCe17862c2ce906740","0xd7B74f2133C011110a7A38038fFF30bDc9ACe6d1","1000","9999999999","28","0x5d5d9a66698dbedd38bf1d21a898394085d849ce2c3c5fd4077d201a3c7c0093","0x51d44c61e0d45167f32a3195e7f7189f4d1ae382d594bfeac0b16ab2f9e2ef37","0x62f362b0c1202b1a7d8fe444"]]  
+http://154.91.156.113:10903/v1/contractapi/read?id=4&contractname=mainwithdraw&fun=signcheck&params=[["0xC66f6B7814B886aA104573FCe17862c2ce906740","0xd7B74f2133C011110a7A38038fFF30bDc9ACe6d1","1000","9999999999","27","0x61bade0db8649c0d4169a66c77b79e222f393228c5b2b40ef635b4e33b7f7d08","0x02dea5098f61b847e69b8509e917821efd5c25da5d1b9d38cbfb16b689bfe484","0x6304a1cf17cfb379e204586d"]]  
 
 2、获取一个签名例子
 签名地址是：0xC66f6B7814B886aA104573FCe17862c2ce906740  
-http://154.91.156.113:10903/v1/apigetsign/getsign?id=80001&contractname=mainwithdraw&params={"auditor":"0xC66f6B7814B886aA104573FCe17862c2ce906740","spender":"0xd7B74f2133C011110a7A38038fFF30bDc9ACe6d1","amount":"1000","orderid":"0x6304a1cf17cfb379e204586d","deadline":"9999999999"}
+http://154.91.156.113:10903/v1/apigetsign/getsign?id=4&contractname=mainwithdraw&params={"auditor":"0xC66f6B7814B886aA104573FCe17862c2ce906740","spender":"0xd7B74f2133C011110a7A38038fFF30bDc9ACe6d1","amount":"1000","orderid":"0x6304a1cf17cfb379e204586d","deadline":"9999999999"}
 
 
 #### 充值

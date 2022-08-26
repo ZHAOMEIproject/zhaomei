@@ -1,6 +1,6 @@
 module.exports = [
     "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
-    "0x9cb423b85f7A83362cA1fFB4f7Cadd89BBD432Fb"
+    "0x34089AfEBb30E15c24812fa95BECE46fCbFa2033"
 ];
 // module.exports = [
 //     "0xf08B29de76574c88AaBd08bCCFc66C6e3b3B763C",

@@ -2,29 +2,6 @@ var Web3 = require('web3');
 // var web3 = new Web3("wss://eth-mainnet.g.alchemy.com/v2/k4k7w92FZHQtnAOKcr_q5LW3SxHhrqD2");
 var web3 = new Web3("https://api.mycryptoapi.com/eth");
 
-var erc721hash = "0x80ac58cd";
-var erc1155hash = "0xd9b67a26";
-var erc165abi=[
-	{
-		"inputs": [
-			{
-				"internalType": "bytes4",
-				"name": "interfaceId",
-				"type": "bytes4"
-			}
-		],
-		"name": "supportsInterface",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	}
-]
 exports.scanblock = async function test(){
     // let nowblocknumber = await web3.eth.getBlockNumber();
     let nowblocknumber = 12287507;
@@ -37,7 +14,10 @@ exports.scanblock = async function test(){
     if(contracttraninfo.to==null){
         contracttraninfo["to"] = getconadd(contracttraninfo.from,contracttraninfo.nonce);
         let nftflag = checknft(contracttraninfo["to"]);
-        
+        if(nftflag){
+            let sqlstr = "";
+            
+        }
     }else{
         try {
             estimate = await web3.eth.estimateGas({
@@ -82,6 +62,34 @@ function getconadd(sender,nonce){
     return "0x"+contract_address;
 }
 
-function checknft(address){
-
+async function checknft(address){
+    var erc721hash = "0x80ac58cd";
+    var erc1155hash = "0xd9b67a26";
+    var erc165abi=[
+        {
+            "inputs": [
+                {
+                    "internalType": "bytes4",
+                    "name": "interfaceId",
+                    "type": "bytes4"
+                }
+            ],
+            "name": "supportsInterface",
+            "outputs": [
+                {
+                    "internalType": "bool",
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        }
+    ]
+    var contract1 = new web3.eth.Contract(erc165abi,address);
+    let info = await contract1.methods.supportsInterface(erc721hash).call();
+    if(!info){
+        info = await contract1.methods.supportsInterface(erc1155hash).call();
+    }
+    return info;
 }

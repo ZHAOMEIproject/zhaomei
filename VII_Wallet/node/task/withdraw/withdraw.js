@@ -114,9 +114,6 @@ async function Order_repair(){
         event_error_orderids.push(callinfo[i].orderid+"0000000000000000000000000000000000000000");
     }
     let true_orderids = await connection.select(sqlstr_2,event_error_orderids);
-    if(true_orderids.length==0){
-        return;
-    }
     // console.log(true_orderids);
     let update_orderids=new Array;
     // console.log(error_orderids);
@@ -127,7 +124,7 @@ async function Order_repair(){
     }
     // console.log(error_orderids);
     // console.log(update_orderids);
-    if(update_orderids.length==0){
+    if(update_orderids.length!=0){
         let sqlstr_3 = "update withdraw set nonces='true' where orderid in (?)";
         connection.select(sqlstr_3,[update_orderids]);
     }

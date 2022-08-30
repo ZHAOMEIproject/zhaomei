@@ -10,6 +10,7 @@ const scores_max={
     "blue_max":300,
     "superblue_max":500
 }
+
 const scores_max_out={
     "opensea_buy_max":150*1.5,
     "opensea_gas_use_max":200*1.5,

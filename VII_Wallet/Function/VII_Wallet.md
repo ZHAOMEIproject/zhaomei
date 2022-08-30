@@ -117,31 +117,32 @@ http://154.91.156.113:10903/v1/withdraw/checkrecharge?blocknumber=0
     
 ```js
     Permit:[
-    {
-    name: 'owner',
-    type: 'address'
-    },
-    {
-    name: 'spender',
-    type: 'address'
-    },
-    {
-    name: 'amount',
-    type: 'uint256'
-    },
-    {
-    name: 'orderid',
-    type: 'bytes12'
-    },
-    {
-    name: 'deadline',
-    type: 'uint256'
-    };
+        {
+        name: 'owner',
+        type: 'address'
+        },
+        {
+        name: 'spender',
+        type: 'address'
+        },
+        {
+        name: 'amount',
+        type: 'uint256'
+        },
+        {
+        name: 'orderid',
+        type: 'bytes12'
+        },
+        {
+        name: 'deadline',
+        type: 'uint256'
+        };
+    ]
+
     let primaryType = 'Permit';
-    name: "VII_WITHDRAW",
-    version: '1',
-    verifyingContract: "合约地址",
-]
+    let name: "VII_WITHDRAW",
+    let version: '1',
+    let verifyingContract: "合约地址",
 ```
 
 ### 后端接口

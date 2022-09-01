@@ -8,22 +8,32 @@ exports.scanblock = async function test(){
     // console.log(nowblocknumber);
     let blockinfo = await web3.eth.getBlock(nowblocknumber);
     // console.log(blockinfo);
-    let contracttraninfo = await web3.eth.getTransaction(blockinfo.transactions[155])
+    let contracttraninfo = await web3.eth.getTransaction(blockinfo.transactions[167])
+
+    
     // console.log(contracttraninfo);
+    // return;
     let estimate;
     if(contracttraninfo.to==null){
-        contracttraninfo["to"] = getconadd(contracttraninfo.from,contracttraninfo.nonce);
-        let nftflag = await checknft(contracttraninfo,true);
-
-    }else{
-        try {
-            estimate = await web3.eth.estimateGas({
-                to:contracttraninfo.to,
-                data:contracttraninfo.input
-            })
-        } catch (error) {
-            console.log(error);
+        contracttraninfo["to"] = await getconadd(contracttraninfo.from,contracttraninfo.nonce);
+        let nftflag = await checknft(contracttraninfo);
+        if(!nftflag){
+            return;
         }
+    }else{
+        let nftflag = await checknft(contracttraninfo);
+        if(!nftflag){
+            return;
+        }
+
+        // try {
+        //     estimate = await web3.eth.estimateGas({
+        //         to:contracttraninfo.to,
+        //         data:contracttraninfo.input
+        //     })
+        // } catch (error) {
+        //     console.log(error);
+        // }
         // console.log(estimate);
     }
     // console.log(contracttraninfo);
@@ -46,7 +56,7 @@ exports.scanblock = async function test(){
 
 const rlp = require('rlp');
 const keccak = require('keccak');
-function getconadd(sender,nonce){
+async function getconadd(sender,nonce){
     // nonce = 0x0;
     // console.log(sender,nonce);
     var input_arr = [ sender, nonce ];
@@ -59,7 +69,7 @@ function getconadd(sender,nonce){
     return "0x"+contract_address;
 }
 const connection = require("../../../nodetool/sqlconnection");
-async function checknft(contracttraninfo,creatflag){
+async function checknft(contracttraninfo){
     var erc721hash = "0x80ac58cd";
     var erc1155hash = "0xd9b67a26";
     var iercnft=require("./iercnft.json");
@@ -73,7 +83,9 @@ async function checknft(contracttraninfo,creatflag){
     }else{
         return false;
     }
-    if(creatflag){
+    let checkcreat = "select * from nft_address where address=?";
+    let getinfo = connection.sqlcall(checkcreat,address);
+    if(getinfo.length==0){
         let name = await contract1.methods.name().call();
         let symbol = await contract1.methods.symbol().call();
         let creater = contracttraninfo["from"];
@@ -83,45 +95,68 @@ async function checknft(contracttraninfo,creatflag){
         try {
             totalsupply = await contract1.methods.totalSupply().call();
         } catch (error) {
-            
         }
-        try {
-            
-        } catch (error) {
-            
-        }
+
         nfttype;
 
         let sqlstr="replace into nft_address(address,lasttime,nonce,name,symbol,creater,creat_time,totalsupply,nfttype)value(?,?,?,?,?,?,?,?,?)";
         let sqlp = [address,creat_time,0,name,symbol,creater,creat_time,0,nfttype];
         await connection.sqlcall(sqlstr,sqlp);
+        getinfo = connection.sqlcall(checkcreat,address);
     }
-    let checktokenurl="select * from nft_address where address=?"
+    let events = await contract1.getPastEvents('Transfer',{
+        fromBlock:contracttraninfo.blockNumber,
+        toBlock:contracttraninfo.blockNumber
+    });
+    // console.log(events[0].returnValues.from);
+    let sender = contracttraninfo.from;
+    let minter = events[i].returnValues.to;
+    let mintamount=0;
+    for(let i in events){
+        if (events[i].returnValues.from=="0x0000000000000000000000000000000000000000") {
+            if(sender!=minter){
+                continue;
+            }
+            mintamount++;
+        }
+    }
+    if(mintamount!=0){
+        
+    }
     try {
-        let getinfo = connection.sqlcall(checktokenurl,address)
         if(nfttype=="ERC721"){
             if(getinfo.tokenurl==null){
                 // 获取tokenurl
                 let tokenurl;
-                let baseurl;
                 try {
                     tokenurl = await contract1.methods.tokenURI(0).call();
                 } catch (error) {
                     try {
-                        baseurl = await contract1.methods.baseURI().call();
+                        tokenurl = await contract1.methods.baseURI().call();
                     } catch (error) {
-                        
                     }
                 }
                 let sqlurl="update nft_address set tokenurl=? where address=?";
                 if (tokenurl!=null) {
-                    await connection.sqlcall(sqlurl,[tokenurl,]);
-                }else if(baseurl!=null){
+                    await connection.sqlcall(sqlurl,[tokenurl,address]);
+                }
+            }
 
+        }else if(nfttype=="ERC1155"){
+            if(getinfo.tokenurl==null){
+                // 获取tokenurl
+                let tokenurl;
+                try {
+                    tokenurl = await contract1.methods.uri(0).call();
+                } catch (error) {
+                }
+                let sqlurl="update nft_address set tokenurl=? where address=?";
+                if (tokenurl!=null) {
+                    await connection.sqlcall(sqlurl,[tokenurl,address]);
                 }
             }
         }
     } catch (error) {
-        
     }
+    return nfttype;
 }

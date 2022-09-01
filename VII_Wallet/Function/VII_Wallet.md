@@ -155,6 +155,9 @@ http://154.91.156.113:10903/v1/apigetsign/getsign?id=4&contractname=mainwithdraw
 
 
 #### 充值
+获取合约信息http://154.91.156.113:10903/v1/contractapi/  
+合约名：Transfer_station
+合约地址
 1、erc20代币：0x9cb423b85f7A83362cA1fFB4f7Cadd89BBD432Fb  
 获取余额balanceOf(address).call  
 授权approve(address,uint256).send

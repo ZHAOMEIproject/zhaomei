@@ -115,6 +115,36 @@ http://154.91.156.113:10903/v1/withdraw/checkrecharge?blocknumber=0
     v,r,s:签名信息  
     4、查询是否是审核人员hasRole("0x59a1c48e5837ad7a7f3dcedcbe129bf3249ec4fbf651fd4f5e2600ead39fe2f5",钱包地址).call
     
+```js
+    Permit:[
+        {
+        name: 'owner',
+        type: 'address'
+        },
+        {
+        name: 'spender',
+        type: 'address'
+        },
+        {
+        name: 'amount',
+        type: 'uint256'
+        },
+        {
+        name: 'orderid',
+        type: 'bytes12'
+        },
+        {
+        name: 'deadline',
+        type: 'uint256'
+        };
+    ]
+
+    let primaryType = 'Permit';
+    let name: "VII_WITHDRAW",
+    let version: '1',
+    let verifyingContract: "合约地址",
+```
+
 ### 后端接口
 1、输出签名的地址  
 http://154.91.156.113:10903/v1/contractapi/read?id=4&contractname=mainwithdraw&fun=signcheck&params=[["0xC66f6B7814B886aA104573FCe17862c2ce906740","0xd7B74f2133C011110a7A38038fFF30bDc9ACe6d1","1000","9999999999","27","0x61bade0db8649c0d4169a66c77b79e222f393228c5b2b40ef635b4e33b7f7d08","0x02dea5098f61b847e69b8509e917821efd5c25da5d1b9d38cbfb16b689bfe484","0x6304a1cf17cfb379e204586d"]]  
@@ -125,6 +155,9 @@ http://154.91.156.113:10903/v1/apigetsign/getsign?id=4&contractname=mainwithdraw
 
 
 #### 充值
+获取合约信息http://154.91.156.113:10903/v1/contractapi/  
+合约名：Transfer_station
+合约地址
 1、erc20代币：0x9cb423b85f7A83362cA1fFB4f7Cadd89BBD432Fb  
 获取余额balanceOf(address).call  
 授权approve(address,uint256).send

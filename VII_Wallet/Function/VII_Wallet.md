@@ -41,8 +41,8 @@ http://154.91.156.113:10903/v1/withdraw/postwithdrawsign?auditor=0xC66f6B7814B88
 | orderid  | 0x62f362b0c1202b1a7d8fe85c | 提交订单号，预防重复提交或者是其他问题  |
 
 ### 查询订单详情
-http://154.91.156.113:10903/v1/withdraw/checkorderid
-
+http://154.91.156.113:10903/v1/withdraw/checkorderid  
+Content-Type没填成application/json
 post  
 ```json
 {

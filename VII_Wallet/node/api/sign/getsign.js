@@ -1,7 +1,10 @@
 const { ecsign } = require('ethereumjs-util');
 const ethers = require("ethers");
+// 签名信息的打包
 const {getPermitDigest} = require('./VII_WITHDRAW_sign')
+// 加载秘钥
 const secret = global.secret;
+// 加载合约信息
 const {getcontractinfo}=require('../../nodetool/id-readcontracts');
 
 exports.getsign = async function getsign(id,contractname,params){

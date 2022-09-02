@@ -2,40 +2,119 @@ var Web3 = require('web3');
 // var web3 = new Web3("wss://eth-mainnet.g.alchemy.com/v2/k4k7w92FZHQtnAOKcr_q5LW3SxHhrqD2");
 var web3 = new Web3("https://api.mycryptoapi.com/eth");
 
+const connection = require("../../../nodetool/sqlconnection");
 exports.scanblock = async function test(){
     // let nowblocknumber = await web3.eth.getBlockNumber();
-    let nowblocknumber = 12299047;
+    let nowblocknumber = 15456524;
     // console.log(nowblocknumber);
     let blockinfo = await web3.eth.getBlock(nowblocknumber);
     // console.log(blockinfo);
-    let contracttraninfo = await web3.eth.getTransaction(blockinfo.transactions[167])
+    let contracttraninfo = await web3.eth.getTransaction(blockinfo.transactions[5])
 
-    
-    // console.log(contracttraninfo);
+    console.log(contracttraninfo);
     // return;
-    let estimate;
     if(contracttraninfo.to==null){
         contracttraninfo["to"] = await getconadd(contracttraninfo.from,contracttraninfo.nonce);
-        let nftflag = await checknft(contracttraninfo);
-        if(!nftflag){
-            return;
-        }
+    }
+    
+    var erc721hash = "0x80ac58cd";
+    var erc1155hash = "0xd9b67a26";
+    var iercnft=require("./iercnft.json");
+    let address = contracttraninfo["to"];
+    var contract1 = new web3.eth.Contract(iercnft,address);
+    let nfttype;
+    if(await contract1.methods.supportsInterface(erc721hash).call()){
+        nfttype="ERC721";
+    }else if(await contract1.methods.supportsInterface(erc1155hash).call()){
+        nfttype="ERC1155";
     }else{
-        let nftflag = await checknft(contracttraninfo);
-        if(!nftflag){
-            return;
+        return false;
+    }
+    let checkcreat = "select * from nft_address where address=?";
+    let getinfo = await connection.sqlcall(checkcreat,address);
+    // 记录合约信息
+    if(getinfo.length==0){
+        let name = await contract1.methods.name().call();
+        let symbol = await contract1.methods.symbol().call();
+        let creater = contracttraninfo["from"];
+        let creat_time = contracttraninfo["blockNumber"];
+        try {
+            totalsupply = await contract1.methods.totalSupply().call();
+        } catch (error) {
         }
 
-        // try {
-        //     estimate = await web3.eth.estimateGas({
-        //         to:contracttraninfo.to,
-        //         data:contracttraninfo.input
-        //     })
-        // } catch (error) {
-        //     console.log(error);
-        // }
-        // console.log(estimate);
+        nfttype;
+
+        let sqlstr="replace into nft_address(address,lasttime,nonce,name,symbol,creater,creat_time,totalsupply,nfttype)value(?,?,?,?,?,?,?,?,?)";
+        let sqlp = [address,creat_time,0,name,symbol,creater,creat_time,0,nfttype];
+        await connection.sqlcall(sqlstr,sqlp);
+        getinfo = await connection.sqlcall(checkcreat,address);
     }
+    let events = await contract1.getPastEvents('Transfer',{
+        fromBlock:contracttraninfo.blockNumber,
+        toBlock:contracttraninfo.blockNumber
+    });
+    let mintamount=0;
+    let minter;
+    // console.log(events[0]);
+    for(let i in events){
+        if(events[i].transactionHash!=contracttraninfo.hash){
+            continue;
+        }
+        if (events[i].returnValues.from=="0x0000000000000000000000000000000000000000") {
+            mintamount++;
+            minter=events[i].returnValues.to.toLowerCase();
+        }
+    }
+    web3.eth.accounts.wallet.add(web3.eth.accounts.create().privateKey);
+    // console.log(web3.eth.accounts.wallet[0]);
+    // return;
+    if (mintamount==0) {
+        return;
+    }else{
+        let data = contracttraninfo.input;
+        let flag=data.indexOf(minter.slice(2));
+        let estimate;
+        // console.log(flag,data,minter);
+        try {
+            if(flag!=-1){
+                // console.log(web3.eth.accounts.wallet[0].address.slice(2));
+                data = data.slice(0,flag)+web3.eth.accounts.wallet[0].address.slice(2)+data.slice((flag+40));
+                // console.log(data);
+                estimate = await web3.eth.estimateGas({
+                    to:contracttraninfo.to,
+                    data:data
+                })
+            }else{
+                console.log(contracttraninfo.to,data);
+                estimate = await web3.eth.estimateGas({
+                    to:contracttraninfo.to,
+                    data:data
+                })
+            }
+        } catch (error) {
+            console.log(error);
+        }
+        console.log(estimate);
+        if(estimate){
+            let sqlin = "insert into nft_event(transaction,address,to_add,amount,calldata,flag_address) VALUES(?,?,?,?,?,?)";
+            let inputinfo = [contracttraninfo.hash,contracttraninfo.to,minter,mintamount,data,flag!=-1]
+            console.log(inputinfo);
+            await connection.sqlcall(sqlin,inputinfo);
+        }
+    }
+
+
+    // let estimate;
+    // try {
+    //     estimate = await web3.eth.estimateGas({
+    //         to:contracttraninfo.to,
+    //         data:contracttraninfo.input
+    //     })
+    // } catch (error) {
+    //     console.log(error);
+    // }
+    // console.log(estimate);
     // console.log(contracttraninfo);
     
 }
@@ -67,96 +146,4 @@ async function getconadd(sender,nonce){
     var contract_address = contract_address_long.substring(24); //Trim the first 24 characters.
     // console.log("contract_address: " + contract_address);
     return "0x"+contract_address;
-}
-const connection = require("../../../nodetool/sqlconnection");
-async function checknft(contracttraninfo){
-    var erc721hash = "0x80ac58cd";
-    var erc1155hash = "0xd9b67a26";
-    var iercnft=require("./iercnft.json");
-    let address = contracttraninfo["to"];
-    var contract1 = new web3.eth.Contract(iercnft,address);
-    let nfttype;
-    if(await contract1.methods.supportsInterface(erc721hash).call()){
-        nfttype="ERC721";
-    }else if(await contract1.methods.supportsInterface(erc1155hash).call()){
-        nfttype="ERC1155";
-    }else{
-        return false;
-    }
-    let checkcreat = "select * from nft_address where address=?";
-    let getinfo = connection.sqlcall(checkcreat,address);
-    if(getinfo.length==0){
-        let name = await contract1.methods.name().call();
-        let symbol = await contract1.methods.symbol().call();
-        let creater = contracttraninfo["from"];
-        let creat_time = contracttraninfo["blockNumber"];
-        let totalsupply;
-        let baseur
-        try {
-            totalsupply = await contract1.methods.totalSupply().call();
-        } catch (error) {
-        }
-
-        nfttype;
-
-        let sqlstr="replace into nft_address(address,lasttime,nonce,name,symbol,creater,creat_time,totalsupply,nfttype)value(?,?,?,?,?,?,?,?,?)";
-        let sqlp = [address,creat_time,0,name,symbol,creater,creat_time,0,nfttype];
-        await connection.sqlcall(sqlstr,sqlp);
-        getinfo = connection.sqlcall(checkcreat,address);
-    }
-    let events = await contract1.getPastEvents('Transfer',{
-        fromBlock:contracttraninfo.blockNumber,
-        toBlock:contracttraninfo.blockNumber
-    });
-    // console.log(events[0].returnValues.from);
-    let sender = contracttraninfo.from;
-    let minter = events[i].returnValues.to;
-    let mintamount=0;
-    for(let i in events){
-        if (events[i].returnValues.from=="0x0000000000000000000000000000000000000000") {
-            if(sender!=minter){
-                continue;
-            }
-            mintamount++;
-        }
-    }
-    if(mintamount!=0){
-        
-    }
-    try {
-        if(nfttype=="ERC721"){
-            if(getinfo.tokenurl==null){
-                // 获取tokenurl
-                let tokenurl;
-                try {
-                    tokenurl = await contract1.methods.tokenURI(0).call();
-                } catch (error) {
-                    try {
-                        tokenurl = await contract1.methods.baseURI().call();
-                    } catch (error) {
-                    }
-                }
-                let sqlurl="update nft_address set tokenurl=? where address=?";
-                if (tokenurl!=null) {
-                    await connection.sqlcall(sqlurl,[tokenurl,address]);
-                }
-            }
-
-        }else if(nfttype=="ERC1155"){
-            if(getinfo.tokenurl==null){
-                // 获取tokenurl
-                let tokenurl;
-                try {
-                    tokenurl = await contract1.methods.uri(0).call();
-                } catch (error) {
-                }
-                let sqlurl="update nft_address set tokenurl=? where address=?";
-                if (tokenurl!=null) {
-                    await connection.sqlcall(sqlurl,[tokenurl,address]);
-                }
-            }
-        }
-    } catch (error) {
-    }
-    return nfttype;
 }

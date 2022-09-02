@@ -95,6 +95,16 @@ http://154.91.156.113:10903/v1/apigetsign/getsign?id=4&contractname=mainwithdraw
 6、验证地址是否是审核人员  
 http://154.91.156.113:10903/v1/contractapi/read?id=4&contractname=mainwithdraw&fun=hasRole&params=["0x59a1c48e5837ad7a7f3dcedcbe129bf3249ec4fbf651fd4f5e2600ead39fe2f5","0xC66f6B7814B886aA104573FCe17862c2ce906740"]
 
+post版  
+```json
+{
+    "id":4,
+    "contractname":"mainwithdraw",
+    "fun":"hasRole",
+    "params":["0x59a1c48e5837ad7a7f3dcedcbe129bf3249ec4fbf651fd4f5e2600ead39fe2f5","0xC66f6B7814B886aA104573FCe17862c2ce906740"]
+}
+```
+
 
 ### 查询充值订单
 http://154.91.156.113:10903/v1/withdraw/checkrecharge?blocknumber=0

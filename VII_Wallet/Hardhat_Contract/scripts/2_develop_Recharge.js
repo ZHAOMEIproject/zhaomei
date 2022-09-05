@@ -2,7 +2,7 @@ const hre = require("hardhat");
 const { writer_info_all } = require('./tool/hh_log.js');
 const {getcontractinfo}=require('./tool/readcontracts');
 
-// npx hardhat verify 0x439400D2D51f160eB8C441d4a2BB5Bb3038b3cCA --constructor-args ./other_info/arguments.js --network bnbtest
+// npx hardhat verify 0x7CeAdDF2287A6199e78787F1DFE42252B68998Fc --constructor-args other_info/rechange.js 
 async function main(){
   const load = await hre.ethers.getContractFactory("Transfer_station");
   const arguments = require('../other_info/rechange');

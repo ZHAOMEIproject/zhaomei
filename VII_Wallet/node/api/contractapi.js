@@ -66,8 +66,8 @@ exports.contractapi = router.get("/read", async (req, res) => {
         console.log(error);
         res.send({
             success:false,
-            account:account.address,
             data:{
+                account:account.address,
                 result:tx
             },
         });
@@ -76,8 +76,8 @@ exports.contractapi = router.get("/read", async (req, res) => {
     
     res.send({
         success:true,
-        account:account.address,
         data:{
+            account:account.address,
             result:tx
         },
     });
@@ -95,7 +95,8 @@ exports.contractapi = router.get("/read", async (req, res) => {
 });
 
 exports.checkorderid = router.post("/postread", async (req, res) => {
-    var params = req.body.params;
+    var params = req.body;
+    // console.log(params);
     
     let check =["id","contractname","fun","params"];
     if(!check.every(key=>key in params)){
@@ -105,7 +106,7 @@ exports.checkorderid = router.post("/postread", async (req, res) => {
         });
         return;
     }
-    params.params= JSON.parse(params.params);
+    // params.params= JSON.parse(params.params);
     let id = params.id;
     let contractname = params.contractname;
 
@@ -132,8 +133,8 @@ exports.checkorderid = router.post("/postread", async (req, res) => {
         console.log(error);
         res.send({
             success:false,
-            account:account.address,
             data:{
+                account:account.address,
                 result:tx
             },
         });
@@ -142,8 +143,8 @@ exports.checkorderid = router.post("/postread", async (req, res) => {
     
     res.send({
         success:true,
-        account:account.address,
         data:{
+            account:account.address,
             result:tx
         },
     });

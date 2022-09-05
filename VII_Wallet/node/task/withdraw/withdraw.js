@@ -68,7 +68,7 @@ exports.withdraw = async function withdraw(){
 
         upinfo.push(Object.values(withdrawevent[i]));
     }
-    console.log(upinfo);
+    // console.log(upinfo);
 
     
 

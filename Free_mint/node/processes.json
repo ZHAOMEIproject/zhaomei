@@ -1,13 +1,13 @@
 {
   "apps": [
     {
-      "name": "VII_SCORES",
+      "name": "FREE_MINT",
       "cwd": "./",
       "script": "main.js",
       "log_date_format": "YYYY-MM-DD HH:mm Z",
       "error_file": "log/erroe.log",
-      "out_file": "log/VII_SCORES.log",
-      "pid_file": "pids/VII_SCORES.pid",
+      "out_file": "log/FREE_MINT.log",
+      "pid_file": "pids/FREE_MINT.pid",
       "instances": 1,
       "min_uptime": "200s",
       "watch": false,

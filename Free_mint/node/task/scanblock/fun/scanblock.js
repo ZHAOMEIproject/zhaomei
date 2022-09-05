@@ -1,137 +1,41 @@
 var Web3 = require('web3');
 // var web3 = new Web3("wss://eth-mainnet.g.alchemy.com/v2/k4k7w92FZHQtnAOKcr_q5LW3SxHhrqD2");
-var web3 = new Web3("https://api.mycryptoapi.com/eth");
+// var web3 = new Web3("http://127.0.0.1:8545");
+var web3 = new Web3("ws://127.0.0.1:8546");
 
 const connection = require("../../../nodetool/sqlconnection");
-exports.scanblock = async function test(){
-    // let nowblocknumber = await web3.eth.getBlockNumber();
-    let nowblocknumber = 15456524;
-    // console.log(nowblocknumber);
+var erc721hash = "0x80ac58cd";
+var erc1155hash = "0xd9b67a26";
+var iercnft=require("./iercnft.json");
+web3.eth.defaultAccount = "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2";
+const mysql = require("mysql2");
+const conn = mysql.createConnection(global.mysqlGlobal);
+exports.getblocknumber = async function getblocknumber(){
+    return await web3.eth.getBlockNumber();
+}
+exports.scanblock = async function scanblock(blocknumber){
+    // await testfun();
+    // return;
+    let nowblocknumber = await web3.eth.getBlockNumber();
+    if(nowblocknumber<=blocknumber){
+        return false;
+    }else{
+        nowblocknumber=blocknumber;
+    }
+    // nowblocknumber = 15475522;
+    console.log(nowblocknumber,Date.now());
+    
     let blockinfo = await web3.eth.getBlock(nowblocknumber);
     // console.log(blockinfo);
-    let contracttraninfo = await web3.eth.getTransaction(blockinfo.transactions[5])
-
-    console.log(contracttraninfo);
-    // return;
-    if(contracttraninfo.to==null){
-        contracttraninfo["to"] = await getconadd(contracttraninfo.from,contracttraninfo.nonce);
+    // web3.eth.accounts.wallet.add(web3.eth.accounts.create().privateKey);
+    let test=197;
+    // for(let i=test;i==test;i++){
+    for(let i in blockinfo.transactions){
+        // console.log(i);
+        scantransactions(i,blockinfo)
     }
-    
-    var erc721hash = "0x80ac58cd";
-    var erc1155hash = "0xd9b67a26";
-    var iercnft=require("./iercnft.json");
-    let address = contracttraninfo["to"];
-    var contract1 = new web3.eth.Contract(iercnft,address);
-    let nfttype;
-    if(await contract1.methods.supportsInterface(erc721hash).call()){
-        nfttype="ERC721";
-    }else if(await contract1.methods.supportsInterface(erc1155hash).call()){
-        nfttype="ERC1155";
-    }else{
-        return false;
-    }
-    let checkcreat = "select * from nft_address where address=?";
-    let getinfo = await connection.sqlcall(checkcreat,address);
-    // 记录合约信息
-    if(getinfo.length==0){
-        let name = await contract1.methods.name().call();
-        let symbol = await contract1.methods.symbol().call();
-        let creater = contracttraninfo["from"];
-        let creat_time = contracttraninfo["blockNumber"];
-        try {
-            totalsupply = await contract1.methods.totalSupply().call();
-        } catch (error) {
-        }
-
-        nfttype;
-
-        let sqlstr="replace into nft_address(address,lasttime,nonce,name,symbol,creater,creat_time,totalsupply,nfttype)value(?,?,?,?,?,?,?,?,?)";
-        let sqlp = [address,creat_time,0,name,symbol,creater,creat_time,0,nfttype];
-        await connection.sqlcall(sqlstr,sqlp);
-        getinfo = await connection.sqlcall(checkcreat,address);
-    }
-    let events = await contract1.getPastEvents('Transfer',{
-        fromBlock:contracttraninfo.blockNumber,
-        toBlock:contracttraninfo.blockNumber
-    });
-    let mintamount=0;
-    let minter;
-    // console.log(events[0]);
-    for(let i in events){
-        if(events[i].transactionHash!=contracttraninfo.hash){
-            continue;
-        }
-        if (events[i].returnValues.from=="0x0000000000000000000000000000000000000000") {
-            mintamount++;
-            minter=events[i].returnValues.to.toLowerCase();
-        }
-    }
-    web3.eth.accounts.wallet.add(web3.eth.accounts.create().privateKey);
-    // console.log(web3.eth.accounts.wallet[0]);
-    // return;
-    if (mintamount==0) {
-        return;
-    }else{
-        let data = contracttraninfo.input;
-        let flag=data.indexOf(minter.slice(2));
-        let estimate;
-        // console.log(flag,data,minter);
-        try {
-            if(flag!=-1){
-                // console.log(web3.eth.accounts.wallet[0].address.slice(2));
-                data = data.slice(0,flag)+web3.eth.accounts.wallet[0].address.slice(2)+data.slice((flag+40));
-                // console.log(data);
-                estimate = await web3.eth.estimateGas({
-                    to:contracttraninfo.to,
-                    data:data
-                })
-            }else{
-                console.log(contracttraninfo.to,data);
-                estimate = await web3.eth.estimateGas({
-                    to:contracttraninfo.to,
-                    data:data
-                })
-            }
-        } catch (error) {
-            console.log(error);
-        }
-        console.log(estimate);
-        if(estimate){
-            let sqlin = "insert into nft_event(transaction,address,to_add,amount,calldata,flag_address) VALUES(?,?,?,?,?,?)";
-            let inputinfo = [contracttraninfo.hash,contracttraninfo.to,minter,mintamount,data,flag!=-1]
-            console.log(inputinfo);
-            await connection.sqlcall(sqlin,inputinfo);
-        }
-    }
-
-
-    // let estimate;
-    // try {
-    //     estimate = await web3.eth.estimateGas({
-    //         to:contracttraninfo.to,
-    //         data:contracttraninfo.input
-    //     })
-    // } catch (error) {
-    //     console.log(error);
-    // }
-    // console.log(estimate);
-    // console.log(contracttraninfo);
-    
+    return true;
 }
-// exports.scanblock = async function scanblock(){
-//     let nowblocknumber = await web3.eth.getBlockNumber();
-//     // let nowblocknumber = 12347219;
-//     // console.log(nowblocknumber);
-//     let blockinfo = await web3.eth.getBlock(nowblocknumber);
-//     // console.log(blockinfo);
-//     for(let i in blockinfo.transactions){
-//         let contracttraninfo = await web3.eth.getTransaction(blockinfo.transactions[i]);
-//         if(contracttraninfo.to==null){
-//             contracttraninfo["from"] = getconadd(blockinfo.transactions[i].from,blockinfo.transactions[i].nonce);
-//         }
-//         console.log(contracttraninfo);
-//     }
-// }
 
 const rlp = require('rlp');
 const keccak = require('keccak');
@@ -146,4 +50,142 @@ async function getconadd(sender,nonce){
     var contract_address = contract_address_long.substring(24); //Trim the first 24 characters.
     // console.log("contract_address: " + contract_address);
     return "0x"+contract_address;
+}
+async function scantransactions(i,blockinfo){
+    // console.log(i,blockinfo.transactions[i]);
+    let contracttraninfo = await web3.eth.getTransaction(blockinfo.transactions[i]);
+    while (!contracttraninfo) {
+        console.log("error",i,blockinfo.transactions[i]);
+        await wait(1000);
+        contracttraninfo = await web3.eth.getTransaction(blockinfo.transactions[i]);
+    }
+    // console.log(i,contracttraninfo);
+    if(contracttraninfo.to==null){
+        contracttraninfo["to"] = await getconadd(contracttraninfo.from,contracttraninfo.nonce);
+    }
+    // console.log(i,contracttraninfo);
+    let address = contracttraninfo["to"];
+    var contract1 = new web3.eth.Contract(iercnft,address);
+    let nfttype;
+    // console.log(blockinfo.transactions[i]);
+    try {
+        // console.log(await contract1.methods.name().call());
+        // console.log(await contract1.methods.supportsInterface("0x80ac58cd").call(
+        //     // {
+        //     //     // from:"0x0000000000000000000000000000000000000000",
+        //     //     gas:3000000
+        //     // }
+        // ));
+        let flag = await Promise.all([contract1.methods.supportsInterface(erc721hash).call(),contract1.methods.supportsInterface(erc1155hash).call()])
+        if(flag[0]){
+            nfttype="ERC721";
+        }else if(flag[1]){
+            nfttype="ERC1155";
+        }else{
+            return;
+        }
+        // console.log(nfttype);
+    } catch (error) {
+        // console.log(error);
+        return;
+    }
+    
+    let checkcreat = "select * from nft_address where address=?";
+    let getinfo = await connection.sqlcall_uncon(conn,checkcreat,address);
+    // 记录合约信息
+    let blocknumber = contracttraninfo.blockNumber;
+    if(getinfo.length==0){
+        let name,symbol,creater;
+        try {
+            name = await contract1.methods.name().call();
+        } catch (error) {}
+        try {
+            symbol = await contract1.methods.symbol().call();
+        } catch (error) {}
+        creater = contracttraninfo.from;
+        try {
+            totalsupply = await contract1.methods.totalSupply().call();
+        } catch (error) {
+        }
+        nfttype;
+
+        let sqlstr="replace into nft_address(address,lasttime,nonce,name,symbol,creater,blocknumber,totalsupply,nfttype)value(?,UNIX_TIMESTAMP(NOW()),?,?,?,?,?,?,?)";
+        let sqlp = [address,0,name,symbol,creater,blocknumber,0,nfttype];
+        await connection.sqlcall_uncon(conn,sqlstr,sqlp);
+        getinfo = await connection.sqlcall_uncon(conn,checkcreat,address);
+    }else{
+        let update="update nft_address set nonce = (select count(1) from nft_trans where timestamp>(UNIX_TIMESTAMP(NOW())-86400)and address=?) where address=?";
+        await connection.sqlcall_uncon(conn,update,[address,address]);
+    }
+    // let test = blocknumber-1;
+    // console.log(test,blocknumber);
+    let events = await contract1.getPastEvents('Transfer',{
+        fromBlock:blocknumber,
+        toBlock:blocknumber
+    });
+    // console.log(events);
+    let mintamount=0;
+    let minter;
+    let mint_event=new Array;
+    let transactionHash = contracttraninfo.hash;
+    for(let j in events){
+        if(events[j].transactionHash!=transactionHash){
+            continue;
+        }
+        if (events[j].returnValues.from=="0x0000000000000000000000000000000000000000") {
+            mintamount++;
+            minter=events[j].returnValues.to.toLowerCase();
+            mint_event.push([blocknumber,address,transactionHash,minter,events[j].returnValues.tokenId])
+        }
+    }
+    if (mint_event.length!=0) {
+        let insert_event='insert into nft_event(blocknumber,address,transaction,to_add,tokenid) values ?';
+        // console.log(mint_event);
+        await connection.sqlcall_uncon(conn,insert_event,[mint_event]);
+    }
+    if (mintamount==0) {
+        return;
+    }else{
+        let data = contracttraninfo.input;
+        let flag=data.indexOf(minter.slice(2));
+        let estimate;
+        // console.log(flag,data,minter);
+        try {
+            // console.log(address);
+            if(flag!=-1){
+                // console.log(web3.eth.accounts.wallet[0].address.slice(2));
+                data = data.slice(0,flag)+"8C327f1Aa6327F01A9A74cEc696691cEAAc680e2"+data.slice((flag+40));
+                // console.log(data);
+                estimate = await web3.eth.estimateGas({
+                    to:address,
+                    data:data
+                })
+            }else{
+                estimate = await web3.eth.estimateGas({
+                    to:address,
+                    data:data
+                })
+            }
+        } catch (error) {
+            // console.log(address,data);
+            // console.log("zwj2",error);
+        }
+        // console.log(estimate);
+        if(estimate){
+            let sqlin = "insert into nft_trans(blocknumber,address,transaction,to_add,amount,calldata,flag_address,timestamp) VALUES(?,?,?,?,?,?,?,UNIX_TIMESTAMP(NOW()))";
+            let inputinfo = [contracttraninfo.blocknumber,address,transactionHash,minter,mintamount,data,flag!=-1]
+            // console.log(inputinfo);
+            await connection.sqlcall_uncon(conn,sqlin,inputinfo);
+            console.log("success");
+        }
+    }
+}
+async function testfun(){
+    let sqlstr='insert into nft_event(address,tokenid) values ?';
+    let mint_event=new Array;
+    mint_event.push(["4","5"])
+    await connection.sqlcall_uncon(conn,sqlstr,[mint_event]);
+}
+async function wait(ms){
+    return new Promise(resolve =>setTimeout(() =>resolve(), ms));
 }

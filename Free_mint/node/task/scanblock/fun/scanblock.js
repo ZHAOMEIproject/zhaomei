@@ -56,7 +56,7 @@ async function scantransactions(i,blockinfo){
     let contracttraninfo = await web3.eth.getTransaction(blockinfo.transactions[i]);
     while (!contracttraninfo) {
         console.log("error",i,blockinfo.transactions[i]);
-        await wait(1000);
+        await wait(5000);
         contracttraninfo = await web3.eth.getTransaction(blockinfo.transactions[i]);
     }
     // console.log(i,contracttraninfo);

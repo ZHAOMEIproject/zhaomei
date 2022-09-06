@@ -10,11 +10,12 @@
       "pid_file": "pids/FREE_MINT.pid",
       "instances": 1,
       "min_uptime": "200s",
+      "max_restarts":200,
       "watch": false,
       "merge_logs": true,
       "exec_interpreter": "node",
-      "exec_mode": "fork",
-      "autorestart": false,
+      "exec_mode": "cluster",
+      "autorestart": true,
       "vizion": false
     }
   ]

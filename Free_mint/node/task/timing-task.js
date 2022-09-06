@@ -12,14 +12,18 @@ exports.taskStart = async function taskStart(){
     }, 0);
 }
 // const scanblock = require("./scanblock/main");
-
+let lock = false;
 async function taskscanblock() {
+    if (lock) {
+        return;
+    }
+    lock=true;
     console.log("task I   (20s)  ========>  taskscanblock ...");
     // let flag = 
     if (await scanblock.scanblock(blocknumber)) {
         blocknumber++;
     };
-    
+    lock = false;
 }
 
 // async function taskSyncchainscan() {

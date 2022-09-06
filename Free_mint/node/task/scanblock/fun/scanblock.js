@@ -1,7 +1,7 @@
 var Web3 = require('web3');
 // var web3 = new Web3("wss://eth-mainnet.g.alchemy.com/v2/k4k7w92FZHQtnAOKcr_q5LW3SxHhrqD2");
-// var web3 = new Web3("http://127.0.0.1:8545");
-var web3 = new Web3("ws://127.0.0.1:8546");
+var web3 = new Web3("http://127.0.0.1:8545");
+// var web3 = new Web3("ws://127.0.0.1:8546");
 
 const connection = require("../../../nodetool/sqlconnection");
 var erc721hash = "0x80ac58cd";
@@ -173,7 +173,7 @@ async function scantransactions(i,blockinfo){
         // console.log(estimate);
         if(estimate){
             let sqlin = "insert into nft_trans(blocknumber,address,transaction,to_add,amount,calldata,flag_address,timestamp) VALUES(?,?,?,?,?,?,?,UNIX_TIMESTAMP(NOW()))";
-            let inputinfo = [contracttraninfo.blocknumber,address,transactionHash,minter,mintamount,data,flag!=-1]
+            let inputinfo = [blocknumber,address,transactionHash,minter,mintamount,data,flag!=-1]
             // console.log(inputinfo);
             await connection.sqlcall_uncon(conn,sqlin,inputinfo);
             console.log("success");

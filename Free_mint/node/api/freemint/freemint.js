@@ -9,7 +9,7 @@ const conn = mysql.createConnection(global.mysqlGlobal);
 const sql = require("../../nodetool/sqlconnection");
 
 exports.gethotlist= router.get("/gethotlist",async(req,res)=>{
-    let sqlstr="select address,nonce from nft_address order by nonce desc limit 10";
+    let sqlstr="select address,nonce,firstMintTime,totalMinted,totalSupply from nft_address order by nonce desc limit 10";
     let hotlist=await sql.sqlcall_uncon(conn,sqlstr,null);
     res.send({
         success:true,

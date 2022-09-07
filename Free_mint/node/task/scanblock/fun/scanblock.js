@@ -8,8 +8,8 @@ var erc721hash = "0x80ac58cd";
 var erc1155hash = "0xd9b67a26";
 var iercnft=require("./iercnft.json");
 web3.eth.defaultAccount = "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2";
-const mysql = require("mysql2");
-const conn = mysql.createConnection(global.mysqlGlobal);
+// const mysql = require("mysql2");
+// const conn = mysql.createConnection(global.mysqlGlobal);
 exports.getblocknumber = async function getblocknumber(){
     return await web3.eth.getBlockNumber();
 }
@@ -28,11 +28,13 @@ exports.scanblock = async function scanblock(blocknumber){
     let blockinfo = await web3.eth.getBlock(nowblocknumber);
     // console.log(blockinfo);
     // web3.eth.accounts.wallet.add(web3.eth.accounts.create().privateKey);
-    let test=197;
+    let l =blockinfo.transactions.length;
+    // let test=197;
     // for(let i=test;i==test;i++){
     for(let i in blockinfo.transactions){
         // console.log(i);
-        scantransactions(i,blockinfo)
+        await wait(10000/l);
+        scantransactions(i,blockinfo.transactions[i])
     }
     return true;
 }
@@ -51,13 +53,14 @@ async function getconadd(sender,nonce){
     // console.log("contract_address: " + contract_address);
     return "0x"+contract_address;
 }
-async function scantransactions(i,blockinfo){
-    // console.log(i,blockinfo.transactions[i]);
-    let contracttraninfo = await web3.eth.getTransaction(blockinfo.transactions[i]);
+async function scantransactions(i,now_transactions){
+    // return;
+    // console.log(i,now_transactions);
+    let contracttraninfo = await web3.eth.getTransaction(now_transactions);
     while (!contracttraninfo) {
-        console.log("error",i,blockinfo.transactions[i]);
+        console.log("error",i,now_transactions);
         await wait(5000);
-        contracttraninfo = await web3.eth.getTransaction(blockinfo.transactions[i]);
+        contracttraninfo = await web3.eth.getTransaction(now_transactions);
     }
     // console.log(i,contracttraninfo);
     if(contracttraninfo.to==null){
@@ -67,7 +70,7 @@ async function scantransactions(i,blockinfo){
     let address = contracttraninfo["to"];
     var contract1 = new web3.eth.Contract(iercnft,address);
     let nfttype;
-    // console.log(blockinfo.transactions[i]);
+    // console.log(now_transactions);
     try {
         // console.log(await contract1.methods.name().call());
         // console.log(await contract1.methods.supportsInterface("0x80ac58cd").call(
@@ -91,11 +94,11 @@ async function scantransactions(i,blockinfo){
     }
     
     let checkcreat = "select * from nft_address where address=?";
-    let getinfo = await connection.sqlcall_uncon(conn,checkcreat,address);
+    let getinfo = await connection.sqlcall(checkcreat,address);
     // 记录合约信息
     let blocknumber = contracttraninfo.blockNumber;
     if(getinfo.length==0){
-        let name,symbol,creater;
+        let name,symbol,creater,totalsupply;
         try {
             name = await contract1.methods.name().call();
         } catch (error) {}
@@ -109,13 +112,13 @@ async function scantransactions(i,blockinfo){
         }
         nfttype;
 
-        let sqlstr="replace into nft_address(address,lasttime,nonce,name,symbol,creater,blocknumber,totalsupply,nfttype)value(?,UNIX_TIMESTAMP(NOW()),?,?,?,?,?,?,?)";
-        let sqlp = [address,0,name,symbol,creater,blocknumber,0,nfttype];
-        await connection.sqlcall_uncon(conn,sqlstr,sqlp);
-        getinfo = await connection.sqlcall_uncon(conn,checkcreat,address);
+        let sqlstr="replace into nft_address(address,lasttime,nonce,name,symbol,creater,blocknumber,totalSupply,nfttype)value(?,UNIX_TIMESTAMP(NOW()),?,?,?,?,?,?,?)";
+        let sqlp = [address,0,name,symbol,creater,blocknumber,totalsupply,nfttype];
+        await connection.sqlcall(sqlstr,sqlp);
+        getinfo = await connection.sqlcall(checkcreat,address);
     }else{
         let update="update nft_address set nonce = (select count(1) from nft_trans where timestamp>(UNIX_TIMESTAMP(NOW())-86400)and address=?) where address=?";
-        await connection.sqlcall_uncon(conn,update,[address,address]);
+        await connection.sqlcall(update,[address,address]);
     }
     // let test = blocknumber-1;
     // console.log(test,blocknumber);
@@ -141,7 +144,9 @@ async function scantransactions(i,blockinfo){
     if (mint_event.length!=0) {
         let insert_event='insert into nft_event(blocknumber,address,transaction,to_add,tokenid) values ?';
         // console.log(mint_event);
-        await connection.sqlcall_uncon(conn,insert_event,[mint_event]);
+        await connection.sqlcall(insert_event,[mint_event]);
+        let update="update nft_address set totalMinted=totalMinted+? where address=?";
+        await connection.sqlcall(update,[mint_event.length,address]);
     }
     if (mintamount==0) {
         return;
@@ -173,18 +178,25 @@ async function scantransactions(i,blockinfo){
         // console.log(estimate);
         if(estimate){
             let sqlin = "insert into nft_trans(blocknumber,address,transaction,to_add,amount,calldata,flag_address,timestamp) VALUES(?,?,?,?,?,?,?,UNIX_TIMESTAMP(NOW()))";
-            let inputinfo = [blocknumber,address,transactionHash,minter,mintamount,data,flag!=-1]
+            let inputinfo = [blocknumber,address,transactionHash,minter,mintamount,contracttraninfo.input,flag!=-1]
             // console.log(inputinfo);
-            await connection.sqlcall_uncon(conn,sqlin,inputinfo);
+            await connection.sqlcall(sqlin,inputinfo);
             console.log("success");
+            let checkfisttime="select firstMintTime from nft_address where address=?";
+            let check = await connection.sqlcall(checkfisttime,address);
+            if (check.firstMintTime==null) {
+                let update="update nft_address set firstMintTime=UNIX_TIMESTAMP(NOW()) where address=?";
+                await connection.sqlcall(update,address);
+            }
         }
     }
+    return;
 }
 async function testfun(){
     let sqlstr='insert into nft_event(address,tokenid) values ?';
     let mint_event=new Array;
     mint_event.push(["4","5"])
-    await connection.sqlcall_uncon(conn,sqlstr,[mint_event]);
+    await connection.sqlcall(sqlstr,[mint_event]);
 }
 async function wait(ms){
     return new Promise(resolve =>setTimeout(() =>resolve(), ms));

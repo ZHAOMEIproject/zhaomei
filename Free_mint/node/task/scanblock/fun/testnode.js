@@ -1,24 +1,28 @@
-const request = require("request");
-function getApi(url){
-    return new Promise(function (resolve, reject) {
-        request({
-            timeout:10000,    // Set timeout
-            method:'GET',     // Set method
-            url:url
-        },async function (error, response, body) {
-            if (!error && response.statusCode == 200) {
-                let json = JSON.parse(body);
-                resolve(json.result);
-            }else{
-                console.log("message --> get api event contract fail.");
-                resolve();
-            }
-        })
-    })
-}
+'use strict';
+const express = require('express');
+const app = express();
 
-main();
-async function main(){
-    let getinfo =await getApi("ipfs://QmeSjSinHpPnmXmspMjwiXyN6zS4E9zccariGR3jxcaWtq/");
-    console.log(getinfo);
-}
+//以下是产生泄漏的代码
+let theThing = null;
+let replaceThing = function () {
+    let leak = theThing;
+    let unused = function () {
+        if (leak)
+            console.log("hi")
+    };
+    
+    // 不断修改theThing的引用
+    theThing = {
+        longStr: new Array(1000000),
+        someMethod: function () {
+            console.log('a');
+        }
+    };
+};
+
+app.get('/leak', function closureLeak(req, res, next) {
+    replaceThing();
+    res.send('Hello Node');
+});
+
+app.listen(8082);

@@ -2,6 +2,8 @@
 // After the project starts, the scheduled task will be started in five seconds
 let blocknumber;
 const scanblock = require("./scanblock/fun/scanblock");
+// const mysql = require("mysql2");
+// global.conn = mysql.createConnection(global.mysqlGlobal);
 exports.taskStart = async function taskStart(){
     console.log(`Tasks start loading`);
     blocknumber=await scanblock.getblocknumber()-1;
@@ -9,7 +11,7 @@ exports.taskStart = async function taskStart(){
 
     setTimeout(function () {
         setInterval(taskscanblock,1000*5);// task I,Synchronization levelnft event record,Do it every 10s
-    }, 0);
+    }, 1000*5);
 }
 // const scanblock = require("./scanblock/main");
 let lock = false;
@@ -19,11 +21,12 @@ async function taskscanblock() {
     }
     lock=true;
     console.log("task I   (20s)  ========>  taskscanblock ...");
-    // let flag = 
-    if (await scanblock.scanblock(blocknumber)) {
+    let flag = blocknumber
+    if (await scanblock.scanblock(flag)) {
         blocknumber++;
     };
     lock = false;
+    return;
 }
 
 // async function taskSyncchainscan() {

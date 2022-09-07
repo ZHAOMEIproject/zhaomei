@@ -14,7 +14,8 @@
       "watch": false,
       "merge_logs": true,
       "exec_interpreter": "node",
-      "exec_mode": "cluster",
+      // "exec_mode": "cluster",
+      "exec_mode": "fork",
       "autorestart": true,
       "vizion": false
     }

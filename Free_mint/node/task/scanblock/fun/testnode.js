@@ -1,28 +1,26 @@
-'use strict';
-const express = require('express');
-const app = express();
+const request = require("request");
+main();
 
-//以下是产生泄漏的代码
-let theThing = null;
-let replaceThing = function () {
-    let leak = theThing;
-    let unused = function () {
-        if (leak)
-            console.log("hi")
-    };
-    
-    // 不断修改theThing的引用
-    theThing = {
-        longStr: new Array(1000000),
-        someMethod: function () {
-            console.log('a');
-        }
-    };
-};
-
-app.get('/leak', function closureLeak(req, res, next) {
-    replaceThing();
-    res.send('Hello Node');
-});
-
-app.listen(8082);
+async function main(){
+    let url ="https://ipfs.io/ipfs/QmTb8uK4Y2QKGTNpo6iBe1vafkRtKZfcMGrYYP23x6WqT5/1047";
+    let info = await getbyurl(url)
+    console.log(info);
+}
+function getbyurl(url){
+    return new Promise(function (resolve, reject) {
+        request({
+            timeout:10000,    // Set timeout
+            method:'GET',     // Set method
+            url:url
+        },async function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+                let json = JSON.parse(body);
+                resolve(json);
+            }else{
+                console.log("message --> get api event contract fail.");
+                console.log(error);
+                resolve();
+            }
+        })
+    })
+}

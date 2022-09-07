@@ -1,26 +1,32 @@
-var Web3 = require('web3');
-// var web3 = new Web3("wss://eth-mainnet.g.alchemy.com/v2/k4k7w92FZHQtnAOKcr_q5LW3SxHhrqD2");
-var web3 = new Web3("http://127.0.0.1:8545");
-// var web3 = new Web3("ws://127.0.0.1:8546");
 
+// var web3 = new Web3("ws://127.0.0.1:8546");
+// var web3 = new Web3("wss://eth-mainnet.g.alchemy.com/v2/k4k7w92FZHQtnAOKcr_q5LW3SxHhrqD2");
 const connection = require("../../../nodetool/sqlconnection");
-var erc721hash = "0x80ac58cd";
-var erc1155hash = "0xd9b67a26";
 var iercnft=require("./iercnft.json");
-web3.eth.defaultAccount = "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2";
 // const mysql = require("mysql2");
 // const conn = mysql.createConnection(global.mysqlGlobal);
-exports.getblocknumber = async function getblocknumber(){
-    return await web3.eth.getBlockNumber();
-}
-exports.scanblock = async function scanblock(blocknumber){
+// exports.getblocknumber = async function getblocknumber(){
+//     return await web3.eth.getBlockNumber();
+// }
+exports.scanblock = async function scanblock(){
+    var Web3 = require('web3');
+    var web3 = new Web3("http://127.0.0.1:8545");
+    web3.eth.defaultAccount = "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2";
     // await testfun();
     // return;
+    let sqlgetblocknumber = "select * from scannumber";
+    let r_sqlblocknumber = await connection.sqlcall(sqlgetblocknumber,null);
+    let blocknumber=r_sqlblocknumber[0].blocknumber;
     let nowblocknumber = await web3.eth.getBlockNumber();
     if(nowblocknumber<=blocknumber){
-        return false;
+        return;
+        return new Promise(function (resolve, reject){
+            return;
+        });
     }else{
         nowblocknumber=blocknumber;
+        let sqlupdateblocknumber = "update scannumber set blocknumber=blocknumber+1";
+        await connection.sqlcall(sqlupdateblocknumber,null);
     }
     // nowblocknumber = 15475522;
     console.log(nowblocknumber,Date.now());
@@ -34,9 +40,12 @@ exports.scanblock = async function scanblock(blocknumber){
     for(let i in blockinfo.transactions){
         // console.log(i);
         await wait(10000/l);
-        scantransactions(i,blockinfo.transactions[i])
+        scantransactions(web3,i,blockinfo.transactions[i])
     }
-    return true;
+    return;
+    return new Promise(function (resolve, reject){
+        return;
+    });
 }
 
 const rlp = require('rlp');
@@ -53,7 +62,7 @@ async function getconadd(sender,nonce){
     // console.log("contract_address: " + contract_address);
     return "0x"+contract_address;
 }
-async function scantransactions(i,now_transactions){
+async function scantransactions(web3,i,now_transactions){
     // return;
     // console.log(i,now_transactions);
     let contracttraninfo = await web3.eth.getTransaction(now_transactions);
@@ -72,13 +81,8 @@ async function scantransactions(i,now_transactions){
     let nfttype;
     // console.log(now_transactions);
     try {
-        // console.log(await contract1.methods.name().call());
-        // console.log(await contract1.methods.supportsInterface("0x80ac58cd").call(
-        //     // {
-        //     //     // from:"0x0000000000000000000000000000000000000000",
-        //     //     gas:3000000
-        //     // }
-        // ));
+        var erc721hash = "0x80ac58cd";
+        var erc1155hash = "0xd9b67a26";
         let flag = await Promise.all([contract1.methods.supportsInterface(erc721hash).call(),contract1.methods.supportsInterface(erc1155hash).call()])
         if(flag[0]){
             nfttype="ERC721";
@@ -101,14 +105,19 @@ async function scantransactions(i,now_transactions){
         let name,symbol,creater,totalsupply;
         try {
             name = await contract1.methods.name().call();
-        } catch (error) {}
+        } catch (error) {
+            // console.log(error);
+        }
         try {
             symbol = await contract1.methods.symbol().call();
-        } catch (error) {}
+        } catch (error) {
+            // console.log(error);
+        }
         creater = contracttraninfo.from;
         try {
             totalsupply = await contract1.methods.totalSupply().call();
         } catch (error) {
+            // console.log(error);
         }
         nfttype;
 
@@ -138,11 +147,41 @@ async function scantransactions(i,now_transactions){
         if (events[j].returnValues.from=="0x0000000000000000000000000000000000000000") {
             mintamount++;
             minter=events[j].returnValues.to.toLowerCase();
-            mint_event.push([blocknumber,address,transactionHash,minter,events[j].returnValues.tokenId])
+            let tokenURI;
+            try {
+                tokenURI = await contract1.methods.tokenURI(events[j].returnValues.tokenId).call();
+            } catch (error) {
+                // console.log(error);
+            }
+            let imageURI;
+            if(tokenURI){
+
+                if (tokenURI.indexOf("http")!=-1) {
+                    try {
+                        let info = await getbyurl(tokenURI);
+                        // console.log(info);
+                        imageURI = info.image;
+                        if(imageURI.indexOf("ipfs://")!=-1){
+                            imageURI="https://ipfs.io/ipfs/"+imageURI.slice(7);
+                        }
+                    } catch (error) {console.log("url",tokenURI,error);}
+                    // console.log("1",tokenURI);
+                }else if(tokenURI.indexOf("ipfs://")!=-1){
+                    try {
+                        let info = await getbyurl("https://ipfs.io/ipfs/"+tokenURI.slice(7));
+                        // console.log(info);
+                        imageURI = info.image;
+                        if(imageURI.indexOf("ipfs://")!=-1){
+                            imageURI="https://ipfs.io/ipfs/"+imageURI.slice(7);
+                        }
+                    } catch (error) {console.log("ipfs",tokenURI,error);}
+                }
+            }
+            mint_event.push([blocknumber,address,transactionHash,minter,events[j].returnValues.tokenId,tokenURI,imageURI])
         }
     }
     if (mint_event.length!=0) {
-        let insert_event='insert into nft_event(blocknumber,address,transaction,to_add,tokenid) values ?';
+        let insert_event='insert into nft_event(blocknumber,address,transaction,to_add,tokenid,tokenURI,imageURI) values ?';
         // console.log(mint_event);
         await connection.sqlcall(insert_event,[mint_event]);
         let update="update nft_address set totalMinted=totalMinted+? where address=?";
@@ -172,6 +211,7 @@ async function scantransactions(i,now_transactions){
                 })
             }
         } catch (error) {
+            // console.log(error);
             // console.log(address,data);
             // console.log("zwj2",error);
         }
@@ -192,12 +232,24 @@ async function scantransactions(i,now_transactions){
     }
     return;
 }
-async function testfun(){
-    let sqlstr='insert into nft_event(address,tokenid) values ?';
-    let mint_event=new Array;
-    mint_event.push(["4","5"])
-    await connection.sqlcall(sqlstr,[mint_event]);
-}
 async function wait(ms){
     return new Promise(resolve =>setTimeout(() =>resolve(), ms));
+}
+
+const request = require("request");
+function getbyurl(url){
+    return new Promise(function (resolve, reject) {
+        request({
+            timeout:10000,    // Set timeout
+            method:'GET',     // Set method
+            url:url
+        },async function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+                let json = JSON.parse(body);
+                resolve(json);
+            }else{
+                resolve();
+            }
+        })
+    })
 }

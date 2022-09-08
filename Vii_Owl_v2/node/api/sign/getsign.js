@@ -11,7 +11,7 @@ exports.getsign = async function getsign(id,contractname,params){
     let address=contractinfo[id][contractname].address;
     let chainId=id
 
-    var path = "m/44'/60'/0'/9/9";
+    var path = "m/44'/60'/0'/0/0";
     const account = ethers.Wallet.fromMnemonic(secret.solidity.mnemonic, path);
     let add = account._signingKey().privateKey;
     const ownerPrivateKey = Buffer.from(add.slice(2), 'hex')

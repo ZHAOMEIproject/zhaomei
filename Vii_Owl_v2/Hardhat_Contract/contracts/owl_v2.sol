@@ -32,10 +32,13 @@ contract VII_OWL is ERC721, Ownable, EIP712, ERC721Enumerable{
     uint256 limitpool = 500*3;
     uint256 Snappool = total-limitpool;
 
-    function dbug(uint256 _opentime,uint256 _limit_time,uint256 _Snap_time)public{
+    function dbug(uint256 _opentime,uint256 _limit_time,uint256 _Snap_time,uint256 _total,uint256 _limitpool,uint256 _Snappool)public{
         opentime=_opentime;
         limit_time=_limit_time;
         Snap_time=_Snap_time;
+        total=_total;
+        limitpool=_limitpool;
+        Snappool=_Snappool;
     }
     function set_openinfo(uint256 _opentime,uint256 _limit_time,uint256 _Snap_time,uint256 _total,uint256 _limitpool,uint256 _Snappool)public onlyOwner{
         opentime=_opentime;

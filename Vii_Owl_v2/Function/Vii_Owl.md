@@ -7,7 +7,7 @@ Contract name: owl_base.sol
     * [写入函数](#写入函数)
     * [后端接口](#后端接口)
 ## 测试
-[合约信息](../Hardhat_Contract/deployments/newinfo/):newinfo为最新的
+[合约信息](../Hardhat_Contract/deployments/newinfo/VII_OWL.json):newinfo为最新的
 当前：https://mumbai.polygonscan.com/address/改地址#writeContract
 
 ### 开放参数的设置

@@ -29,13 +29,24 @@ contract VII_OWL is ERC721, Ownable, EIP712, ERC721Enumerable{
 
     uint256 limitpool_m;
     uint256 Snappool_m;
-    uint256  limitpool = 500*3;
-    uint256  Snappool = total-limitpool;
+    uint256 limitpool = 500*3;
+    uint256 Snappool = total-limitpool;
 
     function dbug(uint256 _opentime,uint256 _limit_time,uint256 _Snap_time)public{
         opentime=_opentime;
         limit_time=_limit_time;
         Snap_time=_Snap_time;
+    }
+    function set_openinfo(uint256 _opentime,uint256 _limit_time,uint256 _Snap_time,uint256 _total,uint256 _limitpool,uint256 _Snappool)public onlyOwner{
+        opentime=_opentime;
+        limit_time=_limit_time;
+        Snap_time=_Snap_time;
+        total=_total;
+        limitpool=_limitpool;
+        Snappool=_Snappool;
+    }
+    function view_set()public view returns(uint256 _opentime,uint256 _limit_time,uint256 _Snap_time,uint256 _total,uint256 _limitpool,uint256 _Snappool){
+        return (opentime,limit_time,Snap_time,total,limitpool,Snappool);
     }
 
 
@@ -43,9 +54,6 @@ contract VII_OWL is ERC721, Ownable, EIP712, ERC721Enumerable{
     }
     string baseURL;
     function set_baseinfo(string memory _str)public onlyOwner{
-        baseURL=_str;
-    }
-    function set_openinfo(string memory _str)public onlyOwner{
         baseURL=_str;
     }
     function _baseURI() internal view override returns (string memory) {
@@ -90,7 +98,7 @@ contract VII_OWL is ERC721, Ownable, EIP712, ERC721Enumerable{
     }
     
     function FreeMint(_signvrs calldata signinfo)public{
-        require(signinfo.deadline<block.timestamp,"time out");
+        require(signinfo.deadline>block.timestamp,"time out");
         require(block.timestamp>opentime,"It's not time to mint");
         address gainer = signinfo.gainer;
         require(owner()==signcheck(signinfo,_useNonce(gainer)),"error signature");

@@ -98,7 +98,7 @@ contract main is ZMMainControl{
     }
 
     modifier contract_invocation_lock(){
-        require(msg.sender.code.length==0);
+        require(msg.sender==tx.origin);
         _;
     }
 }

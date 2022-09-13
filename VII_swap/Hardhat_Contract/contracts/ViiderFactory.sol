@@ -1,4 +1,16 @@
 /**
+ *Submitted for verification at BscScan.com on 2021-04-23
+*/
+
+/**
+ *Submitted for verification at BscScan.com on 2021-04-22
+*/
+
+/**
+ *Submitted for verification at BscScan.com on 2021-04-22
+*/
+
+/**
  *Submitted for verification at BscScan.com on 2020-09-19
 */
 
@@ -254,7 +266,7 @@ interface IERC20 {
 }
 
 interface IViiderCallee {
-    function ViiderCall(address sender, uint amount0, uint amount1, bytes calldata data) external;
+    function viiderCall(address sender, uint amount0, uint amount1, bytes calldata data) external;
 }
 
 contract ViiderPair is IViiderPair, ViiderERC20 {
@@ -334,7 +346,7 @@ contract ViiderPair is IViiderPair, ViiderERC20 {
         emit Sync(reserve0, reserve1);
     }
 
-    // if fee is on, mint liquidity equivalent to 1/6th of the growth in sqrt(k)
+    // if fee is on, mint liquidity equivalent to 8/25 of the growth in sqrt(k)
     function _mintFee(uint112 _reserve0, uint112 _reserve1) private returns (bool feeOn) {
         address feeTo = IViiderFactory(factory).feeTo();
         feeOn = feeTo != address(0);
@@ -345,7 +357,7 @@ contract ViiderPair is IViiderPair, ViiderERC20 {
                 uint rootKLast = Math.sqrt(_kLast);
                 if (rootK > rootKLast) {
                     uint numerator = totalSupply.mul(rootK.sub(rootKLast));
-                    uint denominator = rootK.mul(3).add(rootKLast);
+                    uint denominator = rootK.mul(5).add(rootKLast);
                     uint liquidity = numerator / denominator;
                     if (liquidity > 0) _mint(feeTo, liquidity);
                 }
@@ -369,8 +381,7 @@ contract ViiderPair is IViiderPair, ViiderERC20 {
             liquidity = Math.sqrt(amount0.mul(amount1)).sub(MINIMUM_LIQUIDITY);
            _mint(address(0), MINIMUM_LIQUIDITY); // permanently lock the first MINIMUM_LIQUIDITY tokens
         } else {
-            // liquidity = Math.min(amount0.mul(_totalSupply) / _reserve0, amount1.mul(_totalSupply) / _reserve1);
-            liquidity = amount0.mul(_totalSupply)/(_reserve0*2)+amount1.mul(_totalSupply)/(_reserve1*2);
+            liquidity = Math.min(amount0.mul(_totalSupply) / _reserve0, amount1.mul(_totalSupply) / _reserve1);
         }
         require(liquidity > 0, 'Viider: INSUFFICIENT_LIQUIDITY_MINTED');
         _mint(to, liquidity);
@@ -419,7 +430,7 @@ contract ViiderPair is IViiderPair, ViiderERC20 {
         require(to != _token0 && to != _token1, 'Viider: INVALID_TO');
         if (amount0Out > 0) _safeTransfer(_token0, to, amount0Out); // optimistically transfer tokens
         if (amount1Out > 0) _safeTransfer(_token1, to, amount1Out); // optimistically transfer tokens
-        if (data.length > 0) IViiderCallee(to).ViiderCall(msg.sender, amount0Out, amount1Out, data);
+        if (data.length > 0) IViiderCallee(to).viiderCall(msg.sender, amount0Out, amount1Out, data);
         balance0 = IERC20(_token0).balanceOf(address(this));
         balance1 = IERC20(_token1).balanceOf(address(this));
         }

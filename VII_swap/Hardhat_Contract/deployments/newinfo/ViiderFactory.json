@@ -208,9 +208,11 @@
       "type": "function"
     }
   ],
-  "address": "0x96880Fe1B7276A2f05Bf65F75F839d11406dE58c",
-  "blocknumber": 11371666,
-  "constructorArguments": {},
+  "address": "0x4604048D442ACa38C309d812215f6dEB0bAe5c93",
+  "blocknumber": 11371955,
+  "constructorArguments": [
+    "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2"
+  ],
   "network": {
     "name": "rinkeby",
     "chainId": 4,

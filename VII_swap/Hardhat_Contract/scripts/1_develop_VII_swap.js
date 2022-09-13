@@ -4,6 +4,8 @@ var { writer_info_all } = require('./tool/hh_log.js');
 // npx hardhat verify 0x4a4A704A9CDc165eB6614150b98Ff5b74BCa61c1 --constructor-args ./other_info/arguments.js --network bnbtest
 
 async function main(){
+  var arguments=[];
+
   var WBNB = await hre.ethers.getContractFactory("WBNB");
   // var arguments = require('../other_info/arguments');
   var wbnb = await WBNB.deploy(
@@ -18,17 +20,19 @@ async function main(){
 
   var ViiderFactory = await hre.ethers.getContractFactory("ViiderFactory");
   var ViiderFactory_arg = require('../other_info/ViiderFactory');
+  arguments=ViiderFactory_arg;
   var viiderfactory = await ViiderFactory.deploy(
-    ...ViiderFactory_arg
+    ...arguments
   );
   viiderfactory.deployed();
   console.log("ViiderFactory deployed to:", viiderfactory.address);
   var ViiderFactoryArtifact = await artifacts.readArtifact("ViiderFactory");
   await writer_info_all(network,ViiderFactoryArtifact, viiderfactory,arguments);
 
+  arguments=[viiderfactory.address,wbnb.address];
   var ViiderRouter = await hre.ethers.getContractFactory("ViiderRouter");
   var viiderrouter = await ViiderRouter.deploy(
-    viiderfactory.address,wbnb.address
+    ...arguments
   );
   viiderrouter.deployed();
   console.log("ViiderRouter deployed to:", viiderrouter.address);

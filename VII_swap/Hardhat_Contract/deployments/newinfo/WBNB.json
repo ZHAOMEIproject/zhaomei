@@ -293,9 +293,9 @@
       "type": "event"
     }
   ],
-  "address": "0xB7bE5a5c9322cF1Bc15efB28fA5a7a118d71Be40",
-  "blocknumber": 11371666,
-  "constructorArguments": {},
+  "address": "0xF2cf5CA817e92912b7C4E2Dab5760d325379BA48",
+  "blocknumber": 11371955,
+  "constructorArguments": [],
   "network": {
     "name": "rinkeby",
     "chainId": 4,

@@ -39,7 +39,36 @@ module.exports = {
           }
         }
       }
-    ]
+    ],
+    overrides:{
+      "contracts/ViiderFactory.sol":{
+        version: "0.5.16",
+        settings:{
+          optimizer:{
+            enabled:true,
+            runs:200
+          }
+        }
+      },
+      "contracts/ViiderRouter.sol":{
+        version: "0.6.6",
+        settings:{
+          optimizer:{
+            enabled:true,
+            runs:200
+          }
+        }
+      },
+      "contracts/WBNB.sol":{
+        version: "0.4.18",
+        settings:{
+          optimizer:{
+            enabled:true,
+            runs:200
+          }
+        }
+      }
+    }
   },
   networks:{
     dev:{

@@ -1,24 +1,27 @@
 const { ecsign } = require('ethereumjs-util');
 const ethers = require("ethers");
-const {getPermitDigest} = require('./VII_order_sign')
-const secret = require('../../../../../privateinfo/.secret.json');
-const {getcontractinfo}=require('../../nodetool/readcontracts');
+// 签名信息的打包
+const {getPermitDigest} = require('./VII_WITHDRAW_sign')
+// 加载秘钥
+const secret = global.secret;
+// 加载合约信息
+const {getcontractinfo}=require('../../nodetool/id-readcontracts');
 
-exports.getsign = async function getsign(order,amount,deadline){
+exports.getsign = async function getsign(id,contractname,params){
 
     const contractinfo = await getcontractinfo();
-    let name="VII_order";
-    let address=contractinfo.TB_order.address;
-    let chainId=contractinfo.TB_order.network.chainId;
+    let name="VII_WITHDRAW";
+    let address=contractinfo[id][contractname].address;
+    let chainId=id
 
-    var path = "m/44'/60'/0'/0/1";
+    var path = "m/44'/60'/0'/9/9";
     const account = ethers.Wallet.fromMnemonic(secret.solidity.mnemonic, path);
     let add = account._signingKey().privateKey;
     const ownerPrivateKey = Buffer.from(add.slice(2), 'hex')
     // 获取加密信息
     const digest = getPermitDigest(
         name, address, chainId,
-        order,amount,deadline
+        params
     )
     // get vrs
     let { v, r, s } = ecsign(Buffer.from(digest.slice(2), 'hex'), ownerPrivateKey)

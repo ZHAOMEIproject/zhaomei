@@ -43,9 +43,6 @@ exports.scanblock = async function scanblock(){
         scantransactions(web3,i,blockinfo.transactions[i])
     }
     return;
-    return new Promise(function (resolve, reject){
-        return;
-    });
 }
 
 const rlp = require('rlp');

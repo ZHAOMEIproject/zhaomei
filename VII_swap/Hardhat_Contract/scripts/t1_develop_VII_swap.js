@@ -63,7 +63,34 @@ async function main(){
     console.log("Testtoken deployed to:", testtoken.address);
     var TesttokenArtifact = await artifacts.readArtifact("Testtoken");
     await writer_info_all(network,TesttokenArtifact, testtoken,arguments);
+    
 
+    // test init
+    await viider.approve(viiderrouter.address,await viider.totalSupply());
+    let [owner] = await ethers.getSigners();
+    // console.log("testout",await viider.allowance(owner.address,viiderrouter.address));
+    await testtoken.approve(viiderrouter.address,await viider.totalSupply());
+    console.log("approve finish");
+    await viiderrouter.addLiquidity(
+        viider.address,
+        testtoken.address,
+        ethers.utils.parseUnits('1',18),
+        ethers.utils.parseUnits('1',18),
+        0,
+        0,
+        owner.address,
+        9999999999
+    );
+    await viiderrouter.addLiquidityETH(
+        viider.address,
+        ethers.utils.parseUnits('1',18),
+        0,
+        0,
+        owner.address,
+        9999999999,
+        {value:ethers.utils.parseUnits('1',18)}
+    );
+    console.log("addLiquidity finish");
 
 }
 main()

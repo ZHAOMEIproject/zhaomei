@@ -9,10 +9,13 @@ async function main() {
   // console.log(loadinfo);
 
   for(let i in loadinfo){
-    await hre.run("verify:verify", {
-      address: loadinfo[i].address,
-      constructorArguments: loadinfo[i].constructorArguments,
-    })
+    try {
+      await hre.run("verify:verify", {
+        address: loadinfo[i].address,
+        constructorArguments: loadinfo[i].constructorArguments,
+      })
+    } catch (error) {
+    }
   }
 
 }

@@ -9,7 +9,9 @@ const {getcontractinfo}=require('./tool/id-readcontracts');
 // }
 
 async function main(){
-    console.log(getcontractinfo);
+    let contractinfo = await getcontractinfo();
+    // console.log(contractinfo);
+
 
 
 

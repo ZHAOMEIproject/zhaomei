@@ -1,6 +1,5 @@
 const {getsign} = require("../api/sign/getsign");
 const mysqlconn = require("../nodetool/sqlconnection");
-const {readcontracts}=require("../api/contractapi");
 // loading
 {
     setinfo = require("../../../../privateinfo/.secret.json");

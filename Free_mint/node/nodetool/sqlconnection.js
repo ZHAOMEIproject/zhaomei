@@ -8,7 +8,7 @@ exports.sqlcall = function sqlcall(selSql,selSqlParams){
     return new Promise(function (resolve, reject) {
         conn.query(selSql, selSqlParams, function (err, result) {
             if (err) {
-                console.log('[SQLCALL ERROR] - ', selSql , err.message);
+                console.log('[SQLCALL ERROR] - ', selSql,selSqlParams , err.message);
                 resolve(err);
                 global.zwjerror = true;
                 return;
@@ -25,7 +25,7 @@ exports.sqlcall_uncon = function sqlcall_uncon(conn,sqlcall,selSqlParams){
     return new Promise(function (resolve, reject) {
         conn.query(sqlcall, selSqlParams, function (err, result) {
             if (err) {
-                console.log('[SQLCALL ERROR] - ', err.message);
+                console.log('[SQLCALL ERROR] - ',sqlcall,selSqlParams, err.message);
                 resolve(err);
                 global.zwjerror = true;
                 return;

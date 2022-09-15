@@ -26,14 +26,14 @@ const infrakey='';
 const scankey='';
 
 module.exports = {
-  defaultNetwork: "polygonMumbai",
+  // defaultNetwork: "polygonMumbai",
   solidity:{
     compilers:[
       {
         version: "0.8.15",
         settings:{
           optimizer:{
-            enable:true,
+            enabled:true,
             runs:200
           }
         }

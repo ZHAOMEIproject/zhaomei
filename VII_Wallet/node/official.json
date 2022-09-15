@@ -13,7 +13,7 @@
       "watch": false,
       "merge_logs": true,
       "exec_interpreter": "node",
-      "exec_mode": "fork",
+      "exec_mode": "cluster",
       "autorestart": false,
       "vizion": false
     }

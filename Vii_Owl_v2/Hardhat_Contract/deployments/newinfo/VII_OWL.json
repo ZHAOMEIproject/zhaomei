@@ -265,6 +265,21 @@
           "internalType": "uint256",
           "name": "_Snap_time",
           "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_total",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_limitpool",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_Snappool",
+          "type": "uint256"
         }
       ],
       "name": "dbug",
@@ -503,9 +518,34 @@
     {
       "inputs": [
         {
-          "internalType": "string",
-          "name": "_str",
-          "type": "string"
+          "internalType": "uint256",
+          "name": "_opentime",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_limit_time",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_Snap_time",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_total",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_limitpool",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_Snappool",
+          "type": "uint256"
         }
       ],
       "name": "set_openinfo",
@@ -729,10 +769,48 @@
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "view_set",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "_opentime",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_limit_time",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_Snap_time",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_total",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_limitpool",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_Snappool",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
     }
   ],
-  "address": "0xdaaA05AD966F127BFc073Dcf79365f13CC02c338",
-  "blocknumber": 27739340,
+  "address": "0x52746205219f9B4BF66Cff22DB48Bb06997224f0",
+  "blocknumber": 27992932,
   "constructorArguments": [],
   "network": {
     "name": "polygonMumbai",

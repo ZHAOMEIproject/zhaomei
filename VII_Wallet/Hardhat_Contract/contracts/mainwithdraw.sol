@@ -13,7 +13,7 @@ contract mainwithdraw is withdraw{
     {
         _grantRole(AUDITOR_ROLE, 0x452Ae8BEc379698ff9106611865Ecf042AeE20D1);
         _grantRole(AUDITOR_ROLE, 0x1E14589a0486aE6060A2eF966bE5702c998a6902);
-        _grantRole(AUDITOR_ROLE, 0xC66f6B7814B886aA104573FCe17862c2ce906740);
+        // _grantRole(AUDITOR_ROLE, 0xC66f6B7814B886aA104573FCe17862c2ce906740);
         _revokeRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _revokeRole(MANAGE_ROLE, msg.sender);
     }

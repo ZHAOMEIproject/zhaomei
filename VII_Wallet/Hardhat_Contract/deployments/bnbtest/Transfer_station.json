@@ -2,7 +2,18 @@
   "contractName": "Transfer_station",
   "abi": [
     {
-      "inputs": [],
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_erc20",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_collection",
+          "type": "address"
+        }
+      ],
       "stateMutability": "nonpayable",
       "type": "constructor"
     },
@@ -66,6 +77,11 @@
     {
       "inputs": [
         {
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
           "internalType": "uint256",
           "name": "amount",
           "type": "uint256"
@@ -90,14 +106,11 @@
       "type": "function"
     }
   ],
-  "address": "0x9420686A4fb105978e96663369979FA34315e82f",
-  "blocknumber": 21313786,
+  "address": "0xfe1778b5F3A76d88d579CbC38d5C10b279f232b8",
+  "blocknumber": 22858417,
   "constructorArguments": [
-    "500000000000000000000",
-    "0x9cb423b85f7A83362cA1fFB4f7Cadd89BBD432Fb",
-    "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
-    "VII_WITHDRAW",
-    "1"
+    "0x724dCb46663A81AddE83772F0c1D0873A18333eC",
+    "0x4B05DBd3a8cE4238161C6a9eaFEB1B61Eba37165"
   ],
   "network": {
     "name": "bnbtest",

@@ -266,50 +266,50 @@ exports.getallowance = router.get("/getallowance", async (req, res) => {
     });
     return;
 });
-exports.test = router.get("/test", async (req, res) => {
-    let selsql = "SELECT amount FROM withdraw where flag_withdraw ='F'";
-    let sqlrq = await conn.select(selsql,null);
-    let amount = 0;
-    for (let i in sqlrq) {
-        amount+=sqlrq[i]
-    }
-    amount+=100;
-    console.log(amount,n_allowance);
+// exports.test = router.get("/test", async (req, res) => {
+//     let selsql = "SELECT amount FROM withdraw where flag_withdraw ='F'";
+//     let sqlrq = await conn.select(selsql,null);
+//     let amount = 0;
+//     for (let i in sqlrq) {
+//         amount+=sqlrq[i]
+//     }
+//     amount+=100;
+//     console.log(amount,n_allowance);
 
-    if (n_allowance<amount) {
-        let checktime=Date.now()/1000;
-        if (lasttime<(checktime-15)) {
-            n_allowance=await getallowance();
-            lasttime=checktime;
-            if(n_allowance<amount){
-                // sendEmail("授权量不足","授权量不足");
-                res.send({
-                    success:false,
-                    data:{
-                        error:"Insufficient authorization"
-                    }
-                });
-                return;
-            }
-        }else{
-            // sendEmail("授权量不足","授权量不足");
-            res.send({
-                success:false,
-                data:{
-                    error:"Insufficient authorization"
-                }
-            });
-            return;
-        }
-    }
+//     if (n_allowance<amount) {
+//         let checktime=Date.now()/1000;
+//         if (lasttime<(checktime-15)) {
+//             n_allowance=await getallowance();
+//             lasttime=checktime;
+//             if(n_allowance<amount){
+//                 // sendEmail("授权量不足","授权量不足");
+//                 res.send({
+//                     success:false,
+//                     data:{
+//                         error:"Insufficient authorization"
+//                     }
+//                 });
+//                 return;
+//             }
+//         }else{
+//             // sendEmail("授权量不足","授权量不足");
+//             res.send({
+//                 success:false,
+//                 data:{
+//                     error:"Insufficient authorization"
+//                 }
+//             });
+//             return;
+//         }
+//     }
 
 
 
-    res.send({
-        success:true
-    });
-    return;
-});
+//     res.send({
+//         success:true
+//     });
+//     return;
+// });
 
 async function getallowance(){
     let contractinfo = await getcontractinfo();

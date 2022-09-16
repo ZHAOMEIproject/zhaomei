@@ -21,41 +21,41 @@ exports.postwithdraw = router.get("/postwithdraw", async (req, res) => {
         });
         return;
     }
-    {
-        let selsql = "SELECT amount FROM withdraw where flag_withdraw ='F'";
-        let sqlrq = await conn.select(selsql,null);
-        let amount = 0;
-        for (let i in sqlrq) {
-            amount+=sqlrq[i]
-        }
-        amount+=params.amount;
-        if (n_allowance<amount) {
-            let checktime=Date.now()/1000;
-            if (lasttime<(checktime-15)) {
-                n_allowance=await getallowance();
-                lasttime=checktime;
-                if(n_allowance<amount){
-                    sendEmail("授权量不足","授权量不足");
-                    res.send({
-                        success:false,
-                        data:{
-                            error:"Insufficient authorization"
-                        }
-                    });
-                    return;
-                }
-            }else{
-                sendEmail("授权量不足","授权量不足");
-                res.send({
-                    success:false,
-                    data:{
-                        error:"Insufficient authorization"
-                    }
-                });
-                return;
-            }
-        }
-    }
+    // {
+    //     let selsql = "SELECT amount FROM withdraw where flag_withdraw ='F'";
+    //     let sqlrq = await conn.select(selsql,null);
+    //     let amount = 0;
+    //     for (let i in sqlrq) {
+    //         amount+=sqlrq[i]
+    //     }
+    //     amount+=params.amount;
+    //     if (n_allowance<amount) {
+    //         let checktime=Date.now()/1000;
+    //         if (lasttime<(checktime-15)) {
+    //             n_allowance=await getallowance();
+    //             lasttime=checktime;
+    //             if(n_allowance<amount){
+    //                 // sendEmail("授权量不足","授权量不足");
+    //                 res.send({
+    //                     success:false,
+    //                     data:{
+    //                         error:"Insufficient authorization"
+    //                     }
+    //                 });
+    //                 return;
+    //             }
+    //         }else{
+    //             // sendEmail("授权量不足","授权量不足");
+    //             res.send({
+    //                 success:false,
+    //                 data:{
+    //                     error:"Insufficient authorization"
+    //                 }
+    //             });
+    //             return;
+    //         }
+    //     }
+    // }
     
     let sqlparams=[];
     for(let i in check){
@@ -103,41 +103,41 @@ exports.postwithdrawsign = router.get("/postwithdrawsign", async (req, res) => {
         });
         return;
     }
-    {
-        let selsql = "SELECT amount FROM withdraw where flag_withdraw ='F'";
-        let sqlrq = await conn.select(selsql,null);
-        let amount = 0;
-        for (let i in sqlrq) {
-            amount+=sqlrq[i]
-        }
-        amount+=params.amount;
-        if (n_allowance<amount) {
-            let checktime=Date.now()/1000;
-            if (lasttime<(checktime-15)) {
-                n_allowance=await getallowance();
-                lasttime=checktime;
-                if(n_allowance<amount){
-                    sendEmail("授权量不足","授权量不足");
-                    res.send({
-                        success:false,
-                        data:{
-                            error:"Insufficient authorization"
-                        }
-                    });
-                    return;
-                }
-            }else{
-                sendEmail("授权量不足","授权量不足");
-                res.send({
-                    success:false,
-                    data:{
-                        error:"Insufficient authorization"
-                    }
-                });
-                return;
-            }
-        }
-    }
+    // {
+    //     let selsql = "SELECT amount FROM withdraw where flag_withdraw ='F'";
+    //     let sqlrq = await conn.select(selsql,null);
+    //     let amount = 0;
+    //     for (let i in sqlrq) {
+    //         amount+=sqlrq[i]
+    //     }
+    //     amount+=params.amount;
+    //     if (n_allowance<amount) {
+    //         let checktime=Date.now()/1000;
+    //         if (lasttime<(checktime-15)) {
+    //             n_allowance=await getallowance();
+    //             lasttime=checktime;
+    //             if(n_allowance<amount){
+    //                 sendEmail("授权量不足","授权量不足");
+    //                 res.send({
+    //                     success:false,
+    //                     data:{
+    //                         error:"Insufficient authorization"
+    //                     }
+    //                 });
+    //                 return;
+    //             }
+    //         }else{
+    //             sendEmail("授权量不足","授权量不足");
+    //             res.send({
+    //                 success:false,
+    //                 data:{
+    //                     error:"Insufficient authorization"
+    //                 }
+    //             });
+    //             return;
+    //         }
+    //     }
+    // }
     
     let sqlparams=[];
     for(let i in check){
@@ -266,13 +266,57 @@ exports.getallowance = router.get("/getallowance", async (req, res) => {
     });
     return;
 });
+exports.test = router.get("/test", async (req, res) => {
+    let selsql = "SELECT amount FROM withdraw where flag_withdraw ='F'";
+    let sqlrq = await conn.select(selsql,null);
+    let amount = 0;
+    for (let i in sqlrq) {
+        amount+=sqlrq[i]
+    }
+    amount+=100;
+    console.log(amount,n_allowance);
+
+    if (n_allowance<amount) {
+        let checktime=Date.now()/1000;
+        if (lasttime<(checktime-15)) {
+            n_allowance=await getallowance();
+            lasttime=checktime;
+            if(n_allowance<amount){
+                // sendEmail("授权量不足","授权量不足");
+                res.send({
+                    success:false,
+                    data:{
+                        error:"Insufficient authorization"
+                    }
+                });
+                return;
+            }
+        }else{
+            // sendEmail("授权量不足","授权量不足");
+            res.send({
+                success:false,
+                data:{
+                    error:"Insufficient authorization"
+                }
+            });
+            return;
+        }
+    }
+
+
+
+    res.send({
+        success:true
+    });
+    return;
+});
 
 async function getallowance(){
     let contractinfo = await getcontractinfo();
     var params = new Object();
-    params["contractname"]="vii_s";
+    params["contractname"]="Viide";
     params["fun"]="allowance";
-    params["params"]=["0x8c327f1aa6327f01a9a74cec696691ceaac680e2",contractinfo.mainwithdraw.address];
+    params["params"]=["0x4B05DBd3a8cE4238161C6a9eaFEB1B61Eba37165",contractinfo.mainwithdraw.address];
     let data = await newcontractcall(params);
     return Number(data.data.result);
 }

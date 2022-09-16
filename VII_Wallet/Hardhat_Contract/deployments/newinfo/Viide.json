@@ -1,5 +1,5 @@
 {
-  "contractName": "vii_s",
+  "contractName": "Viide",
   "abi": [
     {
       "inputs": [],
@@ -383,12 +383,12 @@
       "type": "function"
     }
   ],
-  "address": "0xf08B29de76574c88AaBd08bCCFc66C6e3b3B763C",
-  "blocknumber": 11256983,
+  "address": "0xDfbAdC21d284ebBE4D384ecF3B08E3BC5573d68E",
+  "blocknumber": 22886743,
   "constructorArguments": [],
   "network": {
-    "name": "rinkeby",
-    "chainId": 4,
-    "url": "https://rinkeby.infura.io/v3/8cccc98026714be18a4052434bb4ae77"
+    "name": "bnbtest",
+    "chainId": 97,
+    "url": "https://data-seed-prebsc-1-s1.binance.org:8545/"
   }
 }

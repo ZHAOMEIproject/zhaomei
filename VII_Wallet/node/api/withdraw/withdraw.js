@@ -7,8 +7,8 @@ const conn = require("../../nodetool/sqlconnection");
 const {sendEmail} = require("../../nodetool/email");
 
 // 暂存
-var n_allowance;
-var lasttime;
+var n_allowance=0;
+var lasttime=0;
 
 exports.postwithdraw = router.get("/postwithdraw", async (req, res) => {
     var params = url.parse(req.url, true).query;
@@ -35,7 +35,7 @@ exports.postwithdraw = router.get("/postwithdraw", async (req, res) => {
                 n_allowance=await getallowance();
                 lasttime=checktime;
                 if(n_allowance<amount){
-                    sendEmail("授权量不足","授权量不足");
+                    // sendEmail("授权量不足","授权量不足");
                     res.send({
                         success:false,
                         data:{
@@ -45,7 +45,7 @@ exports.postwithdraw = router.get("/postwithdraw", async (req, res) => {
                     return;
                 }
             }else{
-                sendEmail("授权量不足","授权量不足");
+                // sendEmail("授权量不足","授权量不足");
                 res.send({
                     success:false,
                     data:{
@@ -117,7 +117,7 @@ exports.postwithdrawsign = router.get("/postwithdrawsign", async (req, res) => {
                 n_allowance=await getallowance();
                 lasttime=checktime;
                 if(n_allowance<amount){
-                    sendEmail("授权量不足","授权量不足");
+                    // sendEmail("授权量不足","授权量不足");
                     res.send({
                         success:false,
                         data:{
@@ -127,7 +127,7 @@ exports.postwithdrawsign = router.get("/postwithdrawsign", async (req, res) => {
                     return;
                 }
             }else{
-                sendEmail("授权量不足","授权量不足");
+                // sendEmail("授权量不足","授权量不足");
                 res.send({
                     success:false,
                     data:{
@@ -250,6 +250,7 @@ exports.checkrecharge = router.get("/checkrecharge", async (req, res) => {
 
 var {newcontractcall}=require("../contractcall");
 const {getcontractinfo}=require('../../nodetool/readcontracts');
+const BigNumber = require("bignumber.js");
 exports.getallowance = router.get("/getallowance", async (req, res) => {
     let selsql = "SELECT amount FROM withdraw where flag_withdraw ='F'";
     let sqlrq = await conn.select(selsql,null);
@@ -257,7 +258,8 @@ exports.getallowance = router.get("/getallowance", async (req, res) => {
     for (let i in sqlrq) {
         amount+=sqlrq[i]
     }
-    let data = await getallowance() -amount;
+    let data = await getallowance();
+    data = data.sub(amount);
     res.send({
         success:true,
         data:{
@@ -267,6 +269,52 @@ exports.getallowance = router.get("/getallowance", async (req, res) => {
     return;
 });
 
+// exports.test = router.get("/test", async (req, res) => {
+//     var params = url.parse(req.url, true).query;
+//     let selsql = "SELECT amount FROM withdraw where flag_withdraw ='F'";
+//     let sqlrq = await conn.select(selsql,null);
+//     let amount = params.amount;
+//     for (let i in sqlrq) {
+//         amount+=sqlrq[i]
+//     }
+//     console.log(amount,n_allowance);
+//     if (n_allowance<amount) {
+//         let checktime=Date.now()/1000;
+//         if (lasttime<(checktime-15)) {
+//             n_allowance=await getallowance();
+//             lasttime=checktime;
+//             if(n_allowance<amount){
+//                 // console.log("zwj2");
+//                 // sendEmail("授权量不足","授权量不足");
+//                 res.send({
+//                     success:false,
+//                     data:{
+//                         error:"Insufficient authorization"
+//                     }
+//                 });
+//                 return;
+//             }
+//         }else{
+//             // console.log("zwj1");
+//             // sendEmail("授权量不足","授权量不足");
+//             res.send({
+//                 success:false,
+//                 data:{
+//                     error:"Insufficient authorization"
+//                 }
+//             });
+//             return;
+//         }
+//     }
+
+
+
+//     res.send({
+//         success:true
+//     });
+//     return;
+// });
+
 async function getallowance(){
     let contractinfo = await getcontractinfo();
     var params = new Object();
@@ -274,5 +322,6 @@ async function getallowance(){
     params["fun"]="allowance";
     params["params"]=["0x8c327f1aa6327f01a9a74cec696691ceaac680e2",contractinfo.mainwithdraw.address];
     let data = await newcontractcall(params);
-    return Number(data.data.result);
+    // console.log(contractinfo.mainwithdraw.address,data);
+    return data.data.result;
 }

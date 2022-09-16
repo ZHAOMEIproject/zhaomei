@@ -250,25 +250,22 @@ exports.checkrecharge = router.get("/checkrecharge", async (req, res) => {
 
 var {newcontractcall}=require("../contractcall");
 const {getcontractinfo}=require('../../nodetool/readcontracts');
-// exports.test = router.get("/test", async (req, res) => {
-//     let selsql = "SELECT amount FROM withdraw where flag_withdraw ='F'";
-//     let sqlrq = await conn.select(selsql,null);
-//     let amount = 0;
-//     for (let i in sqlrq) {
-//         amount+=sqlrq[i]
-//     }
-//     let data = await getallowance();
-//     if (data<amount) {
-//         res.send({
-//             success:false
-//         });
-//         return
-//     }
-//     res.send({
-//         success:true
-//     });
-//     return;
-// });
+exports.getallowance = router.get("/getallowance", async (req, res) => {
+    let selsql = "SELECT amount FROM withdraw where flag_withdraw ='F'";
+    let sqlrq = await conn.select(selsql,null);
+    let amount = 0;
+    for (let i in sqlrq) {
+        amount+=sqlrq[i]
+    }
+    let data = await getallowance() -amount;
+    res.send({
+        success:true,
+        data:{
+            value:data
+        }
+    });
+    return;
+});
 
 async function getallowance(){
     let contractinfo = await getcontractinfo();

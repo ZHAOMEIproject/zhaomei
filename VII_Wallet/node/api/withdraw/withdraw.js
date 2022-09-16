@@ -6,62 +6,9 @@ module.exports = router;
 const conn = require("../../nodetool/sqlconnection");
 const {sendEmail} = require("../../nodetool/email");
 
-
-
-// exports.postwithdraw = router.get("/postwithdrawservicenonce", async (req, res) => {
-//     var params = url.parse(req.url, true).query;
-
-//     let check =["spender","amount","servicenonce","orderid"];
-//     if(!check.every(key=>key in params)){
-//         res.send({
-//             success:false,
-//             error:"error params"
-//         });
-//         return;
-//     }
-//     let sqlparams=[];
-//     for(let i in check){
-//         sqlparams.push(params[check[i]]);
-//     }
-//     // check
-//     let checkservicenonce ="select servicenonce from withdraw ORDER BY servicenonce DESC LIMIT 0,1"
-//     let servicenonce = await conn.select(checkservicenonce,null)
-//     if(servicenonce.length==0){
-//         servicenonce=[{"servicenonce":0}];
-//     }
-//     servicenonce[0].servicenonce++;
-//     // console.log(servicenonce[0].servicenonce+1,params.servicenonce);
-//     if((servicenonce[0].servicenonce!=params.servicenonce)){
-//         res.send({
-//             success:false,
-//             data:{
-//                 error:"error servicenonce",
-//                 servicenonce:servicenonce[0].servicenonce
-//             }
-//         });
-//         // sendEmail("Wallet:servicenonce error","error servicenonce");
-//         return;
-//     }
-
-//     let sqlStr = "INSERT INTO withdraw(spender,amount,servicenonce,orderid)VALUES(?,?,?,?)";
-//     try {
-//         await conn.select(sqlStr,sqlparams);
-//     } catch (error) {
-//         res.send({
-//             success:false,
-//             data:{
-//                 error:error
-//             }
-//         });
-//         // sendEmail("Wallet:orderid error ","error orderid");
-//         return;
-//     }
-
-//     res.send({
-//         success:true,
-//     });
-//     return;
-// });
+// 暂存
+var n_allowance;
+var lasttime;
 
 exports.postwithdraw = router.get("/postwithdraw", async (req, res) => {
     var params = url.parse(req.url, true).query;
@@ -74,6 +21,42 @@ exports.postwithdraw = router.get("/postwithdraw", async (req, res) => {
         });
         return;
     }
+    {
+        let selsql = "SELECT amount FROM withdraw where flag_withdraw ='F'";
+        let sqlrq = await conn.select(selsql,null);
+        let amount = 0;
+        for (let i in sqlrq) {
+            amount+=sqlrq[i]
+        }
+        amount+=params.amount;
+        if (n_allowance<amount) {
+            let checktime=Date.now()/1000;
+            if (lasttime<(checktime-15)) {
+                n_allowance=await getallowance();
+                lasttime=checktime;
+                if(n_allowance<amount){
+                    sendEmail("授权量不足","授权量不足");
+                    res.send({
+                        success:false,
+                        data:{
+                            error:"Insufficient authorization"
+                        }
+                    });
+                    return;
+                }
+            }else{
+                sendEmail("授权量不足","授权量不足");
+                res.send({
+                    success:false,
+                    data:{
+                        error:"Insufficient authorization"
+                    }
+                });
+                return;
+            }
+        }
+    }
+    
     let sqlparams=[];
     for(let i in check){
         sqlparams.push(params[check[i]]);
@@ -120,6 +103,42 @@ exports.postwithdrawsign = router.get("/postwithdrawsign", async (req, res) => {
         });
         return;
     }
+    {
+        let selsql = "SELECT amount FROM withdraw where flag_withdraw ='F'";
+        let sqlrq = await conn.select(selsql,null);
+        let amount = 0;
+        for (let i in sqlrq) {
+            amount+=sqlrq[i]
+        }
+        amount+=params.amount;
+        if (n_allowance<amount) {
+            let checktime=Date.now()/1000;
+            if (lasttime<(checktime-15)) {
+                n_allowance=await getallowance();
+                lasttime=checktime;
+                if(n_allowance<amount){
+                    sendEmail("授权量不足","授权量不足");
+                    res.send({
+                        success:false,
+                        data:{
+                            error:"Insufficient authorization"
+                        }
+                    });
+                    return;
+                }
+            }else{
+                sendEmail("授权量不足","授权量不足");
+                res.send({
+                    success:false,
+                    data:{
+                        error:"Insufficient authorization"
+                    }
+                });
+                return;
+            }
+        }
+    }
+    
     let sqlparams=[];
     for(let i in check){
         sqlparams.push(params[check[i]]);
@@ -158,24 +177,6 @@ exports.postwithdrawsign = router.get("/postwithdrawsign", async (req, res) => {
     });
     return;
 });
-
-// exports.postwithdraw = router.get("/getwithdrawnonce", async (req, res) => {
-//     let sqlStr = "select servicenonce from withdraw ORDER BY servicenonce DESC LIMIT 0,1;";
-//     let nonce = await conn.select(sqlStr,null)
-//     let s_nonce=0;
-//     if(nonce.length!=0){
-//         s_nonce=nonce[0].servicenonce
-//     }
-//     res.send({
-//         success:true,
-//         data:{
-//             nonce:s_nonce,
-//         }
-//     });
-//     return;
-// });
-
-// const BigNumber = require("bignumber.js");
 exports.checkorderid = router.post("/checkorderid", async (req, res) => {
     // var params = url.parse(req.body, true).query;
     // console.log(req.body);
@@ -246,3 +247,35 @@ exports.checkrecharge = router.get("/checkrecharge", async (req, res) => {
     return;
 
 });
+
+var {newcontractcall}=require("../contractcall");
+const {getcontractinfo}=require('../../nodetool/readcontracts');
+// exports.test = router.get("/test", async (req, res) => {
+//     let selsql = "SELECT amount FROM withdraw where flag_withdraw ='F'";
+//     let sqlrq = await conn.select(selsql,null);
+//     let amount = 0;
+//     for (let i in sqlrq) {
+//         amount+=sqlrq[i]
+//     }
+//     let data = await getallowance();
+//     if (data<amount) {
+//         res.send({
+//             success:false
+//         });
+//         return
+//     }
+//     res.send({
+//         success:true
+//     });
+//     return;
+// });
+
+async function getallowance(){
+    let contractinfo = await getcontractinfo();
+    var params = new Object();
+    params["contractname"]="vii_s";
+    params["fun"]="allowance";
+    params["params"]=["0x8c327f1aa6327f01a9a74cec696691ceaac680e2",contractinfo.mainwithdraw.address];
+    let data = await newcontractcall(params);
+    return Number(data.data.result);
+}

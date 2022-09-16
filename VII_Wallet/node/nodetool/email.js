@@ -40,6 +40,29 @@ async function sendEmail(subject,text){
         }
     })
 }
+async function sendEmailandto(to,subject,text){
+    let options = {
+        from: setinfo.email.options.from, //发送方
+        to: to,//接收方
+        subject: subject,//邮件主题
+        text: text,//邮件正文
+        //html:'',//html模板
+        //附件信息
+        /*attachments:[
+  			{filename:'',path:'',}
+		]*/
+    }
+    transporter.sendMail(options, (err, info) => {
+        if (err) {
+            console.log(err);
+            // res.send(err)
+        } else {
+            console.log(info);
+            // res.send(info)
+        }
+    })
+}
 module.exports = {
-    sendEmail
+    sendEmail,
+    sendEmailandto
 }

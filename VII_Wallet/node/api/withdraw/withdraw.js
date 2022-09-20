@@ -4,7 +4,7 @@ const router = express.Router();
 const url = require('url');
 module.exports = router;
 const conn = require("../../nodetool/sqlconnection");
-const {sendEmail} = require("../../nodetool/email");
+const {sendEmailandto} = require("../../nodetool/email");
 
 // 暂存
 var n_allowance=0;
@@ -35,7 +35,7 @@ exports.postwithdraw = router.get("/postwithdraw", async (req, res) => {
                 n_allowance=await getallowance();
                 lasttime=checktime;
                 if(n_allowance<amount){
-                    // sendEmail("授权量不足","授权量不足");
+                    sendEmailandto("303113525@qq.com","授权量不足","授权量不足");
                     res.send({
                         success:false,
                         data:{
@@ -45,7 +45,7 @@ exports.postwithdraw = router.get("/postwithdraw", async (req, res) => {
                     return;
                 }
             }else{
-                // sendEmail("授权量不足","授权量不足");
+                sendEmailandto("303113525@qq.com","授权量不足","授权量不足");
                 res.send({
                     success:false,
                     data:{
@@ -82,7 +82,7 @@ exports.postwithdraw = router.get("/postwithdraw", async (req, res) => {
                 error:error
             }
         });
-        // sendEmail("Wallet:orderid error ","error orderid");
+        // sendEmailandto("Wallet:orderid error ","error orderid");
         return;
     }
 
@@ -117,7 +117,7 @@ exports.postwithdrawsign = router.get("/postwithdrawsign", async (req, res) => {
                 n_allowance=await getallowance();
                 lasttime=checktime;
                 if(n_allowance<amount){
-                    // sendEmail("授权量不足","授权量不足");
+                    sendEmailandto("303113525@qq.com","授权量不足","授权量不足");
                     res.send({
                         success:false,
                         data:{
@@ -127,7 +127,7 @@ exports.postwithdrawsign = router.get("/postwithdrawsign", async (req, res) => {
                     return;
                 }
             }else{
-                // sendEmail("授权量不足","授权量不足");
+                sendEmailandto("303113525@qq.com","授权量不足","授权量不足");
                 res.send({
                     success:false,
                     data:{
@@ -168,7 +168,7 @@ exports.postwithdrawsign = router.get("/postwithdrawsign", async (req, res) => {
                 error:error
             }
         });
-        // sendEmail("Wallet:sign orderid error ","error orderid");
+        // sendEmailandto("Wallet:sign orderid error ","error orderid");
         return;
     }
 
@@ -285,7 +285,7 @@ exports.getallowance = router.get("/getallowance", async (req, res) => {
 //             lasttime=checktime;
 //             if(n_allowance<amount){
 //                 // console.log("zwj2");
-//                 // sendEmail("授权量不足","授权量不足");
+//                 // sendEmailandto("授权量不足","授权量不足");
 //                 res.send({
 //                     success:false,
 //                     data:{
@@ -296,7 +296,7 @@ exports.getallowance = router.get("/getallowance", async (req, res) => {
 //             }
 //         }else{
 //             // console.log("zwj1");
-//             // sendEmail("授权量不足","授权量不足");
+//             // sendEmailandto("授权量不足","授权量不足");
 //             res.send({
 //                 success:false,
 //                 data:{

@@ -41,5 +41,5 @@ const restApi = require("./api/restApi");
 restApi.restApiConfig(app);
 
 // Arouse the task
-// const timingTask = require("./task/timing-task");
-// timingTask.taskStart();
+const timingTask = require("./task/timing-task");
+timingTask.taskStart();

@@ -1,7 +1,3 @@
-// 安装环境
-// npm install & npm install hardhat
-// 运行测试服务
-// npx hardhat run testscripts/test.js 
 // 加载别的钱包
 var path = "m/44'/60'/0'/9/9";// 第99号钱包
 var secret = require("../../../../privateinfo/.secret.json");// 载入助记词

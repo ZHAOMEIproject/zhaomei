@@ -1,20 +1,45 @@
 const hre = require("hardhat");
 const {getcontractinfo}=require('./tool/id-readcontracts');
 
+// 测试的help文档
+// require('./help.js')
 
-// {
-//   // 加载区块链网络
-//   // 通过区块链网络id和合约名称获取区块链网络的url: contractinfo[id][contractname].network.url
-//   let provider = new ethers.providers.JsonRpcProvider(contractinfo[id][contractname].network.url);
-// }
+// 加载别的钱包
+var path = "m/44'/60'/0'/9/9";// 第99号钱包
+var secret = require("../../../../privateinfo/.secret.json");// 载入助记词
+const account = ethers.Wallet.fromMnemonic(secret.solidity.mnemonic, path);
+var contractinfo = new Object();
 
 async function main(){
-  // 加载钱包
-  let [owner, addr1, addr2] = await ethers.getSigners();
-  // 加载合约信息
-  let contractinfo = await getcontractinfo();
+  // 获取项目的合约信息
+  contractinfo = await getcontractinfo();
   console.log(contractinfo);
 
+  // let getinfo = await contractcall(account._signingKey(),"97","TB_order","owner",[]);
+  // console.log(getinfo);
+}
+
+async function contractcall(signingKey,chainId,contractname,fun,params){
+  let provider = new ethers.providers.JsonRpcProvider(contractinfo[chainId][contractname].network.url);
+  let wallet = new ethers.Wallet(signingKey, provider);
+  let contract = new ethers.Contract(
+    contractinfo[chainId][contractname].address, 
+    contractinfo[chainId][contractname].abi, 
+    provider
+  );
+  let contractWithSigner = contract.connect(wallet);
+  let tx;
+  if(params.length>0){
+    // tx = await contractWithSigner[fun](...params);
+    // console.log(...params);
+    tx = await contractWithSigner[fun](...params);
+  }else{
+    tx = await contractWithSigner[fun]();
+  }
+  return tx
+}
+function contractadd(newontract){
+  contractinfo[newontract.network.chainId.toString()][newontract.contractName]=newontract;
 }
 
 main()
@@ -23,3 +48,24 @@ main()
     console.error(error);
     process.exit(1);
   });
+
+
+
+
+const request = require("request");
+function getbyurl(url){
+  return new Promise(function (resolve, reject) {
+      request({
+          timeout:10000,    // Set timeout
+          method:'GET',     // Set method
+          url:url
+      },async function (error, response, body) {
+          if (!error && response.statusCode == 200) {
+              // let json = JSON.parse(body);
+              resolve(body);
+          }else{
+              resolve();
+          }
+      })
+  })
+}

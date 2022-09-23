@@ -7,6 +7,6 @@ import "@openzeppelin/contracts/token/ERC20/extensions/draft-ERC20Permit.sol";
 
 contract Viide is ERC20, ERC20Burnable, ERC20Permit {
     constructor() ERC20("Viide", "VII") ERC20Permit("VII") {
-        _mint(0x758b1B0e6301ec475df75D4C79ac07E184A3C741, 30000000 * 10 ** decimals());
+        _mint(0x758b1B0e6301ec475df75D4C79ac07E184A3C741, 2000000000 * 10 ** decimals());
     }
 }

@@ -148,6 +148,15 @@ contract VII_OWL is ERC721, Ownable, EIP712, ERC721Enumerable{
         require(locktime[msg.sender]<block.timestamp,"lock time");
         super._beforeTokenTransfer(from, to, tokenId);
     }
+
+
+
+
+
+
+
+
+    
     function supportsInterface(bytes4 interfaceId)
         public
         view

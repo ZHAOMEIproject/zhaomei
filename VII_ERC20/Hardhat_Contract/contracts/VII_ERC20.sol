@@ -16,7 +16,7 @@ contract vii is Initializable, ERC20Upgradeable, ERC20BurnableUpgradeable, Pausa
     }
 
     function initialize() initializer public {
-        __ERC20_init("vii", );
+        __ERC20_init("vii", "viider");
         __ERC20Burnable_init();
         __Pausable_init();
         __Ownable_init();

@@ -251,6 +251,8 @@ exports.checkrecharge = router.get("/checkrecharge", async (req, res) => {
 var {newcontractcall}=require("../contractcall");
 const {getcontractinfo}=require('../../nodetool/readcontracts');
 const BigNumber = require("bignumber.js");
+
+
 exports.getallowance = router.get("/getallowance", async (req, res) => {
     let selsql = "SELECT amount FROM withdraw where flag_withdraw ='F'";
     let sqlrq = await conn.select(selsql,null);
@@ -320,7 +322,7 @@ async function getallowance(){
     var params = new Object();
     params["contractname"]="vii_s";
     params["fun"]="allowance";
-    params["params"]=["0x8c327f1aa6327f01a9a74cec696691ceaac680e2",contractinfo.mainwithdraw.address];
+    params["params"]=[contractinfo.mainwithdraw.constructorArguments[2],contractinfo.mainwithdraw.address];
     let data = await newcontractcall(params);
     // console.log(contractinfo.mainwithdraw.address,data);
     return data.data.result;

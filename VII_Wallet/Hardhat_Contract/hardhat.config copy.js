@@ -22,11 +22,11 @@ require('hardhat-abi-exporter');
 const fs = require('fs');
 // var secretinfo =fs.readFileSync("/home/ubuntu/zwj-learn/.secret.json").toString().trim();
 const secretinfo =require(`/root/learn/github/privateinfo/.secret.json`);
+// const secretinfo =require(`/root/learn/github/privateinfoWallet/.secret_official.json`);
 const infrakey='';
 const scankey='';
 
 module.exports = {
-  defaultNetwork: "polygonMumbai",
   solidity:{
     compilers:[
       {
@@ -41,20 +41,6 @@ module.exports = {
     ]
   },
   networks:{
-    goerli:{
-      url:"https://goerli.infura.io/v3/8cccc98026714be18a4052434bb4ae77",
-      chainId:5,
-      accounts:{
-        mnemonic:secretinfo.solidity.mnemonic,
-      },
-    },
-    sepolia:{
-      url:"https://sepolia.infura.io/v3/8cccc98026714be18a4052434bb4ae77",
-      chainId:11155111,
-      accounts:{
-        mnemonic:secretinfo.solidity.mnemonic,
-      },
-    },
     dev:{
       url:"http://127.0.0.1:8545",
       chainId:31337,
@@ -72,6 +58,20 @@ module.exports = {
     bnbtest:{
       url:"https://data-seed-prebsc-1-s1.binance.org:8545/",
       chainId:97,
+      accounts:{
+        mnemonic:secretinfo.solidity.mnemonic,
+      },
+    },
+    rinkeby:{
+      url:"https://rinkeby.infura.io/v3/0c9313b9207a451cae987a85d13e9707",
+      chainId:4,
+      accounts:{
+        mnemonic:secretinfo.solidity.mnemonic,
+      },
+    },
+    ropsten:{
+      url:"https://ropsten.infura.io/v3/8cccc98026714be18a4052434bb4ae77",
+      chainId:3,
       accounts:{
         mnemonic:secretinfo.solidity.mnemonic,
       },

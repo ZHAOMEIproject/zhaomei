@@ -182,3 +182,6 @@ http://173.249.198.20:10903/v1/apigetsign/getsign?id=4&contractname=mainwithdraw
 2、充值合约：0x688C94ec12CDC187d3D623B60917812aedB8C56b  
 recharge(address to,uint256 amount).send
 
+
+### 查询额度
+http://173.249.198.20:10903/v1/withdraw/getallowance

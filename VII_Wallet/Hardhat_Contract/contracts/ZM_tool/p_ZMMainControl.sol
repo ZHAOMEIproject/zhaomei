@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL
 pragma solidity ^0.8.4;
 import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
-import "../../proxy/utils/Initializable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
 abstract contract p_ZMMainControl is Initializable, AccessControlUpgradeable {
     bytes32 public constant MANAGE_ROLE = keccak256("MANAGE_ROLE");

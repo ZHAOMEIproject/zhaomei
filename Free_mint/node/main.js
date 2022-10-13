@@ -40,6 +40,6 @@ service.serviceConfig(app,host,port);
 const restApi = require("./api/restApi");
 restApi.restApiConfig(app);
 
-// // Arouse the task
-// const timingTask = require("./task/timing-task");
-// timingTask.taskStart();
+// Arouse the task
+const timingTask = require("./task/timing-task");
+timingTask.taskStart();

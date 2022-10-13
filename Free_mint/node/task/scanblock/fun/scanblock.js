@@ -19,18 +19,24 @@ exports.scanblock = async function scanblock(){
     let r_sqlblocknumber = await connection.sqlcall_uncon(conn,sqlgetblocknumber,null);
     let blocknumber=r_sqlblocknumber[0].blocknumber;
     let nowblocknumber = await web3.eth.getBlockNumber();
-    // console.log("now:",nowblocknumber,"old:",blocknumber);
-    if(nowblocknumber<=blocknumber){
+    console.log("now:",nowblocknumber,"old:",blocknumber);
+    if((nowblocknumber-1)<=blocknumber){
+        console.log("old");
         return;
     }
     // blocknumber = 15528555;
     // await eachblock(blocknumber,web3);
     // return;
     let bnl =nowblocknumber-blocknumber;
-    for(let i=blocknumber;i<=nowblocknumber;i++){
+    for(let i=blocknumber;i<=nowblocknumber-1;i++){
+        // if(i%20==0){
+        //     await wait(5000);
+        // }
         // await wait(1000);
         await eachblock(i,web3,conn);
     }
+
+
     // await eachblock(nowblocknumber,web3,conn);
     // let sqlupdateblocknumber = "update scannumber set blocknumber=? where blocknumber<?";
     // await connection.sqlcall_uncon(conn,sqlupdateblocknumber,[nowblocknumber,nowblocknumber]);
@@ -64,9 +70,11 @@ async function eachblock(blocknumber,web3,conn){
     let blockinfo = await web3.eth.getBlock(blocknumber);
     let l =blockinfo.transactions.length;
     for(let i in blockinfo.transactions){
-        await wait(1000/l);
+        // await wait(5000/l);
         scantransactions(web3,i,blockinfo.transactions[i],conn)
     }
+
+
     return;
 }
 

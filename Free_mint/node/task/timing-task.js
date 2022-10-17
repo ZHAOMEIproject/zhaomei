@@ -5,8 +5,8 @@ exports.taskStart = async function taskStart(){
     // blocknumber=await scanblock.getblocknumber()-1;
     await taskscanblock();
     setTimeout(function () {
-        setInterval(taskscanblock,1000*5);// task I,Synchronization levelnft event record,Do it every 10s
-    }, 1000*5);
+        setInterval(taskscanblock,1000*10);// task I,Synchronization levelnft event record,Do it every 10s
+    }, 1000*10);
 }
 async function taskscanblock() {
     console.log("task I   (20s)  ========>  taskscanblock ...");

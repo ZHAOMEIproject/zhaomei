@@ -7,44 +7,70 @@ var iercnft=require("./iercnft.json");
 // exports.getblocknumber = async function getblocknumber(){
 //     return await web3.eth.getBlockNumber();
 // }
+var Queue_block;
 exports.scanblock = async function scanblock(){
     var Web3 = require('web3');
     var web3 = new Web3("http://127.0.0.1:8545");
     web3.eth.defaultAccount = "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2";
-    const mysql = require("mysql2");
-    const conn = mysql.createConnection(global.mysqlGlobal);
+    // const mysql = require("mysql2");
+    let conn
+    // const conn = mysql.createConnection(global.mysqlGlobal);
     // await testfun();
     // return;
     let sqlgetblocknumber = "select * from scannumber";
-    let r_sqlblocknumber = await connection.sqlcall_uncon(conn,sqlgetblocknumber,null);
-    let blocknumber=r_sqlblocknumber[0].blocknumber;
+    // conn.close();
+    let r_sqlblocknumber = await connection.sqlcall(sqlgetblocknumber,null);
+    // console.log(r_sqlblocknumber);
+    // return;
+    let blocknumber=r_sqlblocknumber[0].blocknumber+1;
     let nowblocknumber = await web3.eth.getBlockNumber();
     console.log("now:",nowblocknumber,"old:",blocknumber);
-    if((nowblocknumber-1)<=blocknumber){
+    if(nowblocknumber<=blocknumber){
         console.log("old");
         return;
     }
-    // blocknumber = 15528555;
+    // nowblocknumber = 15744379;
+    // blocknumber = 15744377;
     // await eachblock(blocknumber,web3);
     // return;
-    let bnl =nowblocknumber-blocknumber;
-    for(let i=blocknumber;i<=nowblocknumber-1;i++){
-        // if(i%20==0){
-        //     await wait(5000);
-        // }
-        // await wait(1000);
-        await eachblock(i,web3,conn);
-    }
+    Queue_block =nowblocknumber-blocknumber;
+    let e_Queue_block=Queue_block-20;
+    do {
+        for(let i=blocknumber;i<nowblocknumber;i++){
+            eachblock(i,web3,conn);
+            if(((i-blocknumber)%20==0)&&(i!=blocknumber)){
+                if(e_Queue_block<0){
+                    e_Queue_block=0;
+                }
+                while (Queue_block-e_Queue_block>0) {
+                    console.log(Queue_block,e_Queue_block);
+                    // console.log(Queue_block,e_Queue_block,Queue_transaction);
+                    await wait(2000);
+                    e_Queue_block++;
+                }
+                e_Queue_block=Queue_block-20;
+            }
+        }
+        while (Queue_block!=0) {
+            await wait(2000);
+            console.log("loading:",Queue_block);
+        }
+        r_sqlblocknumber = await connection.sqlcall(sqlgetblocknumber,null);
+        blocknumber=r_sqlblocknumber[0].blocknumber;
+        nowblocknumber = await web3.eth.getBlockNumber();
+    } while (nowblocknumber-blocknumber>10);
 
 
     // await eachblock(nowblocknumber,web3,conn);
     // let sqlupdateblocknumber = "update scannumber set blocknumber=? where blocknumber<?";
-    // await connection.sqlcall_uncon(conn,sqlupdateblocknumber,[nowblocknumber,nowblocknumber]);
+    // await connection.sqlcall(sqlupdateblocknumber,[nowblocknumber,nowblocknumber]);
+    // conn.close();
+    console.log("task end");
     return;
 
     // nowblocknumber=blocknumber;
     // let sqlupdateblocknumber = "update scannumber set blocknumber=blocknumber+1";
-    // await connection.sqlcall_uncon(conn,sqlupdateblocknumber,null);
+    // await connection.sqlcall(sqlupdateblocknumber,null);
 
     // // nowblocknumber = 15528539;
     // console.log(nowblocknumber,Date.now());
@@ -62,19 +88,31 @@ exports.scanblock = async function scanblock(){
     // }
     // return;
 }
-
+var Queue_transaction=new Object();
 async function eachblock(blocknumber,web3,conn){
     console.log(blocknumber,Date.now());
     let sqlupdateblocknumber = "update scannumber set blocknumber=? where blocknumber<?";
-    await connection.sqlcall_uncon(conn,sqlupdateblocknumber,[blocknumber,blocknumber]);
+    await connection.sqlcall(sqlupdateblocknumber,[blocknumber,blocknumber]);
     let blockinfo = await web3.eth.getBlock(blocknumber);
-    let l =blockinfo.transactions.length;
+    Queue_transaction[blocknumber] =blockinfo.transactions.length;
     for(let i in blockinfo.transactions){
         // await wait(5000/l);
         scantransactions(web3,i,blockinfo.transactions[i],conn)
     }
-
-
+    let nowtime = Date.now();
+    while (Queue_transaction[blocknumber]!=0) {
+        await wait(1000);
+        if((Date.now-nowtime)>10000){
+            break;
+        }
+    }
+    delete Queue_transaction[blocknumber]
+    // while(Queue_transaction[blocknumber]==NaN){
+    //     console.log(blocknumber,'???');
+    //     await wait(500);
+    //     delete Queue_transaction[blocknumber]
+    // }
+    Queue_block--;
     return;
 }
 
@@ -96,9 +134,11 @@ async function scantransactions(web3,i,now_transactions,conn){
     // return;
     // console.log(i,now_transactions);
     let contracttraninfo = await web3.eth.getTransaction(now_transactions);
+    let blocknumber = contracttraninfo.blockNumber;
+
     while (!contracttraninfo) {
         console.log("error",i,now_transactions);
-        await wait(5000);
+        await wait(1000);
         contracttraninfo = await web3.eth.getTransaction(now_transactions);
     }
     // console.log(i,contracttraninfo);
@@ -119,18 +159,21 @@ async function scantransactions(web3,i,now_transactions,conn){
         }else if(flag[1]){
             nfttype="ERC1155";
         }else{
+            
+            Queue_transaction[blocknumber]--;
             return;
         }
         // console.log(nfttype);
     } catch (error) {
         // console.log(error);
+        
+        Queue_transaction[blocknumber]--;
         return;
     }
     
     let checkcreat = "select * from nft_address where address=?";
-    let getinfo = await connection.sqlcall_uncon(conn,checkcreat,address);
+    let getinfo = await connection.sqlcall(checkcreat,address);
     // 记录合约信息
-    let blocknumber = contracttraninfo.blockNumber;
     if(getinfo.length==0){
         let name,symbol,creater,totalsupply;
         try {
@@ -153,11 +196,11 @@ async function scantransactions(web3,i,now_transactions,conn){
 
         let sqlstr="replace into nft_address(address,lasttime,nonce,name,symbol,creater,blocknumber,totalSupply,nfttype)value(?,UNIX_TIMESTAMP(NOW()),?,?,?,?,?,?,?)";
         let sqlp = [address,0,name,symbol,creater,blocknumber,totalsupply,nfttype];
-        await connection.sqlcall_uncon(conn,sqlstr,sqlp);
-        getinfo = await connection.sqlcall_uncon(conn,checkcreat,address);
+        await connection.sqlcall(sqlstr,sqlp);
+        getinfo = await connection.sqlcall(checkcreat,address);
     }else{
-        let update="update nft_address set nonce = (select count(1) from nft_trans where timestamp>(UNIX_TIMESTAMP(NOW())-86400)and address=?) where address=?";
-        await connection.sqlcall_uncon(conn,update,[address,address]);
+        let update="update nft_address set nonce = (select count(1) from nft_trans where timestamp>(UNIX_TIMESTAMP(NOW())-3600)and address=?) where address=?";
+        await connection.sqlcall(update,[address,address]);
     }
     // let test = blocknumber-1;
     // console.log(test,blocknumber);
@@ -217,11 +260,12 @@ async function scantransactions(web3,i,now_transactions,conn){
     if (mint_event.length!=0) {
         let insert_event='insert into nft_event(blocknumber,address,transaction,to_add,tokenid,tokenURI,imageURI) values ?';
         // console.log(mint_event);
-        await connection.sqlcall_uncon(conn,insert_event,[mint_event]);
+        await connection.sqlcall(insert_event,[mint_event]);
         let update="update nft_address set totalMinted=totalMinted+? where address=?";
-        await connection.sqlcall_uncon(conn,update,[mint_event.length,address]);
+        await connection.sqlcall(update,[mint_event.length,address]);
     }
     if (mintamount==0) {
+        Queue_transaction[blocknumber]--;
         return;
     }else{
         let data = contracttraninfo.input;
@@ -254,16 +298,17 @@ async function scantransactions(web3,i,now_transactions,conn){
             let sqlin = "insert into nft_trans(blocknumber,address,transaction,to_add,amount,calldata,flag_address,timestamp) VALUES(?,?,?,?,?,?,?,UNIX_TIMESTAMP(NOW()))";
             let inputinfo = [blocknumber,address,transactionHash,minter,mintamount,contracttraninfo.input,flag!=-1]
             // console.log(inputinfo);
-            await connection.sqlcall_uncon(conn,sqlin,inputinfo);
+            await connection.sqlcall(sqlin,inputinfo);
             console.log("success");
             let checkfisttime="select firstMintTime from nft_address where address=?";
-            let check = await connection.sqlcall_uncon(conn,checkfisttime,address);
+            let check = await connection.sqlcall(checkfisttime,address);
             if (check.firstMintTime==null) {
                 let update="update nft_address set firstMintTime=UNIX_TIMESTAMP(NOW()) where address=?";
-                await connection.sqlcall_uncon(conn,update,address);
+                await connection.sqlcall(update,address);
             }
         }
     }
+    Queue_transaction[blocknumber]--;
     return;
 }
 async function wait(ms){
@@ -274,7 +319,7 @@ const request = require("request");
 function getbyurl(url){
     return new Promise(function (resolve, reject) {
         request({
-            timeout:10000,    // Set timeout
+            timeout:1000,    // Set timeout
             method:'GET',     // Set method
             url:url
         },async function (error, response, body) {

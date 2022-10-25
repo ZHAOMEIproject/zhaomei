@@ -2,12 +2,11 @@
 const express = require("express");
 const router = express.Router();
 const url = require('url');
-const { ethers } = require("ethers");
 module.exports = router;
 
 const {getsign} = require('./sign/getsign');
 
-exports.contractapi = router.get("/getsign", async (req, res) => {
+exports.contractapi = router.get("/owlsign", async (req, res) => {
     var params = url.parse(req.url, true).query;
 
     let check =["id","contractname","params"];

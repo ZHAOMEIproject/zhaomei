@@ -11,8 +11,7 @@ function getPermitDigest(
   name,
   address,
   chainId,
-
-  auditor, spender, amount, nonce, deadline
+  params
 ) {
   const DOMAIN_SEPARATOR = getDomainSeparator(name, address, chainId)
   return keccak256(
@@ -24,8 +23,8 @@ function getPermitDigest(
         DOMAIN_SEPARATOR,
         keccak256(
           defaultAbiCoder.encode(
-            ['bytes32', 'address', 'address', 'uint256', 'uint256', 'uint256'],
-            [PERMIT_TYPEHASH, auditor, spender, amount, nonce, deadline]
+            ['bytes32','address', 'address', 'uint256', 'uint256', 'uint256'],
+            [PERMIT_TYPEHASH, ...params]
           )
         ),
       ]

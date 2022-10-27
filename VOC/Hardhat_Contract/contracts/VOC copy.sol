@@ -8,10 +8,10 @@ import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import "@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 
-contract VII_OWL is ERC721, Ownable, EIP712, ERC721Enumerable{
-    constructor() ERC721("VII_OWL", "VOL") EIP712("VII_OWL", "1"){
+contract VIIDER_OWL_CLUB is ERC721, Ownable, EIP712, ERC721Enumerable{
+    constructor() ERC721("VIIDER_OWL_CLUB", "VOC") EIP712("VIIDER_OWL_CLUB", "1"){
     }
-    
+
     using Counters for Counters.Counter;
     using Strings for uint256;
     Counters.Counter private _tokenIdCounter;

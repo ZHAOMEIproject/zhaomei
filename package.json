@@ -9,6 +9,7 @@
     "@openzeppelin/hardhat-upgrades": "^1.20.0",
     "express": "^4.18.1",
     "hardhat-abi-exporter": "^2.10.0",
+    "jsonfile": "^6.1.0",
     "lsof": "^0.1.0",
     "mysql2": "^2.3.3",
     "nodemailer": "^6.8.0",

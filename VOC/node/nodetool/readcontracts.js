@@ -8,6 +8,7 @@ var filePath = path.resolve(__dirname,'../../Hardhat_Contract/deployments/newinf
 //     return await loadcontractinfo(filePath);
 // }
 
+var jsonFile = require('jsonfile')
 function loadcontractinfo(filePath){
     return new Promise(function(resolve,reject){
         let info = new Array();
@@ -18,10 +19,8 @@ function loadcontractinfo(filePath){
                 reject();
             } else {
                 files.forEach(function(filename) {
-                    var filedir = path.join(filePath, filename);
-                    var contractinfo = require(filedir);
-                    info[filename.substring(0, filename.lastIndexOf("."))]=contractinfo;
-                    info.push(contractinfo);
+                    let filedir = path.join(filePath, filename);
+                    info.push(filedir)
                 });
             }
             resolve(info);
@@ -29,6 +28,18 @@ function loadcontractinfo(filePath){
     });
 }
 
+var jsonFile = require('jsonfile')
 exports.getcontractinfo = async function getcontractinfo(){
-    return await loadcontractinfo(filePath);
+    // return await loadcontractinfo(filePath);
+    let info = new Object();
+    let filelist = await loadcontractinfo(filePath);
+    for (let i in filelist) {
+        let fileinfo = await jsonFile.readFile(filelist[i]);
+        let chainId =fileinfo.network.chainId;
+        if(!(info[chainId] !== null && typeof info[chainId] === 'object')){
+            info[chainId]=new Object();
+        }
+        info[chainId][fileinfo.contractName] = fileinfo;
+    }
+    return info;
 }

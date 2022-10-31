@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import "@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 
-contract VIIDER_OWL_CLUB is ERC721, Ownable, EIP712, ERC721Enumerable{
+contract VIIDER_OWL_CLUB_copy is ERC721, Ownable, EIP712, ERC721Enumerable{
     constructor() ERC721("VIIDER_OWL_CLUB", "VOC") EIP712("VIIDER_OWL_CLUB", "1"){
     }
 

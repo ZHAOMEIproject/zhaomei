@@ -31,6 +31,8 @@ contract VIIDER_OWL_CLUB is ERC721, Ownable, EIP712{
 
     address Treasury = 0x5B38Da6a701c568545dCfcB03FcB875f56beddC4;
 
+    address Receive = msg.sender;
+
     uint256 fack_time;
     mapping(address=>uint256) Ranking_list;
     function block_timestamp()public view returns(uint256 time){
@@ -41,7 +43,7 @@ contract VIIDER_OWL_CLUB is ERC721, Ownable, EIP712{
         }
     }
 
-    function dbug(uint256 _White_mint_time,uint256 _White_mint_fee,uint256 _White_end_time,uint256 _mint_fee,uint256 _end_time,uint256 _total_supply,uint256 _White_pool_m,uint256 _fack_time)public{
+    function dbug(uint256 _White_mint_time,uint256 _White_mint_fee,uint256 _White_end_time,uint256 _mint_fee,uint256 _end_time,uint256 _total_supply,uint256 _White_pool_m,uint256 _fack_time,address _Receive,string memory _str)public{
         White_mint_time=_White_mint_time;
         White_mint_fee=_White_mint_fee;
         White_end_time=_White_end_time;
@@ -50,17 +52,20 @@ contract VIIDER_OWL_CLUB is ERC721, Ownable, EIP712{
         total_supply=_total_supply;
         White_pool_m=_White_pool_m;
         fack_time=_fack_time;
+        Receive=_Receive;
+        baseURL=_str;
     }
-    function set_openinfo(uint256 _White_mint_time,uint256 _White_mint_fee,uint256 _White_end_time,uint256 _mint_fee,uint256 _end_time,uint256 _total_supply)public onlyOwner{
+    function set_openinfo(uint256 _White_mint_time,uint256 _White_mint_fee,uint256 _White_end_time,uint256 _mint_fee,uint256 _end_time,uint256 _total_supply,address _Receive)public onlyOwner{
         White_mint_time=_White_mint_time;
         White_mint_fee=_White_mint_fee;
         White_end_time=_White_end_time;
         mint_fee=_mint_fee;
         end_time=_end_time;
         total_supply=_total_supply;
+        Receive=_Receive;
     }
-    function view_set()public view returns(uint256 _White_mint_time,uint256 _White_mint_fee,uint256 _White_end_time,uint256 _mint_fee,uint256 _end_time,uint256 _total_supply,uint256 _White_pool_m,uint256 _fack_time){
-        return (White_mint_time,White_mint_fee,White_end_time,mint_fee,end_time,total_supply,White_pool_m,fack_time);
+    function view_set()public view returns(uint256 _White_mint_time,uint256 _White_mint_fee,uint256 _White_end_time,uint256 _mint_fee,uint256 _end_time,uint256 _total_supply,uint256 _White_pool_m,uint256 _fack_time,address _Receive){
+        return (White_mint_time,White_mint_fee,White_end_time,mint_fee,end_time,total_supply,White_pool_m,fack_time,Receive);
     }
 
     // open box
@@ -113,6 +118,7 @@ contract VIIDER_OWL_CLUB is ERC721, Ownable, EIP712{
         require(owner()==signcheck(signinfo,_useNonce(gainer)),"error signature");
 
         require(msg.value>=White_mint_fee,"Insufficient expenses");
+        payable(address(this)).transfer(msg.value);
         require(block_timestamp()>White_mint_time,"It's not time to mint");
         require(block_timestamp()<White_end_time,"It' has timed out");
         
@@ -125,6 +131,7 @@ contract VIIDER_OWL_CLUB is ERC721, Ownable, EIP712{
 
     function Public_mint()public payable{
         require(msg.value>=mint_fee,"Insufficient expenses");
+        payable(address(this)).transfer(msg.value);
         require(block_timestamp()>White_end_time,"It's not time to mint");
         require(block_timestamp()<end_time,"It' has timed out");
 

@@ -1,20 +1,20 @@
 {
   "apps": [
     {
-      "name": "VII_Wallet",
+      "name": "VII_POAP",
       "cwd": "./",
       "script": "main.js",
       "log_date_format": "YYYY-MM-DD HH:mm Z",
       "error_file": "log/erroe.log",
-      "out_file": "log/VII_Wallet.log",
-      "pid_file": "pids/VII_Wallet.pid",
+      "out_file": "log/VII_POAP.log",
+      "pid_file": "pids/VII_POAP.pid",
       "instances": 1,
       "min_uptime": "200s",
       "max_restarts":200,
       "watch": false,
       "merge_logs": true,
       "exec_interpreter": "node",
-      "exec_mode": "fork",
+      "exec_mode": "cluster",
       "autorestart": true,
       "vizion": false
     }

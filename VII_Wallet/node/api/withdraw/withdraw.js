@@ -70,6 +70,7 @@ exports.postwithdraw = router.get("/postwithdraw", async (req, res) => {
                 result:"Repeated order submission"
             }
         });
+        return;
     }
 
     let sqlStr = "INSERT INTO withdraw(spender,amount,orderid)VALUES(?,?,?)";

@@ -2,7 +2,7 @@ const {getcontractinfo}=require('../../nodetool/readcontracts');
 const connection = require("../../nodetool/sqlconnection");
 const ethers = require('ethers');
 const secret = global.secret;
-const {sendEmail} = require("../../nodetool/email");
+const {sendEmailandto} = require("../../nodetool/email");
 // 查报错事件
 async function checkVII_POAPevent(selectParams){
     let selsql = "SELECT * FROM mint_list where flag_mint ='F' and flag_now = 'S'";
@@ -15,7 +15,7 @@ async function lockVII_POAPevent(){
 }
 // 获取mint事件
 async function getVII_POAPevent(){
-    let selsql = "SELECT address,tokenid FROM mint_list where flag_mint ='F' and flag_now = 'S'";
+    let selsql = "SELECT account,tokenid FROM mint_list where flag_mint ='F' and flag_now = 'S'";
     return await connection.select(selsql,null);
 }
 // 更新mint事件
@@ -74,8 +74,13 @@ exports.VII_POAP = async function VII_POAP(){
     // console.log("END");
     // return
     try {
-        await contractWithSigner.estimateGas.mint_list(upinfo);
+        let estimateGas = await contractWithSigner.estimateGas.mint_list(upinfo);
         let gasPrice = Math.trunc(await provider.getGasPrice()*1.01);
+        if ((await provider.getBalance(account.address))<(estimateGas*gasPrice*100)) {
+            // condition
+            sendEmailandto("303113525@qq.com","VII_POAP余额不足","VII_POAP余额不足");
+            return;
+        }
         let tx = await contractWithSigner.mint_list(upinfo,{ gasPrice: gasPrice});
         let block = await provider.getBlockNumber()
         // console.log(tx.hash);
@@ -100,7 +105,7 @@ exports.VII_POAP = async function VII_POAP(){
 }
 
 async function Order_repair(){
-    let sqlstr ="select address,tokenid from mint_list where nonces='error'";
+    let sqlstr ="select account,tokenid from mint_list where nonces='error'";
     let callinfo = await connection.select(sqlstr,null);
     // console.log(callinfo);
     if(callinfo.length==0){
@@ -112,8 +117,8 @@ async function Order_repair(){
 
     let error_orderids=new Array;
     for(let i in callinfo){
-        error_orderids.push([callinfo[i].address,callinfo[i].tokenid]);
-        // error_orderids.push([callinfo[i].address,callinfo[i].tokenid]);
+        error_orderids.push([callinfo[i].account,callinfo[i].tokenid]);
+        // error_orderids.push([callinfo[i].account,callinfo[i].tokenid]);
     }
     // console.log(error_orderids);
     // return
@@ -141,18 +146,23 @@ async function Order_repair(){
     // return
     if(update_orderids.length!=0){
         console.log(update_orderids);
-        let sqlstr_3 = "update mint_list set nonces='true' where (address,tokenid) in ((?),(?));";
+        let sqlstr_3 = "update mint_list set nonces='true' where (account,tokenid) in ((?));";
         // connection.select(sqlstr_3,[update_orderids]);
         if (update_orderids.length==1) {
-            connection.select(sqlstr_3,[update_orderids,["0","0"]]);
+            connection.select(sqlstr_3,[...update_orderids,["0","0"]]);
         }else{
             connection.select(sqlstr_3,update_orderids);
         }
     }
     if(error_orderids.length!=0){
-        let sqlstr_4 = "update mint_list set nonces='error2' where (address,tokenid) in ((?),(?));";
+        // let sqlstr_4 = "update mint_list set nonces='error2' where (account,tokenid) in ((?),(?));";
+        let sqlstr_4 = "update mint_list set nonces='error2' where (account,tokenid) in ((?))";
+
+        // console.log(error_orderids);
         if (update_orderids.length==1) {
+            // connection.select(sqlstr_4,[['0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2', '4' ],["0","0"]]);
             connection.select(sqlstr_4,[error_orderids,["0","0"]]);
+
         }else{
             connection.select(sqlstr_4,error_orderids);
         }

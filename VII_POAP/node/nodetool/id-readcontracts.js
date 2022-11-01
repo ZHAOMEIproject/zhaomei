@@ -36,6 +36,7 @@ exports.getcontractinfo = async function getcontractinfo(){
     let info = new Object();
     let filelist = await loadcontractinfo(filePath);
     for (let i in filelist) {
+        // console.log(filelist[i]);
         let fileinfo = await jsonFile.readFile(filelist[i]);
         let chainId =fileinfo.network.chainId;
         if(!(info[chainId] !== null && typeof info[chainId] === 'object')){

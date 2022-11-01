@@ -29,7 +29,7 @@ exports.postmint = router.get("/postmint", async (req, res) => {
         });
         return;
     }
-    let key_set="123";
+    let key_set="dawasdak3jerbjfseijlfjoj3jli32j390(i";
     if (params["key"]!=key_set) {
         res.send({
             success:false,
@@ -51,7 +51,7 @@ exports.postmint = router.get("/postmint", async (req, res) => {
     // return
     if(orderidsql.length!=0){
         res.send({
-            success:true,
+            success:false,
             data:{
                 error:"Repeated order submission"
             }
@@ -97,20 +97,29 @@ exports.checkaccount = router.get("/checkaccount", async (req, res) => {
         });
         return;
     }
-    let data = await getbalanceOf(params.account,params.tokenid);
-    // console.log(data);
-    if (data==0) {
+    try {
+        let data = await getbalanceOf(params.account,params.tokenid);
+        // console.log(data);
+        if (data==0) {
+            res.send({
+                success:true,
+                data:{
+                    success:"false"
+                }
+            });
+        } else {
+            res.send({
+                success:true,
+                data:{
+                    success:"true"
+                }
+            });
+        }
+    } catch (error) {
         res.send({
-            success:true,
+            success:false,
             data:{
-                success:"false"
-            }
-        });
-    } else {
-        res.send({
-            success:true,
-            data:{
-                success:"true"
+                error:"blockchain call error"
             }
         });
     }

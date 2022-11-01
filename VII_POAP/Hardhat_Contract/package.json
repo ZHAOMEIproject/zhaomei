@@ -14,6 +14,7 @@
     "@openzeppelin/hardhat-upgrades": "^1.19.0",
     "Hardhat": "npm:hardhat@^2.9.9",
     "hardhat-abi-exporter": "^2.9.0",
+    "request": "^2.88.2",
     "util": "^0.12.4"
   }
 }

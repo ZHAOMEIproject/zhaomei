@@ -56,6 +56,5 @@ contract VII_POAP is ERC1155, Ownable {
         for (uint256 i = 0; i < ids.length; i++) {
             require(balanceOf(to,ids[i])==0,"The user already owns");
         }
-        
     }
 }

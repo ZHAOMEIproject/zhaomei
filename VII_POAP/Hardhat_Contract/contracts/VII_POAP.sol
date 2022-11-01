@@ -11,22 +11,32 @@ contract VII_POAP is ERC1155, Ownable {
         _setURI(newuri);
     }
 
-    function mint(address account, uint256 id, uint256 amount, bytes memory data)
-        public
-        onlyOwner
-    {
-        _mint(account, id, amount, data);
+    // function mint(address account, uint256 id, uint256 amount, bytes memory data)
+    //     public
+    //     onlyOwner
+    // {
+    //     _mint(account, id, amount, data);
+    // }
+    struct _mint_info{
+        address to;
+        uint256 id;
     }
-    function mint_list(address[] memory to, uint256[] memory ids)
+    function single_mint(_mint_info calldata mint_info)
         public
         onlyOwner
     {
-        uint256 to_l = to.length;
+        _mint(mint_info.to, mint_info.id, 1, "0x");
+    }
+    function mint_list(_mint_info[] calldata mint_info)
+        public
+        onlyOwner
+    {
+        uint256 to_l = mint_info.length;
         for(uint256 i =0;i<to_l;i++){
-            if(balanceOf(to[i],ids[i])!=0){
+            if(balanceOf(mint_info[i].to,mint_info[i].id)!=0){
                 continue;
             }
-            _mint(to[i],ids[i],1,"");
+            _mint(mint_info[i].to,mint_info[i].id,1,"");
         }
     }
 
@@ -37,7 +47,15 @@ contract VII_POAP is ERC1155, Ownable {
         uint256[] memory ids,
         uint256[] memory amounts,
         bytes memory data
-    ) internal override {
+    ) view internal override {
+        operator;
+        from;
+        amounts;
+        data;
         require(from==address(0),"VII_POAP cannot transfer");
+        for (uint256 i = 0; i < ids.length; i++) {
+            require(balanceOf(to,ids[i])==0,"The user already owns");
+        }
+        
     }
 }

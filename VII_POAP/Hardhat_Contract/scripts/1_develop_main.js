@@ -12,7 +12,8 @@ async function main(){
   await main_contract.deployed();
   console.log("Main_contract deployed to:", main_contract.address);
   let Artifact = await artifacts.readArtifact("VII_POAP");
-  await writer_info_all(network,Artifact, main_contract,arguments);
+  // await writer_info_all(network,Artifact, main_contract,arguments);
+  await writer_info_all(network,Artifact, main_contract,null);
 }
 main()
   .then(() => process.exit(0))

@@ -218,42 +218,21 @@
     {
       "inputs": [
         {
-          "internalType": "address",
-          "name": "account",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "id",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "amount",
-          "type": "uint256"
-        },
-        {
-          "internalType": "bytes",
-          "name": "data",
-          "type": "bytes"
-        }
-      ],
-      "name": "mint",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address[]",
-          "name": "to",
-          "type": "address[]"
-        },
-        {
-          "internalType": "uint256[]",
-          "name": "ids",
-          "type": "uint256[]"
+          "components": [
+            {
+              "internalType": "address",
+              "name": "to",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "id",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct VII_POAP._mint_info[]",
+          "name": "mint_info",
+          "type": "tuple[]"
         }
       ],
       "name": "mint_list",
@@ -381,6 +360,31 @@
     {
       "inputs": [
         {
+          "components": [
+            {
+              "internalType": "address",
+              "name": "to",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "id",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct VII_POAP._mint_info",
+          "name": "mint_info",
+          "type": "tuple"
+        }
+      ],
+      "name": "single_mint",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
           "internalType": "bytes4",
           "name": "interfaceId",
           "type": "bytes4"
@@ -430,21 +434,12 @@
       "type": "function"
     }
   ],
-  "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-  "blocknumber": 0,
-  "constructorArguments": [
-    "10000000000000000000000",
-    "0x90298097B7D033d13f9cF14c1A754AFbfD8496C8",
-    "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
-    "VII_WITHDRAW",
-    "1",
-    "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
-    "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
-    "0xd7B74f2133C011110a7A38038fFF30bDc9ACe6d1",
-    "0xd7B74f2133C011110a7A38038fFF30bDc9ACe6d1"
-  ],
+  "address": "0x7FdBA66D74DB8E1819a0B2033c025b261520c6cb",
+  "blocknumber": 28919848,
+  "constructorArguments": null,
   "network": {
-    "name": "hardhat",
-    "chainId": 31337
+    "name": "polygonMumbai",
+    "chainId": 80001,
+    "url": "https://matic-mumbai.chainstacklabs.com"
   }
 }

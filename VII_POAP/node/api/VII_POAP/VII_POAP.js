@@ -10,10 +10,10 @@ const {sendEmailandto} = require("../../nodetool/email");
 var n_allowance=0;
 var lasttime=0;
 
-exports.postwithdraw = router.get("/postwithdraw", async (req, res) => {
+exports.postmint = router.get("/postmint", async (req, res) => {
     var params = url.parse(req.url, true).query;
 
-    let check =["spender","amount","orderid"];
+    let check =["address","tokenid"];
     if(!check.every(key=>key in params)){
         res.send({
             success:false,
@@ -21,48 +21,15 @@ exports.postwithdraw = router.get("/postwithdraw", async (req, res) => {
         });
         return;
     }
-    {
-        let selsql = "SELECT amount FROM withdraw where flag_withdraw ='F'";
-        let sqlrq = await conn.select(selsql,null);
-        let amount = 0;
-        for (let i in sqlrq) {
-            amount+=sqlrq[i]
-        }
-        amount+=params.amount;
-        if (n_allowance<amount) {
-            let checktime=Date.now()/1000;
-            if (lasttime<(checktime-15)) {
-                n_allowance=await getallowance();
-                lasttime=checktime;
-                if(n_allowance<amount){
-                    sendEmailandto("303113525@qq.com","授权量不足","授权量不足");
-                    res.send({
-                        success:false,
-                        data:{
-                            error:"Insufficient authorization"
-                        }
-                    });
-                    return;
-                }
-            }else{
-                sendEmailandto("303113525@qq.com","授权量不足","授权量不足");
-                res.send({
-                    success:false,
-                    data:{
-                        error:"Insufficient authorization"
-                    }
-                });
-                return;
-            }
-        }
-    }
     
     let sqlparams=[];
     for(let i in check){
         sqlparams.push(params[check[i]]);
     }
-    let checkorderid ="select orderid from withdraw where orderid=?"
-    let orderidsql = await conn.select(checkorderid,params["orderid"])
+    let checkorderid ="select * from mint_list where (address,tokenid) in ((?),(?))"
+    let orderidsql = await conn.select(checkorderid,[params["address"],params["tokenid"]])
+    console.log(orderidsql);
+    return
     if(orderidsql.length!=0){
         res.send({
             success:true,
@@ -72,7 +39,7 @@ exports.postwithdraw = router.get("/postwithdraw", async (req, res) => {
         });
     }
 
-    let sqlStr = "INSERT INTO withdraw(spender,amount,orderid)VALUES(?,?,?)";
+    let sqlStr = "INSERT INTO VII_POAP(spender,amount,orderid)VALUES(?,?,?)";
     try {
         await conn.select(sqlStr,sqlparams);
     } catch (error) {
@@ -92,7 +59,7 @@ exports.postwithdraw = router.get("/postwithdraw", async (req, res) => {
     return;
 });
 
-exports.postwithdrawsign = router.get("/postwithdrawsign", async (req, res) => {
+exports.postVII_POAPsign = router.get("/postVII_POAPsign", async (req, res) => {
     var params = url.parse(req.url, true).query;
 
     let check =["auditor","spender","amount","deadline","sign_r","sign_s","sign_v","orderid"];
@@ -104,7 +71,7 @@ exports.postwithdrawsign = router.get("/postwithdrawsign", async (req, res) => {
         return;
     }
     {
-        let selsql = "SELECT amount FROM withdraw where flag_withdraw ='F'";
+        let selsql = "SELECT amount FROM VII_POAP where flag_VII_POAP ='F'";
         let sqlrq = await conn.select(selsql,null);
         let amount = 0;
         for (let i in sqlrq) {
@@ -144,7 +111,7 @@ exports.postwithdrawsign = router.get("/postwithdrawsign", async (req, res) => {
         sqlparams.push(params[check[i]]);
     }
 
-    let checkorderid ="select orderid from withdraw_auditor where orderid=?"
+    let checkorderid ="select orderid from VII_POAP_auditor where orderid=?"
     let orderidsql = await conn.select(checkorderid,params["orderid"])
     if(orderidsql.length!=0){
         res.send({
@@ -156,7 +123,7 @@ exports.postwithdrawsign = router.get("/postwithdrawsign", async (req, res) => {
     }
     
 
-    let sqlStr = "INSERT INTO withdraw_auditor("+
+    let sqlStr = "INSERT INTO VII_POAP_auditor("+
     "auditor,spender,amount,deadline,sign_r,sign_s,sign_v,orderid)VALUES("+
     "?,?,?,?,?,?,?,?)";
     try {
@@ -177,11 +144,11 @@ exports.postwithdrawsign = router.get("/postwithdrawsign", async (req, res) => {
     });
     return;
 });
-exports.checkorderid = router.post("/checkorderid", async (req, res) => {
+exports.checkorderid = router.get("/checkorderid", async (req, res) => {
     // var params = url.parse(req.body, true).query;
     // console.log(req.body);
     let orderids =req.body.orderids;
-    let sqlStr = "select * from mainwithdraw where event_name='e_Withdraw' and data3 in (?)"
+    let sqlStr = "select * from mainVII_POAP where event_name='e_VII_POAP' and data3 in (?)"
     let orderids_u=new Array;
     for (let i in orderids) {
         let neworderid = orderids[i]+"0000000000000000000000000000000000000000";
@@ -254,7 +221,7 @@ const BigNumber = require("bignumber.js");
 
 
 exports.getallowance = router.get("/getallowance", async (req, res) => {
-    let selsql = "SELECT amount FROM withdraw where flag_withdraw ='F'";
+    let selsql = "SELECT amount FROM VII_POAP where flag_VII_POAP ='F'";
     let sqlrq = await conn.select(selsql,null);
     let amount = 0;
     for (let i in sqlrq) {
@@ -273,7 +240,7 @@ exports.getallowance = router.get("/getallowance", async (req, res) => {
 
 // exports.test = router.get("/test", async (req, res) => {
 //     var params = url.parse(req.url, true).query;
-//     let selsql = "SELECT amount FROM withdraw where flag_withdraw ='F'";
+//     let selsql = "SELECT amount FROM VII_POAP where flag_VII_POAP ='F'";
 //     let sqlrq = await conn.select(selsql,null);
 //     let amount = params.amount;
 //     for (let i in sqlrq) {
@@ -322,8 +289,8 @@ async function getallowance(){
     var params = new Object();
     params["contractname"]="vii_s";
     params["fun"]="allowance";
-    params["params"]=[contractinfo.mainwithdraw.constructorArguments[2],contractinfo.mainwithdraw.address];
+    params["params"]=[contractinfo.mainVII_POAP.constructorArguments[2],contractinfo.mainVII_POAP.address];
     let data = await newcontractcall(params);
-    // console.log(contractinfo.mainwithdraw.address,data);
+    // console.log(contractinfo.mainVII_POAP.address,data);
     return data.data.result;
 }

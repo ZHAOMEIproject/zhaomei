@@ -13,7 +13,7 @@ function start_test(){
     node_info = global.secret.VII_POAP_NODE;
     host = node_info.host;
     port = node_info.port;
-    global.mysqlGlobal = global.secret.VII_POAP_SQL;
+    global.mysqlGlobal = global.secret.ROOT_SQL;
     global.zwjerror = false;
     global.name ="VII_POAP";
 }
@@ -33,6 +33,6 @@ service.serviceConfig(app,host,port);
 const restApi = require("./api/restApi");
 restApi.restApiConfig(app);
 
-// Arouse the task
-const timingTask = require("./task/timing-task");
-timingTask.taskStart();
+// // Arouse the task
+// const timingTask = require("./task/timing-task");
+// timingTask.taskStart();

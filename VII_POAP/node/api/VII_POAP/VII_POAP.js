@@ -51,9 +51,11 @@ exports.postmint = router.get("/postmint", async (req, res) => {
     // return
     if(orderidsql.length!=0){
         res.send({
-            success:false,
+            success:true,
             data:{
-                error:"Repeated order submission"
+                error: "110",
+                repeat: false,
+                errorinfo:"Repeated order submission"
             }
         });
         return;

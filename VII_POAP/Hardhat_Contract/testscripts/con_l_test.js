@@ -11,16 +11,16 @@ const {getcontractinfo}=require('./tool/id-readcontracts');
 var contractinfo = new Object();
 
 async function main(){
+    // 获取项目的合约信息
+    contractinfo = await getcontractinfo();
     // console.log("loading");
     // console.log(network);
     // return
     let [owner, addr1, addr2] = await ethers.getSigners();
     console.log(owner.address);
     // return
-    // 在--network hardhat部署合约
+    // 在--network hardhat部署合约,并自动了更新contractinfo
     await l_creat_contract(owner,"VII_POAP",[]);
-    // 获取项目的合约信息
-    contractinfo = await getcontractinfo();
     // console.log(contractinfo);
     let getinfo
 
@@ -139,6 +139,7 @@ async function l_creat_contract(wallet,contractname,arguments){
   console.log(contractname+" deployed to:", main_contract.address);
   let Artifact = await artifacts.readArtifact(contractname);
   await writer_info_all(network,Artifact, main_contract,arguments);
+  contractinfo = await getcontractinfo();
 }
 async function creat_contract(signingKey,chain_name,contractname,arguments){
   let provider = new ethers.providers.JsonRpcProvider(secret.hardhatset.networks[chain_name].url);
@@ -152,6 +153,7 @@ async function creat_contract(signingKey,chain_name,contractname,arguments){
   console.log(contractname+" deployed to:", main_contract.address);
   let Artifact = await artifacts.readArtifact(contractname);
   await writer_info_all(network,Artifact, main_contract,arguments);
+  contractinfo = await getcontractinfo();
 }
 
 function contractadd(newontract){

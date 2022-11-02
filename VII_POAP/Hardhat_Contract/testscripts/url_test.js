@@ -121,12 +121,13 @@ async function call_contract(signingKey,chainId,contractname,fun,params){
 
 async function l_call_contract(wallet,contractname,fun,params){
   let contract = new ethers.Contract(
-    contractinfo[chainId][contractname].address, 
-    contractinfo[chainId][contractname].abi, 
-    provider
+    contractinfo[network.config.chainId][contractname].address, 
+    contractinfo[network.config.chainId][contractname].abi, 
+    network.config.provider
   );
   let contractWithSigner = contract.connect(wallet);
   let tx;
+//   console.log(params.length);
   if(params.length>0){
     // tx = await contractWithSigner[fun](...params);
     // console.log(...params);
@@ -146,6 +147,7 @@ async function l_creat_contract(wallet,contractname,arguments){
   console.log(contractname+" deployed to:", main_contract.address);
   let Artifact = await artifacts.readArtifact(contractname);
   await writer_info_all(network,Artifact, main_contract,arguments);
+  contractinfo = await getcontractinfo();
 }
 async function creat_contract(signingKey,chain_name,contractname,arguments){
   let provider = new ethers.providers.JsonRpcProvider(secret.hardhatset.networks[chain_name].url);
@@ -159,12 +161,15 @@ async function creat_contract(signingKey,chain_name,contractname,arguments){
   console.log(contractname+" deployed to:", main_contract.address);
   let Artifact = await artifacts.readArtifact(contractname);
   await writer_info_all(network,Artifact, main_contract,arguments);
+  contractinfo = await getcontractinfo();
 }
 
 function contractadd(newontract){
   contractinfo[newontract.network.chainId.toString()][newontract.contractName]=newontract;
 }
 
+const request = require("request");
+const { network } = require("hardhat");
 function getbyurl(url){
   return new Promise(function (resolve, reject) {
       request({

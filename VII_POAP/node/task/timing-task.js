@@ -9,10 +9,10 @@ exports.taskStart = async function taskStart(){
     await taskSyncVII_POAP()
     
     setTimeout(function () {
-        setInterval(taskSyncchainscan,1000*60);// task I,Synchronization levelnft event record,Do it every 10s
+        setInterval(taskSyncchainscan,1000*6);// task I,Synchronization levelnft event record,Do it every 10s
     }, 10);
     setTimeout(function () {
-        setInterval(taskSyncVII_POAP,1000*60);// task I,Synchronization levelnft event record,Do it every 10s
+        setInterval(taskSyncVII_POAP,1000*6);// task I,Synchronization levelnft event record,Do it every 10s
     }, 0);
 }
 async function taskSyncVII_POAP() {

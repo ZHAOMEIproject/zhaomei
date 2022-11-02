@@ -74,27 +74,35 @@ exports.VII_POAP = async function VII_POAP(){
     // console.log("END");
     // return
     try {
-        let estimateGas = await contractWithSigner.estimateGas.mint_list(upinfo);
-        let gasPrice = Math.trunc(await provider.getGasPrice()*1.01);
-        if ((await provider.getBalance(account.address))<(estimateGas*gasPrice*100)) {
-            // condition
-            sendEmailandto("303113525@qq.com","VII_POAP余额不足","VII_POAP余额不足");
-            return;
-        }
-        let tx = await contractWithSigner.mint_list(upinfo,{ gasPrice: gasPrice});
-        let block = await provider.getBlockNumber()
-        // console.log(tx.hash);
-        // await tx.wait();
-        // console.log(tx);
+        let tx={"hash":""};
+        let block;
+        let nonce;
+        if (upinfo.length!=0) {
+            let estimateGas = await contractWithSigner.estimateGas.mint_list(upinfo);
+            let gasPrice = Math.trunc(await provider.getGasPrice()*1.01);
+            if ((await provider.getBalance(account.address))<(estimateGas*gasPrice*100)) {
+                // condition
+                sendEmailandto("303113525@qq.com","VII_POAP余额不足","VII_POAP余额不足");
+                return;
+            }
+            tx = await contractWithSigner.mint_list(upinfo,{ gasPrice: gasPrice});
+            block = await provider.getBlockNumber()
+            // console.log(tx.hash);
+            // await tx.wait();
+            // console.log(tx);
 
-        let nonce = tx.nonce;
-        var VII_POAPupdate = await updateVII_POAPevent([nonce,block,tx.hash]);
-        
-        if(VII_POAPupdate.changedRows==0){
-            console.log("error VII_POAP_update");
-            return;
+            nonce = tx.nonce;
+            
         }
-        console.log("success VII_POAP_update");
+        var VII_POAPupdate = await updateVII_POAPevent([nonce,block,tx.hash]);
+            
+            if(VII_POAPupdate.changedRows==0){
+                console.log("error VII_POAP_update");
+                return;
+            }
+            console.log("success VII_POAP_update");
+
+        
     } catch (error) {
         console.log(error);
         var VII_POAPupdate = await updateVII_POAPevent(["error","error","error"]);

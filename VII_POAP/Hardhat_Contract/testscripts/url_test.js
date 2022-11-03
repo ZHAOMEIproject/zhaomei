@@ -168,7 +168,6 @@ function contractadd(newontract){
   contractinfo[newontract.network.chainId.toString()][newontract.contractName]=newontract;
 }
 
-const request = require("request");
 const { network } = require("hardhat");
 function getbyurl(url){
   return new Promise(function (resolve, reject) {

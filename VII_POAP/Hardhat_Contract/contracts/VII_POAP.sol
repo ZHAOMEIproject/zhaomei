@@ -3,6 +3,8 @@ pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
+
 
 contract VII_POAP is ERC1155, Ownable {
     constructor() ERC1155("http://3pe6232331.zicp.vip/api/owl-behavior/behavior/space/activity/token/") {}
@@ -56,5 +58,10 @@ contract VII_POAP is ERC1155, Ownable {
         for (uint256 i = 0; i < ids.length; i++) {
             require(balanceOf(to,ids[i])==0,"The user already owns");
         }
+    }
+    using Strings for uint256;
+    function uri(uint256 tokenId) public view override returns (string memory tokenurl) {
+        string memory baseURI = super.uri(tokenId);
+        return bytes(baseURI).length > 0 ? string(abi.encodePacked(baseURI, tokenId.toString())) : "";
     }
 }

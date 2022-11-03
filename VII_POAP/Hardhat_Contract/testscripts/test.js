@@ -12,54 +12,9 @@ const request = require("request");
 var contractinfo = new Object();
 
 async function main(){
-    // 获取项目的合约信息
-    contractinfo = await getcontractinfo();
-    // console.log("loading");
-    // console.log(network);
-    // return
+  // 加载hardhat.config.js设置的钱包
     let [owner, addr1, addr2] = await ethers.getSigners();
-    console.log(owner.address);
-    // return
-    // 在--network hardhat部署合约,并自动了更新contractinfo
-    await l_creat_contract(owner,"VII_POAP",[]);
-    // console.log(contractinfo);
-    let getinfo
-
-    {
-        // mint前查询
-        getinfo =  await l_call_contract(owner,"VII_POAP","balanceOf",
-            [owner.address,1]
-        );
-        if (getinfo!=0) {
-            console.log("error：mint前不为0");
-        }
-    }
-    {
-        // mint
-        await l_call_contract(owner,"VII_POAP","mint_list",
-            [[[owner.address,1]]]
-        );
-        // 查询mint后
-        getinfo =  await l_call_contract(owner,"VII_POAP","balanceOf",
-            [owner.address,1]
-        );
-        if (getinfo!=1) {
-            console.log("error：mint后不为1");
-        }
-    }
-    {
-        // 重复mint，不会报错，在合约里直接跳过，但是可能需要在测试网区块链浏览器才好看出来。
-        getinfo =  await l_call_contract(owner,"VII_POAP","mint_list",
-            [[[owner.address,1]]]
-        );
-        getinfo =  await l_call_contract(owner,"VII_POAP","balanceOf",
-            [owner.address,1]
-        );
-        if (getinfo!=1) {
-            console.log("error：重复mint后不为1");
-        }
-    }
-    
+    console.log(owner);
 }
 
 

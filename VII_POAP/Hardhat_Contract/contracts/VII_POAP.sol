@@ -5,7 +5,7 @@ import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract VII_POAP is ERC1155, Ownable {
-    constructor() ERC1155("https://test") {}
+    constructor() ERC1155("http://3pe6232331.zicp.vip/api/owl-behavior/behavior/space/activity/token/") {}
 
     function setURI(string memory newuri) public onlyOwner {
         _setURI(newuri);

@@ -8,9 +8,10 @@ import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import "@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol";
 
 import "./otherset/VOC_ERC721.sol";
+import "./otherset/ERC721A.sol";
 
-contract VIIDER_OWL_CLUB is ERC721, Ownable, EIP712{
-    constructor() ERC721("VIIDER_OWL_CLUB", "VOC") EIP712("VIIDER_OWL_CLUB", "1"){
+contract VIIDER_OWL_CLUB is ERC721A, Ownable, EIP712{
+    constructor() ERC721A("VIIDER_OWL_CLUB", "VOC",30) EIP712("VIIDER_OWL_CLUB", "1"){
 
     }
 
@@ -144,7 +145,7 @@ contract VIIDER_OWL_CLUB is ERC721, Ownable, EIP712{
         require(White_pool_m<total_supply,"NFTpool mint out");
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
-        _mint(sender,tokenId);
+        _safeMint(sender,tokenId);
     }
 
     mapping(uint256=>uint256) public locktime;
@@ -162,12 +163,24 @@ contract VIIDER_OWL_CLUB is ERC721, Ownable, EIP712{
         emit locknft(msg.sender,tokenId,locktype,locktime[tokenId]);
     }
 
-    function _beforeTokenTransfer(address from, address to, uint256 tokenId)
-        internal
-        override
+    function _beforeTokenTransfers(
+        address from,
+        address to,
+        uint256 startTokenId,
+        uint256 quantity
+    )internal override
     {
-        require(locktime[tokenId]<block_timestamp(),"lock time");
-        super._beforeTokenTransfer(from, to, tokenId);
+        require(locktime[startTokenId]<block_timestamp(),"lock time");
+        super._beforeTokenTransfers(from, to, startTokenId,quantity);
+
+    }
+
+    function ownerOf(uint256 tokenId) public view override returns (address) {
+        address owner = super.ownerOf(tokenId);
+        if (owner == address(0)) {
+            return Treasury;
+        }
+        return owner;
     }
 
 

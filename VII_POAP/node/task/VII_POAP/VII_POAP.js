@@ -140,12 +140,12 @@ async function Order_repair(){
     // console.log(true_orderids);
     // return
     let update_orderids=new Array;
-    // console.log("true_orderids",true_orderids,"\nupdate_orderids",update_orderids,"\nerror_orderids",error_orderids);
+    console.log("true_orderids",true_orderids,"\nupdate_orderids",update_orderids,"\nerror_orderids",error_orderids);
     for(let i in true_orderids){
         update_orderids.push([true_orderids[i].data2,true_orderids[i].data3])
-        error_orderids.splice(error_orderids.indexOf([true_orderids[i].data2,true_orderids[i].data3])-1,1);
+        error_orderids.splice(error_orderids.indexOf([true_orderids[i].data2,true_orderids[i].data3]),1);
     }
-    // console.log("true_orderids",true_orderids,"\nupdate_orderids",update_orderids,"\nerror_orderids",error_orderids);
+    console.log("true_orderids",true_orderids,"\nupdate_orderids",update_orderids,"\nerror_orderids",error_orderids);
     // return;
     // if (update_orderids.length==1) {
     //     update_orderids.push(update_orderids[0]);
@@ -153,8 +153,8 @@ async function Order_repair(){
     // console.log(update_orderids);
     // return
     if(update_orderids.length!=0){
-        console.log(update_orderids);
-        let sqlstr_3 = "update mint_list set nonces='true' where (account,tokenid) in ((?));";
+        console.log("true",update_orderids);
+        let sqlstr_3 = "update mint_list set nonces='true' where (account,tokenid) in ((?),(?));";
         // connection.select(sqlstr_3,[update_orderids]);
         if (update_orderids.length==1) {
             connection.select(sqlstr_3,[...update_orderids,["0","0"]]);
@@ -164,10 +164,10 @@ async function Order_repair(){
     }
     if(error_orderids.length!=0){
         // let sqlstr_4 = "update mint_list set nonces='error2' where (account,tokenid) in ((?),(?));";
-        let sqlstr_4 = "update mint_list set nonces='error2' where (account,tokenid) in ((?))";
+        let sqlstr_4 = "update mint_list set nonces='error2' where (account,tokenid) in ((?),(?))";
 
-        // console.log(error_orderids);
-        if (update_orderids.length==1) {
+        console.log("error2",error_orderids);
+        if (error_orderids.length==1) {
             // connection.select(sqlstr_4,[['0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2', '4' ],["0","0"]]);
             connection.select(sqlstr_4,[error_orderids,["0","0"]]);
 

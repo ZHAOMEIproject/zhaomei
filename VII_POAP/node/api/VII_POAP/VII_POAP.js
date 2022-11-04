@@ -19,6 +19,7 @@ exports.postmint = router.get("/postmint", async (req, res) => {
         });
         return;
     }
+    params.account = toChecksumAddress(params.account);
     let check2 =["key"];
     if(!check2.every(key=>key in params)){
         res.send({
@@ -138,4 +139,23 @@ async function getbalanceOf(account,tokenid){
     let data = await newcontractcall(params);
     // console.log(contractinfo.mainwithdraw.address,data);
     return data.data.result;
+}
+
+
+const createKeccakHash = require('keccak')
+
+function toChecksumAddress (address) {
+  address = address.toLowerCase().replace('0x', '')
+  var hash = createKeccakHash('keccak256').update(address).digest('hex')
+  var ret = '0x'
+
+  for (var i = 0; i < address.length; i++) {
+    if (parseInt(hash[i], 16) >= 8) {
+      ret += address[i].toUpperCase()
+    } else {
+      ret += address[i]
+    }
+  }
+
+  return ret
 }

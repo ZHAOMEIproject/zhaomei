@@ -93,7 +93,7 @@ module.exports = {
       },
     },
     rinkeby:{
-      url:"https://rinkeby.infura.io/v3/8cccc98026714be18a4052434bb4ae77",
+      url:"https://rinkeby.infura.io/v3/0c9313b9207a451cae987a85d13e9707",
       chainId:4,
       accounts:{
         mnemonic:secretinfo.solidity.mnemonic,

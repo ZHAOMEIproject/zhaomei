@@ -16,14 +16,14 @@ contract vii is Initializable, ERC20Upgradeable, ERC20BurnableUpgradeable, Pausa
     }
 
     function initialize() initializer public {
-        __ERC20_init("vii", "VID");
+        __ERC20_init("vii", "viider");
         __ERC20Burnable_init();
         __Pausable_init();
         __Ownable_init();
         __ERC20Permit_init("vii");
         __UUPSUpgradeable_init();
 
-        _mint(msg.sender, 30000000 * 10 ** decimals());
+        _mint(msg.sender, 2000000000 * 10 ** decimals());
     }
 
     function pause() public onlyOwner {

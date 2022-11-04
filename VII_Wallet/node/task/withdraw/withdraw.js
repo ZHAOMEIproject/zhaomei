@@ -59,7 +59,7 @@ exports.withdraw = async function withdraw(){
     var upinfo=new Array();
     for (let i in withdrawevent) {
         try {
-            await contractWithSigner.estimateGas.Withdraw_permit(withdrawevent[i]);
+            await contractWithSigner.estimateGas.Withdraw_permit(Object.values(withdrawevent[i]));
 
         } catch (error) {
             continue;
@@ -69,13 +69,15 @@ exports.withdraw = async function withdraw(){
         upinfo.push(Object.values(withdrawevent[i]));
     }
     // console.log(upinfo);
-
     
 
     try {
         await contractWithSigner.estimateGas.lot_Withdraw_permit(upinfo);
         let gasPrice = Math.trunc(await provider.getGasPrice()*1.1);
-        let tx = await contractWithSigner.lot_Withdraw_permit(upinfo,{ gasPrice: gasPrice});
+        let tx;
+        if (upinfo.length==0) {
+            tx = await contractWithSigner.lot_Withdraw_permit(upinfo,{ gasPrice: gasPrice});
+        }
         let block = await provider.getBlockNumber()
         // console.log(tx.hash);
         // await tx.wait();
@@ -120,7 +122,7 @@ async function Order_repair(){
     for(let i in true_orderids){
         let true_orderid = true_orderids[i].data3.substring(0,26);
         update_orderids.push(true_orderid)
-        error_orderids.splice(error_orderids.indexOf(true_orderid),1);
+        error_orderids.splice(error_orderids.indexOf(true_orderid)-1,1);
     }
     // console.log(error_orderids);
     // console.log(update_orderids);

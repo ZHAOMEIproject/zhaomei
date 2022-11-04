@@ -6,6 +6,8 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
+
+
 contract VII_OWL is ERC721, ERC721Burnable, Ownable{
     using Counters for Counters.Counter;
     using Strings for uint256;

@@ -79,7 +79,7 @@ exports.postmint = router.get("/postmint", async (req, res) => {
     res.send({
         success:true,
         data:{
-            success:"true"
+            success:true
         }
     });
     return;
@@ -107,14 +107,14 @@ exports.checkaccount = router.get("/checkaccount", async (req, res) => {
             res.send({
                 success:true,
                 data:{
-                    success:"false"
+                    success:false
                 }
             });
         } else {
             res.send({
                 success:true,
                 data:{
-                    success:"true"
+                    success:true
                 }
             });
         }

@@ -10,16 +10,6 @@ contract VII_POAP is ERC1155, Ownable {
     constructor() ERC1155("http://3pe6232331.zicp.vip/api/owl-behavior/behavior/space/activity/token/") {}
     string public constant name = "VIIDE_Space";
     string public constant symbol = "VSP";
-    // function setURI(string memory newuri) public onlyOwner {
-    //     _setURI(newuri);
-    // }
-
-    // function mint(address account, uint256 id, uint256 amount, bytes memory data)
-    //     public
-    //     onlyOwner
-    // {
-    //     _mint(account, id, amount, data);
-    // }
     struct _mint_info{
         address to;
         uint256 id;

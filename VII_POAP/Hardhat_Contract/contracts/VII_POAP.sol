@@ -8,10 +8,11 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 
 contract VII_POAP is ERC1155, Ownable {
     constructor() ERC1155("http://3pe6232331.zicp.vip/api/owl-behavior/behavior/space/activity/token/") {}
-
-    function setURI(string memory newuri) public onlyOwner {
-        _setURI(newuri);
-    }
+    string public constant name = "VIIDE_Space";
+    string public constant symbol = "VSP";
+    // function setURI(string memory newuri) public onlyOwner {
+    //     _setURI(newuri);
+    // }
 
     // function mint(address account, uint256 id, uint256 amount, bytes memory data)
     //     public
@@ -69,8 +70,7 @@ contract VII_POAP is ERC1155, Ownable {
         require(false,"POAP does not support Approval");
     }
 
-    function approve(address to, uint256 tokenId) public virtual  {
+    function approve(address to, uint256 tokenId) public virtual {
         require(false,"POAP does not support Approval");
     }
-
 }

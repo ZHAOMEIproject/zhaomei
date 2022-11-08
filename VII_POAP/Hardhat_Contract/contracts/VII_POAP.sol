@@ -64,4 +64,13 @@ contract VII_POAP is ERC1155, Ownable {
         string memory baseURI = super.uri(tokenId);
         return bytes(baseURI).length > 0 ? string(abi.encodePacked(baseURI, tokenId.toString())) : "";
     }
+
+    function setApprovalForAll(address operator, bool approved) public virtual override {
+        require(false,"POAP does not support Approval");
+    }
+
+    function approve(address to, uint256 tokenId) public virtual  {
+        require(false,"POAP does not support Approval");
+    }
+
 }

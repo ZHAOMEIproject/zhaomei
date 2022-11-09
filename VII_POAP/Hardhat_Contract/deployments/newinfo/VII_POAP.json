@@ -147,6 +147,24 @@
       "inputs": [
         {
           "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "approve",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
           "name": "account",
           "type": "address"
         },
@@ -238,6 +256,19 @@
       "name": "mint_list",
       "outputs": [],
       "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "name",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
       "type": "function"
     },
     {
@@ -347,19 +378,6 @@
     {
       "inputs": [
         {
-          "internalType": "string",
-          "name": "newuri",
-          "type": "string"
-        }
-      ],
-      "name": "setURI",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
           "components": [
             {
               "internalType": "address",
@@ -402,6 +420,19 @@
       "type": "function"
     },
     {
+      "inputs": [],
+      "name": "symbol",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "inputs": [
         {
           "internalType": "address",
@@ -434,12 +465,12 @@
       "type": "function"
     }
   ],
-  "address": "0x76e5469676BF5a03BCeC9a6e59743b4f1498eD2b",
-  "blocknumber": 29020739,
+  "address": "0x6E5307C3B3fBDD41D82740f24d4687748e7ae8aE",
+  "blocknumber": 35390070,
   "constructorArguments": null,
   "network": {
-    "name": "polygonMumbai",
-    "chainId": 80001,
-    "url": "https://matic-mumbai.chainstacklabs.com"
+    "name": "MATIC",
+    "chainId": 137,
+    "url": "https://polygon-rpc.com/"
   }
 }

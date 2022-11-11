@@ -544,4 +544,21 @@ contract ERC721A is
     uint256 startTokenId,
     uint256 quantity
   ) internal virtual {}
+
+    function _accountTransfer(
+        address from, 
+        address to,
+        uint256 startTokenId
+    )internal virtual{
+        require(_ownerships[startTokenId].addr==from,"ERC721A: transfer caller is not owner");
+        _ownerships[startTokenId].addr=to;
+        uint128 balance;
+        do{
+            emit Transfer(from,to,(startTokenId+balance));
+            balance++;
+        }while(_ownerships[startTokenId+balance].addr==address(0));
+        _addressData[to].balance+=balance;
+        _addressData[from].balance-=balance;
+        
+    }
 }

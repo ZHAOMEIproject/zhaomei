@@ -63,7 +63,7 @@ contract OOC is ERC721A, Ownable, EIP712{
         uint64 _White_mint_time;uint64 _White_mint_fee;uint64 _White_end_time;uint64 _White_pool_m;
         uint64 _Public_mint_time;uint64 _Public_mint_fee;uint64 _Public_end_time;uint64 _Public_pool_m;
     }
-    function dbug(
+    function debug(
         setinfo memory _setinfo
         )public{
         total_supply=_setinfo._total_supply;

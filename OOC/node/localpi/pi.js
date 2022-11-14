@@ -23,7 +23,7 @@ async function main(){
         contractname:"OOC",
         fun:"signcheck"
     }
-    let check =["address","community","amount","typemint","deadline"];
+    let check =["address","community","amount","deadline","typemint"];
     let output = new Object();
     for(let i in rqinfo){
         // console.log(rqinfo[i]);

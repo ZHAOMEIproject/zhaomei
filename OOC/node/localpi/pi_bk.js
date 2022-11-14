@@ -15,7 +15,7 @@ async function main(){
     let rqinfo = await mysqlconn.sqlcall(sql,null);
     // console.log(reinfo);
     let sign_info={
-        "id":80001,
+        "id":31337,
         "contractname":"OOC"
     }
     let params={
@@ -26,7 +26,7 @@ async function main(){
     let check =["address","community","amount","typemint","deadline"];
     let output = new Object();
     for(let i in rqinfo){
-        // console.log(rqinfo[i]);
+        console.log(rqinfo[i]);
         let input = new Array();
         for(let j in check){
             input.push(rqinfo[i][check[j]]);
@@ -39,15 +39,13 @@ async function main(){
         // console.log(result);
         let updatesql ="update address_sign set v=?,r=?,s=?,center='S' where address = ?;"
         let updateinfo = await mysqlconn.sqlcall(updatesql,[...Object.values(sign_rq),rqinfo[i].address]);
-        // if(output[rqinfo[i]["address"]]==null){
-        //     output[rqinfo[i]["address"]] = new Object();
-        // }
-        // if(output[rqinfo[i]["address"]][rqinfo[i].typemint]==null){
-        //     output[rqinfo[i]["address"]][rqinfo[i].typemint]=new Object();
-        // }
-        // output[rqinfo[i]["address"]][rqinfo[i].typemint][rqinfo[i].amount]=[...input, ...Object.values(sign_rq)];
-
-        output[rqinfo[i]["address"]]=[...input, ...Object.values(sign_rq)];
+        if(output[rqinfo[i]["address"]]==null){
+            output[rqinfo[i]["address"]] = new Object();
+        }
+        if(output[rqinfo[i]["address"]][rqinfo[i].typemint]==null){
+            output[rqinfo[i]["address"]][rqinfo[i].typemint]=new Object();
+        }
+        output[rqinfo[i]["address"]][rqinfo[i].typemint][rqinfo[i].amount]=[...input, ...Object.values(sign_rq)]
     }
     console.log(output);
 

@@ -24,7 +24,7 @@ exports.contractapi = router.get("/getsign", async (req, res) => {
 
     params.params= JSON.parse(params.params);
     
-    let check2 = ["gainer","nonce","typemint","deadline"];
+    let check2 = ["gainer","community","amount","deadline","typemint"];
     if(!check2.every(key=>key in params.params)){
         res.send({
             success:false,

@@ -3,15 +3,16 @@ const { writer_info_all } = require('./tool/hh_log.js');
 const {getcontractinfo}=require('./tool/readcontracts');
 
 async function main(){
-  const Mainwithdraw = await hre.ethers.getContractFactory("mainwithdraw");
-  const arguments = require('../other_info/arguments');
-  const mainwithdraw = await Mainwithdraw.deploy(
-    ...arguments
+  const Main_con = await hre.ethers.getContractFactory("OOC");
+  // const arguments = require('../other_info/arguments');
+
+  const main_con = await Main_con.deploy(
+    // ...arguments
     );
-  await mainwithdraw.deployed();
-  console.log("Mainwithdraw deployed to:", mainwithdraw.address);
-  let Artifact = await artifacts.readArtifact("mainwithdraw");
-  await writer_info_all(network,Artifact, mainwithdraw,arguments);
+  await main_con.deployed();
+  console.log("Main_con deployed to:", main_con.address);
+  let Artifact = await artifacts.readArtifact("OOC");
+  await writer_info_all(network,Artifact, main_con,null);
 }
 main()
   .then(() => process.exit(0))

@@ -6,7 +6,7 @@ module.exports = router;
 
 const {getsign} = require('./sign/getsign');
 
-exports.contractapi = router.get("/owlsign", async (req, res) => {
+exports.contractapi = router.get("/OOCsign", async (req, res) => {
     var params = url.parse(req.url, true).query;
 
     let check =["id","contractname","params"];

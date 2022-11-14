@@ -1,13 +1,13 @@
 const { ecsign } = require('ethereumjs-util');
 const ethers = require("ethers");
-const {getPermitDigest} = require('./vii_owl_sign')
+const {getPermitDigest} = require('./OOC')
 const secret = require('../../../../../privateinfo/.secret.json');
 const {getcontractinfo}=require('../../nodetool/id-readcontracts');
 
 exports.getsign = async function getsign(id,contractname,params){
 
     const contractinfo = await getcontractinfo();
-    let name="VII_OWL";
+    let name="OOC";
     let address=contractinfo[id][contractname].address;
     let chainId=id
 

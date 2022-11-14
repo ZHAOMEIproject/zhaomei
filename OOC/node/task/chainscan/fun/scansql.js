@@ -93,7 +93,7 @@ async function scancontract(contractinfo){
             ]
             let blocknumber = await sqlcall(slq_dictionary,sqlinfo);
             // console.log();
-            // console.log(blocknumber[0].url);
+            // console.log(blocknumber);
             let fromBlock=parseInt(blocknumber[0].blocknumber);
             let toBlock = fromBlock+parseInt(100);
             let now_blockNumber = await web3Show.getBlockNumber();

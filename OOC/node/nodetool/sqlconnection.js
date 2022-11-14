@@ -36,3 +36,23 @@ exports.sqlcall_uncon = function sqlcall_uncon(conn,sqlcall,selSqlParams){
         });
     });
 }
+
+// SELECT
+exports.select = function select(selSql,selSqlParams){
+    const conn = mysql.createConnection(global.mysqlGlobal);
+    conn.connect();
+    return new Promise(function (resolve, reject) {
+        conn.query(selSql, selSqlParams, function (err, result) {
+            if (err) {
+                console.log('[SELECT ERROR] - ', err.message,selSql);
+                reject('[SELECT ERROR] - ', err.message,selSql)
+                return;
+            }
+            let dataString = JSON.stringify(result);
+            let data = JSON.parse(dataString);
+
+            resolve(data);
+        });
+        conn.end();
+    });
+}

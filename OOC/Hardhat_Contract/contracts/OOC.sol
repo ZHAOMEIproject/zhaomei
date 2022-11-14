@@ -10,7 +10,7 @@ import "@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol";
 // import "./otherset/VOC_ERC721.sol";
 import "./otherset/ERC721A.sol";
 
-contract Odd_Owl_Club is ERC721A, Ownable, EIP712{
+contract OOC is ERC721A, Ownable, EIP712{
 
     // 正式版需要注释的。
     uint256 fack_time;
@@ -137,9 +137,9 @@ contract Odd_Owl_Club is ERC721A, Ownable, EIP712{
     }
     function signcheck(_signvrs calldata signinfo)public view returns(address signer){
         address gainer = signinfo.gainer;
-        uint256 deadline = signinfo.deadline;
         address community = signinfo.community;
         uint256 amount = signinfo.amount;
+        uint256 deadline = signinfo.deadline;
         uint256 typemint = signinfo.typemint;
         bytes32 structHash = keccak256(abi.encode(_PERMIT_TYPEHASH, gainer,community,amount,deadline,typemint));
         bytes32 hash = _hashTypedDataV4(structHash);

@@ -18,7 +18,5 @@
 |                   |   https://mumbaifaucet.com/           |   |
 
 ## 项目框架
-[Vii_Owl.xmind](./other_document/Vii_Owl.xmind)  
-[Vii_Owl.pdf](./other_document/Vii_Owl.pdf)  
-![Vii_Owl.png](./other_document/Vii_Owl.png)  
-
+不断更新的在线脑图：  
+https://www.processon.com/view/link/636e16c2e401fd43fe9cc2ca

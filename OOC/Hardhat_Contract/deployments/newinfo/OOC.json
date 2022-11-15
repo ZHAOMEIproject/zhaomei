@@ -181,9 +181,9 @@
           "type": "tuple"
         },
         {
-          "internalType": "uint256",
+          "internalType": "uint64",
           "name": "quantity",
-          "type": "uint256"
+          "type": "uint64"
         }
       ],
       "name": "OOC_mint",
@@ -310,9 +310,9 @@
               "type": "uint64"
             },
             {
-              "internalType": "uint64",
+              "internalType": "uint256",
               "name": "_fack_time",
-              "type": "uint64"
+              "type": "uint256"
             },
             {
               "internalType": "address",
@@ -868,10 +868,135 @@
       ],
       "stateMutability": "view",
       "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "view_set",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint64",
+              "name": "_total_supply",
+              "type": "uint64"
+            },
+            {
+              "internalType": "uint256",
+              "name": "_fack_time",
+              "type": "uint256"
+            },
+            {
+              "internalType": "address",
+              "name": "_Receive",
+              "type": "address"
+            },
+            {
+              "internalType": "string",
+              "name": "_baseURL",
+              "type": "string"
+            },
+            {
+              "internalType": "uint64",
+              "name": "_Organ_mint_time",
+              "type": "uint64"
+            },
+            {
+              "internalType": "uint64",
+              "name": "_Organ_mint_fee",
+              "type": "uint64"
+            },
+            {
+              "internalType": "uint64",
+              "name": "_Organ_end_time",
+              "type": "uint64"
+            },
+            {
+              "internalType": "uint64",
+              "name": "_Organ_pool_m",
+              "type": "uint64"
+            },
+            {
+              "internalType": "uint64",
+              "name": "_Organ_pool_em",
+              "type": "uint64"
+            },
+            {
+              "internalType": "uint64",
+              "name": "_Organ2_mint_time",
+              "type": "uint64"
+            },
+            {
+              "internalType": "uint64",
+              "name": "_Organ2_mint_fee",
+              "type": "uint64"
+            },
+            {
+              "internalType": "uint64",
+              "name": "_Organ2_end_time",
+              "type": "uint64"
+            },
+            {
+              "internalType": "uint64",
+              "name": "_Organ2_pool_m",
+              "type": "uint64"
+            },
+            {
+              "internalType": "uint64",
+              "name": "_Organ2_pool_em",
+              "type": "uint64"
+            },
+            {
+              "internalType": "uint64",
+              "name": "_White_mint_time",
+              "type": "uint64"
+            },
+            {
+              "internalType": "uint64",
+              "name": "_White_mint_fee",
+              "type": "uint64"
+            },
+            {
+              "internalType": "uint64",
+              "name": "_White_end_time",
+              "type": "uint64"
+            },
+            {
+              "internalType": "uint64",
+              "name": "_White_pool_m",
+              "type": "uint64"
+            },
+            {
+              "internalType": "uint64",
+              "name": "_Public_mint_time",
+              "type": "uint64"
+            },
+            {
+              "internalType": "uint64",
+              "name": "_Public_mint_fee",
+              "type": "uint64"
+            },
+            {
+              "internalType": "uint64",
+              "name": "_Public_end_time",
+              "type": "uint64"
+            },
+            {
+              "internalType": "uint64",
+              "name": "_Public_pool_m",
+              "type": "uint64"
+            }
+          ],
+          "internalType": "struct OOC.setinfo",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
     }
   ],
-  "address": "0xc4B67703DA1A86Fbc89b0AbFe881Caf608AaF39b",
-  "blocknumber": 29146539,
+  "address": "0xD1bb1BEA8193FBB5B0E287307E55f4FFaE78baDa",
+  "blocknumber": 29158953,
   "constructorArguments": null,
   "network": {
     "name": "polygonMumbai",

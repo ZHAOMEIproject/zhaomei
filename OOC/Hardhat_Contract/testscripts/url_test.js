@@ -12,17 +12,61 @@ const request = require("request");
 var contractinfo = new Object();
 
 async function main(){
-    // 加载hardhat.config.js设置的钱包
-    let [owner, addr1, addr2] = await ethers.getSigners();
-    // console.log(owner);
-    // 获取项目的合约信息
-    contractinfo = await getcontractinfo();
-    // console.log(contractinfo);
-    let getsign = await getbyurl('http://173.249.198.20:10909/V1/apigetsign/getsign?id=80001&contractname=OOC&params={"gainer":"0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2","community":"0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2","amount":"5","deadline":"9999999999","typemint":"4"}');
+  {
+    // 旧框架
+    // console.log("loading");
+    // let [owner, addr1, addr2] = await ethers.getSigners();
+    // await l_creat_contract(owner,"VII_POAP",[]);
 
-    // console.log(getsign);
-    let getinfo = await l_call_contract(owner,"OOC","view_set",[]);
-    console.log(getinfo);
+    // // 获取项目的合约信息
+    // contractinfo = await getcontractinfo();
+    // console.log(contractinfo);
+
+    // let getinfo = await call_contract(account._signingKey(),"97","TB_order","owner",[]);
+    // console.log(getinfo);
+
+  }
+  // 发生请求
+  // account收nft地址
+  // tokenid哪一场POAP，选择一个未发的nft。
+  let info = await getbyurl("http://173.249.198.20:10912/v1/VII_POAP/postmint?"
+  +"account=0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2"
+  +"&tokenid=1"
+  +"&key=dawasdak3jerbjfseijlfjoj3jli32j390(i");
+  console.log(info);
+  // 如果tokenid是未发的nft，得到的结果是
+  // {
+  //   success:true,
+  //   data:{
+  //       success:"true"
+  //   }
+  // }
+  // 其他各种原因会有各自的报错。
+  // 目前有的报错有，参数名不对，已经提交过，key错误。
+
+  // 等待120秒，程序每60秒处理一次
+  await wait(120000);
+  let info2 = await getbyurl("http://173.249.198.20:10912/v1/VII_POAP/checkaccount?"
+  +"account=0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2"
+  +"&tokenid=5");
+  console.log(info2);
+  // 如果nft成功发送给用户，得到的结果是
+  // {
+  //   success:true,
+  //     data:{
+  //         success:"true"
+  //     }
+  // }
+  // 如果还没发送到，得到的结果是
+  // res.send({
+  //   success:true,
+  //   data:{
+  //       success:"false"
+  //   }
+  // });
+  // 目前有处理的报错
+  // 参数名不对，链上访问网络超时。
+
 }
 
 
@@ -133,8 +177,8 @@ function getbyurl(url){
           url:url
       },async function (error, response, body) {
           if (!error && response.statusCode == 200) {
-              // let body = JSON.parse(body);
-              resolve(JSON.parse(body));
+              // let json = JSON.parse(body);
+              resolve(body);
           }else{
               resolve();
           }

@@ -29,39 +29,39 @@ contract OOC is ERC721A, Ownable, EIP712{
         
     }
 
-    uint64 total_supply = 10000;
+    uint256 total_supply = 10000;
 
-    uint64 Organ_mint_time = 1669384800;
-    uint64 Organ_mint_fee = 0.05*10**18;
-    uint64 Organ_end_time = Organ_mint_time+21600;
-    uint64 Organ_pool_m;
-    uint64 Organ_pool_em = 500+1300+3500;
+    uint256 Organ_mint_time = 1669384800;
+    uint256 Organ_mint_fee = 0.05*10**18;
+    uint256 Organ_end_time = Organ_mint_time+21600;
+    uint256 Organ_pool_m;
+    uint256 Organ_pool_em = 500+1300+3500;
 
-    uint64 Organ2_mint_time = 1669384800;
-    uint64 Organ2_mint_fee = 0.05*10**18;
-    uint64 Organ2_end_time = Organ2_mint_time+21600;
-    uint64 Organ2_pool_m;
-    uint64 Organ2_pool_em = 2000;
+    uint256 Organ2_mint_time = 1669384800;
+    uint256 Organ2_mint_fee = 0.05*10**18;
+    uint256 Organ2_end_time = Organ2_mint_time+21600;
+    uint256 Organ2_pool_m;
+    uint256 Organ2_pool_em = 2000;
 
-    uint64 White_mint_time = Organ2_end_time;
-    uint64 White_mint_fee = 0.05*10**18;
-    uint64 White_end_time = White_mint_time+86400;
-    uint64 White_pool_m;
-    // uint64 White_pool_em = total_supply-Organ2_pool_em-Organ_pool_m;
+    uint256 White_mint_time = Organ2_end_time;
+    uint256 White_mint_fee = 0.05*10**18;
+    uint256 White_end_time = White_mint_time+86400;
+    uint256 White_pool_m;
+    // uint256 White_pool_em = total_supply-Organ2_pool_em-Organ_pool_m;
 
-    uint64 Public_mint_time = White_end_time;
-    uint64 Public_mint_fee = 0.08*10**18;
-    uint64 Public_end_time = Public_mint_time+86400;
-    uint64 Public_pool_m;
-    // uint64 Public_pool_em = total_supply-Organ2_pool_em-Organ_pool_m-White_pool_m;
+    uint256 Public_mint_time = White_end_time;
+    uint256 Public_mint_fee = 0.08*10**18;
+    uint256 Public_end_time = Public_mint_time+86400;
+    uint256 Public_pool_m;
+    // uint256 Public_pool_em = total_supply-Organ2_pool_em-Organ_pool_m-White_pool_m;
 
     address Receive = msg.sender;
     struct setinfo{
-        uint64 _total_supply;uint256 _fack_time;address _Receive;string _baseURL;
-        uint64 _Organ_mint_time;uint64 _Organ_mint_fee;uint64 _Organ_end_time;uint64 _Organ_pool_m;uint64 _Organ_pool_em;
-        uint64 _Organ2_mint_time;uint64 _Organ2_mint_fee;uint64 _Organ2_end_time;uint64 _Organ2_pool_m;uint64 _Organ2_pool_em;
-        uint64 _White_mint_time;uint64 _White_mint_fee;uint64 _White_end_time;uint64 _White_pool_m;
-        uint64 _Public_mint_time;uint64 _Public_mint_fee;uint64 _Public_end_time;uint64 _Public_pool_m;
+        uint256 _total_supply;uint256 _fack_time;address _Receive;string _baseURL;
+        uint256 _Organ_mint_time;uint256 _Organ_mint_fee;uint256 _Organ_end_time;uint256 _Organ_pool_m;uint256 _Organ_pool_em;
+        uint256 _Organ2_mint_time;uint256 _Organ2_mint_fee;uint256 _Organ2_end_time;uint256 _Organ2_pool_m;uint256 _Organ2_pool_em;
+        uint256 _White_mint_time;uint256 _White_mint_fee;uint256 _White_end_time;uint256 _White_pool_m;
+        uint256 _Public_mint_time;uint256 _Public_mint_fee;uint256 _Public_end_time;uint256 _Public_pool_m;
     }
     function debug(
         setinfo memory _setinfo
@@ -177,7 +177,7 @@ contract OOC is ERC721A, Ownable, EIP712{
         return super.supportsInterface(interfaceId);
     }
 
-    function OOC_mint(_signvrs calldata signinfo,uint64 quantity)public payable{
+    function OOC_mint(_signvrs calldata signinfo,uint256 quantity)public payable{
         uint256 typemint=signinfo.typemint;
         if(typemint==0){
             Organ_mint(signinfo,quantity);
@@ -191,14 +191,16 @@ contract OOC is ERC721A, Ownable, EIP712{
             revert("typemint error");
         }
     }
-    function Organ_mint(_signvrs calldata signinfo,uint64 quantity)private{
+    function Organ_mint(_signvrs calldata signinfo,uint256 quantity)private{
+        require(msg.value==Organ_mint_fee,"error fee");
         uint256 now_time = block_timestamp();
         require(Organ_mint_time<now_time&&now_time<Organ_end_time,"Out of time");
         Organ_pool_m+=quantity;
         require(Organ_pool_m<Organ_pool_em,"Organ_pool mint out");
         checkandmint(signinfo,quantity);
     }
-    function Organ2_mint(_signvrs calldata signinfo,uint64 quantity)private{
+    function Organ2_mint(_signvrs calldata signinfo,uint256 quantity)private{
+        require(msg.value==Organ2_mint_fee,"error fee");
         uint256 now_time = block_timestamp();
         require(Organ2_mint_time<now_time&&now_time<Organ2_end_time,"Out of time");
         Organ2_pool_m+=quantity;
@@ -206,7 +208,8 @@ contract OOC is ERC721A, Ownable, EIP712{
         checkandmint(signinfo,quantity);
     }
 
-    function White_mint(_signvrs calldata signinfo,uint64 quantity)private{
+    function White_mint(_signvrs calldata signinfo,uint256 quantity)private{
+        require(msg.value==White_mint_fee,"error fee");
         uint256 now_time = block_timestamp();
         require(White_mint_time<now_time&&now_time<White_end_time,"Out of time");
         White_pool_m+=quantity;
@@ -214,7 +217,8 @@ contract OOC is ERC721A, Ownable, EIP712{
         checkandmint(signinfo,quantity);
 
     }
-    function Public_mint(_signvrs calldata signinfo,uint64 quantity)private{
+    function Public_mint(_signvrs calldata signinfo,uint256 quantity)private{
+        require(msg.value==Public_mint_fee,"error fee");
         uint256 now_time = block_timestamp();
         require(Public_mint_time<now_time&&now_time<Public_end_time,"Out of time");
         Public_pool_m+=quantity;
@@ -222,7 +226,7 @@ contract OOC is ERC721A, Ownable, EIP712{
         checkandmint(signinfo,quantity);
     }
 
-    function checkandmint(_signvrs calldata signinfo,uint64 quantity)private{
+    function checkandmint(_signvrs calldata signinfo,uint256 quantity)private{
         address gainer = signinfo.gainer;
         uint256 deadline = signinfo.deadline;
         address community = signinfo.community;
@@ -245,7 +249,7 @@ contract OOC is ERC721A, Ownable, EIP712{
         require(success,"error call");
     }
 
-    function add_Ranking_list(address community,uint64 quantity)private{
+    function add_Ranking_list(address community,uint256 quantity)private{
         uint256 flag =0;
         if(mintnumber[community]==0){
             flag=1;

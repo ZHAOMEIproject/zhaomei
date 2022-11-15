@@ -42,3 +42,6 @@ await l_creat_contract(owner,"Greeter",["test"]);
 // 添加合约模型（未加载地址的合约）
 // 按照contractinfo = await getcontractinfo();获得的例子进行添加，不需要第一，二层的chainId和contractName。
 contractadd(newontract);
+
+// 等待一秒
+await wait(1000)

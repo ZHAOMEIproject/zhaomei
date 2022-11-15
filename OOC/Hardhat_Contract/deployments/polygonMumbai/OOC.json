@@ -181,9 +181,9 @@
           "type": "tuple"
         },
         {
-          "internalType": "uint64",
+          "internalType": "uint256",
           "name": "quantity",
-          "type": "uint64"
+          "type": "uint256"
         }
       ],
       "name": "OOC_mint",
@@ -305,9 +305,9 @@
         {
           "components": [
             {
-              "internalType": "uint64",
+              "internalType": "uint256",
               "name": "_total_supply",
-              "type": "uint64"
+              "type": "uint256"
             },
             {
               "internalType": "uint256",
@@ -325,94 +325,94 @@
               "type": "string"
             },
             {
-              "internalType": "uint64",
+              "internalType": "uint256",
               "name": "_Organ_mint_time",
-              "type": "uint64"
+              "type": "uint256"
             },
             {
-              "internalType": "uint64",
+              "internalType": "uint256",
               "name": "_Organ_mint_fee",
-              "type": "uint64"
+              "type": "uint256"
             },
             {
-              "internalType": "uint64",
+              "internalType": "uint256",
               "name": "_Organ_end_time",
-              "type": "uint64"
+              "type": "uint256"
             },
             {
-              "internalType": "uint64",
+              "internalType": "uint256",
               "name": "_Organ_pool_m",
-              "type": "uint64"
+              "type": "uint256"
             },
             {
-              "internalType": "uint64",
+              "internalType": "uint256",
               "name": "_Organ_pool_em",
-              "type": "uint64"
+              "type": "uint256"
             },
             {
-              "internalType": "uint64",
+              "internalType": "uint256",
               "name": "_Organ2_mint_time",
-              "type": "uint64"
+              "type": "uint256"
             },
             {
-              "internalType": "uint64",
+              "internalType": "uint256",
               "name": "_Organ2_mint_fee",
-              "type": "uint64"
+              "type": "uint256"
             },
             {
-              "internalType": "uint64",
+              "internalType": "uint256",
               "name": "_Organ2_end_time",
-              "type": "uint64"
+              "type": "uint256"
             },
             {
-              "internalType": "uint64",
+              "internalType": "uint256",
               "name": "_Organ2_pool_m",
-              "type": "uint64"
+              "type": "uint256"
             },
             {
-              "internalType": "uint64",
+              "internalType": "uint256",
               "name": "_Organ2_pool_em",
-              "type": "uint64"
+              "type": "uint256"
             },
             {
-              "internalType": "uint64",
+              "internalType": "uint256",
               "name": "_White_mint_time",
-              "type": "uint64"
+              "type": "uint256"
             },
             {
-              "internalType": "uint64",
+              "internalType": "uint256",
               "name": "_White_mint_fee",
-              "type": "uint64"
+              "type": "uint256"
             },
             {
-              "internalType": "uint64",
+              "internalType": "uint256",
               "name": "_White_end_time",
-              "type": "uint64"
+              "type": "uint256"
             },
             {
-              "internalType": "uint64",
+              "internalType": "uint256",
               "name": "_White_pool_m",
-              "type": "uint64"
+              "type": "uint256"
             },
             {
-              "internalType": "uint64",
+              "internalType": "uint256",
               "name": "_Public_mint_time",
-              "type": "uint64"
+              "type": "uint256"
             },
             {
-              "internalType": "uint64",
+              "internalType": "uint256",
               "name": "_Public_mint_fee",
-              "type": "uint64"
+              "type": "uint256"
             },
             {
-              "internalType": "uint64",
+              "internalType": "uint256",
               "name": "_Public_end_time",
-              "type": "uint64"
+              "type": "uint256"
             },
             {
-              "internalType": "uint64",
+              "internalType": "uint256",
               "name": "_Public_pool_m",
-              "type": "uint64"
+              "type": "uint256"
             }
           ],
           "internalType": "struct OOC.setinfo",
@@ -876,9 +876,9 @@
         {
           "components": [
             {
-              "internalType": "uint64",
+              "internalType": "uint256",
               "name": "_total_supply",
-              "type": "uint64"
+              "type": "uint256"
             },
             {
               "internalType": "uint256",
@@ -896,94 +896,94 @@
               "type": "string"
             },
             {
-              "internalType": "uint64",
+              "internalType": "uint256",
               "name": "_Organ_mint_time",
-              "type": "uint64"
+              "type": "uint256"
             },
             {
-              "internalType": "uint64",
+              "internalType": "uint256",
               "name": "_Organ_mint_fee",
-              "type": "uint64"
+              "type": "uint256"
             },
             {
-              "internalType": "uint64",
+              "internalType": "uint256",
               "name": "_Organ_end_time",
-              "type": "uint64"
+              "type": "uint256"
             },
             {
-              "internalType": "uint64",
+              "internalType": "uint256",
               "name": "_Organ_pool_m",
-              "type": "uint64"
+              "type": "uint256"
             },
             {
-              "internalType": "uint64",
+              "internalType": "uint256",
               "name": "_Organ_pool_em",
-              "type": "uint64"
+              "type": "uint256"
             },
             {
-              "internalType": "uint64",
+              "internalType": "uint256",
               "name": "_Organ2_mint_time",
-              "type": "uint64"
+              "type": "uint256"
             },
             {
-              "internalType": "uint64",
+              "internalType": "uint256",
               "name": "_Organ2_mint_fee",
-              "type": "uint64"
+              "type": "uint256"
             },
             {
-              "internalType": "uint64",
+              "internalType": "uint256",
               "name": "_Organ2_end_time",
-              "type": "uint64"
+              "type": "uint256"
             },
             {
-              "internalType": "uint64",
+              "internalType": "uint256",
               "name": "_Organ2_pool_m",
-              "type": "uint64"
+              "type": "uint256"
             },
             {
-              "internalType": "uint64",
+              "internalType": "uint256",
               "name": "_Organ2_pool_em",
-              "type": "uint64"
+              "type": "uint256"
             },
             {
-              "internalType": "uint64",
+              "internalType": "uint256",
               "name": "_White_mint_time",
-              "type": "uint64"
+              "type": "uint256"
             },
             {
-              "internalType": "uint64",
+              "internalType": "uint256",
               "name": "_White_mint_fee",
-              "type": "uint64"
+              "type": "uint256"
             },
             {
-              "internalType": "uint64",
+              "internalType": "uint256",
               "name": "_White_end_time",
-              "type": "uint64"
+              "type": "uint256"
             },
             {
-              "internalType": "uint64",
+              "internalType": "uint256",
               "name": "_White_pool_m",
-              "type": "uint64"
+              "type": "uint256"
             },
             {
-              "internalType": "uint64",
+              "internalType": "uint256",
               "name": "_Public_mint_time",
-              "type": "uint64"
+              "type": "uint256"
             },
             {
-              "internalType": "uint64",
+              "internalType": "uint256",
               "name": "_Public_mint_fee",
-              "type": "uint64"
+              "type": "uint256"
             },
             {
-              "internalType": "uint64",
+              "internalType": "uint256",
               "name": "_Public_end_time",
-              "type": "uint64"
+              "type": "uint256"
             },
             {
-              "internalType": "uint64",
+              "internalType": "uint256",
               "name": "_Public_pool_m",
-              "type": "uint64"
+              "type": "uint256"
             }
           ],
           "internalType": "struct OOC.setinfo",
@@ -995,8 +995,8 @@
       "type": "function"
     }
   ],
-  "address": "0xD1bb1BEA8193FBB5B0E287307E55f4FFaE78baDa",
-  "blocknumber": 29158953,
+  "address": "0x7B318c9be84c21CD671E21598bfD41cBBD8415AD",
+  "blocknumber": 29162191,
   "constructorArguments": null,
   "network": {
     "name": "polygonMumbai",

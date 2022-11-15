@@ -20,8 +20,8 @@ async function main(){
     // console.log(contractinfo);
     let getsign = await getbyurl('http://173.249.198.20:10909/V1/apigetsign/getsign?id=80001&contractname=OOC&params={"gainer":"0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2","community":"0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2","amount":"5","deadline":"9999999999","typemint":"4"}');
 
-    // console.log(getsign);
-    let getinfo = await l_call_contract(owner,"OOC","view_set",[]);
+    // console.log(...Object.values(getsign.data.result));
+    let getinfo = await l_call_contract(owner,"OOC","OOC_mint",[["0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2","0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2","5","9999999999","4",...Object.values(getsign.data.result)],1]);
     console.log(getinfo);
 }
 

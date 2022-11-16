@@ -14,30 +14,32 @@ var setinfo;
 
 function start_test(){
     console.log("start_dev ing")
-    setinfo = require("/root/learn/.secret.json");
-    node_info = setinfo.VII_SCORES_NODE;
+    // setinfo = require("../../../privateinfo/.secret_official.json");
+    setinfo = require("../../../privateinfo/.secret.json");
+    node_info = setinfo.VII_OOC_NODE;
     host = node_info.host;
-    port = 9999;
-    global.mysqlGlobal = setinfo.VII_SCORES_SQL;
+    port = node_info.port;
+    global.mysqlGlobal = setinfo.VII_OOC_SQL;
+    global.zwjerror = false;
+    global.name ="VII_OOC";
 }
 
+// // Arouse the swagger
+// const swagger = require("./nodetool/swagger");
+// swagger.swaggerConfig(app,host,port);
 
 // Arouse the express
 const express = require("express");
 const app = express();
-
-// Arouse the swagger
-const swagger = require("./nodetool/swagger");
-swagger.swaggerConfig(app,host,port);
 
 // Arouse the service
 const service = require("./nodetool/service");
 service.serviceConfig(app,host,port);
 
 // Arouse rest api
-const restApi = require("./nodetool/restApi");
+const restApi = require("./api/restApi");
 restApi.restApiConfig(app);
 
 // // Arouse the task
-// const timingTask = require("./blockchain/timing-task");
+// const timingTask = require("./task/timing-task");
 // timingTask.taskStart();

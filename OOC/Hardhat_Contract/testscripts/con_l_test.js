@@ -17,21 +17,59 @@ async function main(){
     // console.log(owner);
     // 获取项目的合约信息
     contractinfo = await getcontractinfo();
+    await l_creat_contract(owner,"OOC",[]);
     // console.log(contractinfo);
-    let getsign = await getbyurl('http://173.249.198.20:10909/V1/apigetsign/getsign?'
-    +'id=80001'
+    let getsign = await getbyurl('http://127.0.0.1:10909/V1/apigetsign/getsign?'
+    +'id=31337'
     +'&contractname=OOC'
     +'&params={"gainer":"0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2","community":"0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2","amount":"5","deadline":"9999999999","typemint":"0"}');
-
+    // console.log(getsign);
     // console.log(...Object.values(getsign.data.result));
-    let get_setinfo =await l_call_contract(
-      owner,
-      "OOC",
-      "view_set",
-      []
-    );
+    // return
+    // let get_setinfo =await l_call_contract(
+    //     owner,
+    //     "OOC",
+    //     "view_set",
+    //     []
+    // );
     // console.log(get_setinfo);
     // return
+    await l_call_contract(
+      owner,
+      "OOC",
+      "debug",
+      [
+        [
+          10000,
+          1669384801,
+          "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
+          "",
+
+          1669384800,
+          "50000000000000000",
+          1669406400,
+          0,
+          5300,
+
+          1669384800,
+          "50000000000000000",
+          1669406400,
+          0,
+          2000,
+
+          1669406400,
+          "50000000000000000",
+          1669492800,
+          0,
+
+          1669492800,
+          "80000000000000000",
+          1669579200,
+          0
+        ]
+      ]
+    );
+
     let getinfo = await l_call_contract(
       owner,
       "OOC",
@@ -51,7 +89,7 @@ async function main(){
         value:"50000000000000000"
       }
     );
-    console.log(getinfo);
+    
 }
 
 
@@ -116,7 +154,7 @@ async function l_call_contract(wallet,contractname,fun,params,options){
   if(params.length>0){
     // tx = await contractWithSigner[fun](...params);
     // console.log(...params);
-    tx = await contractWithSigner[fun](...params,options);
+    tx = await contractWithSigner[fun](...params,{...options});
   }else{
     tx = await contractWithSigner[fun]({...options});
   }

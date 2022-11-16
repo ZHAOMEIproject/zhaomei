@@ -232,7 +232,7 @@ contract OOC is ERC721A, Ownable, EIP712{
         address community = signinfo.community;
         uint256 amount = signinfo.amount;
         require(deadline>block.timestamp,"The signature has expired");
-        require(amount<=(_numberMinted(gainer)+quantity),"Out of minted number");
+        require(amount>=(_numberMinted(gainer)+quantity),"Out of minted number");
         add_Ranking_list(community,quantity);
         _safeMint(gainer,quantity);
     }

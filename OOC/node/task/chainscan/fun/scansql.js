@@ -78,6 +78,7 @@ async function checkandcreatdatabase(name,contractinfo){
 }
 
 async function scancontract(contractinfo){
+    console.log(contractinfo);
     let web3Show = require("./web3Show");
     await checkandcreatdatabase(global.name,contractinfo);
     global.mysqlGlobal.database=global.name;

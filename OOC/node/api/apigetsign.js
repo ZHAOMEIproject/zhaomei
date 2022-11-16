@@ -11,7 +11,7 @@ exports.contractapi = router.get("/getsign", async (req, res) => {
     
     try {
         var params = url.parse(req.url, true).query;
-
+        // console.log(params);
         let check =["id","contractname","params"];
         if(!check.every(key=>key in params)){
             res.send({
@@ -52,6 +52,7 @@ exports.contractapi = router.get("/getsign", async (req, res) => {
         
         return;
     } catch (error) {
+        console.log(error);
         res.send({
             success:false,
             error:error

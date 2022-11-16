@@ -45,3 +45,6 @@ contractadd(newontract);
 
 // 等待一秒
 await wait(1000)
+
+// 获取账号余额
+await ethers.provider.getBalance(owner.address);

@@ -18,10 +18,40 @@ async function main(){
     // 获取项目的合约信息
     contractinfo = await getcontractinfo();
     // console.log(contractinfo);
-    let getsign = await getbyurl('http://173.249.198.20:10909/V1/apigetsign/getsign?id=80001&contractname=OOC&params={"gainer":"0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2","community":"0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2","amount":"5","deadline":"9999999999","typemint":"4"}');
+    let getsign = await getbyurl('http://173.249.198.20:10909/V1/apigetsign/getsign?'
+    +'id=80001'
+    +'&contractname=OOC'
+    +'&params={"gainer":"0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2","community":"0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2","amount":"5","deadline":"9999999999","typemint":"0"}');
 
     // console.log(...Object.values(getsign.data.result));
-    let getinfo = await l_call_contract(owner,"OOC","OOC_mint",[["0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2","0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2","5","9999999999","4",...Object.values(getsign.data.result)],1]);
+    let get_setinfo =await l_call_contract(
+      owner,
+      "OOC",
+      "view_set",
+      []
+    );
+    let 
+    // console.log(get_setinfo);
+    // return
+    let getinfo = await l_call_contract(
+      owner,
+      "OOC",
+      "OOC_mint",
+      [
+        [
+          "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
+          "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
+          "5",
+          "9999999999",
+          "0",
+          ...Object.values(getsign.data.result)
+        ],
+        1
+      ],
+      {
+        value:"50000000000000000"
+      }
+    );
     console.log(getinfo);
 }
 
@@ -75,7 +105,7 @@ async function call_contract(signingKey,chainId,contractname,fun,params){
   return tx
 }
 
-async function l_call_contract(wallet,contractname,fun,params){
+async function l_call_contract(wallet,contractname,fun,params,options){
   let contract = new ethers.Contract(
     contractinfo[network.config.chainId][contractname].address, 
     contractinfo[network.config.chainId][contractname].abi, 
@@ -87,9 +117,9 @@ async function l_call_contract(wallet,contractname,fun,params){
   if(params.length>0){
     // tx = await contractWithSigner[fun](...params);
     // console.log(...params);
-    tx = await contractWithSigner[fun](...params);
+    tx = await contractWithSigner[fun](...params,options);
   }else{
-    tx = await contractWithSigner[fun]();
+    tx = await contractWithSigner[fun]({...options});
   }
   return tx
 }

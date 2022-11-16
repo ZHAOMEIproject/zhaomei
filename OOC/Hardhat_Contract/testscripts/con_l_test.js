@@ -12,54 +12,46 @@ const request = require("request");
 var contractinfo = new Object();
 
 async function main(){
+    // 加载hardhat.config.js设置的钱包
+    let [owner, addr1, addr2] = await ethers.getSigners();
+    // console.log(owner);
     // 获取项目的合约信息
     contractinfo = await getcontractinfo();
-    // console.log("loading");
-    // console.log(network);
-    // return
-    let [owner, addr1, addr2] = await ethers.getSigners();
-    console.log(owner.address);
-    // return
-    // 在--network hardhat部署合约,并自动了更新contractinfo
-    await l_creat_contract(owner,"VII_POAP",[]);
     // console.log(contractinfo);
-    let getinfo
+    let getsign = await getbyurl('http://173.249.198.20:10909/V1/apigetsign/getsign?'
+    +'id=80001'
+    +'&contractname=OOC'
+    +'&params={"gainer":"0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2","community":"0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2","amount":"5","deadline":"9999999999","typemint":"0"}');
 
-    {
-        // mint前查询
-        getinfo =  await l_call_contract(owner,"VII_POAP","balanceOf",
-            [owner.address,1]
-        );
-        if (getinfo!=0) {
-            console.log("error：mint前不为0");
-        }
-    }
-    {
-        // mint
-        await l_call_contract(owner,"VII_POAP","mint_list",
-            [[[owner.address,1]]]
-        );
-        // 查询mint后
-        getinfo =  await l_call_contract(owner,"VII_POAP","balanceOf",
-            [owner.address,1]
-        );
-        if (getinfo!=1) {
-            console.log("error：mint后不为1");
-        }
-    }
-    {
-        // 重复mint，不会报错，在合约里直接跳过，但是可能需要在测试网区块链浏览器才好看出来。
-        getinfo =  await l_call_contract(owner,"VII_POAP","mint_list",
-            [[[owner.address,1]]]
-        );
-        getinfo =  await l_call_contract(owner,"VII_POAP","balanceOf",
-            [owner.address,1]
-        );
-        if (getinfo!=1) {
-            console.log("error：重复mint后不为1");
-        }
-    }
-    
+    // console.log(...Object.values(getsign.data.result));
+    let get_setinfo =await l_call_contract(
+      owner,
+      "OOC",
+      "view_set",
+      []
+    );
+    // console.log(get_setinfo);
+    // return
+    let getinfo = await l_call_contract(
+      owner,
+      "OOC",
+      "OOC_mint",
+      [
+        [
+          "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
+          "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
+          "5",
+          "9999999999",
+          "0",
+          ...Object.values(getsign.data.result)
+        ],
+        1
+      ],
+      {
+        value:"50000000000000000"
+      }
+    );
+    console.log(getinfo);
 }
 
 
@@ -112,7 +104,7 @@ async function call_contract(signingKey,chainId,contractname,fun,params){
   return tx
 }
 
-async function l_call_contract(wallet,contractname,fun,params){
+async function l_call_contract(wallet,contractname,fun,params,options){
   let contract = new ethers.Contract(
     contractinfo[network.config.chainId][contractname].address, 
     contractinfo[network.config.chainId][contractname].abi, 
@@ -124,9 +116,9 @@ async function l_call_contract(wallet,contractname,fun,params){
   if(params.length>0){
     // tx = await contractWithSigner[fun](...params);
     // console.log(...params);
-    tx = await contractWithSigner[fun](...params);
+    tx = await contractWithSigner[fun](...params,options);
   }else{
-    tx = await contractWithSigner[fun]();
+    tx = await contractWithSigner[fun]({...options});
   }
   return tx
 }
@@ -170,8 +162,8 @@ function getbyurl(url){
           url:url
       },async function (error, response, body) {
           if (!error && response.statusCode == 200) {
-              // let json = JSON.parse(body);
-              resolve(body);
+              // let body = JSON.parse(body);
+              resolve(JSON.parse(body));
           }else{
               resolve();
           }

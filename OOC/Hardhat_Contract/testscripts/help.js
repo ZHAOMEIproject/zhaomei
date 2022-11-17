@@ -7,7 +7,7 @@
 
 // 加载别的钱包
 var path = "m/44'/60'/0'/9/9";// 第99号钱包
-var secret = require("../../../../privateinfo/.secret.json");// 载入很多信息
+var secret = require("D:/zhaomei/.secret.json");// 载入很多信息
 const account = ethers.Wallet.fromMnemonic(secret.solidity.mnemonic, path);
 
 // 加载hardhat.config.js设置的钱包

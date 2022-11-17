@@ -6,7 +6,7 @@ const request = require("request");
 // require('./help.js')
 
 // 运行测试服务
-// npx hardhat run testscripts/test.js --network hardhat
+// npx hardhat run testscripts/con_l_test.js --network hardhat
 // (tip: --network 选择链，参考文档.secret.json)
 
 var contractinfo = new Object();
@@ -19,10 +19,14 @@ async function main(){
     contractinfo = await getcontractinfo();
     await l_creat_contract(owner,"OOC",[]);
     // console.log(contractinfo);
+
+    const gainerAddr="0xE3E628f50B5CDD2418cEb8b58d7BD57A5dABC178";
+    const tokenid=0;
+    
     let getsign = await getbyurl('http://127.0.0.1:10909/V1/apigetsign/getsign?'
     +'id=31337'
     +'&contractname=OOC'
-    +'&params={"gainer":"0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2","community":"0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2","amount":"5","deadline":"9999999999","typemint":"0"}');
+    +'&params={"gainer":"'+gainerAddr+'","community":"0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2","amount":"5","deadline":"9999999999","typemint":"0"}');
     // console.log(getsign);
     // console.log(...Object.values(getsign.data.result));
     // return
@@ -34,8 +38,44 @@ async function main(){
     // );
     // console.log(get_setinfo);
     // return
+   
+   
+    // beforetests
+    {
+      console.log("Before test query results:");
+      try {     
+        let getinfo2 = await l_call_contract(
+          addr1,
+          "OOC",
+          "ownerOf",
+          [
+            0
+          ]
+        );        
+        console.log(getinfo2);      }catch(err){
+          console.log("钱包地址下无token，当前未mint");
+        }
+ 
+      let getinfo3 = await l_call_contract(
+        owner,
+        "OOC",
+        "balanceOf",
+        [
+          gainerAddr
+        ]
+      );
+      console.log(getinfo3);
+
+      ownerAddrAmount=await ethers.provider.getBalance(owner.address);
+      console.log("ownerAddrAmount:"+ownerAddrAmount);
+      gainerAddrAmount=await ethers.provider.getBalance(addr1.address);
+      console.log("gainerAddrAmount:"+gainerAddrAmount);
+    }
+
+  //debug
+  {
     await l_call_contract(
-      owner,
+      addr1,
       "OOC",
       "debug",
       [
@@ -69,28 +109,70 @@ async function main(){
         ]
       ]
     );
+  }
 
-    let getinfo = await l_call_contract(
-      owner,
-      "OOC",
-      "OOC_mint",
-      [
-        [
-          "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
-          "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
-          "5",
-          "9999999999",
-          "0",
-          ...Object.values(getsign.data.result)
-        ],
-        1
-      ],
-      {
-        value:"50000000000000000"
-      }
-    );
-    
+//执行测试
+{    let getinfo = await l_call_contract(
+  addr1,
+  "OOC",
+  "OOC_mint",
+  [
+    [
+      gainerAddr,
+      "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
+      "5",
+      "9999999999",
+      "0",
+      ...Object.values(getsign.data.result)
+    ],
+    1
+  ],
+  {
+    value:"50000000000000000"
+  }
+);
+
 }
+
+
+//aftertest
+{   
+  console.log("After test query results:");
+ let getinfo2 = await l_call_contract(
+  owner,
+  "OOC",
+  "ownerOf",
+  [
+    tokenid
+  ]
+);
+console.log(getinfo2);
+if(getinfo2 == gainerAddr){
+  console.log("mint成功，钱包地址一致！")
+}
+else{console.log("测试失败！")}
+let getinfo3 = await l_call_contract(
+  owner,
+  "OOC",
+  "balanceOf",
+  [
+    gainerAddr
+  ]
+);
+console.log(getinfo3);}
+if(getinfo3 = "1"){
+  console.log("mint成功，地址下nft个数+1！")
+}
+else{console.log("测试失败！")}
+ownerAddrAmount=await ethers.provider.getBalance(owner.address);
+console.log("ownerAddrAmount:"+ownerAddrAmount);
+gainerAddrAmount=await ethers.provider.getBalance(addr1.address);
+console.log("gainerAddrAmount:"+gainerAddrAmount);
+
+
+
+}
+
 
 
 

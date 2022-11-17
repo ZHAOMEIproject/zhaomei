@@ -15,7 +15,7 @@ var setinfo;
 function start_test(){
     console.log("start_dev ing")
     // setinfo = require("../../../privateinfo/.secret_official.json");
-    setinfo = require("../../../privateinfo/.secret.json");
+    setinfo = require("D:/zhaomei/.secret.json");
     node_info = setinfo.VII_OOC_NODE;
     host = node_info.host;
     port = node_info.port;

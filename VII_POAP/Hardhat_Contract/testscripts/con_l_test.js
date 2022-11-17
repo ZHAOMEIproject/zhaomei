@@ -12,13 +12,14 @@ const request = require("request");
 var contractinfo = new Object();
 
 async function main(){
+    const tokenid=142875648;
     // 获取项目的合约信息
     contractinfo = await getcontractinfo();
     // console.log("loading");
     // console.log(network);
     // return
-    let [owner, addr1, addr2] = await ethers.getSigners();
-    console.log(owner.address);
+    let [owner, addr1] = await ethers.getSigners();
+    console.log("owner adderss is:"+owner.address+"addr1 adderss is:"+addr1.address);
     // return
     // 在--network hardhat部署合约,并自动了更新contractinfo
     await l_creat_contract(owner,"VII_POAP",[]);
@@ -28,8 +29,9 @@ async function main(){
     {
         // mint前查询
         getinfo =  await l_call_contract(owner,"VII_POAP","balanceOf",
-            [owner.address,1]
+            [addr1.address,tokenid]
         );
+        console.log("mint前查询:"+getinfo);
         if (getinfo!=0) {
             console.log("error：mint前不为0");
         }
@@ -37,24 +39,28 @@ async function main(){
     {
         // mint
         await l_call_contract(owner,"VII_POAP","mint_list",
-            [[[owner.address,1]]]
+            [[[addr1.address,tokenid]]]
         );
         // 查询mint后
+        await wait(120000);
         getinfo =  await l_call_contract(owner,"VII_POAP","balanceOf",
-            [owner.address,1]
+            [addr1.address,tokenid]
         );
+        console.log("mint后查询:"+getinfo);
         if (getinfo!=1) {
             console.log("error：mint后不为1");
         }
     }
     {
-        // 重复mint，不会报错，在合约里直接跳过，但是可能需要在测试网区块链浏览器才好看出来。
+        // 重复mint，不会报错，在合约里直接跳过，但是可能需要在测试网区块链浏览器才好看出来。       
         getinfo =  await l_call_contract(owner,"VII_POAP","mint_list",
-            [[[owner.address,1]]]
+            [[[addr1.address,tokenid]]]
         );
+        await wait(120000);
         getinfo =  await l_call_contract(owner,"VII_POAP","balanceOf",
-            [owner.address,1]
+            [addr1.address,tokenid]
         );
+        console.log("第二次mint后查询:"+getinfo);
         if (getinfo!=1) {
             console.log("error：重复mint后不为1");
         }

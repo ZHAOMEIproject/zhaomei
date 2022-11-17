@@ -1,6 +1,7 @@
 const hre = require("hardhat");
 const {getcontractinfo}=require('./tool/id-readcontracts');
 const request = require("request");
+const {getsign}=require("../../node/api/sign/getsign");
 
 // 测试的help文档
 // require('./help.js')
@@ -14,18 +15,30 @@ var contractinfo = new Object();
 async function main(){
     // 加载hardhat.config.js设置的钱包
     let [owner, addr1, addr2] = await ethers.getSigners();
-    console.log(owner.address);
-    console.log(await ethers.provider.getBalance(owner.address));
-    return;
+    // console.log(owner.address);
+    // console.log(await ethers.provider.getBalance(owner.address));
+    // return;
     // 获取项目的合约信息
     contractinfo = await getcontractinfo();
     await l_creat_contract(owner,"OOC",[]);
     // console.log(contractinfo);
-    let getsign = await getbyurl('http://127.0.0.1:10909/V1/apigetsign/getsign?'
-    +'id=31337'
-    +'&contractname=OOC'
-    +'&params={"gainer":"0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2","community":"0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2","amount":"5","deadline":"9999999999","typemint":"0"}');
-    // console.log(getsign);
+    // let getsign = await getbyurl('http://127.0.0.1:10909/V1/apigetsign/getsign?'
+    // +'id=31337'
+    // +'&contractname=OOC'
+    // +'&params={"gainer":"0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2","community":"0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2","amount":"5","deadline":"9999999999","typemint":"0"}');
+
+    let signinfo = await getsign(
+      "31337","OOC",
+      [
+        "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
+        "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
+        "5",
+        "9999999999",
+        "0"
+      ]
+    );
+    console.log(signinfo);
+    return
     // console.log(...Object.values(getsign.data.result));
     // return
     // let get_setinfo =await l_call_contract(

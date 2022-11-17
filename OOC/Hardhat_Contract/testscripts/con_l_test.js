@@ -14,7 +14,9 @@ var contractinfo = new Object();
 async function main(){
     // 加载hardhat.config.js设置的钱包
     let [owner, addr1, addr2] = await ethers.getSigners();
-    // console.log(owner);
+    console.log(owner.address);
+    console.log(await ethers.provider.getBalance(owner.address));
+    return;
     // 获取项目的合约信息
     contractinfo = await getcontractinfo();
     await l_creat_contract(owner,"OOC",[]);

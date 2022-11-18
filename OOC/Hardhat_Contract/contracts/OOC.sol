@@ -183,12 +183,20 @@ contract OOC is ERC721A, Ownable, EIP712{
             Organ2_mint(signinfo,quantity);
         }else if(typemint==2){
             White_mint(signinfo,quantity);
-        }else if(typemint==3){
-            Public_mint(signinfo,quantity);
         }else{
             revert("typemint error");
         }
     }
+    
+    function Public_mint(address to,uint256 quantity)public payable{
+        require(msg.value==Public_mint_fee,"error fee");
+        uint256 now_time = block_timestamp();
+        require(Public_mint_time<now_time&&now_time<Public_end_time,"Out of time");
+        Public_pool_m+=quantity;
+        require(Public_pool_m<(total_supply-Organ2_pool_em-Organ_pool_m-White_pool_m),"Public_pool mint out");
+        _safeMint(to,quantity);
+    }
+    
     function Organ_mint(_signvrs calldata signinfo,uint256 quantity)private{
         require(msg.value==Organ_mint_fee,"error fee");
         uint256 now_time = block_timestamp();
@@ -215,14 +223,6 @@ contract OOC is ERC721A, Ownable, EIP712{
         checkandmint(signinfo,quantity);
 
     }
-    function Public_mint(_signvrs calldata signinfo,uint256 quantity)private{
-        require(msg.value==Public_mint_fee,"error fee");
-        uint256 now_time = block_timestamp();
-        require(Public_mint_time<now_time&&now_time<Public_end_time,"Out of time");
-        Public_pool_m+=quantity;
-        require(Public_pool_m<(total_supply-Organ2_pool_em-Organ_pool_m-White_pool_m),"Public_pool mint out");
-        checkandmint(signinfo,quantity);
-    }
 
     function checkandmint(_signvrs calldata signinfo,uint256 quantity)private{
         address gainer = signinfo.gainer;
@@ -248,6 +248,7 @@ contract OOC is ERC721A, Ownable, EIP712{
     }
 
     function add_Ranking_list(address community,uint256 quantity)private{
+        if(community==address(0))return;
         if(mintnumber[community] == 0){
             Ranking_list.push(community);
         }

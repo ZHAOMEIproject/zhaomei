@@ -14,8 +14,6 @@ contract OOC is ERC721A, Ownable, EIP712{
 
     // 正式版需要注释的。
     uint256 fack_time;
-    mapping(address=>uint256) mintnumber;
-    mapping(uint256=>address) Ranking_list;
     function block_timestamp()public view returns(uint256 time){
         if(fack_time==0){
             return block.timestamp;
@@ -250,33 +248,32 @@ contract OOC is ERC721A, Ownable, EIP712{
     }
 
     function add_Ranking_list(address community,uint256 quantity)private{
-        uint256 flag =0;
-        if(mintnumber[community]==0){
-            flag=1;
+        if(mintnumber[community] == 0){
+            Ranking_list.push(community);
         }
-        mintnumber[community]+=quantity;
-        {
-            uint i=0;
-            do{
-                if(mintnumber[community]>mintnumber[Ranking_list[i]]){
-                    (community,Ranking_list[i])=(Ranking_list[i],community);
-                }
-                i++;
-            }while(Ranking_list[i-flag]!=address(0));
-        }
+        mintnumber[community] += quantity;
     }
-    function view_hotlist()public view returns(address[] memory hotlist){
-        {
-            uint256 i=0;
-            do{
-                i++;
-            }while(Ranking_list[i]!=address(0));
-            hotlist = new address[](i);
 
-            do{
-                i--;
-                hotlist[i]=Ranking_list[i];
-            }while(i!=0);
+
+    
+    mapping(address=>uint256) mintnumber;
+    address[] Ranking_list;
+    struct communityinfo{
+        uint256 mintnumber;
+        address community;
+    }
+    function view_hotlist()public view returns(communityinfo[] memory hotlist){
+        uint256 i=Ranking_list.length;
+        hotlist = new communityinfo[](i);
+        for(uint j=0;j<i;j++){
+            hotlist[j]=communityinfo(mintnumber[Ranking_list[j]],Ranking_list[j]);
+            if(j>0){
+                for(uint k=0;k<j;k++){
+                    if(hotlist[j].mintnumber> hotlist[k].mintnumber){
+                        (hotlist[j],hotlist[k])=(hotlist[k],hotlist[j]);
+                    }
+                }
+            }
         }
     }
 }

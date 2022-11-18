@@ -152,7 +152,7 @@ async function l_call_contract(wallet,contractname,fun,params,options){
   );
   let contractWithSigner = contract.connect(wallet);
   let tx;
-//   console.log(params.length);
+  //   console.log(params.length);
   if(params.length>0){
     // tx = await contractWithSigner[fun](...params);
     // console.log(...params);

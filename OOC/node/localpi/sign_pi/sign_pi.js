@@ -1,8 +1,8 @@
-const {getsign} = require("../api/sign/getsign");
-const mysqlconn = require("../nodetool/sqlconnection");
+const {getsign} = require("../../api/sign/getsign");
+const mysqlconn = require("../../nodetool/sqlconnection");
 // loading
 {
-    setinfo = require("../../../../privateinfo/.secret.json");
+    setinfo = require("../../../../../privateinfo/.secret.json");
     global.mysqlGlobal = setinfo.ROOT_SQL;
 }
 

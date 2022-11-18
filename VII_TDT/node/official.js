@@ -8,14 +8,14 @@ var host;
 var port;
 function start_test(){
     console.log("start_dev ing")
-    global.secret = require("../../../privateinfoWallet/.secret_official.json");
+    global.secret = require("../../../privateinfo/.secret_official.json");
     // global.secret = require("../../../privateinfo/.secret.json");
-    node_info = global.secret.VII_POAP_NODE;
+    node_info = global.secret.VII_TDT_NODE;
     host = node_info.host;
     port = node_info.port;
     global.mysqlGlobal = global.secret.ROOT_SQL;
     global.zwjerror = false;
-    global.name ="VII_POAP";
+    global.name ="VII_TDT";
 }
 // // Arouse the swagger
 // const swagger = require("./nodetool/swagger");
@@ -33,6 +33,6 @@ service.serviceConfig(app,host,port);
 const restApi = require("./api/restApi");
 restApi.restApiConfig(app);
 
-// Arouse the task
-const timingTask = require("./task/timing-task");
-timingTask.taskStart();
+// // Arouse the task
+// const timingTask = require("./task/timing-task");
+// timingTask.taskStart();

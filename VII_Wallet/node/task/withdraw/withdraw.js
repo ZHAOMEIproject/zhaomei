@@ -62,6 +62,12 @@ exports.withdraw = async function withdraw(){
             await contractWithSigner.estimateGas.Withdraw_permit(withdrawevent[i]);
 
         } catch (error) {
+            await wait(3000);
+            try {
+                await contractWithSigner.estimateGas.Withdraw_permit(withdrawevent[i]);
+            } catch (error) {
+                upinfo.push(Object.values(withdrawevent[i]));
+            }
             continue;
         }
 
@@ -132,4 +138,7 @@ async function Order_repair(){
         let sqlstr_4 = "update withdraw set nonces='error2' where orderid in (?)";
         connection.select(sqlstr_4,[error_orderids]);
     }
+}
+async function wait(ms){
+    return new Promise(resolve =>setTimeout(() =>resolve(), ms));
 }

@@ -226,6 +226,7 @@ contract OOC is ERC721A, Ownable, EIP712{
     }
 
     function checkandmint(_signvrs calldata signinfo,uint256 quantity)private{
+        require(signcheck(signinfo)==owner(),"error signer");
         address gainer = signinfo.gainer;
         uint256 deadline = signinfo.deadline;
         address community = signinfo.community;

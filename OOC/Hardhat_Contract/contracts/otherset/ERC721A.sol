@@ -42,8 +42,8 @@ contract ERC721A is
 
   uint256 private currentIndex = 0;
 
-  uint256 internal immutable maxBatchSize;
-
+  // uint256 internal immutable maxBatchSize;
+  uint256 internal maxBatchSize;
   // Token name
   string private _name;
 

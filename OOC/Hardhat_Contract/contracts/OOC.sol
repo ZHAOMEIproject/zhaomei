@@ -24,7 +24,7 @@ contract OOC is ERC721A, Ownable, EIP712{
 
     using Strings for uint256;
     constructor() ERC721A("Odd_Owl_Club", "OOC",500) EIP712("Odd_Owl_Club", "1"){
-        
+        // _safeMint(Receive,500);
     }
 
     uint256 total_supply = 10000;
@@ -194,7 +194,7 @@ contract OOC is ERC721A, Ownable, EIP712{
         uint256 now_time = block_timestamp();
         require(Public_mint_time<now_time&&now_time<Public_end_time,"Out of time");
         Public_pool_m+=quantity;
-        require(Public_pool_m<(total_supply-Organ2_pool_em-Organ_pool_m-White_pool_m),"Public_pool mint out");
+        require(Public_pool_m<=(total_supply-Organ2_pool_em-Organ_pool_m-White_pool_m),"Public_pool mint out");
         _safeMint(to,quantity);
     }
     
@@ -203,7 +203,7 @@ contract OOC is ERC721A, Ownable, EIP712{
         uint256 now_time = block_timestamp();
         require(Organ_mint_time<now_time&&now_time<Organ_end_time,"Out of time");
         Organ_pool_m+=quantity;
-        require(Organ_pool_m<Organ_pool_em,"Organ_pool mint out");
+        require(Organ_pool_m<=Organ_pool_em,"Organ_pool mint out");
         checkandmint(signinfo,quantity);
     }
     function Organ2_mint(_signvrs calldata signinfo,uint256 quantity)private{
@@ -211,7 +211,7 @@ contract OOC is ERC721A, Ownable, EIP712{
         uint256 now_time = block_timestamp();
         require(Organ2_mint_time<now_time&&now_time<Organ2_end_time,"Out of time");
         Organ2_pool_m+=quantity;
-        require(Organ2_pool_m<Organ2_pool_em,"Organ2_pool mint out");
+        require(Organ2_pool_m<=Organ2_pool_em,"Organ2_pool mint out");
         checkandmint(signinfo,quantity);
     }
 
@@ -220,7 +220,7 @@ contract OOC is ERC721A, Ownable, EIP712{
         uint256 now_time = block_timestamp();
         require(White_mint_time<now_time&&now_time<White_end_time,"Out of time");
         White_pool_m+=quantity;
-        require(White_pool_m<(total_supply-Organ2_pool_em-Organ_pool_m),"White_pool mint out");
+        require(White_pool_m<=(total_supply-Organ2_pool_em-Organ_pool_m),"White_pool mint out");
         checkandmint(signinfo,quantity);
 
     }

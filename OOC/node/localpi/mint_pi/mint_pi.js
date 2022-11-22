@@ -4,7 +4,7 @@ const secret = require("../../../../../bnbapi/.bnbsecret.json");
 const ethers = require("ethers");
 const {getsign}=require("../../api/sign/getsign");
 const {getcontractinfo}=require('../../nodetool/id-readcontracts');
-let provider=new ethers.providers.JsonRpcProvider("http://127.0.0.1:8545");
+let provider=new ethers.providers.JsonRpcProvider(secret.url);
 
 main();
 async function main(){
@@ -26,29 +26,29 @@ async function creat_q_account(){
     let accounts=new Object();
     let chainId=secret.baseinfo.chainId;
     let contractname=secret.baseinfo.contractname;
-    // 国库
-    var path = "m/44'/60'/0'/0/0";// 第0号钱包
-    const account = ethers.Wallet.fromMnemonic(secret.mnemonic, path);
-    let address1=[
-        account.address,
-        "0x0000000000000000000000000000000000000000",
-        500,
-        0,
-        1669579200,
-    ]
-    let signinfo1 = await getsign(
-        chainId,contractname,
-        address1
-    )
-    // console.log(...Object.values(signinfo1));
-    // return
-    accounts[account.address]=[
-        address1,
-        ...Object.values(signinfo1),
-        500
-    ]
+    // // 国库
+    // var path = "m/44'/60'/0'/0/0";// 第0号钱包
+    // const account = ethers.Wallet.fromMnemonic(secret.mnemonic, path);
+    // let address1=[
+    //     account.address,
+    //     "0x0000000000000000000000000000000000000000",
+    //     500,
+    //     0,
+    //     1669579200,
+    // ]
+    // let signinfo1 = await getsign(
+    //     chainId,contractname,
+    //     address1
+    // )
+    // // console.log(...Object.values(signinfo1));
+    // // return
+    // accounts[account.address]=[
+    //     address1,
+    //     ...Object.values(signinfo1),
+    //     500
+    // ]
     // 自留地址
-    for (let k = 1; k < 651; k++) {
+    for (let k = 0; k < 650; k++) {
         var path = "m/44'/60'/0'/0/"+k;// 第99号钱包
         const account = ethers.Wallet.fromMnemonic(secret.mnemonic, path);
         let address650=[
@@ -63,13 +63,15 @@ async function creat_q_account(){
             address650
         )
         accounts[account.address]=[
-            address650,
-            ...Object.values(signinfo650),
+            [
+                ...address650,
+                ...Object.values(signinfo650)
+            ],
             500
         ]
     }
     // 机构地址
-    for (let k = 651; k < 721; k++) {
+    for (let k = 650; k < 720; k++) {
         var path = "m/44'/60'/0'/0/"+k;// 第99号钱包
         const account = ethers.Wallet.fromMnemonic(secret.mnemonic, path);
         let address650=[
@@ -123,24 +125,26 @@ async function mint(){
     contractinfo = await getcontractinfo();
     let contract = new ethers.Contract(
         contractinfo[baseinfo.chainId][baseinfo.contractname].address, 
-        contractinfo[baseinfo.chainId][baseinfo.contractname].abi, 
-        contractinfo[baseinfo.chainId][baseinfo.contractname].network.url
+        contractinfo[baseinfo.chainId][baseinfo.contractname].abi,
     );
     let tx;
     let signinfo = await jsonFile.readFile("./accounts.json");
+    
     // for (let k = 0; k < 721; k++) {
+    for (let k = 0; k < 1; k++) {
         var path = "m/44'/60'/0'/0/"+k;// 第99号钱包
-        const wallet = ethers.Wallet.fromMnemonic(secret.mnemonic, path);
+        const account = ethers.Wallet.fromMnemonic(secret.mnemonic, path);
+        let wallet = new ethers.Wallet(account._signingKey(), provider);
+    
         let contractWithSigner = contract.connect(wallet);
         try {
             tx = await contractWithSigner.estimateGas[baseinfo.fun](signinfo[wallet.address],{...baseinfo.options});
         } catch (error) {
             console.log(error);
         }
-        tx.wait();
 
         console.log(tx);
-    // }
+    }
 
 }
 
@@ -157,7 +161,7 @@ async function transfer(wallet){
     for (let k = 0; k < 721; k++) {
         var path = "m/44'/60'/0'/0/"+k;// 第99号钱包
         const wallet = ethers.Wallet.fromMnemonic(secret.mnemonic, path);
-        let contractWithSigner = contract.connect(wallet);
+        let contractWithSigner = contract.connect(provider);
         try {
             tx = await contractWithSigner.estimateGas.safeTransferFrom(wallet.address,baseinfo.niming);
         } catch (error) {

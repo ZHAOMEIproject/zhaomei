@@ -175,8 +175,9 @@ contract OOC is ERC721A, Ownable, EIP712{
         return super.supportsInterface(interfaceId);
     }
 
-    function OOC_mint(_signvrs calldata signinfo,uint256 quantity)public payable{
+    function OOC_mint(_signvrs calldata signinfo,uint256 quantity)public payable returns(uint256 tokenId){
         uint256 typemint=signinfo.typemint;
+        tokenId=totalSupply();
         if(typemint==0){
             Organ_mint(signinfo,quantity);
         }else if(typemint==1){
@@ -189,7 +190,7 @@ contract OOC is ERC721A, Ownable, EIP712{
     }
     
     function Public_mint(address to,uint256 quantity)public payable{
-        require(msg.value==Public_mint_fee,"error fee");
+        require(msg.value==Public_mint_fee*quantity,"error fee");
         uint256 now_time = block_timestamp();
         require(Public_mint_time<now_time&&now_time<Public_end_time,"Out of time");
         Public_pool_m+=quantity;
@@ -198,7 +199,7 @@ contract OOC is ERC721A, Ownable, EIP712{
     }
     
     function Organ_mint(_signvrs calldata signinfo,uint256 quantity)private{
-        require(msg.value==Organ_mint_fee,"error fee");
+        require(msg.value==Organ_mint_fee*quantity,"error fee");
         uint256 now_time = block_timestamp();
         require(Organ_mint_time<now_time&&now_time<Organ_end_time,"Out of time");
         Organ_pool_m+=quantity;
@@ -206,7 +207,7 @@ contract OOC is ERC721A, Ownable, EIP712{
         checkandmint(signinfo,quantity);
     }
     function Organ2_mint(_signvrs calldata signinfo,uint256 quantity)private{
-        require(msg.value==Organ2_mint_fee,"error fee");
+        require(msg.value==Organ2_mint_fee*quantity,"error fee");
         uint256 now_time = block_timestamp();
         require(Organ2_mint_time<now_time&&now_time<Organ2_end_time,"Out of time");
         Organ2_pool_m+=quantity;
@@ -215,7 +216,7 @@ contract OOC is ERC721A, Ownable, EIP712{
     }
 
     function White_mint(_signvrs calldata signinfo,uint256 quantity)private{
-        require(msg.value==White_mint_fee,"error fee");
+        require(msg.value==White_mint_fee*quantity,"error fee");
         uint256 now_time = block_timestamp();
         require(White_mint_time<now_time&&now_time<White_end_time,"Out of time");
         White_pool_m+=quantity;

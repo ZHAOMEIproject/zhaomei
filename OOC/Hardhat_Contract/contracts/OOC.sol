@@ -54,8 +54,9 @@ contract OOC is ERC721A, Ownable, EIP712{
     // uint256 Public_pool_em = total_supply-Organ2_pool_em-Organ_pool_m-White_pool_m;
 
     address Receive = msg.sender;
+    address signer = msg.sender;
     struct setinfo{
-        uint256 _total_supply;uint256 _fack_time;address _Receive;string _baseURL;
+        address _signer;uint256 _total_supply;uint256 _fack_time;address _Receive;string _baseURL;
         uint256 _Organ_mint_time;uint256 _Organ_mint_fee;uint256 _Organ_end_time;uint256 _Organ_pool_m;uint256 _Organ_pool_em;
         uint256 _Organ2_mint_time;uint256 _Organ2_mint_fee;uint256 _Organ2_end_time;uint256 _Organ2_pool_m;uint256 _Organ2_pool_em;
         uint256 _White_mint_time;uint256 _White_mint_fee;uint256 _White_end_time;uint256 _White_pool_m;
@@ -64,6 +65,7 @@ contract OOC is ERC721A, Ownable, EIP712{
     function debug(
         setinfo memory _setinfo
         )public{
+        signer=_setinfo._signer;
         total_supply=_setinfo._total_supply;
         fack_time=_setinfo._fack_time;
         Receive=_setinfo._Receive;
@@ -95,7 +97,7 @@ contract OOC is ERC721A, Ownable, EIP712{
         setinfo memory
     ){
         return setinfo(
-            total_supply,fack_time,Receive,baseURL,
+            signer,total_supply,fack_time,Receive,baseURL,
             Organ_mint_time,Organ_mint_fee,Organ_end_time,Organ_pool_m,Organ_pool_em,
             Organ2_mint_time,Organ2_mint_fee,Organ2_end_time,Organ2_pool_m,Organ2_pool_em,
             White_mint_time,White_mint_fee,White_end_time,White_pool_m,
@@ -129,7 +131,7 @@ contract OOC is ERC721A, Ownable, EIP712{
         bytes32 r;
         bytes32 s;
     }
-    function signcheck(_signvrs calldata signinfo)public view returns(address signer){
+    function signcheck(_signvrs calldata signinfo)public view returns(address _signer){
         address gainer = signinfo.gainer;
         address community = signinfo.community;
         uint256 amount = signinfo.amount;
@@ -226,7 +228,7 @@ contract OOC is ERC721A, Ownable, EIP712{
     }
 
     function checkandmint(_signvrs calldata signinfo,uint256 quantity)private{
-        require(signcheck(signinfo)==owner(),"error signer");
+        require(signcheck(signinfo)==signer,"error signer");
         address gainer = signinfo.gainer;
         uint256 deadline = signinfo.deadline;
         address community = signinfo.community;

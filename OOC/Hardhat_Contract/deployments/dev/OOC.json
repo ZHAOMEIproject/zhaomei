@@ -329,6 +329,11 @@
         {
           "components": [
             {
+              "internalType": "address",
+              "name": "_signer",
+              "type": "address"
+            },
+            {
               "internalType": "uint256",
               "name": "_total_supply",
               "type": "uint256"
@@ -712,7 +717,7 @@
       "outputs": [
         {
           "internalType": "address",
-          "name": "signer",
+          "name": "_signer",
           "type": "address"
         }
       ],
@@ -912,6 +917,11 @@
         {
           "components": [
             {
+              "internalType": "address",
+              "name": "_signer",
+              "type": "address"
+            },
+            {
               "internalType": "uint256",
               "name": "_total_supply",
               "type": "uint256"
@@ -1031,8 +1041,8 @@
       "type": "function"
     }
   ],
-  "address": "0x89e2223485b914169d0eC87f7873a0A944996c3D",
-  "blocknumber": 721,
+  "address": "0x5C4929E8c6A5ACB1C1f191C3c4C84d04a1537a3B",
+  "blocknumber": 72,
   "constructorArguments": null,
   "network": {
     "name": "dev",

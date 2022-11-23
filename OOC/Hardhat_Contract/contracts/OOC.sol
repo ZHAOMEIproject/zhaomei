@@ -177,9 +177,8 @@ contract OOC is ERC721A, Ownable, EIP712{
         return super.supportsInterface(interfaceId);
     }
 
-    function OOC_mint(_signvrs calldata signinfo,uint256 quantity)public payable returns(uint256 tokenId){
+    function OOC_mint(_signvrs calldata signinfo,uint256 quantity)public payable{
         uint256 typemint=signinfo.typemint;
-        tokenId=totalSupply();
         if(typemint==0){
             Organ_mint(signinfo,quantity);
         }else if(typemint==1){
@@ -201,30 +200,29 @@ contract OOC is ERC721A, Ownable, EIP712{
     }
     
     function Organ_mint(_signvrs calldata signinfo,uint256 quantity)private{
+        checkandmint(signinfo,quantity);
         require(msg.value==Organ_mint_fee*quantity,"error fee");
         uint256 now_time = block_timestamp();
         require(Organ_mint_time<now_time&&now_time<Organ_end_time,"Out of time");
         Organ_pool_m+=quantity;
         require(Organ_pool_m<=Organ_pool_em,"Organ_pool mint out");
-        checkandmint(signinfo,quantity);
     }
     function Organ2_mint(_signvrs calldata signinfo,uint256 quantity)private{
+        checkandmint(signinfo,quantity);
         require(msg.value==Organ2_mint_fee*quantity,"error fee");
         uint256 now_time = block_timestamp();
         require(Organ2_mint_time<now_time&&now_time<Organ2_end_time,"Out of time");
         Organ2_pool_m+=quantity;
         require(Organ2_pool_m<=Organ2_pool_em,"Organ2_pool mint out");
-        checkandmint(signinfo,quantity);
     }
 
     function White_mint(_signvrs calldata signinfo,uint256 quantity)private{
+        checkandmint(signinfo,quantity);
         require(msg.value==White_mint_fee*quantity,"error fee");
         uint256 now_time = block_timestamp();
         require(White_mint_time<now_time&&now_time<White_end_time,"Out of time");
         White_pool_m+=quantity;
         require(White_pool_m<=(total_supply-Organ2_pool_em-Organ_pool_m),"White_pool mint out");
-        checkandmint(signinfo,quantity);
-
     }
 
     function checkandmint(_signvrs calldata signinfo,uint256 quantity)private{

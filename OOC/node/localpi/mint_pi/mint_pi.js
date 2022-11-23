@@ -8,20 +8,33 @@ let provider=new ethers.providers.JsonRpcProvider(secret.url);
 
 main();
 async function main(){
-    // await creat_q_account()
-    // console.log("creat end");
     // await locaton_transfer()
     // console.log("eth transfer end");
+    // await creat_q_account()
+    // console.log("creat end");
 
+    // await check()
+    // console.log("mint end");
     await mint()
     console.log("mint end");
+    // await transfer()
+    // console.log("transfer end");
 }
 
-// async function bnb_out(client,address,coin,amount){
-//     await client.withdraw(
-//         coin,address,amount
-//     );
-// }
+async function b_main(){
+    // // 创建账号和签名
+    // await creat_q_account()
+    // console.log("creat end");
+    // // 币安提现eth
+    // await bnb_transfer()
+    // console.log("creat end");
+    // // 执行mint
+    // await mint()
+    // console.log("mint end");
+    // // 转移给匿名博士
+    // await transfer()
+    // console.log("transfer end");
+}
 
 async function creat_q_account(){
     let accounts=new Object();
@@ -44,9 +57,8 @@ async function creat_q_account(){
     // // console.log(...Object.values(signinfo1));
     // // return
     // accounts[account.address]=[
-    //     address1,
-    //     ...Object.values(signinfo1),
-    //     500
+    //     ...address1,
+    //     ...Object.values(signinfo1)
     // ]
     // 自留地址
     
@@ -66,11 +78,8 @@ async function creat_q_account(){
             address650
         )
         accounts[account.address]=[
-            [
-                ...address650,
-                ...Object.values(signinfo650)
-            ],
-            50
+            ...address650,
+            ...Object.values(signinfo650)
         ]
     }
 
@@ -89,11 +98,8 @@ async function creat_q_account(){
     //         address650
     //     )
     //     accounts[account.address]=[
-    //         [
-    //             ...address650,
-    //             ...Object.values(signinfo650)
-    //         ],
-    //         500
+    //         ...address650,
+    //         ...Object.values(signinfo650)
     //     ]
     // }
     await jsonFile.writeFile("./accounts.json",accounts,{ spaces: 2, EOL: '\r\n' });
@@ -108,7 +114,7 @@ async function locaton_transfer(){
     let signinfo = await jsonFile.readFile("./accounts.json");
     tx={
         to:"0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
-        value:ethers.utils.parseEther("1"),
+        value:ethers.utils.parseEther("10"),
     }
     await wallet.sendTransaction(tx)
     
@@ -116,14 +122,53 @@ async function locaton_transfer(){
         tx={
             // to:"0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
             to:i,
-            value:ethers.utils.parseEther("1"),
+            value:ethers.utils.parseEther("10"),
         }
         await wallet.sendTransaction(tx)
     }
 
 }
+// bnb_out(client,)
+// async function bnb_out(client,address,coin,amount){
+//     await client.withdraw(
+//         coin,address,amount
+//     );
+// }
+async function bnb_transfer(){
+    const client = new Spot(secret.apiKey, secret.apiSecret);
+    let signinfo = await jsonFile.readFile("./accounts.json");
+    for (let i in signinfo) {
+        await bnb_out(client,i,"ETH","0")
+    }
+}
+async function check(){
+    let baseinfo = secret.baseinfo;
+    contractinfo = await getcontractinfo();
+    let contract = new ethers.Contract(
+        contractinfo[baseinfo.chainId][baseinfo.contractname].address, 
+        contractinfo[baseinfo.chainId][baseinfo.contractname].abi,
+    );
+    let tx;
+    let signinfo = await jsonFile.readFile("./accounts.json");
+    for (let k = 0; k < 1; k++) {
+        var path = "m/44'/60'/0'/0/"+k;// 第99号钱包
+        const account = ethers.Wallet.fromMnemonic(secret.mnemonic, path);
+        let wallet = new ethers.Wallet(account._signingKey(), provider);
+    
+        let contractWithSigner = contract.connect(wallet);
+        // console.log(signinfo[wallet.address][1]);
+        try {
+            // tx = await contractWithSigner.estimateGas[baseinfo.fun](
+            tx = await contractWithSigner.block_timestamp(
+                
+            );
+        } catch (error) {
+            console.log(error);
+        }
 
-
+        console.log(tx);
+    }
+}
 
 async function mint(){
     let baseinfo = secret.baseinfo;
@@ -134,23 +179,35 @@ async function mint(){
     );
     let tx;
     let signinfo = await jsonFile.readFile("./accounts.json");
-    
+    let mint_endinfo = new Object();
     // for (let k = 0; k < 721; k++) {
     for (let k = 0; k < 1; k++) {
+        k=12
         var path = "m/44'/60'/0'/0/"+k;// 第99号钱包
         const account = ethers.Wallet.fromMnemonic(secret.mnemonic, path);
         let wallet = new ethers.Wallet(account._signingKey(), provider);
     
         let contractWithSigner = contract.connect(wallet);
+        // console.log(signinfo[wallet.address][1]);
         try {
-            tx = await contractWithSigner.estimateGas[baseinfo.fun](signinfo[wallet.address],{...baseinfo.options});
+            let input = [signinfo[wallet.address],signinfo[wallet.address][2]];
+            // console.log(input);
+            // tx = await contractWithSigner.estimateGas[baseinfo.fun](
+            // console.log(baseinfo.value*signinfo[wallet.address][2]);
+            tx = await contractWithSigner[baseinfo.fun](
+                ...input,
+                {value:ethers.utils.parseEther((baseinfo.value*signinfo[wallet.address][2]).toString())}
+            );
         } catch (error) {
             console.log(error);
         }
+        let endinfo = await tx.wait();
+        // console.log(tx);
 
-        console.log(tx);
+        // console.log(endinfo.events[0].args[2].toNumber());
+        mint_endinfo[wallet.address]=endinfo.events[0].args[2].toNumber();
     }
-
+    await jsonFile.writeFile("./mint_endinfo.json",mint_endinfo,{ spaces: 2, EOL: '\r\n' });
 }
 
 async function transfer(wallet){
@@ -158,17 +215,23 @@ async function transfer(wallet){
     contractinfo = await getcontractinfo();
     let contract = new ethers.Contract(
         contractinfo[baseinfo.chainId][baseinfo.contractname].address, 
-        contractinfo[baseinfo.chainId][baseinfo.contractname].abi, 
-        contractinfo[baseinfo.chainId][baseinfo.contractname].network.url
+        contractinfo[baseinfo.chainId][baseinfo.contractname].abi,
     );
     let tx;
-    let signinfo = jsonFile.readFile("./accounts.json");
+    let mint_endinfo = await jsonFile.readFile("./mint_endinfo.json");
+    
     for (let k = 0; k < 721; k++) {
+    // for (let k = 0; k < 1; k++) {
+        k=11
         var path = "m/44'/60'/0'/0/"+k;// 第99号钱包
-        const wallet = ethers.Wallet.fromMnemonic(secret.mnemonic, path);
-        let contractWithSigner = contract.connect(provider);
+        const account = ethers.Wallet.fromMnemonic(secret.mnemonic, path);
+        let wallet = new ethers.Wallet(account._signingKey(), provider);
+        let contractWithSigner = contract.connect(wallet);
+        // console.log(wallet.address,mint_endinfo);
         try {
-            tx = await contractWithSigner.estimateGas.safeTransferFrom(wallet.address,baseinfo.niming);
+            tx = await contractWithSigner.accountTransfer(
+                baseinfo.niming,mint_endinfo[wallet.address]
+            );
         } catch (error) {
             console.log(error);
         }

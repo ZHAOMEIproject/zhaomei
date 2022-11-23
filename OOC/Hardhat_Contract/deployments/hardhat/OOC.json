@@ -187,6 +187,30 @@
         }
       ],
       "name": "OOC_mint",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "quantity",
+          "type": "uint256"
+        }
+      ],
+      "name": "Public_mint",
       "outputs": [],
       "stateMutability": "payable",
       "type": "function"
@@ -304,6 +328,11 @@
       "inputs": [
         {
           "components": [
+            {
+              "internalType": "address",
+              "name": "_signer",
+              "type": "address"
+            },
             {
               "internalType": "uint256",
               "name": "_total_supply",
@@ -688,7 +717,7 @@
       "outputs": [
         {
           "internalType": "address",
-          "name": "signer",
+          "name": "_signer",
           "type": "address"
         }
       ],
@@ -861,9 +890,21 @@
       "name": "view_hotlist",
       "outputs": [
         {
-          "internalType": "address[]",
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "mintnumber",
+              "type": "uint256"
+            },
+            {
+              "internalType": "address",
+              "name": "community",
+              "type": "address"
+            }
+          ],
+          "internalType": "struct OOC.communityinfo[]",
           "name": "hotlist",
-          "type": "address[]"
+          "type": "tuple[]"
         }
       ],
       "stateMutability": "view",
@@ -875,6 +916,11 @@
       "outputs": [
         {
           "components": [
+            {
+              "internalType": "address",
+              "name": "_signer",
+              "type": "address"
+            },
             {
               "internalType": "uint256",
               "name": "_total_supply",

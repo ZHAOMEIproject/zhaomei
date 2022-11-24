@@ -196,6 +196,7 @@ contract OOC is ERC721A, Ownable, EIP712{
         require(Public_mint_time<now_time&&now_time<Public_end_time,"Out of time");
         Public_pool_m+=quantity;
         require(Public_pool_m<=(total_supply-Organ2_pool_m-Organ_pool_m-White_pool_m),"Public_pool mint out");
+        require(2>=(_numberMinted(to)+quantity),"Out of minted number");
         _safeMint(to,quantity);
     }
     

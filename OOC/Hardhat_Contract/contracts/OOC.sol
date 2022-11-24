@@ -195,7 +195,7 @@ contract OOC is ERC721A, Ownable, EIP712{
         uint256 now_time = block_timestamp();
         require(Public_mint_time<now_time&&now_time<Public_end_time,"Out of time");
         Public_pool_m+=quantity;
-        require(Public_pool_m<=(total_supply-Organ2_pool_em-Organ_pool_m-White_pool_m),"Public_pool mint out");
+        require(Public_pool_m<=(total_supply-Organ2_pool_m-Organ_pool_m-White_pool_m),"Public_pool mint out");
         _safeMint(to,quantity);
     }
     
@@ -222,7 +222,7 @@ contract OOC is ERC721A, Ownable, EIP712{
         uint256 now_time = block_timestamp();
         require(White_mint_time<now_time&&now_time<White_end_time,"Out of time");
         White_pool_m+=quantity;
-        require(White_pool_m<=(total_supply-Organ2_pool_em-Organ_pool_m),"White_pool mint out");
+        require(White_pool_m<=(total_supply-Organ2_pool_m-Organ_pool_m),"White_pool mint out");
     }
 
     function checkandmint(_signvrs calldata signinfo,uint256 quantity)private{

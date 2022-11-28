@@ -114,8 +114,8 @@ contract OOC is ERC721A, Ownable, EIP712{
             Organ_mint_time,Organ_mint_fee,Organ_end_time,Organ_pool_m,Organ_pool_em,
             Organ2_mint_time,Organ2_mint_fee,Organ2_end_time,Organ2_pool_m,Organ2_pool_em,
             White_mint_time,White_mint_fee,White_end_time,White_pool_m,
-            Public_mint_time,Public_mint_fee,Public_end_time,Public_pool_m
-            b_White_mint_time,b_White_mint_fee,b_White_end_time,b_White_pool_m,
+            Public_mint_time,Public_mint_fee,Public_end_time,Public_pool_m,
+            b_White_mint_time,b_White_mint_fee,b_White_end_time,b_White_pool_m
         );
     }
 

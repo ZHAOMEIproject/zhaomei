@@ -40,12 +40,6 @@ contract OOC is ERC721A, Ownable, EIP712{
     uint256 Organ2_end_time = Organ2_mint_time+7200;
     uint256 Organ2_pool_m;
     uint256 Organ2_pool_em = 2000;
-    
-    uint256 b_White_mint_time = Organ2_end_time;
-    uint256 b_White_mint_fee = 0.05*10**18;
-    uint256 b_White_end_time = b_White_mint_time+7200;
-    uint256 b_White_pool_m;
-    // uint256 b_White_pool_em = total_supply-Organ2_pool_em-Organ_pool_m;
 
 
     uint256 White_mint_time = Organ2_end_time;
@@ -59,6 +53,12 @@ contract OOC is ERC721A, Ownable, EIP712{
     uint256 Public_end_time = Public_mint_time+86400;
     uint256 Public_pool_m;
     // uint256 Public_pool_em = total_supply-Organ2_pool_em-Organ_pool_m-b_White_pool_em-White_pool_m;
+    
+    uint256 b_White_mint_time = Organ2_end_time;
+    uint256 b_White_mint_fee = 0.05*10**18;
+    uint256 b_White_end_time = b_White_mint_time+7200;
+    uint256 b_White_pool_m;
+    // uint256 b_White_pool_em = total_supply-Organ2_pool_em-Organ_pool_m;
 
     address Receive = msg.sender;
     address signer = msg.sender;
@@ -66,9 +66,9 @@ contract OOC is ERC721A, Ownable, EIP712{
         address _signer;uint256 _total_supply;uint256 _fack_time;address _Receive;string _baseURL;
         uint256 _Organ_mint_time;uint256 _Organ_mint_fee;uint256 _Organ_end_time;uint256 _Organ_pool_m;uint256 _Organ_pool_em;
         uint256 _Organ2_mint_time;uint256 _Organ2_mint_fee;uint256 _Organ2_end_time;uint256 _Organ2_pool_m;uint256 _Organ2_pool_em;
-        uint256 _b_White_mint_time;uint256 _b_White_mint_fee;uint256 _b_White_end_time;uint256 _b_White_pool_m;
         uint256 _White_mint_time;uint256 _White_mint_fee;uint256 _White_end_time;uint256 _White_pool_m;
         uint256 _Public_mint_time;uint256 _Public_mint_fee;uint256 _Public_end_time;uint256 _Public_pool_m;
+        uint256 _b_White_mint_time;uint256 _b_White_mint_fee;uint256 _b_White_end_time;uint256 _b_White_pool_m;
     }
     function debug(
         setinfo memory _setinfo
@@ -90,11 +90,6 @@ contract OOC is ERC721A, Ownable, EIP712{
         Organ2_end_time=_setinfo._Organ2_end_time;
         Organ2_pool_m=_setinfo._Organ2_pool_m;
         Organ2_pool_em=_setinfo._Organ2_pool_em;
-        
-        b_White_mint_time=_setinfo._b_White_mint_time;
-        b_White_mint_fee=_setinfo._b_White_mint_fee;
-        b_White_end_time=_setinfo._b_White_end_time;
-        b_White_pool_m=_setinfo._b_White_pool_m;
 
         White_mint_time=_setinfo._White_mint_time;
         White_mint_fee=_setinfo._White_mint_fee;
@@ -105,6 +100,11 @@ contract OOC is ERC721A, Ownable, EIP712{
         Public_mint_fee=_setinfo._Public_mint_fee;
         Public_end_time=_setinfo._Public_end_time;
         Public_pool_m=_setinfo._Public_pool_m;
+        
+        b_White_mint_time=_setinfo._b_White_mint_time;
+        b_White_mint_fee=_setinfo._b_White_mint_fee;
+        b_White_end_time=_setinfo._b_White_end_time;
+        b_White_pool_m=_setinfo._b_White_pool_m;
     }
     function view_set()public view returns(
         setinfo memory
@@ -113,9 +113,9 @@ contract OOC is ERC721A, Ownable, EIP712{
             signer,total_supply,fack_time,Receive,baseURL,
             Organ_mint_time,Organ_mint_fee,Organ_end_time,Organ_pool_m,Organ_pool_em,
             Organ2_mint_time,Organ2_mint_fee,Organ2_end_time,Organ2_pool_m,Organ2_pool_em,
-            b_White_mint_time,b_White_mint_fee,b_White_end_time,b_White_pool_m,
             White_mint_time,White_mint_fee,White_end_time,White_pool_m,
             Public_mint_time,Public_mint_fee,Public_end_time,Public_pool_m
+            b_White_mint_time,b_White_mint_fee,b_White_end_time,b_White_pool_m,
         );
     }
 

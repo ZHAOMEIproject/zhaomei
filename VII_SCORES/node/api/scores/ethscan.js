@@ -99,6 +99,7 @@ async function nftinfo(address){
     if(nftinfo.length!=0){
         fist721time=nftinfo[0].timeStamp;
     }
+    // console.log(nftinfo);
     for(let i in nftinfo){
         let flag =1;
         if(nftinfo[i].from==address){

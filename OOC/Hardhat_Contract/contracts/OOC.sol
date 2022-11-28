@@ -29,29 +29,36 @@ contract OOC is ERC721A, Ownable, EIP712{
 
     uint256 total_supply = 10000;
 
-    uint256 Organ_mint_time = 1669384800;
+    uint256 Organ_mint_time = 1671098400;
     uint256 Organ_mint_fee = 0.05*10**18;
-    uint256 Organ_end_time = Organ_mint_time+21600;
+    uint256 Organ_end_time = Organ_mint_time+7200;
     uint256 Organ_pool_m;
     uint256 Organ_pool_em = 500+1300+3500;
 
-    uint256 Organ2_mint_time = 1669384800;
+    uint256 Organ2_mint_time = 1671098400;
     uint256 Organ2_mint_fee = 0.05*10**18;
-    uint256 Organ2_end_time = Organ2_mint_time+21600;
+    uint256 Organ2_end_time = Organ2_mint_time+7200;
     uint256 Organ2_pool_m;
     uint256 Organ2_pool_em = 2000;
+    
+    uint256 b_White_mint_time = Organ2_end_time;
+    uint256 b_White_mint_fee = 0.05*10**18;
+    uint256 b_White_end_time = b_White_mint_time+7200;
+    uint256 b_White_pool_m;
+    // uint256 b_White_pool_em = total_supply-Organ2_pool_em-Organ_pool_m;
+
 
     uint256 White_mint_time = Organ2_end_time;
     uint256 White_mint_fee = 0.05*10**18;
-    uint256 White_end_time = White_mint_time+86400;
+    uint256 White_end_time = White_mint_time+7200;
     uint256 White_pool_m;
-    // uint256 White_pool_em = total_supply-Organ2_pool_em-Organ_pool_m;
+    // uint256 White_pool_em = total_supply-Organ2_pool_em-Organ_pool_m-b_White_pool_em;
 
     uint256 Public_mint_time = White_end_time;
     uint256 Public_mint_fee = 0.08*10**18;
     uint256 Public_end_time = Public_mint_time+86400;
     uint256 Public_pool_m;
-    // uint256 Public_pool_em = total_supply-Organ2_pool_em-Organ_pool_m-White_pool_m;
+    // uint256 Public_pool_em = total_supply-Organ2_pool_em-Organ_pool_m-b_White_pool_em-White_pool_m;
 
     address Receive = msg.sender;
     address signer = msg.sender;
@@ -59,6 +66,7 @@ contract OOC is ERC721A, Ownable, EIP712{
         address _signer;uint256 _total_supply;uint256 _fack_time;address _Receive;string _baseURL;
         uint256 _Organ_mint_time;uint256 _Organ_mint_fee;uint256 _Organ_end_time;uint256 _Organ_pool_m;uint256 _Organ_pool_em;
         uint256 _Organ2_mint_time;uint256 _Organ2_mint_fee;uint256 _Organ2_end_time;uint256 _Organ2_pool_m;uint256 _Organ2_pool_em;
+        uint256 _b_White_mint_time;uint256 _b_White_mint_fee;uint256 _b_White_end_time;uint256 _b_White_pool_m;
         uint256 _White_mint_time;uint256 _White_mint_fee;uint256 _White_end_time;uint256 _White_pool_m;
         uint256 _Public_mint_time;uint256 _Public_mint_fee;uint256 _Public_end_time;uint256 _Public_pool_m;
     }
@@ -83,6 +91,11 @@ contract OOC is ERC721A, Ownable, EIP712{
         Organ2_pool_m=_setinfo._Organ2_pool_m;
         Organ2_pool_em=_setinfo._Organ2_pool_em;
         
+        b_White_mint_time=_setinfo._b_White_mint_time;
+        b_White_mint_fee=_setinfo._b_White_mint_fee;
+        b_White_end_time=_setinfo._b_White_end_time;
+        b_White_pool_m=_setinfo._b_White_pool_m;
+
         White_mint_time=_setinfo._White_mint_time;
         White_mint_fee=_setinfo._White_mint_fee;
         White_end_time=_setinfo._White_end_time;
@@ -100,6 +113,7 @@ contract OOC is ERC721A, Ownable, EIP712{
             signer,total_supply,fack_time,Receive,baseURL,
             Organ_mint_time,Organ_mint_fee,Organ_end_time,Organ_pool_m,Organ_pool_em,
             Organ2_mint_time,Organ2_mint_fee,Organ2_end_time,Organ2_pool_m,Organ2_pool_em,
+            b_White_mint_time,b_White_mint_fee,b_White_end_time,b_White_pool_m,
             White_mint_time,White_mint_fee,White_end_time,White_pool_m,
             Public_mint_time,Public_mint_fee,Public_end_time,Public_pool_m
         );
@@ -120,24 +134,15 @@ contract OOC is ERC721A, Ownable, EIP712{
 
     // White_list
     bytes32 public constant _PERMIT_TYPEHASH =
-        keccak256("PermitMint(address gainer,address community,uint256 amount,uint256 deadline,uint256 typemint)");
-    struct _signvrs{
-        address gainer;
-        address community;
-        uint256 amount;
-        uint256 deadline;
-        uint256 typemint;
-        uint8 v;
-        bytes32 r;
-        bytes32 s;
-    }
+        keccak256("PermitMint(address gainer,address bcn,uint256 amount,uint256 deadline,uint256 typemint)");
+    
     function signcheck(_signvrs calldata signinfo)public view returns(address _signer){
         address gainer = signinfo.gainer;
-        address community = signinfo.community;
+        address bcn = signinfo.bcn;
         uint256 amount = signinfo.amount;
         uint256 deadline = signinfo.deadline;
         uint256 typemint = signinfo.typemint;
-        bytes32 structHash = keccak256(abi.encode(_PERMIT_TYPEHASH, gainer,community,amount,deadline,typemint));
+        bytes32 structHash = keccak256(abi.encode(_PERMIT_TYPEHASH, gainer,bcn,amount,deadline,typemint));
         bytes32 hash = _hashTypedDataV4(structHash);
         return ECDSA.recover(hash, signinfo.v, signinfo.r, signinfo.s);
     }
@@ -155,6 +160,25 @@ contract OOC is ERC721A, Ownable, EIP712{
             require(false,"error locktype");
         }
         emit locknft(msg.sender,tokenId,locktype,locktime[tokenId]);
+    }
+
+    mapping(address=>bool) public white_swaps;
+    struct setswap{
+        address bcn;
+        bool flag;
+    }
+    function set_swap(setswap[] memory setswaps)public onlyOwner{
+        uint256 l = setswaps.length;
+        for(uint i =0;i<l;i++){
+            white_swaps[setswaps[i].bcn]=setswaps[i].flag;
+        }
+    }
+
+    function checkSwap() private view{
+        address sender = msg.sender;
+        if(sender.code.length!=0){
+            require(white_swaps[sender],"Cannot perform nft transfer through this contract");
+        }
     }
 
     function _beforeTokenTransfers(
@@ -177,6 +201,16 @@ contract OOC is ERC721A, Ownable, EIP712{
         return super.supportsInterface(interfaceId);
     }
 
+    struct _signvrs{
+        address gainer;
+        address bcn;
+        uint256 amount;
+        uint256 deadline;
+        uint256 typemint;
+        uint8 v;
+        bytes32 r;
+        bytes32 s;
+    }
     function OOC_mint(_signvrs calldata signinfo,uint256 quantity)public payable{
         uint256 typemint=signinfo.typemint;
         if(typemint==0){
@@ -189,19 +223,6 @@ contract OOC is ERC721A, Ownable, EIP712{
             revert("typemint error");
         }
     }
-    
-    function Public_mint(uint256 quantity)public payable{
-        address sender = msg.sender;
-        require(sender==tx.origin,"Cannot use contract call");
-        require(msg.value==Public_mint_fee*quantity,"error fee");
-        uint256 now_time = block_timestamp();
-        require(Public_mint_time<now_time&&now_time<Public_end_time,"Out of time");
-        Public_pool_m+=quantity;
-        require(Public_pool_m<=(total_supply-Organ2_pool_m-Organ_pool_m-White_pool_m),"Public_pool mint out");
-        require(2>=(_numberMinted(sender)+quantity),"Out of minted number");
-        _safeMint(sender,quantity);
-    }
-    
     function Organ_mint(_signvrs calldata signinfo,uint256 quantity)private{
         checkandmint(signinfo,quantity);
         require(msg.value==Organ_mint_fee*quantity,"error fee");
@@ -218,6 +239,42 @@ contract OOC is ERC721A, Ownable, EIP712{
         Organ2_pool_m+=quantity;
         require(Organ2_pool_m<=Organ2_pool_em,"Organ2_pool mint out");
     }
+    
+    mapping(address => mapping(uint256 => uint256)) public _isTokenMintByBcn;
+    mapping(address =>uint256) public _supportedBcns;
+    event MintByBCN(uint256 indexed tokenId, address indexed to, address indexed bcn, uint256 bcnTokenId);
+    function Blue_mint(address bcn,uint256 bcnTokenId,uint256 quantity)public payable{
+        address sender = msg.sender;
+        require(sender==tx.origin,"Cannot use contract call");
+        require(msg.value==b_White_mint_fee*quantity,"error fee");
+        uint256 now_time = block_timestamp();
+        require(b_White_mint_time<now_time&&now_time<b_White_end_time,"Out of time");
+        b_White_pool_m+=quantity;
+        require(b_White_pool_m<=(total_supply-Organ2_pool_m-Organ_pool_m),"b_White_pool mint out");
+        require(2>=(_numberMinted(sender)+quantity),"Out of minted number");
+
+        address to = IERC721(bcn).ownerOf(bcnTokenId);
+        require(to != address(0), "ERC721W:bcnTokenId not exists");
+        require((_isTokenMintByBcn[bcn][bcnTokenId]+quantity)<=2, "ERC721W:bcnTokenId is used");
+        require(_supportedBcns[bcn]!=0, "ERC721W:not supported bcn");
+        _isTokenMintByBcn[bcn][bcnTokenId]++;
+        _supportedBcns[bcn]-=quantity;
+        emit MintByBCN(totalSupply(), to, bcn, bcnTokenId);
+
+        add_Ranking_list(bcn,quantity);
+        
+        _safeMint(to,quantity);
+    }
+    struct supbcn{
+        address bcn;
+        uint256 number;
+    }
+    function addsupportedBcns(supbcn[] calldata bcns)public onlyOwner{
+        uint256 l = bcns.length;
+        for(uint i =0;i<l;i++){
+            _supportedBcns[bcns[i].bcn]=bcns[i].number;
+        }
+    }
 
     function White_mint(_signvrs calldata signinfo,uint256 quantity)private{
         checkandmint(signinfo,quantity);
@@ -225,18 +282,31 @@ contract OOC is ERC721A, Ownable, EIP712{
         uint256 now_time = block_timestamp();
         require(White_mint_time<now_time&&now_time<White_end_time,"Out of time");
         White_pool_m+=quantity;
-        require(White_pool_m<=(total_supply-Organ2_pool_m-Organ_pool_m),"White_pool mint out");
+        require(White_pool_m<=(total_supply-Organ2_pool_m-Organ_pool_m-b_White_pool_m),"White_pool mint out");
+    }
+    
+    function Public_mint(uint256 quantity)public payable{
+        address sender = msg.sender;
+        require(sender==tx.origin,"Cannot use contract call");
+        require(msg.value==Public_mint_fee*quantity,"error fee");
+        uint256 now_time = block_timestamp();
+        require(Public_mint_time<now_time&&now_time<Public_end_time,"Out of time");
+        Public_pool_m+=quantity;
+        require(Public_pool_m<=(total_supply-Organ2_pool_m-Organ_pool_m-White_pool_m-b_White_pool_m),"Public_pool mint out");
+        require(2>=(_numberMinted(sender)+quantity),"Out of minted number");
+        _safeMint(sender,quantity);
     }
 
     function checkandmint(_signvrs calldata signinfo,uint256 quantity)private{
         require(signcheck(signinfo)==signer,"error signer");
         address gainer = signinfo.gainer;
         uint256 deadline = signinfo.deadline;
-        address community = signinfo.community;
+        address bcn = signinfo.bcn;
         uint256 amount = signinfo.amount;
-        require(deadline>block.timestamp,"The signature has expired");
+        require(msg.sender==gainer,"sender is no gainer");
+        require(deadline>=block_timestamp(),"The signature has expired");
         require(amount>=(_numberMinted(gainer)+quantity),"Out of minted number");
-        add_Ranking_list(community,quantity);
+        add_Ranking_list(bcn,quantity);
         _safeMint(gainer,quantity);
     }
 
@@ -252,27 +322,28 @@ contract OOC is ERC721A, Ownable, EIP712{
         require(success,"error call");
     }
 
-    function add_Ranking_list(address community,uint256 quantity)private{
-        if(community==address(0))return;
-        if(mintnumber[community] == 0){
-            Ranking_list.push(community);
+
+
+
+    function add_Ranking_list(address bcn,uint256 quantity)private{
+        if(bcn==address(0))return;
+        if(mintnumber[bcn] == 0){
+            Ranking_list.push(bcn);
         }
-        mintnumber[community] += quantity;
+        mintnumber[bcn] += quantity;
     }
-
-
     
     mapping(address=>uint256) mintnumber;
     address[] Ranking_list;
-    struct communityinfo{
+    struct bcninfo{
         uint256 mintnumber;
-        address community;
+        address bcn;
     }
-    function view_hotlist()public view returns(communityinfo[] memory hotlist){
+    function view_hotlist()public view returns(bcninfo[] memory hotlist){
         uint256 i=Ranking_list.length;
-        hotlist = new communityinfo[](i);
+        hotlist = new bcninfo[](i);
         for(uint j=0;j<i;j++){
-            hotlist[j]=communityinfo(mintnumber[Ranking_list[j]],Ranking_list[j]);
+            hotlist[j]=bcninfo(mintnumber[Ranking_list[j]],Ranking_list[j]);
             if(j>0){
                 for(uint k=0;k<j;k++){
                     if(hotlist[j].mintnumber> hotlist[k].mintnumber){
@@ -283,4 +354,7 @@ contract OOC is ERC721A, Ownable, EIP712{
         }
     }
 }
+
+
+
 

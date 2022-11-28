@@ -188,6 +188,7 @@ contract OOC is ERC721A, Ownable, EIP712{
         uint256 quantity
     )internal override
     {
+        checkSwap();
         require(locktime[startTokenId]<block_timestamp(),"lock time");
         super._beforeTokenTransfers(from, to, startTokenId,quantity);
     }

@@ -21,8 +21,7 @@ async function main(){
     let signinfo = await getsign(
       "31337","OOC",
       [
-        "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
-        "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
+        owner.address,
         "5",
         "9999999999",
         "0"
@@ -42,6 +41,7 @@ async function main(){
       "debug",
       [
         [
+          "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
           10000,
           1669384801,
           "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
@@ -67,7 +67,13 @@ async function main(){
           1669492800,
           "80000000000000000",
           1669579200,
-          0
+          0,
+
+          1669384800,
+          "50000000000000000",
+          1669406400,
+          0,
+          5300,
         ]
       ]
     );
@@ -78,8 +84,7 @@ async function main(){
       "OOC_mint",
       [
         [
-          "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
-          "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
+          owner.address,
           "5",
           "9999999999",
           "0",

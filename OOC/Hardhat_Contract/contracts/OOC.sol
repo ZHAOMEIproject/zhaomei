@@ -316,7 +316,3 @@ contract OOC is ERC721A, Ownable, EIP712{
         require(success,"error call");
     }
 }
-
-
-
-

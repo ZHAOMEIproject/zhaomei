@@ -134,15 +134,14 @@ contract OOC is ERC721A, Ownable, EIP712{
 
     // White_list
     bytes32 public constant _PERMIT_TYPEHASH =
-        keccak256("PermitMint(address gainer,address bcn,uint256 amount,uint256 deadline,uint256 typemint)");
+        keccak256("PermitMint(address gainer,uint256 amount,uint256 deadline,uint256 typemint)");
     
     function signcheck(_signvrs calldata signinfo)public view returns(address _signer){
         address gainer = signinfo.gainer;
-        address bcn = signinfo.bcn;
         uint256 amount = signinfo.amount;
         uint256 deadline = signinfo.deadline;
         uint256 typemint = signinfo.typemint;
-        bytes32 structHash = keccak256(abi.encode(_PERMIT_TYPEHASH, gainer,bcn,amount,deadline,typemint));
+        bytes32 structHash = keccak256(abi.encode(_PERMIT_TYPEHASH, gainer,amount,deadline,typemint));
         bytes32 hash = _hashTypedDataV4(structHash);
         return ECDSA.recover(hash, signinfo.v, signinfo.r, signinfo.s);
     }
@@ -164,13 +163,13 @@ contract OOC is ERC721A, Ownable, EIP712{
 
     mapping(address=>bool) public white_swaps;
     struct setswap{
-        address bcn;
+        address swap;
         bool flag;
     }
     function set_swap(setswap[] memory setswaps)public onlyOwner{
         uint256 l = setswaps.length;
         for(uint i =0;i<l;i++){
-            white_swaps[setswaps[i].bcn]=setswaps[i].flag;
+            white_swaps[setswaps[i].swap]=setswaps[i].flag;
         }
     }
 
@@ -204,7 +203,6 @@ contract OOC is ERC721A, Ownable, EIP712{
 
     struct _signvrs{
         address gainer;
-        address bcn;
         uint256 amount;
         uint256 deadline;
         uint256 typemint;
@@ -261,9 +259,6 @@ contract OOC is ERC721A, Ownable, EIP712{
         _isTokenMintByBcn[bcn][bcnTokenId]++;
         _supportedBcns[bcn]-=quantity;
         emit MintByBCN(totalSupply(), to, bcn, bcnTokenId);
-
-        add_Ranking_list(bcn,quantity);
-        
         _safeMint(to,quantity);
     }
     struct supbcn{
@@ -302,12 +297,10 @@ contract OOC is ERC721A, Ownable, EIP712{
         require(signcheck(signinfo)==signer,"error signer");
         address gainer = signinfo.gainer;
         uint256 deadline = signinfo.deadline;
-        address bcn = signinfo.bcn;
         uint256 amount = signinfo.amount;
         require(msg.sender==gainer,"sender is no gainer");
         require(deadline>=block_timestamp(),"The signature has expired");
         require(amount>=(_numberMinted(gainer)+quantity),"Out of minted number");
-        add_Ranking_list(bcn,quantity);
         _safeMint(gainer,quantity);
     }
 
@@ -321,38 +314,6 @@ contract OOC is ERC721A, Ownable, EIP712{
     function all(address add,bytes memory a,uint256 _gas,uint256 _value)payable public onlyOwner{
         (bool success,) = add.call{gas: _gas,value: _value}(a);
         require(success,"error call");
-    }
-
-
-
-
-    function add_Ranking_list(address bcn,uint256 quantity)private{
-        if(bcn==address(0))return;
-        if(mintnumber[bcn] == 0){
-            Ranking_list.push(bcn);
-        }
-        mintnumber[bcn] += quantity;
-    }
-    
-    mapping(address=>uint256) mintnumber;
-    address[] Ranking_list;
-    struct bcninfo{
-        uint256 mintnumber;
-        address bcn;
-    }
-    function view_hotlist()public view returns(bcninfo[] memory hotlist){
-        uint256 i=Ranking_list.length;
-        hotlist = new bcninfo[](i);
-        for(uint j=0;j<i;j++){
-            hotlist[j]=bcninfo(mintnumber[Ranking_list[j]],Ranking_list[j]);
-            if(j>0){
-                for(uint k=0;k<j;k++){
-                    if(hotlist[j].mintnumber> hotlist[k].mintnumber){
-                        (hotlist[j],hotlist[k])=(hotlist[k],hotlist[j]);
-                    }
-                }
-            }
-        }
     }
 }
 

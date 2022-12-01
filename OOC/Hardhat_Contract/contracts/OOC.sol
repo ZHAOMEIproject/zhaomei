@@ -211,6 +211,7 @@ contract OOC is ERC721A, Ownable, EIP712{
         bytes32 s;
     }
     function OOC_mint(_signvrs calldata signinfo,uint256 quantity)public payable{
+        checkandmint(signinfo,quantity);
         uint256 typemint=signinfo.typemint;
         if(typemint==0){
             Organ_mint(signinfo,quantity);
@@ -223,7 +224,6 @@ contract OOC is ERC721A, Ownable, EIP712{
         }
     }
     function Organ_mint(_signvrs calldata signinfo,uint256 quantity)private{
-        checkandmint(signinfo,quantity);
         require(msg.value==Organ_mint_fee*quantity,"error fee");
         uint256 now_time = block_timestamp();
         require(Organ_mint_time<now_time&&now_time<Organ_end_time,"Out of time");
@@ -231,7 +231,6 @@ contract OOC is ERC721A, Ownable, EIP712{
         require(Organ_pool_m<=Organ_pool_em,"Organ_pool mint out");
     }
     function Organ2_mint(_signvrs calldata signinfo,uint256 quantity)private{
-        checkandmint(signinfo,quantity);
         require(msg.value==Organ2_mint_fee*quantity,"error fee");
         uint256 now_time = block_timestamp();
         require(Organ2_mint_time<now_time&&now_time<Organ2_end_time,"Out of time");
@@ -273,7 +272,6 @@ contract OOC is ERC721A, Ownable, EIP712{
     }
 
     function White_mint(_signvrs calldata signinfo,uint256 quantity)private{
-        checkandmint(signinfo,quantity);
         require(msg.value==White_mint_fee*quantity,"error fee");
         uint256 now_time = block_timestamp();
         require(White_mint_time<now_time&&now_time<White_end_time,"Out of time");

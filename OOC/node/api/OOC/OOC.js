@@ -35,13 +35,19 @@ exports.getsigninfo = router.get("/getsigninfo", async (req, res) => {
         if(info.length==0){
             res.send({
                 success:true,
-                data:"can't find"
+                data:{
+                    success:false,
+                    message:"can't find",
+                }
             });
             return;
         }
         res.send({
             success:true,
-            data:info
+            data:{
+                success:false,
+                
+            }
         });
     } catch (error) {
         res.send({
@@ -53,7 +59,7 @@ exports.getsigninfo = router.get("/getsigninfo", async (req, res) => {
 })
 
 // const {getsign}=require("../sign/getsign");
-exports.getsigninfo = router.get("/postwhite", async (req, res) => {
+exports.postwhite = router.get("/postwhite", async (req, res) => {
     try {
         var params = url.parse(req.url, true).query;
         // var params = req.body;
@@ -92,5 +98,15 @@ exports.getsigninfo = router.get("/postwhite", async (req, res) => {
             error:"error call"
         });
     }
+    return;
+})
+
+exports.owlsigninfo = router.get("/owlsigninfo", async (req, res) => {
+    let info = require("../../localpi/sign_pi/test.json");
+
+    res.send({
+        success:true,
+        data:info
+    });
     return;
 })

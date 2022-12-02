@@ -118,6 +118,18 @@ contract OOC is ERC721A, Ownable, EIP712{
             b_White_mint_time,b_White_mint_fee,b_White_end_time,b_White_pool_m
         );
     }
+    function otherinfo()public view returns(
+        uint256 _total_minted,uint256 _now_time,
+        uint256 _White_pool_em,uint256 _Public_pool_em,uint256 _b_White_pool_em
+
+    ){
+        return (
+            (Organ_pool_m+Organ2_pool_m+White_pool_m+Public_pool_m+b_White_pool_m),block.timestamp,
+            (total_supply-Organ2_pool_m-Organ_pool_m-b_White_pool_m),
+            (total_supply-Organ2_pool_m-Organ_pool_m-White_pool_m-b_White_pool_m),
+            (total_supply-Organ2_pool_m-Organ_pool_m)
+        );
+    }
 
     // open box
     string baseURL;
@@ -238,8 +250,17 @@ contract OOC is ERC721A, Ownable, EIP712{
         require(Organ2_pool_m<=Organ2_pool_em,"Organ2_pool mint out");
     }
     
-    mapping(address => mapping(uint256 => uint256)) public _isTokenMintByBcn;
-    mapping(address =>uint256) public _supportedBcns;
+    // mapping(address => mapping(uint256 => uint256)) public _isTokenMintByBcn;
+    // mapping(address =>uint256) public _supportedBcns;
+    struct bcninfo{
+        uint256 minted;
+        uint256 total_supply;
+        mapping(uint256=>uint256) isTokenMintByBcn;
+    }
+    mapping(address =>bcninfo) public bcninfos;
+    function checkbcntokenid(address bcn , uint256 tokenid)view public returns(uint256 amount){
+        return bcninfos[bcn].isTokenMintByBcn[tokenid];
+    }
     event MintByBCN(uint256 indexed tokenId, address indexed to, address indexed bcn, uint256 bcnTokenId);
     function Blue_mint(address bcn,uint256 bcnTokenId,uint256 quantity)public payable{
         address sender = msg.sender;
@@ -253,10 +274,11 @@ contract OOC is ERC721A, Ownable, EIP712{
 
         address to = IERC721(bcn).ownerOf(bcnTokenId);
         require(to != address(0), "ERC721W:bcnTokenId not exists");
-        require((_isTokenMintByBcn[bcn][bcnTokenId]+quantity)<=2, "ERC721W:bcnTokenId is used");
-        require(_supportedBcns[bcn]!=0, "ERC721W:not supported bcn");
-        _isTokenMintByBcn[bcn][bcnTokenId]++;
-        _supportedBcns[bcn]-=quantity;
+        bcninfo storage now_bcn = bcninfos[bcn];
+        require((now_bcn.isTokenMintByBcn[bcnTokenId]+quantity)<=2, "ERC721W:bcnTokenId is used");
+        require((now_bcn.minted+quantity)<=now_bcn.total_supply, "ERC721W:not supported bcn");
+        now_bcn.isTokenMintByBcn[bcnTokenId]+=quantity;
+        now_bcn.minted+=quantity;
         emit MintByBCN(totalSupply(), to, bcn, bcnTokenId);
         _safeMint(to,quantity);
     }
@@ -267,7 +289,7 @@ contract OOC is ERC721A, Ownable, EIP712{
     function addsupportedBcns(supbcn[] calldata bcns)public onlyOwner{
         uint256 l = bcns.length;
         for(uint i =0;i<l;i++){
-            _supportedBcns[bcns[i].bcn]=bcns[i].number;
+            bcninfos[bcns[i].bcn].total_supply=bcns[i].number;
         }
     }
 

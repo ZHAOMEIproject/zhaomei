@@ -25,6 +25,22 @@ contract OOC is ERC721A, Ownable, EIP712{
     using Strings for uint256;
     constructor() ERC721A("Odd_Owl_Club", "OOC",500) EIP712("Odd_Owl_Club", "1"){
         // _safeMint(Receive,500);
+        // addsupportedBcns(
+        //     CryptoPunks,1000,
+        //     BAYC,1000,
+        //     AZUKI,1000,
+        //     MAYC,1000,
+        //     DOODLES,1000,
+        //     MOONBIRDS,1000,
+        //     CLONEX,1000,
+        //     MFERS,1000,
+        //     MEEBITS,1000,
+        //     World of Women,1000,
+        //     ANGRYCATS,500,
+        //     Cheersup,500,
+        //     Theirsverse,500,
+        //     MiMIC,500
+        // );
     }
 
     uint256 total_supply = 10000;

@@ -45,11 +45,12 @@ exports.getsigninfo = router.get("/getsigninfo", async (req, res) => {
         res.send({
             success:true,
             data:{
-                success:false,
+                info:info,
                 
             }
         });
     } catch (error) {
+        console.log(error);
         res.send({
             success:false,
             error:"error call"

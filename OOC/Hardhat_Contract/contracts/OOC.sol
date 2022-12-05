@@ -207,7 +207,7 @@ contract OOC is ERC721A, Ownable, EIP712{
         require(locktime[tokenId]<block_timestamp(),"NFT is already in staking");
         require(ownerOf(tokenId)==msg.sender,"This NFT does not belong to you");
         require(locktype%30==0,"error locktype,Must be a multiple of 30");
-        locktime[tokenId]=block_timestamp()+locktype;
+        locktime[tokenId]=block_timestamp()+locktype*86400;
         emit locknft(msg.sender,tokenId,locktype,locktime[tokenId]);
     }
 
@@ -355,7 +355,7 @@ contract OOC is ERC721A, Ownable, EIP712{
         require(White_mint_time<now_time,"Out of time");
         require(block_timestamp()<=end_time,"Out of time");
         White_pool_m+=quantity;
-        require(White_pool_m<=(total_supply-Organ2_pool_m-Organ_pool_m-b_White_pool_m),"White_pool mint out");
+        // require(White_pool_m<=(total_supply-Organ2_pool_m-Organ_pool_m-b_White_pool_m),"White_pool mint out");
     }
     
     function Public_mint(uint256 quantity)public payable{

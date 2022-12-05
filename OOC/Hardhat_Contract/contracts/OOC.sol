@@ -24,23 +24,24 @@ contract OOC is ERC721A, Ownable, EIP712{
 
     using Strings for uint256;
     constructor() ERC721A("Odd_Owl_Club", "OOC",500) EIP712("Odd_Owl_Club", "1"){
-        // _safeMint(Receive,500);
-        // addsupportedBcns(
-        //     CryptoPunks,1000,
-        //     BAYC,1000,
-        //     AZUKI,1000,
-        //     MAYC,1000,
-        //     DOODLES,1000,
-        //     MOONBIRDS,1000,
-        //     CLONEX,1000,
-        //     MFERS,1000,
-        //     MEEBITS,1000,
-        //     World of Women,1000,
-        //     ANGRYCATS,500,
-        //     Cheersup,500,
-        //     Theirsverse,500,
-        //     MiMIC,500
-        // );
+        _safeMint(Receive,500);
+
+        supbcn[]memory once= new supbcn[](14);
+        once[0]=supbcn(0xb47e3cd837dDF8e4c57F05d70Ab865de6e193BBB,1000);
+        once[1]=supbcn(0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D,1000);
+        once[2]=supbcn(0xED5AF388653567Af2F388E6224dC7C4b3241C544,1000);
+        once[3]=supbcn(0x60E4d786628Fea6478F785A6d7e704777c86a7c6,1000);
+        once[4]=supbcn(0x8a90CAb2b38dba80c64b7734e58Ee1dB38B8992e,1000);
+        once[5]=supbcn(0x23581767a106ae21c074b2276D25e5C3e136a68b,1000);
+        once[6]=supbcn(0x49cF6f5d44E70224e2E23fDcdd2C053F30aDA28B,1000);
+        once[7]=supbcn(0x79FCDEF22feeD20eDDacbB2587640e45491b757f,1000);
+        once[8]=supbcn(0x7Bd29408f11D2bFC23c34f18275bBf23bB716Bc7,1000);
+        once[9]=supbcn(0xe785E82358879F061BC3dcAC6f0444462D4b5330,1000);
+        once[10]=supbcn(0xDCf68c8eBB18Df1419C7DFf17ed33505Faf8A20C,500);
+        once[11]=supbcn(0x3113A3c04aEBEC2B77eB38Eabf6a2257B580c54B,500);
+        once[12]=supbcn(0x249aeAa7fA06a63Ea5389b72217476db881294df,500);
+        once[13]=supbcn(0xF75FD01D2262b07D92dcA7f19bD6A3457060d7db,500);
+        addsupportedBcns(once);
     }
 
     uint256 total_supply = 10000;
@@ -65,7 +66,7 @@ contract OOC is ERC721A, Ownable, EIP712{
     // uint256 White_pool_em = total_supply-Organ2_pool_em-Organ_pool_m-b_White_pool_em;
 
     uint256 Public_mint_time = White_end_time;
-    uint256 Public_mint_fee = 0.08*10**18;
+    uint256 Public_mint_fee = 0.06*10**18;
     uint256 Public_end_time = Public_mint_time+86400;
     uint256 Public_pool_m;
     // uint256 Public_pool_em = total_supply-Organ2_pool_em-Organ_pool_m-b_White_pool_em-White_pool_m;
@@ -176,9 +177,11 @@ contract OOC is ERC721A, Ownable, EIP712{
     
     mapping(uint256=>uint256) public locktime;
     event locknft(address indexed owner,uint256 indexed tokenId,uint256 time,uint256 endtime);
+    
     function stake(uint256 tokenId,uint256 locktype)public{
         require(locktime[tokenId]<block_timestamp(),"NFT is already in staking");
         require(ownerOf(tokenId)==msg.sender,"This NFT does not belong to you");
+
         if(locktype==30){
             locktime[tokenId]=block_timestamp()+86400*30;
         }else if(locktype==90){
@@ -302,7 +305,7 @@ contract OOC is ERC721A, Ownable, EIP712{
         address bcn;
         uint256 number;
     }
-    function addsupportedBcns(supbcn[] calldata bcns)public onlyOwner{
+    function addsupportedBcns(supbcn[] memory bcns)public onlyOwner{
         uint256 l = bcns.length;
         for(uint i =0;i<l;i++){
             bcninfos[bcns[i].bcn].total_supply=bcns[i].number;

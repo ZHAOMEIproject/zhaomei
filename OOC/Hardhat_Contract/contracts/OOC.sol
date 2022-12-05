@@ -206,7 +206,7 @@ contract OOC is ERC721A, Ownable, EIP712{
     function stake(uint256 tokenId,uint256 locktype)public{
         require(locktime[tokenId]<block_timestamp(),"NFT is already in staking");
         require(ownerOf(tokenId)==msg.sender,"This NFT does not belong to you");
-        require(locktype/30*30==locktype,"error locktype,Must be a multiple of 30");
+        require(locktype%30==0,"error locktype,Must be a multiple of 30");
         locktime[tokenId]=block_timestamp()+locktype;
         emit locknft(msg.sender,tokenId,locktype,locktime[tokenId]);
     }

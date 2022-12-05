@@ -309,9 +309,20 @@ contract OOC is ERC721A, Ownable, EIP712{
         uint256 total_supply;
         mapping(uint256=>uint256) isTokenMintByBcn;
     }
+    struct bcninfo2{
+        uint256 minted;
+        uint256 total_supply;
+    }
     mapping(address =>bcninfo) public bcninfos;
     function checkbcntokenid(address bcn , uint256 tokenid)view public returns(uint256 amount){
         return bcninfos[bcn].isTokenMintByBcn[tokenid];
+    }
+    function showbcninfo(address[] memory bcns)view public returns(bcninfo2[] memory _bcninfos){
+        _bcninfos=new bcninfo2[](bcns.length);
+        for(uint256 i=0;i<bcns.length;i++){
+            _bcninfos[i].minted=bcninfos[bcns[i]].minted;
+            _bcninfos[i].total_supply=bcninfos[bcns[i]].total_supply;
+        }
     }
     event MintByBCN(uint256 indexed tokenId, address indexed to, address indexed bcn, uint256 bcnTokenId);
     function Blue_mint(address bcn,uint256 bcnTokenId,uint256 quantity)public payable{

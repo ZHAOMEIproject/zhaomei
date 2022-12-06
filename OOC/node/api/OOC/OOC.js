@@ -31,19 +31,26 @@ exports.getsigninfo = router.get("/getsigninfo", async (req, res) => {
         // return;
 
         let sqlstr = "select address,amount,deadline,typemint,v,r,s from address_sign where address=?";
-        let info = await sql.sqlcall_uncon(conn,sqlstr,params.address);
+        let info = await sql.sqlcall_uncon(conn,sqlstr,toChecksumAddress(params.address));
         if(info.length==0){
             res.send({
                 success:true,
-                data:"can't find"
+                data:{
+                    success:false,
+                    message:"can't find",
+                }
             });
             return;
         }
         res.send({
             success:true,
-            data:info
+            data:{
+                info:info,
+                
+            }
         });
     } catch (error) {
+        console.log(error);
         res.send({
             success:false,
             error:"error call"
@@ -53,7 +60,7 @@ exports.getsigninfo = router.get("/getsigninfo", async (req, res) => {
 })
 
 // const {getsign}=require("../sign/getsign");
-exports.getsigninfo = router.get("/postwhite", async (req, res) => {
+exports.postwhite = router.get("/postwhite", async (req, res) => {
     try {
         var params = url.parse(req.url, true).query;
         // var params = req.body;
@@ -94,3 +101,31 @@ exports.getsigninfo = router.get("/postwhite", async (req, res) => {
     }
     return;
 })
+
+exports.owlsigninfo = router.get("/owlsigninfo", async (req, res) => {
+    let info = require("../../localpi/sign_pi/test.json");
+
+    res.send({
+        success:true,
+        data:info
+    });
+    return;
+})
+
+const createKeccakHash = require('keccak')
+
+function toChecksumAddress (address) {
+  address = address.toLowerCase().replace('0x', '')
+  var hash = createKeccakHash('keccak256').update(address).digest('hex')
+  var ret = '0x'
+
+  for (var i = 0; i < address.length; i++) {
+    if (parseInt(hash[i], 16) >= 8) {
+      ret += address[i].toUpperCase()
+    } else {
+      ret += address[i]
+    }
+  }
+
+  return ret
+}

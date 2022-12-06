@@ -27,6 +27,7 @@ async function main(){
         "0"
       ]
     );
+    console.log(signinfo);
     // let get_setinfo =await l_call_contract(
     //     owner,
     //     "OOC",

@@ -270,49 +270,6 @@
       "inputs": [
         {
           "internalType": "address",
-          "name": "",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "name": "_isTokenMintByBcn",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "name": "_supportedBcns",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
           "name": "to",
           "type": "address"
         },
@@ -418,12 +375,60 @@
       "type": "function"
     },
     {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "bcninfos",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "minted",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "total_supply",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "inputs": [],
       "name": "block_timestamp",
       "outputs": [
         {
           "internalType": "uint256",
           "name": "time",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "bcn",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "tokenid",
+          "type": "uint256"
+        }
+      ],
+      "name": "checkbcntokenid",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "amount",
           "type": "uint256"
         }
       ],
@@ -662,6 +667,39 @@
         {
           "internalType": "uint256",
           "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "otherinfo",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "_total_minted",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_now_time",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_White_pool_em",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_Public_pool_em",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_b_White_pool_em",
           "type": "uint256"
         }
       ],
@@ -1201,11 +1239,12 @@
       "type": "function"
     }
   ],
-  "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-  "blocknumber": 0,
-  "constructorArguments": [],
+  "address": "0x4F2f5aa447914F2FF985e5f578BE3fCbadcE39e4",
+  "blocknumber": 29447411,
+  "constructorArguments": null,
   "network": {
-    "name": "hardhat",
-    "chainId": 31337
+    "name": "polygonMumbai",
+    "chainId": 80001,
+    "url": "https://matic-mumbai.chainstacklabs.com"
   }
 }

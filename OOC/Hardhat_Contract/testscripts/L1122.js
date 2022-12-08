@@ -205,9 +205,10 @@ async function main(){
             [
               "0xE3E628f50B5CDD2418cEb8b58d7BD57A5dABC178",
               20,
-              1671120002,
+              1671098400,
               "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
               "",
+              1671206400,
     // 0号池-自留+：1300+3500=4800
               1671098400,
               "50000000000000000",
@@ -227,7 +228,7 @@ async function main(){
               4,
     // 3号池-public Z=52-2x-2M-2Y
               1671120000,
-              "80000000000000000",
+              "60000000000000000",
               1671206400,
               0,
     // 4号-蓝筹WL 2M< 10000-4800-2X(0池和1池)=52-2X
@@ -290,57 +291,57 @@ async function main(){
           console.log("Before 执行完成，接下来mint:");
     }
      //0\1\2池执行OOC_mint
-    // {   
-    //   let getinfo = await l_call_contract(
-    //     owner,
-    //   "OOC",
-    //   "OOC_mint",
-    //   [
-    //     [
-    //         owner.address,
-    //       // "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
-    //       minttotal,
-    //       "9999999999",
-    //       pond,
-    //       ...Object.values(signinfo)
-    //       // ...Object.values(getsign.data.result)
-    //     ],
-    //     mintamount
-    //   ],
-    //   {
-    //      value:(50000000000000000*mintamount).toString()
-    //   }
-    // );
-    // console.log("ooc_mint提交完成")
-    // } 
+    {   
+      let getinfo = await l_call_contract(
+        owner,
+      "OOC",
+      "OOC_mint",
+      [
+        [
+          owner.address,
+          // "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
+          minttotal,
+          "9999999999",
+          pond,
+          ...Object.values(signinfo)
+          // ...Object.values(getsign.data.result)
+        ],
+        mintamount
+      ],
+      {
+         value:(50000000000000000*mintamount).toString()
+      }
+    );
+    console.log("ooc_mint提交完成")
+    } 
 
          //3号池执行public_mint
-         {   
-          await l_call_contract(
-          addr1,
-          "OOC",
-          "Public_mint",
-          [      
-            mintamount
-          ],
-          {
-             value:(80000000000000000*mintamount).toString()
-          }          
-        );
-        console.log("public_mint addr1 提交完成")
-        await l_call_contract(
-            addr2,
-            "OOC",
-            "Public_mint",
-            [      
-              mintamount
-            ],
-            {
-               value:(80000000000000000*mintamount).toString()
-            }          
-          );
-        console.log("public_mint提交完成")
-        }  
+        //  {   
+        //   await l_call_contract(
+        //   addr1,
+        //   "OOC",
+        //   "Public_mint",
+        //   [      
+        //     mintamount
+        //   ],
+        //   {
+        //      value:(60000000000000000*mintamount).toString()
+        //   }          
+        // );
+        // console.log("public_mint addr1 提交完成")
+        // await l_call_contract(
+        //     addr2,
+        //     "OOC",
+        //     "Public_mint",
+        //     [      
+        //       mintamount
+        //     ],
+        //     {
+        //        value:(80000000000000000*mintamount).toString()
+        //     }          
+        //   );
+        // console.log("public_mint提交完成")
+        // }  
     
        //4号池执行blue_mint
     //    {

@@ -3,7 +3,7 @@
     "@nomiclabs/hardhat-ethers": "^2.2.1",
     "ethereum-waffle": "^3.4.4",
     "ethers": "^5.7.2",
-    "hardhat": "^2.12.2"
+    "hardhat": "^2.12.3"
   },
   "dependencies": {
     "@nomiclabs/hardhat-etherscan": "^3.1.2",

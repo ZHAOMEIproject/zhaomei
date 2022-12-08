@@ -466,6 +466,11 @@
             },
             {
               "internalType": "uint256",
+              "name": "_end_time",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
               "name": "_Organ_mint_time",
               "type": "uint256"
             },
@@ -855,6 +860,37 @@
     {
       "inputs": [
         {
+          "internalType": "address[]",
+          "name": "bcns",
+          "type": "address[]"
+        }
+      ],
+      "name": "showbcninfo",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "minted",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "total_supply",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct OOC.bcninfo2[]",
+          "name": "_bcninfos",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
           "components": [
             {
               "internalType": "address",
@@ -1034,6 +1070,19 @@
       "type": "function"
     },
     {
+      "inputs": [],
+      "name": "total_minted",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "_total_minted",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "inputs": [
         {
           "internalType": "address",
@@ -1099,6 +1148,11 @@
               "internalType": "string",
               "name": "_baseURL",
               "type": "string"
+            },
+            {
+              "internalType": "uint256",
+              "name": "_end_time",
+              "type": "uint256"
             },
             {
               "internalType": "uint256",
@@ -1239,12 +1293,11 @@
       "type": "function"
     }
   ],
-  "address": "0x4F2f5aa447914F2FF985e5f578BE3fCbadcE39e4",
-  "blocknumber": 29447411,
-  "constructorArguments": null,
+  "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+  "blocknumber": 0,
+  "constructorArguments": [],
   "network": {
-    "name": "polygonMumbai",
-    "chainId": 80001,
-    "url": "https://matic-mumbai.chainstacklabs.com"
+    "name": "hardhat",
+    "chainId": 31337
   }
 }

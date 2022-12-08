@@ -8,15 +8,15 @@ let provider=new ethers.providers.JsonRpcProvider(secret.url);
 
 main();
 async function main(){
-    // await locaton_transfer()
+    await locaton_transfer()
     // console.log("eth transfer end");
     // await creat_q_account()
     // console.log("creat end");
 
     // await check()
     // console.log("mint end");
-    await mint()
-    console.log("mint end");
+    // await mint()
+    // console.log("mint end");
     // await transfer()
     // console.log("transfer end");
 }
@@ -45,7 +45,6 @@ async function creat_q_account(){
     // const account = ethers.Wallet.fromMnemonic(secret.mnemonic, path);
     // let address1=[
     //     account.address,
-    //     "0x0000000000000000000000000000000000000000",
     //     500,
     //     1669579200,
     //     0,
@@ -68,7 +67,6 @@ async function creat_q_account(){
         const account = ethers.Wallet.fromMnemonic(secret.mnemonic, path);
         let address650=[
             account.address,
-            "0x0000000000000000000000000000000000000000",
             50,
             1669579200,
             0,
@@ -83,25 +81,24 @@ async function creat_q_account(){
         ]
     }
 
-    // for (let k = 70; k < 720; k++) {
-    //     var path = "m/44'/60'/0'/0/"+k;// 第99号钱包
-    //     const account = ethers.Wallet.fromMnemonic(secret.mnemonic, path);
-    //     let address650=[
-    //         account.address,
-    //         "0x0000000000000000000000000000000000000000",
-    //         2,
-    //         1669579200,
-    //         0,
-    //     ]
-    //     let signinfo650 = await getsign(
-    //         chainId,contractname,
-    //         address650
-    //     )
-    //     accounts[account.address]=[
-    //         ...address650,
-    //         ...Object.values(signinfo650)
-    //     ]
-    // }
+    for (let k = 70; k < 720; k++) {
+        var path = "m/44'/60'/0'/0/"+k;// 第99号钱包
+        const account = ethers.Wallet.fromMnemonic(secret.mnemonic, path);
+        let address650=[
+            account.address,
+            2,
+            1669579200,
+            0,
+        ]
+        let signinfo650 = await getsign(
+            chainId,contractname,
+            address650
+        )
+        accounts[account.address]=[
+            ...address650,
+            ...Object.values(signinfo650)
+        ]
+    }
     await jsonFile.writeFile("./accounts.json",accounts,{ spaces: 2, EOL: '\r\n' });
 }
 
@@ -109,23 +106,41 @@ async function locaton_transfer(){
     var path = "m/44'/60'/0'/0/0";// 第0号钱包
     const account = ethers.Wallet.fromMnemonic(secret.mnemonic, path);
     // npx hardhat node
-    let wallet = new ethers.Wallet("0xdf57089febbacf7ba0bc227dafbffa9fc08a93fdc68e1e42411a14efcf23656e", provider);
+    let wallet = new ethers.Wallet("0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80", provider);
+    // console.log(wallet.address);
+    // return
     // let wallet = await account.connect(provider);
     let signinfo = await jsonFile.readFile("./accounts.json");
-    tx={
-        to:"0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
-        value:ethers.utils.parseEther("10"),
-    }
-    await wallet.sendTransaction(tx)
-    
-    for (let i in signinfo) {
-        tx={
-            // to:"0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
-            to:i,
-            value:ethers.utils.parseEther("10"),
-        }
-        await wallet.sendTransaction(tx)
-    }
+
+    let nonce = await wallet.getTransactionCount();
+    // console.log(nonce);
+    // return;
+    // tx={
+    //     to:"0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
+    //     value:ethers.utils.parseEther("10"),
+    //     nonce:nonce++,
+    // }
+    // wallet.sendTransaction(tx)
+    // tx={
+    //     to:"0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
+    //     value:ethers.utils.parseEther("10"),
+    //     nonce:nonce++,
+    // }
+    // wallet.sendTransaction(tx)
+    // for (let i = 0; i < 10; i++) {
+    // }
+    // for (let i in signinfo) {
+    //     tx={
+    //         // to:"0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
+    //         to:i,
+    //         value:ethers.utils.parseEther("0.001"),
+    //         nonce:nonce++,
+    //     }
+    //     // await wallet.sendTransaction(tx)
+    //     wallet.sendTransaction(tx)
+    //     console.log(nonce);
+    //     // await wait(100);
+    // }
 
 }
 // bnb_out(client,)
@@ -240,4 +255,7 @@ async function transfer(wallet){
         }
         console.log(tx);
     }
+}
+async function wait(ms){
+    return new Promise(resolve =>setTimeout(() =>resolve(), ms));
 }

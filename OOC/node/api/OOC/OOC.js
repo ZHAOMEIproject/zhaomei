@@ -31,7 +31,9 @@ exports.getsigninfo = router.get("/getsigninfo", async (req, res) => {
         // return;
 
         let sqlstr = "select address,amount,deadline,typemint,v,r,s from address_sign where address=?";
-        let info = await sql.sqlcall_uncon(conn,sqlstr,toChecksumAddress(params.address));
+        // console.log("0x6F5D8Ba12aF7681206be37Cee36d2FbD4Ebff3f4");
+        // console.log(toChecksumAddress("0x6F5D8Ba12aF7681206be37Cee36d2FbD4Ebff3f4"));
+        let info = await sql.sqlcall(sqlstr,toChecksumAddress(params.address));
         if(info.length==0){
             res.send({
                 success:true,
@@ -42,11 +44,12 @@ exports.getsigninfo = router.get("/getsigninfo", async (req, res) => {
             });
             return;
         }
+        // console.log(info);
         res.send({
             success:true,
             data:{
-                info:info,
-                
+                success:true,
+                info:info[0],
             }
         });
     } catch (error) {
@@ -84,7 +87,7 @@ exports.postwhite = router.get("/postwhite", async (req, res) => {
         
 
         let sqlstr = "insert ignore into address_sign(address,amount,typemint) values(?,?,?)";
-        let info = await sql.sqlcall_uncon(conn,sqlstr,sqlparams);
+        let info = await sql.sqlcall(sqlstr,sqlparams);
 
         res.send({
             success:true,

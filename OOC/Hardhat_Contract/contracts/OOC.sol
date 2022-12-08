@@ -290,7 +290,7 @@ contract OOC is ERC721A, Ownable, EIP712{
         require(block_timestamp()<=end_time,"Out of time");
         require(now_time<end_time,"Out of time");
         Organ_pool_m+=quantity;
-        require(Organ_pool_m<=Organ_pool_em,"Organ_pool mint out");
+        // require(Organ_pool_m<=Organ_pool_em,"Organ_pool mint out");
     }
     function Organ2_mint(uint256 quantity)private{
         require(msg.value==Organ2_mint_fee*quantity,"error fee");
@@ -299,7 +299,7 @@ contract OOC is ERC721A, Ownable, EIP712{
         require(Organ2_mint_time<now_time,"Out of time");
         require(block_timestamp()<=end_time,"Out of time");
         Organ2_pool_m+=quantity;
-        require(Organ2_pool_m<=Organ2_pool_em,"Organ2_pool mint out");
+        // require(Organ2_pool_m<=Organ2_pool_em,"Organ2_pool mint out");
     }
     
     // mapping(address => mapping(uint256 => uint256)) public _isTokenMintByBcn;

@@ -46,13 +46,13 @@ contract OOC is ERC721A, Ownable, EIP712{
 
     uint256 total_supply = 10000;
 
-    uint256 Organ_mint_time = 1671098400;
+    uint256 Organ_mint_time = 0;
     uint256 Organ_mint_fee = 0.05*10**18;
     // uint256 Organ_end_time = Organ_mint_time+7200;
     uint256 Organ_pool_m;
     uint256 Organ_pool_em = 500+1300+3500;
 
-    uint256 Organ2_mint_time = 1671098400;
+    uint256 Organ2_mint_time = 0;
     uint256 Organ2_mint_fee = 0.05*10**18;
     // uint256 Organ2_end_time = Organ2_mint_time+7200;
     uint256 Organ2_pool_m;
@@ -82,10 +82,10 @@ contract OOC is ERC721A, Ownable, EIP712{
     uint256 White_end_time;
     uint256 Public_end_time;
     uint256 b_White_end_time;
-    uint256 end_time=1671206400;
+    uint256 end_time=2671206400;
 
 
-    address Receive = msg.sender;
+    address Receive = 0xDc66019E46d7E8ac9F155fF0668c9e1Fca34421F;
     address signer = msg.sender;
     struct setinfo{
         address _signer;uint256 _total_supply;uint256 _fack_time;address _Receive;string _baseURL;uint256 _end_time;

@@ -30,28 +30,28 @@ async function main(){
       "view_set",
       []
     );
-    let 
-    // console.log(get_setinfo);
+    
+    console.log(get_setinfo);
     // return
-    let getinfo = await l_call_contract(
-      owner,
-      "OOC",
-      "OOC_mint",
-      [
-        [
-          "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
-          "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
-          "5",
-          "9999999999",
-          "0",
-          ...Object.values(getsign.data.result)
-        ],
-        1
-      ],
-      {
-        value:"50000000000000000"
-      }
-    );
+    // let getinfo = await l_call_contract(
+    //   owner,
+    //   "OOC",
+    //   "OOC_mint",
+    //   [
+    //     [
+    //       "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
+    //       "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
+    //       "5",
+    //       "9999999999",
+    //       "0",
+    //       ...Object.values(getsign.data.result)
+    //     ],
+    //     1
+    //   ],
+    //   {
+    //     value:"50000000000000000"
+    //   }
+    // );
     console.log(getinfo);
 }
 

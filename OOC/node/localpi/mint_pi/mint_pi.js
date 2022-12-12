@@ -40,26 +40,6 @@ async function creat_q_account(){
     let accounts=new Object();
     let chainId=secret.baseinfo.chainId;
     let contractname=secret.baseinfo.contractname;
-    // // 国库
-    // var path = "m/44'/60'/0'/0/0";// 第0号钱包
-    // const account = ethers.Wallet.fromMnemonic(secret.mnemonic, path);
-    // let address1=[
-    //     account.address,
-    //     500,
-    //     1669579200,
-    //     0,
-    // ]
-    // let signinfo1 = await getsign(
-    //     chainId,contractname,
-    //     address1
-    // )
-    // // console.log(...Object.values(signinfo1));
-    // // return
-    // accounts[account.address]=[
-    //     ...address1,
-    //     ...Object.values(signinfo1)
-    // ]
-    // 自留地址
     
     // 机构地址
     for (let k = 0; k < 70; k++) {

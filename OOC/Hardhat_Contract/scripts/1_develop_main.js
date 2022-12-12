@@ -1,6 +1,7 @@
 const hre = require("hardhat");
 const { writer_info_all } = require('./tool/hh_log.js');
 const {getcontractinfo}=require('./tool/readcontracts');
+// npx hardhat run scripts/1_develop_main.js --network zhaomei
 // npx hardhat run scripts/1_develop_main.js --network polygonMumbai
 // npx hardhat verify 0x4F2f5aa447914F2FF985e5f578BE3fCbadcE39e4 --network polygonMumbai
 async function main(){

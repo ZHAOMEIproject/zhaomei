@@ -4,8 +4,8 @@ const router = express.Router();
 const url = require('url');
 
 module.exports = router;
-const mysql = require("mysql2");
-const conn = mysql.createConnection(global.mysqlGlobal);
+// const mysql = require("mysql2");
+// const conn = mysql.createConnection(global.mysqlGlobal);
 const sql = require("../../nodetool/sqlconnection");
 
 exports.getsigninfo = router.get("/getsigninfo", async (req, res) => {

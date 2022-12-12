@@ -973,15 +973,15 @@
       "type": "receive"
     }
   ],
-  "address": "0x4604048D442ACa38C309d812215f6dEB0bAe5c93",
-  "blocknumber": 24668022,
+  "address": "0xb7Fa745688FAF0713d5e2E16734b537F726738FC",
+  "blocknumber": 25328905,
   "constructorArguments": [
-    "0xF2cf5CA817e92912b7C4E2Dab5760d325379BA48",
-    "0xa2C23fb371a1F7942B2cCbB00A266D13f6Bed9EF"
+    "0x86DE8762279973a0441F7009c6860220E0844F21",
+    "0xD6075CE9283126438E5A3bf325bEE87daabBD010"
   ],
   "network": {
     "name": "bnbtest",
     "chainId": 97,
-    "url": "https://data-seed-prebsc-1-s1.binance.org:8545/"
+    "url": "https://bsctestapi.terminet.io/rpc"
   }
 }

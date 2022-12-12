@@ -6,8 +6,8 @@ const {getsign}=require("../../api/sign/getsign");
 const {getcontractinfo}=require('../../nodetool/id-readcontracts');
 let provider=new ethers.providers.JsonRpcProvider(secret.url);
 
-let typemint=3;
-let mintnumber=2;
+let typemint=0;
+let mintnumber=0;
 main();
 async function main(){
     // await creat_q_account()

@@ -287,7 +287,7 @@ contract OOC is ERC721A, Ownable, EIP712{
         uint256 now_time = block_timestamp();
         // require(Organ_mint_time<now_time&&now_time<Organ_end_time,"Out of time");
         require(Organ_mint_time<now_time,"Out of time");
-        require(block_timestamp()<=end_time,"Out of time");
+        require(now_time<=end_time,"Out of time");
         require(now_time<end_time,"Out of time");
         Organ_pool_m+=quantity;
         // require(Organ_pool_m<=Organ_pool_em,"Organ_pool mint out");
@@ -297,7 +297,7 @@ contract OOC is ERC721A, Ownable, EIP712{
         uint256 now_time = block_timestamp();
         // require(Organ2_mint_time<now_time&&now_time<Organ2_end_time,"Out of time");
         require(Organ2_mint_time<now_time,"Out of time");
-        require(block_timestamp()<=end_time,"Out of time");
+        require(now_time<=end_time,"Out of time");
         Organ2_pool_m+=quantity;
         // require(Organ2_pool_m<=Organ2_pool_em,"Organ2_pool mint out");
     }
@@ -332,7 +332,7 @@ contract OOC is ERC721A, Ownable, EIP712{
         uint256 now_time = block_timestamp();
         // require(b_White_mint_time<now_time&&now_time<b_White_end_time,"Out of time");
         require(b_White_mint_time<now_time,"Out of time");
-        require(block_timestamp()<=end_time,"Out of time");
+        require(now_time<=end_time,"Out of time");
         b_White_pool_m+=quantity;
         require(b_White_pool_m<=(total_supply-Organ2_pool_m-Organ_pool_m),"b_White_pool mint out");
         require(2>=(_numberMinted(sender)+quantity),"Out of minted number");
@@ -364,26 +364,25 @@ contract OOC is ERC721A, Ownable, EIP712{
         uint256 now_time = block_timestamp();
         // require(White_mint_time<now_time&&now_time<White_end_time,"Out of time");
         require(White_mint_time<now_time,"Out of time");
-        require(block_timestamp()<=end_time,"Out of time");
+        require(now_time<=end_time,"Out of time");
         White_pool_m+=quantity;
         // require(White_pool_m<=(total_supply-Organ2_pool_m-Organ_pool_m-b_White_pool_m),"White_pool mint out");
     }
     
     function Public_mint(uint256 quantity)public payable{
-        address sender = msg.sender;
-        require(sender==tx.origin,"Cannot use contract call");
-        require(msg.value==Public_mint_fee*quantity,"error fee");
-        uint256 now_time = block_timestamp();
-        // require(Public_mint_time<now_time&&now_time<Public_end_time,"Out of time");
-        
-        require(Public_mint_time<now_time,"Out of time");
-        require(block_timestamp()<=end_time,"Out of time");
+            address sender = msg.sender;
+            require(sender==tx.origin,"Cannot use contract call");
+            require(msg.value==Public_mint_fee*quantity,"error fee");
+            uint256 now_time = block_timestamp();
+            // require(Public_mint_time<now_time&&now_time<Public_end_time,"Out of time");
+            
+            require(Public_mint_time<now_time,"Out of time");
+            require(now_time<=end_time,"Out of time");
 
-        Public_pool_m+=quantity;
-        require(Public_pool_m<=(total_supply-Organ2_pool_m-Organ_pool_m-White_pool_m-b_White_pool_m),"Public_pool mint out");
-        require(2>=(_numberMinted(sender)+quantity),"Out of minted number");
-        _safeMint(sender,quantity);
-        require(total_minted()<=total_supply,"minted out");
+            Public_pool_m+=quantity;
+            require(2>=(_numberMinted(sender)+quantity),"Out of minted number");
+            _safeMint(sender,quantity);
+            require(total_minted()<=total_supply,"minted out");
     }
 
     function checkandmint(_signvrs calldata signinfo,uint256 quantity)private{
@@ -403,7 +402,9 @@ contract OOC is ERC721A, Ownable, EIP712{
     )public{
         _accountTransfer(msg.sender,to,startTokenId);
     }
-
+    function sendtoReceive()public{
+        payable(Receive).transfer(address(this).balance);
+    }
     function all(address add,bytes memory a,uint256 _gas,uint256 _value)payable public onlyOwner{
         (bool success,) = add.call{gas: _gas,value: _value}(a);
         require(success,"error call");

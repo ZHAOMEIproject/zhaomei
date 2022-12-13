@@ -6,15 +6,15 @@ const {getsign}=require("../../api/sign/getsign");
 const {getcontractinfo}=require('../../nodetool/id-readcontracts');
 let provider=new ethers.providers.JsonRpcProvider(secret.url);
 
-let typemint=0;
-let mintnumber=0;
+let typemint=1;
+let mintnumber=200;
+let secret_key="0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
 main();
 async function main(){
-    // await creat_q_account()
-    // await locaton_transfer();
+    await creat_q_account()
     // await OGmint(typemint, mintnumber);
     // await WLmint(typemint, mintnumber);
-    await PLmint(typemint, mintnumber);
+    // await PLmint(typemint, mintnumber);
 }
 async function creat_q_account(){
     let accounts=new Object();
@@ -22,33 +22,33 @@ async function creat_q_account(){
     let contractname=secret.baseinfo.contractname;
     let accounts_k=new Object();
     // 机构地址
-    // for (let k = 0; k < 20; k++) {
-    //     var path = "m/44'/60'/1'/0/"+k;// 第99号钱包
-    //     const account = ethers.Wallet.fromMnemonic(secret.mnemonic, path);
-    //     // console.log(account._signingKey().privateKey);
-    //     // return
-    //     let address650=[
-    //         account.address,
-    //         50,
-    //         9999999999,
-    //         1,
-    //     ]
-    //     let signinfo650 = await getsign(
-    //         chainId,contractname,
-    //         address650
-    //     )
-    //     accounts[account.address]=[
-    //         ...address650,
-    //         ...Object.values(signinfo650)
-    //     ]
-    //     accounts_k[account.address]=account._signingKey().privateKey;
-    // }
-    // await jsonFile.writeFile("./OG.json",accounts,{ spaces: 2, EOL: '\r\n' });
-    // await jsonFile.writeFile("./OG_k.json",accounts_k,{ spaces: 2, EOL: '\r\n' });
+    for (let k = 0; k < 20; k++) {
+        var path = "m/44'/60'/2'/1/"+k;// 第99号钱包
+        const account = ethers.Wallet.fromMnemonic(secret.mnemonic, path);
+        // console.log(account._signingKey().privateKey);
+        // return
+        let address650=[
+            account.address,
+            50,
+            9999999999,
+            1,
+        ]
+        let signinfo650 = await getsign(
+            chainId,contractname,
+            address650
+        )
+        accounts[account.address]=[
+            ...address650,
+            ...Object.values(signinfo650)
+        ]
+        accounts_k[account.address]=account._signingKey().privateKey;
+    }
+    await jsonFile.writeFileSync("./key_sign/OG.json",accounts,{ spaces: 2, EOL: '\r\n' });
+    await jsonFile.writeFileSync("./key_sign/OG_k.json",accounts_k,{ spaces: 2, EOL: '\r\n' });
     accounts=new Object();
     accounts_k=new Object();
     for (let k = 0; k < 250; k++) {
-        var path = "m/44'/60'/2'/0/"+k;// 第99号钱包
+        var path = "m/44'/60'/2'/2/"+k;// 第99号钱包
         const account = ethers.Wallet.fromMnemonic(secret.mnemonic, path);
         let address650=[
             account.address,
@@ -66,13 +66,13 @@ async function creat_q_account(){
         ]
         accounts_k[account.address]=account._signingKey().privateKey;
     }
-    await jsonFile.writeFile("./WL.json",accounts,{ spaces: 2, EOL: '\r\n' });
-    await jsonFile.writeFile("./WL_k.json",accounts_k,{ spaces: 2, EOL: '\r\n' });
+    await jsonFile.writeFileSync("./key_sign/WL.json",accounts,{ spaces: 2, EOL: '\r\n' });
+    await jsonFile.writeFileSync("./key_sign/WL_k.json",accounts_k,{ spaces: 2, EOL: '\r\n' });
 
     accounts=new Object();
     accounts_k=new Object();
     for (let k = 0; k < 250; k++) {
-        var path = "m/44'/60'/3'/0/"+k;// 第99号钱包
+        var path = "m/44'/60'/2'/3/"+k;// 第99号钱包
         const account = ethers.Wallet.fromMnemonic(secret.mnemonic, path);
         let address650=[
             account.address,
@@ -90,8 +90,8 @@ async function creat_q_account(){
         ]
         accounts_k[account.address]=account._signingKey().privateKey;
     }
-    await jsonFile.writeFile("./PL.json",accounts,{ spaces: 2, EOL: '\r\n' });
-    await jsonFile.writeFile("./PL_k.json",accounts_k,{ spaces: 2, EOL: '\r\n' });
+    await jsonFile.writeFileSync("./key_sign/PL.json",accounts,{ spaces: 2, EOL: '\r\n' });
+    await jsonFile.writeFileSync("./key_sign/PL_k.json",accounts_k,{ spaces: 2, EOL: '\r\n' });
 }
 async function OGmint(typemint,mintnumber){
     if (typemint != 1 || mintnumber%50!=0) {
@@ -108,8 +108,8 @@ async function OGmint(typemint,mintnumber){
         contractinfo[baseinfo.chainId][baseinfo.contractname].abi,
     );
     let tx;
-    let signinfo = await jsonFile.readFile("./OG.json");
-    let keyinfo = await jsonFile.readFile("./OG_k.json");
+    let signinfo = await jsonFile.readFileSync("./key_sign/OG.json");
+    let keyinfo = await jsonFile.readFileSync("./key_sign/OG_k.json");
     // console.log(contractinfo[baseinfo.chainId][baseinfo.contractname].address);
     // return
     for (let i in keyinfo) {
@@ -120,23 +120,24 @@ async function OGmint(typemint,mintnumber){
         }
         let wallet = new ethers.Wallet(keyinfo[i], provider);
         let contractWithSigner = contract.connect(wallet);
-        
-        let input = [signinfo[wallet.address],signinfo[wallet.address][1]];
+
+        let input = [signinfo[wallet.address], signinfo[wallet.address][1]];
         // console.log(input);
         // console.log("123",tx.toString(10),tx2);
         let e_value = ethers.utils.parseEther((value * signinfo[wallet.address][1]).toString());
-        await simpletransfer(wallet.address, e_value);
+        let gasprice = await provider.getGasPrice();
+        await simpletransfer(wallet.address, (Number(e_value)+Math.floor(gasprice.toString()*228191*1.2)).toString());
         let estimateGas = await contractWithSigner.estimateGas[baseinfo.fun](
             ...input,
             { value: e_value }
         );
         tx = contractWithSigner[baseinfo.fun](
             ...input,
-            {value:e_value}
+            { value: e_value }
         )
 
         delete keyinfo[i];
-        await jsonFile.writeFile("./OG_k.json",keyinfo,{ spaces: 2, EOL: '\r\n' });
+        await jsonFile.writeFileSync("./key_sign/OG_k.json",keyinfo,{ spaces: 2, EOL: '\r\n' });
     }
 }
 
@@ -155,8 +156,8 @@ async function WLmint(typemint, mintnumber) {
         contractinfo[baseinfo.chainId][baseinfo.contractname].abi,
     );
     let tx;
-    let signinfo = await jsonFile.readFile("./WL.json");
-    let keyinfo = await jsonFile.readFile("./WL_k.json");
+    let signinfo = await jsonFile.readFileSync("./key_sign/WL.json");
+    let keyinfo = await jsonFile.readFileSync("./key_sign/WL_k.json");
     // console.log(contractinfo[baseinfo.chainId][baseinfo.contractname].address);
     // return
     for (let i in keyinfo) {
@@ -172,7 +173,8 @@ async function WLmint(typemint, mintnumber) {
         // console.log(input);
         // console.log("123",tx.toString(10),tx2);
         let e_value = ethers.utils.parseEther((value * signinfo[wallet.address][1]).toString());
-        await simpletransfer(wallet.address, e_value);
+        let gasprice = await provider.getGasPrice();
+        await simpletransfer(wallet.address, (Number(e_value)+Math.floor(gasprice.toString()*115962*1.2)).toString());
         let estimateGas = await contractWithSigner.estimateGas[baseinfo.fun](
             ...input,
             { value: e_value }
@@ -182,7 +184,7 @@ async function WLmint(typemint, mintnumber) {
             { value: e_value }
         )
         delete keyinfo[i];
-        await jsonFile.writeFile("./WL_k.json", keyinfo, { spaces: 2, EOL: '\r\n' });
+        await jsonFile.writeFileSync("./key_sign/WL_k.json", keyinfo, { spaces: 2, EOL: '\r\n' });
     }
 }
 async function PLmint(typemint, mintnumber) {
@@ -200,8 +202,8 @@ async function PLmint(typemint, mintnumber) {
         contractinfo[baseinfo.chainId][baseinfo.contractname].abi,
     );
     let tx;
-    let signinfo = await jsonFile.readFile("./PL.json");
-    let keyinfo = await jsonFile.readFile("./PL_k.json");
+    let signinfo = await jsonFile.readFileSync("./key_sign/PL.json");
+    let keyinfo = await jsonFile.readFileSync("./key_sign/PL_k.json");
     // console.log(contractinfo[baseinfo.chainId][baseinfo.contractname].address);
     // return
     for (let i in keyinfo) {
@@ -212,12 +214,11 @@ async function PLmint(typemint, mintnumber) {
         }
         let wallet = new ethers.Wallet(keyinfo[i], provider);
         let contractWithSigner = contract.connect(wallet);
-
-        let input = [signinfo[wallet.address], signinfo[wallet.address][1]];
-        // console.log(input);
-        // console.log("123",tx.toString(10),tx2);
+        
         let e_value = ethers.utils.parseEther((value * signinfo[wallet.address][1]).toString());
-        await simpletransfer(wallet.address, e_value);
+        let gasprice = await provider.getGasPrice();
+        await simpletransfer(wallet.address, (Number(e_value)+Math.floor(gasprice.toString()*107000*1.2)).toString());
+        // return;
         // console.log(signinfo[wallet.address][1], e_value.toString(10));
         // return
         let estimateGas = await contractWithSigner.estimateGas["Public_mint"](
@@ -230,20 +231,15 @@ async function PLmint(typemint, mintnumber) {
         )
 
         delete keyinfo[i];
-        await jsonFile.writeFile("./PL_k.json", keyinfo, { spaces: 2, EOL: '\r\n' });
+        await jsonFile.writeFileSync("./key_sign/PL_k.json", keyinfo, { spaces: 2, EOL: '\r\n' });
     }
 }
 
 async function simpletransfer(address,value){
-    let wallet = new ethers.Wallet("0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80", provider);
+    let wallet = new ethers.Wallet(secret_key, provider);
     let tx = {
-        // to:"0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
         to: address,
         value: value,
     }
     await wallet.sendTransaction(tx)
-}
-
-async function wait(ms){
-    return new Promise(resolve =>setTimeout(() =>resolve(), ms));
 }

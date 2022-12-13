@@ -11,7 +11,7 @@ main();
 
 async function main(){
     global.mysqlGlobal.database="OOC";
-    let sql = "select address,community,amount,typemint,deadline from address_sign where center = 'F';"
+    let sql = "select address,amount,typemint,deadline from address_sign where center = 'F';"
     let rqinfo = await mysqlconn.sqlcall(sql,null);
     // console.log(reinfo);
     let sign_info={
@@ -23,7 +23,7 @@ async function main(){
         contractname:"OOC",
         fun:"signcheck"
     }
-    let check =["address","community","amount","deadline","typemint"];
+    let check =["address","amount","deadline","typemint"];
     let output = new Object();
     for(let i in rqinfo){
         // console.log(rqinfo[i]);

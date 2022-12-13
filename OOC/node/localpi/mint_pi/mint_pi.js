@@ -6,12 +6,16 @@ const {getsign}=require("../../api/sign/getsign");
 const {getcontractinfo}=require('../../nodetool/id-readcontracts');
 let provider=new ethers.providers.JsonRpcProvider(secret.url);
 
+let typemint=1;
+let time=3600;
+let secret_key="0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
+
 main();
 async function main(){
-    await locaton_transfer()
-    // console.log("eth transfer end");
     // await creat_q_account()
     // console.log("creat end");
+    // await locaton_transfer()
+    // console.log("eth transfer end");
 
     // await check()
     // console.log("mint end");
@@ -40,15 +44,18 @@ async function creat_q_account(){
     let accounts=new Object();
     let chainId=secret.baseinfo.chainId;
     let contractname=secret.baseinfo.contractname;
+    let accounts_k=new Object();
     
     // 机构地址
-    for (let k = 0; k < 70; k++) {
-        var path = "m/44'/60'/0'/0/"+k;// 第99号钱包
+    for (let k = 0; k < 50; k++) {
+        var path = "m/44'/60'/1'/1/"+k;// 第99号钱包
         const account = ethers.Wallet.fromMnemonic(secret.mnemonic, path);
+        // console.log(account._signingKey().privateKey);
+        // return
         let address650=[
             account.address,
             50,
-            1669579200,
+            9999999999,
             0,
         ]
         let signinfo650 = await getsign(
@@ -59,15 +66,19 @@ async function creat_q_account(){
             ...address650,
             ...Object.values(signinfo650)
         ]
+        accounts_k[account.address]=account._signingKey().privateKey;
     }
-
-    for (let k = 70; k < 720; k++) {
-        var path = "m/44'/60'/0'/0/"+k;// 第99号钱包
+    await jsonFile.writeFileSync("./key_sign/OG.json",accounts,{ spaces: 2, EOL: '\r\n' });
+    await jsonFile.writeFileSync("./key_sign/OG_k.json",accounts_k,{ spaces: 2, EOL: '\r\n' });
+    accounts=new Object();
+    accounts_k=new Object();
+    for (let k = 0; k < 650; k++) {
+        var path = "m/44'/60'/1'/2/"+k;// 第99号钱包
         const account = ethers.Wallet.fromMnemonic(secret.mnemonic, path);
         let address650=[
             account.address,
             2,
-            1669579200,
+            9999999999,
             0,
         ]
         let signinfo650 = await getsign(
@@ -78,19 +89,21 @@ async function creat_q_account(){
             ...address650,
             ...Object.values(signinfo650)
         ]
+        accounts_k[account.address]=account._signingKey().privateKey;
     }
-    await jsonFile.writeFile("./accounts.json",accounts,{ spaces: 2, EOL: '\r\n' });
+    await jsonFile.writeFileSync("./key_sign/WL.json",accounts,{ spaces: 2, EOL: '\r\n' });
+    await jsonFile.writeFileSync("./key_sign/WL_k.json",accounts_k,{ spaces: 2, EOL: '\r\n' });
 }
 
 async function locaton_transfer(){
     var path = "m/44'/60'/0'/0/0";// 第0号钱包
     const account = ethers.Wallet.fromMnemonic(secret.mnemonic, path);
     // npx hardhat node
-    let wallet = new ethers.Wallet("0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80", provider);
+    let wallet = new ethers.Wallet(secret_key, provider);
     // console.log(wallet.address);
     // return
     // let wallet = await account.connect(provider);
-    let signinfo = await jsonFile.readFile("./accounts.json");
+    let signinfo = await jsonFile.readFileSync("./accounts.json");
 
     let nonce = await wallet.getTransactionCount();
     // console.log(nonce);
@@ -131,7 +144,7 @@ async function locaton_transfer(){
 // }
 async function bnb_transfer(){
     const client = new Spot(secret.apiKey, secret.apiSecret);
-    let signinfo = await jsonFile.readFile("./accounts.json");
+    let signinfo = await jsonFile.readFileSync("./accounts.json");
     for (let i in signinfo) {
         await bnb_out(client,i,"ETH","0")
     }
@@ -144,7 +157,7 @@ async function check(){
         contractinfo[baseinfo.chainId][baseinfo.contractname].abi,
     );
     let tx;
-    let signinfo = await jsonFile.readFile("./accounts.json");
+    let signinfo = await jsonFile.readFileSync("./accounts.json");
     for (let k = 0; k < 1; k++) {
         var path = "m/44'/60'/0'/0/"+k;// 第99号钱包
         const account = ethers.Wallet.fromMnemonic(secret.mnemonic, path);
@@ -173,7 +186,7 @@ async function mint(){
         contractinfo[baseinfo.chainId][baseinfo.contractname].abi,
     );
     let tx;
-    let signinfo = await jsonFile.readFile("./accounts.json");
+    let signinfo = await jsonFile.readFileSync("./accounts.json");
     let mint_endinfo = new Object();
     // for (let k = 0; k < 721; k++) {
     for (let k = 0; k < 1; k++) {
@@ -205,7 +218,7 @@ async function mint(){
         // console.log(endinfo.events[0].args[2].toNumber());
         mint_endinfo[wallet.address]=endinfo.events[0].args[2].toNumber();
     }
-    await jsonFile.writeFile("./mint_endinfo.json",mint_endinfo,{ spaces: 2, EOL: '\r\n' });
+    await jsonFile.writeFileSync("./mint_endinfo.json",mint_endinfo,{ spaces: 2, EOL: '\r\n' });
 }
 
 async function transfer(wallet){
@@ -216,7 +229,7 @@ async function transfer(wallet){
         contractinfo[baseinfo.chainId][baseinfo.contractname].abi,
     );
     let tx;
-    let mint_endinfo = await jsonFile.readFile("./mint_endinfo.json");
+    let mint_endinfo = await jsonFile.readFileSync("./mint_endinfo.json");
     
     for (let k = 0; k < 721; k++) {
     // for (let k = 0; k < 1; k++) {

@@ -370,6 +370,7 @@ contract OOC_copy is ERC721A, Ownable, EIP712{
     }
     
     function Public_mint(uint256 quantity)public payable{
+        address sender = msg.sender;
         _safeMint(sender,quantity);
     }
 

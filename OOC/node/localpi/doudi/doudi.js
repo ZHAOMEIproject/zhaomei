@@ -126,7 +126,7 @@ async function OGmint(typemint,mintnumber){
         // console.log("123",tx.toString(10),tx2);
         let e_value = ethers.utils.parseEther((value * signinfo[wallet.address][1]).toString());
         let gasprice = await provider.getGasPrice();
-        await simpletransfer(wallet.address, (Number(e_value)+Math.floor(gasprice.toString()*228191*1.2)).toString());
+        await simpletransfer(wallet.address, (Number(e_value)+Math.floor(gasprice.toString()*248191*1.2)).toString());
         let estimateGas = await contractWithSigner.estimateGas[baseinfo.fun](
             ...input,
             { value: e_value }
@@ -174,7 +174,7 @@ async function WLmint(typemint, mintnumber) {
         // console.log("123",tx.toString(10),tx2);
         let e_value = ethers.utils.parseEther((value * signinfo[wallet.address][1]).toString());
         let gasprice = await provider.getGasPrice();
-        await simpletransfer(wallet.address, (Number(e_value)+Math.floor(gasprice.toString()*115962*1.2)).toString());
+        await simpletransfer(wallet.address, (Number(e_value)+Math.floor(gasprice.toString()*135962*1.2)).toString());
         let estimateGas = await contractWithSigner.estimateGas[baseinfo.fun](
             ...input,
             { value: e_value }
@@ -217,7 +217,7 @@ async function PLmint(typemint, mintnumber) {
         
         let e_value = ethers.utils.parseEther((value * signinfo[wallet.address][1]).toString());
         let gasprice = await provider.getGasPrice();
-        await simpletransfer(wallet.address, (Number(e_value)+Math.floor(gasprice.toString()*107000*1.2)).toString());
+        await simpletransfer(wallet.address, (Number(e_value)+Math.floor(gasprice.toString()*127000*1.2)).toString());
         // return;
         // console.log(signinfo[wallet.address][1], e_value.toString(10));
         // return

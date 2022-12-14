@@ -132,7 +132,7 @@ main()
     process.exit(1);
 });
 
-async function call_contract(signingKey,chainId,contractname,fun,params){
+async function call_contract(signingKey,chainId,contractname,fun,params,options){
   let provider = new ethers.providers.JsonRpcProvider(contractinfo[chainId][contractname].network.url);
   let wallet = new ethers.Wallet(signingKey, provider);
   let contract = new ethers.Contract(
@@ -145,9 +145,9 @@ async function call_contract(signingKey,chainId,contractname,fun,params){
   if(params.length>0){
     // tx = await contractWithSigner[fun](...params);
     // console.log(...params);
-    tx = await contractWithSigner[fun](...params);
+    tx = await contractWithSigner[fun](...params,{...options});
   }else{
-    tx = await contractWithSigner[fun]();
+    tx = await contractWithSigner[fun]({...options});
   }
   return tx
 }

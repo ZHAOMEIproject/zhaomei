@@ -385,6 +385,11 @@
       "name": "bcninfos",
       "outputs": [
         {
+          "internalType": "address",
+          "name": "blue",
+          "type": "address"
+        },
+        {
           "internalType": "uint256",
           "name": "minted",
           "type": "uint256"
@@ -802,6 +807,13 @@
       "type": "function"
     },
     {
+      "inputs": [],
+      "name": "sendtoReceive",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
       "inputs": [
         {
           "internalType": "address",
@@ -869,6 +881,11 @@
       "outputs": [
         {
           "components": [
+            {
+              "internalType": "address",
+              "name": "blue",
+              "type": "address"
+            },
             {
               "internalType": "uint256",
               "name": "minted",
@@ -1293,8 +1310,8 @@
       "type": "function"
     }
   ],
-  "address": "0xB9E986e737A93065eF8171A8cC06c6E9FF3Ed4fa",
-  "blocknumber": 45,
+  "address": "0xEAb3F87AaE570e8E4fb4b79a954047A8aA8B5ff8",
+  "blocknumber": 134,
   "constructorArguments": null,
   "network": {
     "name": "zhaomei",

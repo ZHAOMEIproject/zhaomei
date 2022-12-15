@@ -16,7 +16,7 @@ contract OOC is ERC721A, Ownable, EIP712{
     uint256 fack_time;
     function block_timestamp()public view returns(uint256 time){
         if(fack_time==0){
-            return block.timestamp;
+            return uint256(block.timestamp);
         }else{
             return fack_time;
         }
@@ -42,135 +42,93 @@ contract OOC is ERC721A, Ownable, EIP712{
         once[12]=supbcn(0x249aeAa7fA06a63Ea5389b72217476db881294df,500);
         once[13]=supbcn(0xF75FD01D2262b07D92dcA7f19bD6A3457060d7db,500);
         addsupportedBcns(once);
+        setswap[]memory swaps= new setswap[](2);
+        swaps[0]=setswap(0x080fa1fb48E0b1Bd251348efd02c1e7a12A931ac,true);
+        swaps[1]=setswap(0x080fa1fb48E0b1Bd251348efd02c1e7a12A931ac,true);
+        set_swap(swaps);
     }
 
-    uint256 total_supply = 10000;
+    uint256 constant total_supply = 10000;
 
-    uint256 Organ_mint_time = 0;
-    uint256 Organ_mint_fee = 0.05*10**18;
-    // uint256 Organ_end_time = Organ_mint_time+7200;
+    uint256 constant Organ_mint_time = 1671595200;
+    uint256 constant Organ_mint_fee = 0.05*10**18;
     uint256 Organ_pool_m;
-    uint256 Organ_pool_em = 500+1300+3500;
+    uint256 constant Organ_pool_em = 500+1300+3500;
 
-    uint256 Organ2_mint_time = 0;
-    uint256 Organ2_mint_fee = 0.05*10**18;
-    // uint256 Organ2_end_time = Organ2_mint_time+7200;
+    uint256 constant Organ2_mint_time = Organ_mint_time;
+    uint256 constant Organ2_mint_fee = 0.05*10**18;
     uint256 Organ2_pool_m;
-    uint256 Organ2_pool_em = 2000;
+    uint256 constant Organ2_pool_em = 2000;
 
 
-    uint256 White_mint_time = Organ2_mint_time+7200;
-    uint256 White_mint_fee = 0.05*10**18;
-    // uint256 White_end_time = White_mint_time+7200;
+    uint256 constant White_mint_time = 1671606000;
+    uint256 constant White_mint_fee = 0.05*10**18;
     uint256 White_pool_m;
-    // uint256 White_pool_em = total_supply-Organ2_pool_em-Organ_pool_m-b_White_pool_em;
 
-    uint256 Public_mint_time = White_mint_time+7200;
-    uint256 Public_mint_fee = 0.06*10**18;
-    // uint256 Public_end_time = Public_mint_time+86400;
+    uint256 constant Public_mint_time = 1671638400;
+    uint256 constant Public_mint_fee = 0.06*10**18;
     uint256 Public_pool_m;
-    // uint256 Public_pool_em = total_supply-Organ2_pool_em-Organ_pool_m-b_White_pool_em-White_pool_m;
     
-    uint256 b_White_mint_time = Organ2_mint_time+7200;
-    uint256 b_White_mint_fee = 0.05*10**18;
-    // uint256 b_White_end_time = b_White_mint_time+7200;
+    uint256 constant b_White_mint_time = 1671606000;
+    uint256 constant b_White_mint_fee = 0.05*10**18;
     uint256 b_White_pool_m;
-    // uint256 b_White_pool_em = total_supply-Organ2_pool_em-Organ_pool_m;
 
-    uint256 Organ_end_time;
-    uint256 Organ2_end_time;
-    uint256 White_end_time;
-    uint256 Public_end_time;
-    uint256 b_White_end_time;
-    uint256 end_time=2671206400;
+    uint256 constant end_time=1671811200;
 
 
-    address Receive = 0xDc66019E46d7E8ac9F155fF0668c9e1Fca34421F;
-    address signer = msg.sender;
+    address constant Receive = 0xDc66019E46d7E8ac9F155fF0668c9e1Fca34421F;
+    address immutable signer = msg.sender;
     struct setinfo{
         address _signer;uint256 _total_supply;uint256 _fack_time;address _Receive;string _baseURL;uint256 _end_time;
-        uint256 _Organ_mint_time;uint256 _Organ_mint_fee;uint256 _Organ_end_time;uint256 _Organ_pool_m;uint256 _Organ_pool_em;
-        uint256 _Organ2_mint_time;uint256 _Organ2_mint_fee;uint256 _Organ2_end_time;uint256 _Organ2_pool_m;uint256 _Organ2_pool_em;
-        uint256 _White_mint_time;uint256 _White_mint_fee;uint256 _White_end_time;uint256 _White_pool_m;
-        uint256 _Public_mint_time;uint256 _Public_mint_fee;uint256 _Public_end_time;uint256 _Public_pool_m;
-        uint256 _b_White_mint_time;uint256 _b_White_mint_fee;uint256 _b_White_end_time;uint256 _b_White_pool_m;
-        
+        uint256 _Organ_mint_time;uint256 _Organ_mint_fee;uint256 _Organ_pool_m;uint256 _Organ_pool_em;
+        uint256 _Organ2_mint_time;uint256 _Organ2_mint_fee;uint256 _Organ2_pool_m;uint256 _Organ2_pool_em;
+        uint256 _White_mint_time;uint256 _White_mint_fee;uint256 _White_pool_m;
+        uint256 _Public_mint_time;uint256 _Public_mint_fee;uint256 _Public_pool_m;
+        uint256 _b_White_mint_time;uint256 _b_White_mint_fee;uint256 _b_White_pool_m;
     }
     function debug(
         setinfo memory _setinfo
     )public{
-        signer=_setinfo._signer;
-        total_supply=_setinfo._total_supply;
         fack_time=_setinfo._fack_time;
-        Receive=_setinfo._Receive;
         baseURL=_setinfo._baseURL;
-        end_time=_setinfo._end_time;
-
-        Organ_mint_time=_setinfo._Organ_mint_time;
-        Organ_mint_fee=_setinfo._Organ_mint_fee;
-        // Organ_end_time=_setinfo._Organ_end_time;
         Organ_pool_m=_setinfo._Organ_pool_m;
-        Organ_pool_em=_setinfo._Organ_pool_em;
-
-        Organ2_mint_time=_setinfo._Organ2_mint_time;
-        Organ2_mint_fee=_setinfo._Organ2_mint_fee;
-        // Organ2_end_time=_setinfo._Organ2_end_time;
         Organ2_pool_m=_setinfo._Organ2_pool_m;
-        Organ2_pool_em=_setinfo._Organ2_pool_em;
-
-        White_mint_time=_setinfo._White_mint_time;
-        White_mint_fee=_setinfo._White_mint_fee;
-        // White_end_time=_setinfo._White_end_time;
         White_pool_m=_setinfo._White_pool_m;
-        
-        Public_mint_time=_setinfo._Public_mint_time;
-        Public_mint_fee=_setinfo._Public_mint_fee;
-        // Public_end_time=_setinfo._Public_end_time;
         Public_pool_m=_setinfo._Public_pool_m;
-        
-        b_White_mint_time=_setinfo._b_White_mint_time;
-        b_White_mint_fee=_setinfo._b_White_mint_fee;
-        // b_White_end_time=_setinfo._b_White_end_time;
         b_White_pool_m=_setinfo._b_White_pool_m;
-
     }
     function view_set()public view returns(
-        setinfo memory
-    ){
-        return setinfo(
-            signer,total_supply,fack_time,Receive,baseURL,
-            end_time,
-            Organ_mint_time,Organ_mint_fee,
-            Organ_end_time,
-            Organ_pool_m,Organ_pool_em,
-            Organ2_mint_time,Organ2_mint_fee,
-            Organ2_end_time,
-            Organ2_pool_m,Organ2_pool_em,
-            White_mint_time,White_mint_fee,
-            White_end_time,
-            White_pool_m,
-            Public_mint_time,Public_mint_fee,
-            Public_end_time,
-            Public_pool_m,
-            b_White_mint_time,b_White_mint_fee,
-            b_White_end_time,
-            b_White_pool_m
-        );
-    }
-    function otherinfo()public view returns(
+        setinfo memory,
         uint256 _total_minted,uint256 _now_time,
         uint256 _White_pool_em,uint256 _Public_pool_em,uint256 _b_White_pool_em
-
     ){
-        return (
-            (Organ_pool_m+Organ2_pool_m+White_pool_m+Public_pool_m+b_White_pool_m),block.timestamp,
-            (total_supply-Organ2_pool_m-Organ_pool_m-b_White_pool_m),
-            (total_supply-Organ2_pool_m-Organ_pool_m-White_pool_m-b_White_pool_m),
-            (total_supply-Organ2_pool_m-Organ_pool_m)
-        );
+        unchecked{
+            return (setinfo(
+                signer,total_supply,fack_time,Receive,baseURL,
+                end_time,
+                Organ_mint_time,Organ_mint_fee,
+                Organ_pool_m,Organ_pool_em,
+                Organ2_mint_time,Organ2_mint_fee,
+                Organ2_pool_m,Organ2_pool_em,
+                White_mint_time,White_mint_fee,
+                White_pool_m,
+                Public_mint_time,Public_mint_fee,
+                Public_pool_m,
+                b_White_mint_time,b_White_mint_fee,
+                b_White_pool_m
+                ),
+                total_minted(),block.timestamp,
+                (total_supply-Organ2_pool_m-Organ_pool_m-b_White_pool_m),
+                (total_supply-Organ2_pool_m-Organ_pool_m-White_pool_m-b_White_pool_m),
+                (total_supply-Organ2_pool_m-Organ_pool_m)
+            );
+        }
+        
     }
     function total_minted()public view returns(uint256 _total_minted){
-        return (Organ_pool_m+Organ2_pool_m+White_pool_m+Public_pool_m+b_White_pool_m);
+        unchecked{
+            return (Organ_pool_m+Organ2_pool_m+White_pool_m+Public_pool_m+b_White_pool_m);
+        }
     }
 
     // open box
@@ -187,15 +145,11 @@ contract OOC is ERC721A, Ownable, EIP712{
     }
 
     // White_list
-    bytes32 public constant _PERMIT_TYPEHASH =
+    bytes32 private constant _PERMIT_TYPEHASH =
         keccak256("PermitMint(address gainer,uint256 amount,uint256 deadline,uint256 typemint)");
     
     function signcheck(_signvrs calldata signinfo)public view returns(address _signer){
-        address gainer = signinfo.gainer;
-        uint256 amount = signinfo.amount;
-        uint256 deadline = signinfo.deadline;
-        uint256 typemint = signinfo.typemint;
-        bytes32 structHash = keccak256(abi.encode(_PERMIT_TYPEHASH, gainer,amount,deadline,typemint));
+        bytes32 structHash = keccak256(abi.encode(_PERMIT_TYPEHASH, signinfo.gainer,signinfo.amount,signinfo.deadline,signinfo.typemint));
         bytes32 hash = _hashTypedDataV4(structHash);
         return ECDSA.recover(hash, signinfo.v, signinfo.r, signinfo.s);
     }
@@ -220,16 +174,18 @@ contract OOC is ERC721A, Ownable, EIP712{
     }
     function set_swap(setswap[] memory setswaps)public onlyOwner{
         uint256 l = setswaps.length;
-        for(uint i =0;i<l;i++){
-            white_swaps[setswaps[i].swap]=setswaps[i].flag;
+        unchecked{
+            for(uint256 i =0;i<l;i++){
+                white_swaps[setswaps[i].swap]=setswaps[i].flag;
+            }
         }
+
     }
 
     function checkSwap() private view{
         address sender = msg.sender;
         if(sender.code.length!=0){
             if(!white_swaps[sender]){
-                // opensea_white.isOperatorAllowed(address(opensea_white),msg.sender);
                 require(opensea_white.isOperatorAllowed(address(opensea_white),msg.sender),"Cannot perform nft transfer through this contract");
             }
         }
@@ -243,7 +199,7 @@ contract OOC is ERC721A, Ownable, EIP712{
     )internal override
     {
         checkSwap();
-        require(locktime[startTokenId]<block_timestamp(),"lock time");
+        require(locktime[(startTokenId)]<block_timestamp(),"lock time");
         super._beforeTokenTransfers(from, to, startTokenId,quantity);
     }
 
@@ -268,7 +224,8 @@ contract OOC is ERC721A, Ownable, EIP712{
         bytes32 r;
         bytes32 s;
     }
-    function OOC_mint(_signvrs calldata signinfo,uint256 quantity)public payable{
+    mapping(uint256=>uint256) public platform;
+    function OOC_mint(uint256 _platform,_signvrs calldata signinfo,uint256 quantity)public payable{
         checkandmint(signinfo,quantity);
         uint256 typemint=signinfo.typemint;
         if(typemint==0){
@@ -281,122 +238,116 @@ contract OOC is ERC721A, Ownable, EIP712{
             revert("typemint error");
         }
         require(total_minted()<=total_supply,"minted out");
+        unchecked{
+            platform[_platform]+=quantity;
+        }
     }
     function Organ_mint(uint256 quantity)private{
-        require(msg.value==Organ_mint_fee*quantity,"error fee");
-        uint256 now_time = block_timestamp();
-        // require(Organ_mint_time<now_time&&now_time<Organ_end_time,"Out of time");
-        require(Organ_mint_time<now_time,"Out of time");
-        require(now_time<=end_time,"Out of time");
-        require(now_time<end_time,"Out of time");
-        Organ_pool_m+=quantity;
-        // require(Organ_pool_m<=Organ_pool_em,"Organ_pool mint out");
+        unchecked{
+            require(msg.value==Organ_mint_fee*quantity,"error fee");
+            uint256 now_time = block_timestamp();
+            require(Organ_mint_time<now_time&&now_time<=end_time,"Out of time");
+            Organ_pool_m+=quantity;
+        }
     }
     function Organ2_mint(uint256 quantity)private{
-        require(msg.value==Organ2_mint_fee*quantity,"error fee");
-        uint256 now_time = block_timestamp();
-        // require(Organ2_mint_time<now_time&&now_time<Organ2_end_time,"Out of time");
-        require(Organ2_mint_time<now_time,"Out of time");
-        require(now_time<=end_time,"Out of time");
-        Organ2_pool_m+=quantity;
-        // require(Organ2_pool_m<=Organ2_pool_em,"Organ2_pool mint out");
+        unchecked{
+            require(msg.value==Organ2_mint_fee*quantity,"error fee");
+            uint256 now_time = block_timestamp();
+            require(Organ2_mint_time<now_time&&now_time<=end_time,"Out of time");
+            Organ2_pool_m+=quantity;
+        }
     }
     
-    // mapping(address => mapping(uint256 => uint256)) public _isTokenMintByBcn;
-    // mapping(address =>uint256) public _supportedBcns;
     struct bcninfo{
         address blue;
         uint256 minted;
         uint256 total_supply;
-        mapping(uint256=>uint256) isTokenMintByBcn;
     }
-    struct bcninfo2{
-        address blue;
-        uint256 minted;
-        uint256 total_supply;
-    }
+    mapping(address=>mapping(uint256=>uint256)) public isTokenMintByBcn;
     mapping(address =>bcninfo) public bcninfos;
-    function checkbcntokenid(address bcn , uint256 tokenid)view public returns(uint256 amount){
-        return bcninfos[bcn].isTokenMintByBcn[tokenid];
-    }
-    function showbcninfo(address[] memory bcns)view public returns(bcninfo2[] memory _bcninfos){
-        _bcninfos=new bcninfo2[](bcns.length);
-        for(uint256 i=0;i<bcns.length;i++){
-            _bcninfos[i].blue=bcninfos[bcns[i]].blue;
-            _bcninfos[i].minted=bcninfos[bcns[i]].minted;
-            _bcninfos[i].total_supply=bcninfos[bcns[i]].total_supply;
+    function showbcninfo(address[] memory bcns)view public returns(bcninfo[] memory _bcninfos){
+        _bcninfos=new bcninfo[](bcns.length);
+        unchecked{
+            for(uint256 i=0;i<bcns.length;i++){
+                _bcninfos[i].blue=bcninfos[bcns[i]].blue;
+                _bcninfos[i].minted=bcninfos[bcns[i]].minted;
+                _bcninfos[i].total_supply=bcninfos[bcns[i]].total_supply;
+            }
         }
     }
-    event MintByBCN(uint256 indexed tokenId, address indexed to, address indexed bcn, uint256 bcnTokenId);
-    function Blue_mint(address bcn,uint256 bcnTokenId,uint256 quantity)public payable{
-        address sender = msg.sender;
-        require(sender==tx.origin,"Cannot use contract call");
-        require(msg.value==b_White_mint_fee*quantity,"error fee");
-        uint256 now_time = block_timestamp();
-        // require(b_White_mint_time<now_time&&now_time<b_White_end_time,"Out of time");
-        require(b_White_mint_time<now_time,"Out of time");
-        require(now_time<=end_time,"Out of time");
-        b_White_pool_m+=quantity;
-        require(b_White_pool_m<=(total_supply-Organ2_pool_m-Organ_pool_m),"b_White_pool mint out");
-        require(2>=(_numberMinted(sender)+quantity),"Out of minted number");
+    function Blue_mint(uint256 _platform,address bcn,uint256 bcnTokenId,uint256 quantity)public payable{
+        unchecked{
+            address sender = msg.sender;
+            require(sender==tx.origin,"Cannot use contract call");
+            require(msg.value==b_White_mint_fee*quantity,"error fee");
+            uint256 now_time = block_timestamp();
+            require(b_White_mint_time<now_time&&now_time<=end_time,"Out of time");
+            b_White_pool_m+=quantity;
+            require(b_White_pool_m<=(total_supply-Organ2_pool_m-Organ_pool_m),"b_White_pool mint out");
 
-        address to = IERC721(bcn).ownerOf(bcnTokenId);
-        require(to != address(0), "ERC721W:bcnTokenId not exists");
-        bcninfo storage now_bcn = bcninfos[bcn];
-        require((now_bcn.isTokenMintByBcn[bcnTokenId]+quantity)<=2, "ERC721W:bcnTokenId is used");
-        require((now_bcn.minted+quantity)<=now_bcn.total_supply, "ERC721W:not supported bcn");
-        now_bcn.isTokenMintByBcn[bcnTokenId]+=quantity;
-        now_bcn.minted+=quantity;
-        emit MintByBCN(totalSupply(), to, bcn, bcnTokenId);
-        _safeMint(to,quantity);
-        require(total_minted()<=total_supply,"minted out");
+            address to = IERC721(bcn).ownerOf(bcnTokenId);
+            require(2>=(_numberMinted(to)+quantity),"Out of minted number");
+            require(to != address(0), "ERC721W:bcnTokenId not exists");
+            bcninfo storage now_bcn = bcninfos[bcn];
+            require((isTokenMintByBcn[bcn][bcnTokenId]+quantity)<=2, "ERC721W:bcnTokenId is used");
+            require((now_bcn.minted+quantity)<=now_bcn.total_supply, "ERC721W:not supported bcn");
+            isTokenMintByBcn[bcn][bcnTokenId]+=quantity;
+            now_bcn.minted+=quantity;
+            _safeMint(to,quantity);
+            require(total_minted()<=total_supply,"minted out");
+            platform[_platform]+=quantity;
+        }
     }
     struct supbcn{
         address bcn;
         uint256 number;
     }
     function addsupportedBcns(supbcn[] memory bcns)public onlyOwner{
-        uint256 l = bcns.length;
-        for(uint i =0;i<l;i++){
-            bcninfos[bcns[i].bcn].blue=bcns[i].bcn;
-            bcninfos[bcns[i].bcn].total_supply=bcns[i].number;
+        unchecked{
+            uint256 l = bcns.length;
+            for(uint256 i =0;i<l;i++){
+                bcninfos[bcns[i].bcn].blue=bcns[i].bcn;
+                bcninfos[bcns[i].bcn].total_supply=bcns[i].number;
+            }
         }
+
     }
 
     function White_mint(uint256 quantity)private{
-        require(msg.value==White_mint_fee*quantity,"error fee");
-        uint256 now_time = block_timestamp();
-        // require(White_mint_time<now_time&&now_time<White_end_time,"Out of time");
-        require(White_mint_time<now_time,"Out of time");
-        require(now_time<=end_time,"Out of time");
-        White_pool_m+=quantity;
-        // require(White_pool_m<=(total_supply-Organ2_pool_m-Organ_pool_m-b_White_pool_m),"White_pool mint out");
+        unchecked{
+            require(msg.value==White_mint_fee*quantity,"error fee");
+            uint256 now_time = block_timestamp();
+            require(White_mint_time<now_time&&now_time<=end_time,"Out of time");
+            White_pool_m+=quantity;
+        }
     }
     
-    function Public_mint(uint256 quantity)public payable{
+    function Public_mint(uint256 _platform,uint256 quantity)public payable{
+        unchecked{
             address sender = msg.sender;
             require(sender==tx.origin,"Cannot use contract call");
             require(msg.value==Public_mint_fee*quantity,"error fee");
             uint256 now_time = block_timestamp();
-            // require(Public_mint_time<now_time&&now_time<Public_end_time,"Out of time");
             
-            require(Public_mint_time<now_time,"Out of time");
-            require(now_time<=end_time,"Out of time");
+            require(Public_mint_time<now_time&&now_time<=end_time,"Out of time");
 
             Public_pool_m+=quantity;
             require(2>=(_numberMinted(sender)+quantity),"Out of minted number");
             _safeMint(sender,quantity);
             require(total_minted()<=total_supply,"minted out");
+            platform[_platform]+=quantity;
+        }
     }
 
     function checkandmint(_signvrs calldata signinfo,uint256 quantity)private{
         require(signcheck(signinfo)==signer,"error signer");
         address gainer = signinfo.gainer;
-        uint256 deadline = signinfo.deadline;
-        uint256 amount = signinfo.amount;
         require(msg.sender==gainer,"sender is no gainer");
-        require(deadline>=block_timestamp(),"The signature has expired");
-        require(amount>=(_numberMinted(gainer)+quantity),"Out of minted number");
+        require(signinfo.deadline>=block_timestamp(),"The signature has expired");
+        unchecked{
+            require(signinfo.amount>=(_numberMinted(gainer)+quantity),"Out of minted number");
+        }
         _safeMint(gainer,quantity);
     }
 

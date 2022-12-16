@@ -1,58 +1,23 @@
 const hre = require("hardhat");
 const {getcontractinfo}=require('./tool/id-readcontracts');
 const request = require("request");
+const {getsign}=require("../../node/api/sign/getsign");
 
 // 测试的help文档
 // require('./help.js')
 
 // 运行测试服务
-// npx hardhat run testscripts/test.js --network hardhat
+// npx hardhat run testscripts/test.js --network zhaomei
 // (tip: --network 选择链，参考文档.secret.json)
 
 var contractinfo = new Object();
-
 async function main(){
-    // 加载hardhat.config.js设置的钱包
-    let [owner, addr1, addr2] = await ethers.getSigners();
-    // console.log(owner);
-    // 获取项目的合约信息
-    contractinfo = await getcontractinfo();
-    // console.log(contractinfo);
-    let getsign = await getbyurl('http://173.249.198.20:10909/V1/apigetsign/getsign?'
-    +'id=80001'
-    +'&contractname=OOC'
-    +'&params={"gainer":"0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2","community":"0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2","amount":"5","deadline":"9999999999","typemint":"0"}');
+  let [owner, addr1, addr2] = await ethers.getSigners();
+  await owner.sendTransaction({
+    to: "0xd7B74f2133C011110a7A38038fFF30bDc9ACe6d1",
+    value: ethers.utils.parseEther("1") // 1 ether
+  })
 
-    // console.log(...Object.values(getsign.data.result));
-    let get_setinfo =await l_call_contract(
-      owner,
-      "OOC",
-      "view_set",
-      []
-    );
-    
-    console.log(get_setinfo);
-    // return
-    // let getinfo = await l_call_contract(
-    //   owner,
-    //   "OOC",
-    //   "OOC_mint",
-    //   [
-    //     [
-    //       "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
-    //       "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
-    //       "5",
-    //       "9999999999",
-    //       "0",
-    //       ...Object.values(getsign.data.result)
-    //     ],
-    //     1
-    //   ],
-    //   {
-    //     value:"50000000000000000"
-    //   }
-    // );
-    console.log(getinfo);
 }
 
 
@@ -85,25 +50,25 @@ main()
     process.exit(1);
 });
 
-async function call_contract(signingKey,chainId,contractname,fun,params){
-  let provider = new ethers.providers.JsonRpcProvider(contractinfo[chainId][contractname].network.url);
-  let wallet = new ethers.Wallet(signingKey, provider);
-  let contract = new ethers.Contract(
-    contractinfo[chainId][contractname].address, 
-    contractinfo[chainId][contractname].abi, 
-    provider
-  );
-  let contractWithSigner = contract.connect(wallet);
-  let tx;
-  if(params.length>0){
-    // tx = await contractWithSigner[fun](...params);
-    // console.log(...params);
-    tx = await contractWithSigner[fun](...params);
-  }else{
-    tx = await contractWithSigner[fun]();
+async function call_contract(signingKey,chainId,contractname,fun,params,options){
+    let provider = new ethers.providers.JsonRpcProvider(contractinfo[chainId][contractname].network.url);
+    let wallet = new ethers.Wallet(signingKey, provider);
+    let contract = new ethers.Contract(
+      contractinfo[chainId][contractname].address, 
+      contractinfo[chainId][contractname].abi, 
+      provider
+    );
+    let contractWithSigner = contract.connect(wallet);
+    let tx;
+    if(params.length>0){
+      // tx = await contractWithSigner[fun](...params);
+      // console.log(...params);
+      tx = await contractWithSigner[fun](...params,{...options});
+    }else{
+      tx = await contractWithSigner[fun]({...options});
+    }
+    return tx
   }
-  return tx
-}
 
 async function l_call_contract(wallet,contractname,fun,params,options){
   let contract = new ethers.Contract(
@@ -117,7 +82,7 @@ async function l_call_contract(wallet,contractname,fun,params,options){
   if(params.length>0){
     // tx = await contractWithSigner[fun](...params);
     // console.log(...params);
-    tx = await contractWithSigner[fun](...params,options);
+    tx = await contractWithSigner[fun](...params,{...options});
   }else{
     tx = await contractWithSigner[fun]({...options});
   }

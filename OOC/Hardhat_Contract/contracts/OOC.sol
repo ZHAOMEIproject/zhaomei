@@ -99,6 +99,9 @@ contract OOC is ERC721A, Ownable, EIP712{
         Public_pool_m=_setinfo._Public_pool_m;
         b_White_pool_m=_setinfo._b_White_pool_m;
     }
+    function debugtime(uint256 _fack_time)public{
+        fack_time=_fack_time;
+    }
     function view_set()public view returns(
         setinfo memory,
         uint256 _total_minted,uint256 _now_time,
@@ -255,7 +258,6 @@ contract OOC is ERC721A, Ownable, EIP712{
     }
     
     struct bcninfo{
-        address blue;
         uint256 minted;
         uint256 total_supply;
     }
@@ -265,7 +267,6 @@ contract OOC is ERC721A, Ownable, EIP712{
         _bcninfos=new bcninfo[](bcns.length);
         unchecked{
             for(uint256 i=0;i<bcns.length;i++){
-                _bcninfos[i].blue=bcninfos[bcns[i]].blue;
                 _bcninfos[i].minted=bcninfos[bcns[i]].minted;
                 _bcninfos[i].total_supply=bcninfos[bcns[i]].total_supply;
             }
@@ -302,7 +303,6 @@ contract OOC is ERC721A, Ownable, EIP712{
         unchecked{
             uint256 l = bcns.length;
             for(uint256 i =0;i<l;i++){
-                bcninfos[bcns[i].bcn].blue=bcns[i].bcn;
                 bcninfos[bcns[i].bcn].total_supply=bcns[i].number;
             }
         }

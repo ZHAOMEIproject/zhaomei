@@ -356,11 +356,6 @@
       "name": "bcninfos",
       "outputs": [
         {
-          "internalType": "address",
-          "name": "blue",
-          "type": "address"
-        },
-        {
           "internalType": "uint256",
           "name": "minted",
           "type": "uint256"
@@ -518,6 +513,19 @@
         }
       ],
       "name": "debug",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_fack_time",
+          "type": "uint256"
+        }
+      ],
+      "name": "debugtime",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -818,11 +826,6 @@
       "outputs": [
         {
           "components": [
-            {
-              "internalType": "address",
-              "name": "blue",
-              "type": "address"
-            },
             {
               "internalType": "uint256",
               "name": "minted",
@@ -1239,8 +1242,8 @@
       "type": "function"
     }
   ],
-  "address": "0x08A8c24dfC2026BeE508f32F396Cbf4a7f573893",
-  "blocknumber": 2054,
+  "address": "0x0E60aC190Ce83d42f5fEc79f9E1D47cEb135acE0",
+  "blocknumber": 35,
   "constructorArguments": null,
   "network": {
     "name": "zhaomei",

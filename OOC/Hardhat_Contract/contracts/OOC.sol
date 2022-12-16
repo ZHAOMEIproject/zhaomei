@@ -25,6 +25,7 @@ contract OOC is ERC721A, Ownable, EIP712{
     using Strings for uint256;
     constructor() ERC721A("Odd_Owl_Club", "OOC",500) EIP712("Odd_Owl_Club", "1"){
         _safeMint(Receive,500);
+        Organ_pool_m+=500;
 
         supbcn[]memory once= new supbcn[](14);
         once[0]=supbcn(0xb47e3cd837dDF8e4c57F05d70Ab865de6e193BBB,1000);
@@ -73,13 +74,14 @@ contract OOC is ERC721A, Ownable, EIP712{
     uint256 constant b_White_mint_fee = 0.05*10**18;
     uint256 b_White_pool_m;
 
-    uint256 constant end_time=1671811200;
+    uint256 constant end_time=1671638400;
+    uint256 constant end_time2=1671811200;
 
 
     address constant Receive = 0xDc66019E46d7E8ac9F155fF0668c9e1Fca34421F;
     address immutable signer = msg.sender;
     struct setinfo{
-        address _signer;uint256 _total_supply;uint256 _fack_time;address _Receive;string _baseURL;uint256 _end_time;
+        address _signer;uint256 _total_supply;uint256 _fack_time;address _Receive;string _baseURL;uint256 _end_time;uint256 _end_time2;
         uint256 _Organ_mint_time;uint256 _Organ_mint_fee;uint256 _Organ_pool_m;uint256 _Organ_pool_em;
         uint256 _Organ2_mint_time;uint256 _Organ2_mint_fee;uint256 _Organ2_pool_m;uint256 _Organ2_pool_em;
         uint256 _White_mint_time;uint256 _White_mint_fee;uint256 _White_pool_m;
@@ -104,8 +106,8 @@ contract OOC is ERC721A, Ownable, EIP712{
     ){
         unchecked{
             return (setinfo(
-                signer,total_supply,fack_time,Receive,baseURL,
-                end_time,
+                signer,totalSupply(),fack_time,Receive,baseURL,
+                end_time,end_time2,
                 Organ_mint_time,Organ_mint_fee,
                 Organ_pool_m,Organ_pool_em,
                 Organ2_mint_time,Organ2_mint_fee,
@@ -117,7 +119,7 @@ contract OOC is ERC721A, Ownable, EIP712{
                 b_White_mint_time,b_White_mint_fee,
                 b_White_pool_m
                 ),
-                total_minted(),block.timestamp,
+                totalSupply(),block.timestamp,
                 (total_supply-Organ2_pool_m-Organ_pool_m-b_White_pool_m),
                 (total_supply-Organ2_pool_m-Organ_pool_m-White_pool_m-b_White_pool_m),
                 (total_supply-Organ2_pool_m-Organ_pool_m)
@@ -125,12 +127,6 @@ contract OOC is ERC721A, Ownable, EIP712{
         }
         
     }
-    function total_minted()public view returns(uint256 _total_minted){
-        unchecked{
-            return (Organ_pool_m+Organ2_pool_m+White_pool_m+Public_pool_m+b_White_pool_m);
-        }
-    }
-
     // open box
     string baseURL;
     function set_baseinfo(string memory _str)public onlyOwner{
@@ -237,7 +233,8 @@ contract OOC is ERC721A, Ownable, EIP712{
         }else{
             revert("typemint error");
         }
-        require(total_minted()<=total_supply,"minted out");
+        require(totalSupply()<=total_supply,"minted out");
+        require(block_timestamp()<=end_time,"Out of time");
         unchecked{
             platform[_platform]+=quantity;
         }
@@ -245,16 +242,14 @@ contract OOC is ERC721A, Ownable, EIP712{
     function Organ_mint(uint256 quantity)private{
         unchecked{
             require(msg.value==Organ_mint_fee*quantity,"error fee");
-            uint256 now_time = block_timestamp();
-            require(Organ_mint_time<now_time&&now_time<=end_time,"Out of time");
+            require(Organ_mint_time<block_timestamp(),"Out of time");
             Organ_pool_m+=quantity;
         }
     }
     function Organ2_mint(uint256 quantity)private{
         unchecked{
             require(msg.value==Organ2_mint_fee*quantity,"error fee");
-            uint256 now_time = block_timestamp();
-            require(Organ2_mint_time<now_time&&now_time<=end_time,"Out of time");
+            require(Organ2_mint_time<block_timestamp(),"Out of time");
             Organ2_pool_m+=quantity;
         }
     }
@@ -295,7 +290,7 @@ contract OOC is ERC721A, Ownable, EIP712{
             isTokenMintByBcn[bcn][bcnTokenId]+=quantity;
             now_bcn.minted+=quantity;
             _safeMint(to,quantity);
-            require(total_minted()<=total_supply,"minted out");
+            require(totalSupply()<=total_supply,"minted out");
             platform[_platform]+=quantity;
         }
     }
@@ -317,8 +312,7 @@ contract OOC is ERC721A, Ownable, EIP712{
     function White_mint(uint256 quantity)private{
         unchecked{
             require(msg.value==White_mint_fee*quantity,"error fee");
-            uint256 now_time = block_timestamp();
-            require(White_mint_time<now_time&&now_time<=end_time,"Out of time");
+            require(White_mint_time<block_timestamp(),"Out of time");
             White_pool_m+=quantity;
         }
     }
@@ -330,12 +324,12 @@ contract OOC is ERC721A, Ownable, EIP712{
             require(msg.value==Public_mint_fee*quantity,"error fee");
             uint256 now_time = block_timestamp();
             
-            require(Public_mint_time<now_time&&now_time<=end_time,"Out of time");
+            require(Public_mint_time<now_time&&now_time<=end_time2,"Out of time");
 
             Public_pool_m+=quantity;
             require(2>=(_numberMinted(sender)+quantity),"Out of minted number");
             _safeMint(sender,quantity);
-            require(total_minted()<=total_supply,"minted out");
+            require(totalSupply()<=total_supply,"minted out");
             platform[_platform]+=quantity;
         }
     }

@@ -48,3 +48,9 @@ await wait(1000)
 
 // 获取账号余额
 await ethers.provider.getBalance(owner.address);
+
+let [owner, addr1, addr2] = await ethers.getSigners();
+await owner.sendTransaction({
+to: "0xd7B74f2133C011110a7A38038fFF30bDc9ACe6d1",
+value: ethers.utils.parseEther("1") // 1 ether
+})

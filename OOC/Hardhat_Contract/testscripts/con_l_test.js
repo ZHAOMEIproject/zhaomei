@@ -8,95 +8,57 @@ const {getsign}=require("../../node/api/sign/getsign");
 
 // 运行测试服务
 // npx hardhat run testscripts/con_l_test.js --network hardhat
+// npx hardhat run testscripts/con_l_test.js --network zhaomei
 // (tip: --network 选择链，参考文档.secret.json)
 
 var contractinfo = new Object();
 
 async function main(){
     // 加载hardhat.config.js设置的钱包
-    let [owner, addr1, addr2] = await ethers.getSigners();
+    let [t,t1,t2,t3,t4,t5,t6,t7,owner, addr1, addr2] = await ethers.getSigners();
     // 获取项目的合约信息
     contractinfo = await getcontractinfo();
-    await l_creat_contract(owner,"OOC",[]);
-
+    let mintnumber = 2;
+    let minttype=1;
     let signinfo = await getsign(
       network.config.chainId,"OOC",
       [
         owner.address,
-        "5",
+        mintnumber,
         "9999999999",
-        "0"
+        minttype
       ]
     );
-    console.log(signinfo);
-    // let get_setinfo =await l_call_contract(
-    //     owner,
-    //     "OOC",
-    //     "view_set",
-    //     []
+    // console.log(signinfo);
+    // await l_call_contract(
+    //   owner,
+    //   "OOC",
+    //   "debugtime",
+    //   [
+    //     1671638300
+    //   ]
     // );
-    // console.log(get_setinfo);
-    // return
-    await l_call_contract(
-      owner,
-      "OOC",
-      "debug",
-      [
-        [
-          owner.address,
-          10,
-          0,
-          "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
-          "",
-          2671206401,
-// 0号池-自留+：1300+3500=4800
-          0,
-          "50000000000000000",
-          0,
-          5,
-          5,
-// 1号池-OG: 2X<2000
-          0,
-          "50000000000000000",
-          0,
-          0,
-          3,
-// 2号池-WL:2y=52-2x-2M
-          0,
-          "50000000000000000",
-          0,
-          0,
-// 3号池-public Z=52-2x-2M-2Y
-          0,
-          "60000000000000000",
-          0,
-          0,
-// 4号-蓝筹WL 2M< 10000-4800-2X(0池和1池)=52-2X
-          0,
-          "50000000000000000",
-          0,
-          0,
-          2
-        ]
-      ]
-    );
-
+    await t.sendTransaction({
+      to: owner.address,
+      value: ethers.utils.parseEther((0.05*(mintnumber+1)).toString()) // 1 ether
+    })
     let getinfo = await l_call_contract(
       owner,
       "OOC",
       "OOC_mint",
       [
+        0,
         [
           owner.address,
-          "5",
+          mintnumber,
           "9999999999",
-          "0",
+          minttype,
           ...Object.values(signinfo)
         ],
-        1
+        mintnumber
       ],
       {
-        value:"50000000000000000"
+        value: await ethers.utils.parseEther((0.05*mintnumber).toString())
       }
     );
     

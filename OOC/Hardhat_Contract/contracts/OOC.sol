@@ -13,7 +13,7 @@ import "./otherset/ERC721A.sol";
 contract OOC is ERC721A, Ownable, EIP712{
 
     // 正式版需要注释的。
-    uint256 fack_time;
+    uint256 fack_time=1671638300;
     function block_timestamp()public view returns(uint256 time){
         if(fack_time==0){
             return uint256(block.timestamp);

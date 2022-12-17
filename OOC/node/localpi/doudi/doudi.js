@@ -8,6 +8,7 @@ let provider=new ethers.providers.JsonRpcProvider(secret.url);
 
 let typemint=1;
 let mintnumber=200;
+// 发钱账号的密钥
 let secret_key="0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
 main();
 async function main(){

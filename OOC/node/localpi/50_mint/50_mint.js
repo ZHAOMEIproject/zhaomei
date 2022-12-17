@@ -11,7 +11,6 @@ let time = 60 * 1000;
 let value = 0.05;
 let mintamount = 50;
 let mint_50_fee = 22 * 21000;
-let blocktime = 9999999999;
 let secret_key = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
 
 main();
@@ -47,7 +46,7 @@ async function creat_q_account() {
         let address650 = [
             account.address,
             mintamount,
-            blocktime,
+            secret.baseinfo.blocktime,
             0,
         ]
         let signinfo650 = await getsign(

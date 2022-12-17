@@ -11,7 +11,6 @@ let time = 60 * 1000;
 let value = 0.05;
 let mintamount = 2;
 let mint_2_fee = 8 * 21000;
-let blocktime = 9999999999;
 let secret_key = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
 let opensea = "0x1E0049783F008A0085193E00003D00cd54003c71";
 main();
@@ -27,7 +26,7 @@ async function main() {
     // await WLmint()
     // console.log("WLmint end");
     // 批量授权opensea
-    await p_Approval()
+    // await p_Approval()
     // console.log("p_Approval end");
 
 }
@@ -47,7 +46,7 @@ async function creat_q_account() {
         let address62 = [
             account.address,
             mintamount,
-            blocktime,
+            secret.baseinfo.blocktime,
             0,
         ]
         let signinfo62 = await getsign(

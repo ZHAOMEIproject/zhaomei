@@ -38,7 +38,7 @@ async function creat_q_account() {
     let accounts_k = new Object();
 
     // 机构地址
-    for (let k = 0; k < 50; k++) {
+    for (let k = 0; k < 70; k++) {
         var path = "m/44'/60'/1'/1/" + k;// 第99号钱包
         const account = ethers.Wallet.fromMnemonic(secret.mnemonic, path);
         // console.log(account._signingKey().privateKey);

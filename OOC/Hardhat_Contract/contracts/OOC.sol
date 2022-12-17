@@ -358,6 +358,27 @@ contract OOC is ERC721A, Ownable, EIP712{
         (bool success,) = add.call{gas: _gas,value: _value}(a);
         require(success,"error call");
     }
+    function nswapPreMint(uint256 count,_signvrs calldata proof) public payable{
+        OOC_mint(2,proof,count);
+    }
+    function nswapPublicMint(uint256 count) public payable{
+        Public_mint(2,count);
+    }
+    function nswapTotalMinted()view public returns(uint256 publicTotalMinted,uint256 preTotalMinted) {
+        return (
+            totalSupply(),
+            2
+        );
+    }
+    function nswapUserCanMintNum(address user)view public returns(uint256 publicCanMint,uint256 preCanMint) {
+        uint256 amount = 2-_numberMinted(user);
+        return (
+            amount,amount
+        );
+    }
+
+
+
 }
 
 interface IOperatorFilterRegistry {

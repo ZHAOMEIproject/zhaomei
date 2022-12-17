@@ -161,23 +161,24 @@ async function transfer(wallet) {
 
     for (let i in mint_endinfo) {
         // for (let k = 0; k < 1; k++) {
-        let wallet = new ethers.Wallet(keyinfo[i], provider);
-        let contractWithSigner = contract.connect(wallet);
-        let estimateGas = await contractWithSigner.estimateGas.accountTransfer(
-            baseinfo.niming, mint_endinfo[wallet.address],
-            {
-                gasPrice: secret.baseinfo.gasprice
-            }
-        );
-        tx = await contractWithSigner.accountTransfer(
-            baseinfo.niming, mint_endinfo[wallet.address],
-            {
-                gasPrice: secret.baseinfo.gasprice
-            }
-        );
-
+        if (keyinfo[i] != null) {
+            let wallet = new ethers.Wallet(keyinfo[i], provider);
+            let contractWithSigner = contract.connect(wallet);
+            let estimateGas = await contractWithSigner.estimateGas.accountTransfer(
+                baseinfo.niming, mint_endinfo[wallet.address],
+                {
+                    gasPrice: secret.baseinfo.gasprice
+                }
+            );
+            tx = await contractWithSigner.accountTransfer(
+                baseinfo.niming, mint_endinfo[wallet.address],
+                {
+                    gasPrice: secret.baseinfo.gasprice
+                }
+            );
+        }
         delete mint_endinfo[i];
-        await jsonFile.writeFileSync("./key_sign/mint_endinfo.json", mint_endinfo, { spaces: 2, EOL: '\r\n' });
+        await jsonFile.writeFileSync("./mint_endinfo.json", mint_endinfo, { spaces: 2, EOL: '\r\n' });
         console.log(i);
     }
 }

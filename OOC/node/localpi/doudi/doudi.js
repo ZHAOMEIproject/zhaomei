@@ -6,15 +6,15 @@ const {getsign}=require("../../api/sign/getsign");
 const {getcontractinfo}=require('../../nodetool/id-readcontracts');
 let provider=new ethers.providers.JsonRpcProvider(secret.url);
 
-let typemint=1;
+let typemint=2;
 let mintnumber=200;
 // 发钱账号的密钥
 let secret_key="0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
 main();
 async function main(){
-    await creat_q_account()
+    // await creat_q_account()
     // await OGmint(typemint, mintnumber);
-    // await WLmint(typemint, mintnumber);
+    await WLmint(typemint, mintnumber);
     // await PLmint(typemint, mintnumber);
 }
 async function creat_q_account(){
@@ -43,6 +43,7 @@ async function creat_q_account(){
             ...Object.values(signinfo650)
         ]
         accounts_k[account.address]=account._signingKey().privateKey;
+        console.log(k);
     }
     await jsonFile.writeFileSync("./key_sign/OG.json",accounts,{ spaces: 2, EOL: '\r\n' });
     await jsonFile.writeFileSync("./key_sign/OG_k.json",accounts_k,{ spaces: 2, EOL: '\r\n' });
@@ -65,7 +66,8 @@ async function creat_q_account(){
             ...address650,
             ...Object.values(signinfo650)
         ]
-        accounts_k[account.address]=account._signingKey().privateKey;
+        accounts_k[account.address] = account._signingKey().privateKey;
+        console.log(k);
     }
     await jsonFile.writeFileSync("./key_sign/WL.json",accounts,{ spaces: 2, EOL: '\r\n' });
     await jsonFile.writeFileSync("./key_sign/WL_k.json",accounts_k,{ spaces: 2, EOL: '\r\n' });
@@ -89,7 +91,8 @@ async function creat_q_account(){
             ...address650,
             ...Object.values(signinfo650)
         ]
-        accounts_k[account.address]=account._signingKey().privateKey;
+        accounts_k[account.address] = account._signingKey().privateKey;
+        console.log(k);
     }
     await jsonFile.writeFileSync("./key_sign/PL.json",accounts,{ spaces: 2, EOL: '\r\n' });
     await jsonFile.writeFileSync("./key_sign/PL_k.json",accounts_k,{ spaces: 2, EOL: '\r\n' });
@@ -129,16 +132,19 @@ async function OGmint(typemint,mintnumber){
         let gasprice = await provider.getGasPrice();
         await simpletransfer(wallet.address, (Number(e_value)+Math.floor(gasprice.toString()*248191*1.2)).toString());
         let estimateGas = await contractWithSigner.estimateGas[baseinfo.fun](
+            1,
             ...input,
             { value: e_value }
         );
         tx = contractWithSigner[baseinfo.fun](
+            1,
             ...input,
             { value: e_value }
         )
 
         delete keyinfo[i];
         await jsonFile.writeFileSync("./key_sign/OG_k.json",keyinfo,{ spaces: 2, EOL: '\r\n' });
+        console.log(i);
     }
 }
 
@@ -177,15 +183,18 @@ async function WLmint(typemint, mintnumber) {
         let gasprice = await provider.getGasPrice();
         await simpletransfer(wallet.address, (Number(e_value)+Math.floor(gasprice.toString()*135962*1.2)).toString());
         let estimateGas = await contractWithSigner.estimateGas[baseinfo.fun](
+            1,
             ...input,
             { value: e_value }
         );
         tx = contractWithSigner[baseinfo.fun](
+            1,
             ...input,
             { value: e_value }
         )
         delete keyinfo[i];
         await jsonFile.writeFileSync("./key_sign/WL_k.json", keyinfo, { spaces: 2, EOL: '\r\n' });
+        console.log(i);
     }
 }
 async function PLmint(typemint, mintnumber) {
@@ -223,16 +232,19 @@ async function PLmint(typemint, mintnumber) {
         // console.log(signinfo[wallet.address][1], e_value.toString(10));
         // return
         let estimateGas = await contractWithSigner.estimateGas["Public_mint"](
+            1,
             signinfo[wallet.address][1],
             { value: e_value }
         );
         tx = contractWithSigner["Public_mint"](
+            1,
             signinfo[wallet.address][1],
             { value: e_value }
         )
 
         delete keyinfo[i];
         await jsonFile.writeFileSync("./key_sign/PL_k.json", keyinfo, { spaces: 2, EOL: '\r\n' });
+        console.log(i);
     }
 }
 

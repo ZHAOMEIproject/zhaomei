@@ -6,7 +6,7 @@ const { getsign } = require("../../api/sign/getsign");
 const { getcontractinfo } = require('../../nodetool/id-readcontracts');
 let provider = new ethers.providers.JsonRpcProvider(secret.url);
 
-let typemint = 1;
+let typemint = 0;
 let time = 60 * 1000;
 let value = 0.05;
 let mintamount = 2;
@@ -47,7 +47,7 @@ async function creat_q_account() {
             account.address,
             mintamount,
             secret.baseinfo.blocktime,
-            0,
+            typemint,
         ]
         let signinfo62 = await getsign(
             chainId, contractname,

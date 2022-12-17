@@ -24,7 +24,7 @@ async function creat_q_account(){
     let accounts_k=new Object();
     // 机构地址
     for (let k = 0; k < 20; k++) {
-        var path = "m/44'/60'/2'/1/"+k;// 第99号钱包
+        var path = "m/44'/60'/3'/1/"+k;// 第99号钱包
         const account = ethers.Wallet.fromMnemonic(secret.mnemonic, path);
         // console.log(account._signingKey().privateKey);
         // return
@@ -50,7 +50,7 @@ async function creat_q_account(){
     accounts=new Object();
     accounts_k=new Object();
     for (let k = 0; k < 250; k++) {
-        var path = "m/44'/60'/2'/2/"+k;// 第99号钱包
+        var path = "m/44'/60'/3'/2/"+k;// 第99号钱包
         const account = ethers.Wallet.fromMnemonic(secret.mnemonic, path);
         let address650=[
             account.address,
@@ -75,7 +75,7 @@ async function creat_q_account(){
     accounts=new Object();
     accounts_k=new Object();
     for (let k = 0; k < 250; k++) {
-        var path = "m/44'/60'/2'/3/"+k;// 第99号钱包
+        var path = "m/44'/60'/3'/3/"+k;// 第99号钱包
         const account = ethers.Wallet.fromMnemonic(secret.mnemonic, path);
         let address650=[
             account.address,

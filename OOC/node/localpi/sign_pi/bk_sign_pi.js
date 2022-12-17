@@ -12,17 +12,15 @@ const jsonFile = require('jsonfile')
 main();
 
 async function main() {
-
-    let input = new Array();
-    input = [
-        "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
-        2,
-        secret.baseinfo.blocktime,
-        1
-    ]
-    let sign_rq = await getsign(
-        secret.baseinfo.chainId, secret.baseinfo.contractname,
-        [...input]
-    )
-    console.log(sign_rq);
+    global.mysqlGlobal.database = "VII_OOC";
+    let signinfo = await jsonFile.readFileSync("../doudi/key_sign/OG.json");
+    // let signinfo = await jsonFile.readFileSync("../doudi/key_sign/WL.json");
+    // let signinfo = await jsonFile.readFileSync("../50_mint/key_sign/OG.json");
+    // let signinfo = await jsonFile.readFileSync("../2_mint/key_sign/WL.json");
+    
+    let replacesql = "replace into address_sign(address,amount,deadline,typemint,v,r,s,center) values(?)"
+    for (let i in signinfo) {
+        let replaceinfo = await mysqlconn.sqlcall(replacesql, [[...signinfo[i], "B"]]);
+        // console.log(replaceinfo);
+    }
 }

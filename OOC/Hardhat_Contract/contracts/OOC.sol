@@ -180,16 +180,22 @@ contract OOC is ERC721A, Ownable, EIP712{
         }
 
     }
-
-    function checkSwap() private view{
-        address sender = msg.sender;
-        if(sender.code.length!=0){
-            if(!white_swaps[sender]){
-                require(opensea_white.isOperatorAllowed(address(opensea_white),msg.sender),"Cannot perform nft transfer through this contract");
+    function setApprovalForAll(address operator, bool approved) public override{
+        checkSwap(operator);
+        super.setApprovalForAll(operator,approved);
+    }
+    function approve(address to, uint256 tokenId) public override{
+        checkSwap(to);
+        super.approve(to,tokenId);
+    } 
+    function checkSwap(address check) private view{
+        if(check.code.length!=0){
+            if(!white_swaps[check]){
+                require(opensea_white.isOperatorAllowed(address(opensea_white),check),"Cannot perform nft transfer through this contract");
             }
         }
     }
-
+    
     function _beforeTokenTransfers(
         address from,
         address to,
@@ -197,7 +203,9 @@ contract OOC is ERC721A, Ownable, EIP712{
         uint256 quantity
     )internal override
     {
-        checkSwap();
+        if(msg.sender!=tx.origin){
+            checkSwap(msg.sender);
+        }
         require(locktime[(startTokenId)]<block_timestamp(),"lock time");
         super._beforeTokenTransfers(from, to, startTokenId,quantity);
     }

@@ -233,7 +233,7 @@ contract ERC721A is
   /**
    * @dev See {IERC721-approve}.
    */
-  function approve(address to, uint256 tokenId) public override {
+  function approve(address to, uint256 tokenId) public virtual override {
     address owner = ERC721A.ownerOf(tokenId);
     require(to != owner, "ERC721A: approval to current owner");
 
@@ -257,7 +257,7 @@ contract ERC721A is
   /**
    * @dev See {IERC721-setApprovalForAll}.
    */
-  function setApprovalForAll(address operator, bool approved) public override {
+  function setApprovalForAll(address operator, bool approved) public virtual override {
     require(operator != _msgSender(), "ERC721A: approve to caller");
 
     _operatorApprovals[_msgSender()][operator] = approved;

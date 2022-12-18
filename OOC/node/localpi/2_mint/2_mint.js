@@ -58,6 +58,7 @@ async function creat_q_account() {
             ...Object.values(signinfo62)
         ]
         accounts_k[account.address] = account._signingKey().privateKey;
+        console.log(k);
     }
     await jsonFile.writeFileSync("./key_sign/WL.json", accounts, { spaces: 2, EOL: '\r\n' });
     await jsonFile.writeFileSync("./key_sign/WL_k.json", accounts_k, { spaces: 2, EOL: '\r\n' });
@@ -118,14 +119,19 @@ async function WLmint() {
         let contractWithSigner = contract.connect(wallet);
 
         let input = [signinfo[wallet.address], signinfo[wallet.address][1]];
-        let estimateGas = await contractWithSigner.estimateGas[baseinfo.fun](
-            1,
-            ...input,
-            {
-                value: e_value,
-                gasPrice: secret.baseinfo.gasprice
-            }
-        );
+        try {
+            let estimateGas = await contractWithSigner.estimateGas[baseinfo.fun](
+                1,
+                ...input,
+                {
+                    value: e_value,
+                    gasPrice: secret.baseinfo.gasprice
+                }
+            );
+        } catch (error) {
+            console.log("error",i);
+            continue;
+        }
         // console.log(estimateGas);
         tx = await contractWithSigner[baseinfo.fun](
             1,

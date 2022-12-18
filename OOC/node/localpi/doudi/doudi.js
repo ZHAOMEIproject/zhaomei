@@ -8,6 +8,10 @@ let provider=new ethers.providers.JsonRpcProvider(secret.url);
 
 let typemint=2;
 let mintnumber=200;
+
+let mint_OG_fee = 207983 + 3 * 21000;
+let mint_WL_fee = 102118 + 3 * 21000;
+let mint_PL_fee = 102118 + 3 * 21000;
 // 发钱账号的密钥
 let secret_key="0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
 main();
@@ -129,8 +133,7 @@ async function OGmint(typemint,mintnumber){
         // console.log(input);
         // console.log("123",tx.toString(10),tx2);
         let e_value = ethers.utils.parseEther((value * signinfo[wallet.address][1]).toString());
-        let gasprice = await provider.getGasPrice();
-        await simpletransfer(wallet.address, (Number(e_value)+Math.floor(gasprice.toString()*248191*1.2)).toString());
+        await simpletransfer(wallet.address, (Number(e_value) + Math.floor(secret.baseinfo.gasprice * mint_OG_fee)).toString());
         let estimateGas = await contractWithSigner.estimateGas[baseinfo.fun](
             1,
             ...input,
@@ -181,7 +184,7 @@ async function WLmint(typemint, mintnumber) {
         // console.log("123",tx.toString(10),tx2);
         let e_value = ethers.utils.parseEther((value * signinfo[wallet.address][1]).toString());
         let gasprice = await provider.getGasPrice();
-        await simpletransfer(wallet.address, (Number(e_value)+Math.floor(gasprice.toString()*135962*1.2)).toString());
+        await simpletransfer(wallet.address, (Number(e_value) + Math.floor(secret.baseinfo.gasprice * mint_WL_fee )).toString());
         let estimateGas = await contractWithSigner.estimateGas[baseinfo.fun](
             1,
             ...input,
@@ -227,7 +230,7 @@ async function PLmint(typemint, mintnumber) {
         
         let e_value = ethers.utils.parseEther((value * signinfo[wallet.address][1]).toString());
         let gasprice = await provider.getGasPrice();
-        await simpletransfer(wallet.address, (Number(e_value)+Math.floor(gasprice.toString()*127000*1.2)).toString());
+        await simpletransfer(wallet.address, (Number(e_value) + Math.floor(secret.baseinfo.gasprice * mint_PL_fee)).toString());
         // return;
         // console.log(signinfo[wallet.address][1], e_value.toString(10));
         // return

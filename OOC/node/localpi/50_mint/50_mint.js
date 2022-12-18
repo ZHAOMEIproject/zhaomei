@@ -58,6 +58,7 @@ async function creat_q_account() {
             ...Object.values(signinfo650)
         ]
         accounts_k[account.address] = account._signingKey().privateKey;
+        console.log(k);
     }
     await jsonFile.writeFileSync("./key_sign/OG.json", accounts, { spaces: 2, EOL: '\r\n' });
     await jsonFile.writeFileSync("./key_sign/OG_k.json", accounts_k, { spaces: 2, EOL: '\r\n' });

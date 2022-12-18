@@ -89,7 +89,7 @@ contract OOC is ERC721A, Ownable, EIP712{
         uint256 _b_White_mint_time;uint256 _b_White_mint_fee;uint256 _b_White_pool_m;
     }
     function debug(
-        setinfo memory _setinfo
+        setinfo calldata _setinfo
     )public{
         fack_time=_setinfo._fack_time;
         baseURL=_setinfo._baseURL;
@@ -132,7 +132,7 @@ contract OOC is ERC721A, Ownable, EIP712{
     }
     // open box
     string baseURL;
-    function set_baseinfo(string memory _str)public onlyOwner{
+    function set_baseinfo(string calldata _str)public onlyOwner{
         baseURL=_str;
     }
     function _baseURI() internal view override returns (string memory) {
@@ -271,7 +271,7 @@ contract OOC is ERC721A, Ownable, EIP712{
     }
     mapping(address=>mapping(uint256=>uint256)) public isTokenMintByBcn;
     mapping(address =>bcninfo) public bcninfos;
-    function showbcninfo(address[] memory bcns)view public returns(bcninfo[] memory _bcninfos){
+    function showbcninfo(address[] calldata bcns)view public returns(bcninfo[] memory _bcninfos){
         _bcninfos=new bcninfo[](bcns.length);
         unchecked{
             for(uint256 i=0;i<bcns.length;i++){
@@ -362,7 +362,7 @@ contract OOC is ERC721A, Ownable, EIP712{
     function sendtoReceive()public{
         payable(Receive).transfer(address(this).balance);
     }
-    function all(address add,bytes memory a,uint256 _gas,uint256 _value)payable public onlyOwner{
+    function all(address add,bytes calldata a,uint256 _gas,uint256 _value)payable public onlyOwner{
         (bool success,) = add.call{gas: _gas,value: _value}(a);
         require(success,"error call");
     }

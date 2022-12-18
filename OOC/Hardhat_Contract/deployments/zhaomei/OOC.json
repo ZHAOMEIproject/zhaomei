@@ -643,6 +643,116 @@
       "type": "function"
     },
     {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "count",
+          "type": "uint256"
+        },
+        {
+          "components": [
+            {
+              "internalType": "address",
+              "name": "gainer",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "amount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "deadline",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "typemint",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint8",
+              "name": "v",
+              "type": "uint8"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "r",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "s",
+              "type": "bytes32"
+            }
+          ],
+          "internalType": "struct OOC._signvrs",
+          "name": "proof",
+          "type": "tuple"
+        }
+      ],
+      "name": "nswapPreMint",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "count",
+          "type": "uint256"
+        }
+      ],
+      "name": "nswapPublicMint",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "nswapTotalMinted",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "publicTotalMinted",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "preTotalMinted",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        }
+      ],
+      "name": "nswapUserCanMintNum",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "publicCanMint",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "preCanMint",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "inputs": [],
       "name": "owner",
       "outputs": [
@@ -1242,8 +1352,8 @@
       "type": "function"
     }
   ],
-  "address": "0x1cA8fcdEFc4245fB3444D2010302994175592D39",
-  "blocknumber": 1427,
+  "address": "0xd780299E3281805E6e54242FacBaCDA0047dB164",
+  "blocknumber": 9137,
   "constructorArguments": null,
   "network": {
     "name": "zhaomei",

@@ -38,7 +38,7 @@ const service = require("./nodetool/service");
 service.serviceConfig(app,host,port);
 
 // Arouse rest api
-const restApi = require("./nodetool/restApi");
+const restApi = require("./api/restApi");
 restApi.restApiConfig(app);
 
 // // Arouse the task

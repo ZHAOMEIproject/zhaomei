@@ -19,12 +19,45 @@ async function main(){
   var path = "m/44'/60'/0'/0/0";// 第99号钱包
   var secret = require("../../../../privateinfo/.secret.json");// 载入很多信息
   const account = ethers.Wallet.fromMnemonic(secret.solidity.mnemonic, path);
+  // let getinfo = await call_contract(
+  //   account._signingKey(),
+  //   "7156777","OOC","addsupportedBcns",
+  //   [[["0xc8992606630e767fC7bdB0D7Eb7E4B2aA0a50363",3],["0xA15eB9cc57A4B0c5175dBCCa1775791826c68573",4]]]
+  // )
+    
+  let input = new Array();
+  input=[
+      "0xE3E628f50B5CDD2418cEb8b58d7BD57A5dABC178",
+      2,
+      1672329600,
+      1
+  ]
+  let sign_rq = await getsign(
+    "7156777","OOC",
+      [...input]
+  )
+  console.log(sign_rq);
   let getinfo = await call_contract(
     account._signingKey(),
-    "7156777","OOC","addsupportedBcns",
-    [[["0xc8992606630e767fC7bdB0D7Eb7E4B2aA0a50363",3],["0xA15eB9cc57A4B0c5175dBCCa1775791826c68573",4]]]
+    "7156777","OOC","signcheck",
+    [
+      [
+        "0xE3E628f50B5CDD2418cEb8b58d7BD57A5dABC178",
+        2,
+        1672329600,
+        1,
+        ...Object.values(sign_rq)
+      ]
+    ]
   )
-    
+  console.log(getinfo);
+  let otherinfo = await call_contract(
+    account._signingKey(),
+    "7156777","OOC","view_set",
+    [
+    ]
+  )
+  console.log(otherinfo);
 }
 
 

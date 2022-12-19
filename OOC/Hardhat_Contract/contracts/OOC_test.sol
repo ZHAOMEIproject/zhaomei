@@ -24,8 +24,8 @@ contract OOC_test is ERC721A, Ownable, EIP712{
 
     using Strings for uint256;
     constructor() ERC721A("Odd_Owl_Club", "OOC",500) EIP712("Odd_Owl_Club", "1"){
-        _safeMint(Receive,500);
-        Organ_pool_m+=500;
+        // _safeMint(Receive,500);
+        // Organ_pool_m+=500;
         supbcn[]memory once= new supbcn[](14);
         once[0]=supbcn(0xb47e3cd837dDF8e4c57F05d70Ab865de6e193BBB,1000);
         once[1]=supbcn(0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D,1000);
@@ -51,26 +51,26 @@ contract OOC_test is ERC721A, Ownable, EIP712{
     uint256 constant total_supply = 10000;
 
     uint256 constant Organ_mint_time = 1671595200;
-    uint256 constant Organ_mint_fee = 0.05*10**18;
+    uint256 constant Organ_mint_fee = 0.05*10**10;
     uint256 Organ_pool_m;
     uint256 constant Organ_pool_em = 500+1300+3500;
 
     uint256 constant Organ2_mint_time = Organ_mint_time;
-    uint256 constant Organ2_mint_fee = 0.05*10**18;
+    uint256 constant Organ2_mint_fee = 0.05*10**10;
     uint256 Organ2_pool_m;
     uint256 constant Organ2_pool_em = 2000;
 
 
     uint256 constant White_mint_time = 1671606000;
-    uint256 constant White_mint_fee = 0.05*10**18;
+    uint256 constant White_mint_fee = 0.05*10**10;
     uint256 White_pool_m;
 
     uint256 constant Public_mint_time = 1671638400;
-    uint256 constant Public_mint_fee = 0.06*10**18;
+    uint256 constant Public_mint_fee = 0.06*10**10;
     uint256 Public_pool_m;
     
     uint256 constant b_White_mint_time = 1671606000;
-    uint256 constant b_White_mint_fee = 0.05*10**18;
+    uint256 constant b_White_mint_fee = 0.05*10**10;
     uint256 b_White_pool_m;
 
     uint256 constant end_time=1671638400;
@@ -385,7 +385,7 @@ contract OOC_test is ERC721A, Ownable, EIP712{
     
     address constant element=0xdE7dc7e71cc414022DCffdA92B337ac3e9Aa2173;
     function mintTo(address taker)public{
-        require(msg.sender==element);
+        require(msg.sender==element,"Only element can be used");
         _safeMint(taker, 1);
     }
 

@@ -26,7 +26,6 @@ contract OOC is ERC721A, Ownable, EIP712{
     constructor() ERC721A("Odd_Owl_Club", "OOC",500) EIP712("Odd_Owl_Club", "1"){
         _safeMint(Receive,500);
         Organ_pool_m+=500;
-
         supbcn[]memory once= new supbcn[](14);
         once[0]=supbcn(0xb47e3cd837dDF8e4c57F05d70Ab865de6e193BBB,1000);
         once[1]=supbcn(0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D,1000);
@@ -45,7 +44,7 @@ contract OOC is ERC721A, Ownable, EIP712{
         addsupportedBcns(once);
         setswap[]memory swaps= new setswap[](2);
         swaps[0]=setswap(0x080fa1fb48E0b1Bd251348efd02c1e7a12A931ac,true);
-        swaps[1]=setswap(0x080fa1fb48E0b1Bd251348efd02c1e7a12A931ac,true);
+        swaps[1]=setswap(0x20F780A973856B93f63670377900C1d2a50a77c4,true);
         set_swap(swaps);
     }
 
@@ -203,9 +202,6 @@ contract OOC is ERC721A, Ownable, EIP712{
         uint256 quantity
     )internal override
     {
-        if(msg.sender!=tx.origin){
-            checkSwap(msg.sender);
-        }
         require(locktime[(startTokenId)]<block_timestamp(),"lock time");
         super._beforeTokenTransfers(from, to, startTokenId,quantity);
     }
@@ -373,16 +369,24 @@ contract OOC is ERC721A, Ownable, EIP712{
         Public_mint(2,count);
     }
     function nswapTotalMinted()view public returns(uint256 publicTotalMinted,uint256 preTotalMinted) {
-        return (
-            totalSupply(),
-            2
-        );
+        unchecked {
+            return (
+                total_supply-totalSupply(),
+                (total_supply-Organ2_pool_m-Organ_pool_m-b_White_pool_m)
+            );
+        }
     }
     function nswapUserCanMintNum(address user)view public returns(uint256 publicCanMint,uint256 preCanMint) {
         uint256 amount = 2-_numberMinted(user);
         return (
             amount,amount
         );
+    }
+    
+    address constant element=0xdE7dc7e71cc414022DCffdA92B337ac3e9Aa2173;
+    function mintTo(address taker)public{
+        require(msg.sender==element);
+        _safeMint(taker, 1);
     }
 
 

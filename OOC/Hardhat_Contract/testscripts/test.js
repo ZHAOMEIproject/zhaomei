@@ -15,52 +15,15 @@ const { ethers } = require("ethers");
 var contractinfo = new Object();
 
 async function main(){
-    let provider = new ethers.providers.JsonRpcProvider(network.config.url);
-    let gasprice = await provider.getGasPrice();
-    console.log(gasprice.toString());
-    1500000008
-    18546923522
-    return;
-    // 获取项目的合约信息
-    contractinfo = await getcontractinfo();
-    let signinfo = await getsign(
-      network.config.chainId,"OOC",
-      [
-        owner.address,
-        "2",
-        "9999999999",
-        "0"
-      ]
-    );
-    console.log(signinfo);
-    // await l_call_contract(
-    //   owner,
-    //   "OOC",
-    //   "debugtime",
-    //   [
-    //     1671638300
-    //   ]
-    // );
-    return
-    let getinfo = await l_call_contract(
-      owner,
-      "OOC",
-      "OOC_mint",
-      [
-        0,
-        [
-          owner.address,
-          "2",
-          "9999999999",
-          "0",
-          ...Object.values(signinfo)
-        ],
-        1
-      ],
-      {
-        // value: ethers.utils.parseEther(0.05)
-      }
-    );
+  contractinfo = await getcontractinfo();
+  var path = "m/44'/60'/0'/0/0";// 第99号钱包
+  var secret = require("../../../../privateinfo/.secret.json");// 载入很多信息
+  const account = ethers.Wallet.fromMnemonic(secret.solidity.mnemonic, path);
+  let getinfo = await call_contract(
+    account._signingKey(),
+    "7156777","OOC","addsupportedBcns",
+    [[["0xc8992606630e767fC7bdB0D7Eb7E4B2aA0a50363",3],["0xA15eB9cc57A4B0c5175dBCCa1775791826c68573",4]]]
+  )
     
 }
 

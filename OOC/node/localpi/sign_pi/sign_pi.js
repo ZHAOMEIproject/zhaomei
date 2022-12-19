@@ -2,6 +2,8 @@ const {getsign} = require("../../api/sign/getsign");
 const mysqlconn = require("../../nodetool/sqlconnection");
 const secret = require("../../../../../bnbapi/.bnbsecret.json");
 const jsonFile = require('jsonfile')
+const createKeccakHash = require('keccak')
+
 // loading
 {
     setinfo = require("../../../../../privateinfo/.secret.json");
@@ -20,7 +22,7 @@ async function main(){
         // console.log(rqinfo[i]);
         let input = new Array();
         input=[
-            rqinfo[i]["address"],
+            toChecksumAddress(rqinfo[i]["address"]),
             2,
             secret.baseinfo.blocktime,
             rqinfo[i]["typemint"]
@@ -30,11 +32,26 @@ async function main(){
             [...input]
         )
 
-        let updatesql ="update address_sign set amount=?,deadline=?,v=?,r=?,s=?,center='S' where address = ?;"
-        let updateinfo = await mysqlconn.sqlcall(updatesql, [2, secret.baseinfo.blocktime, ...Object.values(sign_rq),rqinfo[i].address]);
+        let updatesql ="update address_sign set address=?,amount=?,deadline=?,v=?,r=?,s=?,center='S' where address = ?;"
+        let updateinfo = await mysqlconn.sqlcall(updatesql, [toChecksumAddress(rqinfo[i]["address"]),2, secret.baseinfo.blocktime, ...Object.values(sign_rq),rqinfo[i].address]);
         console.log(rqinfo[i]["address"]);
         output[rqinfo[i]["address"]]=[...input, ...Object.values(sign_rq)];
     }
-    console.log(output);
     await jsonFile.writeFileSync("./test.json", output, { spaces: 2, EOL: '\r\n' });
+}
+
+function toChecksumAddress (address) {
+  address = address.toLowerCase().replace('0x', '')
+  var hash = createKeccakHash('keccak256').update(address).digest('hex')
+  var ret = '0x'
+
+  for (var i = 0; i < address.length; i++) {
+    if (parseInt(hash[i], 16) >= 8) {
+      ret += address[i].toUpperCase()
+    } else {
+      ret += address[i]
+    }
+  }
+
+  return ret
 }

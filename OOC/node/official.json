@@ -1,15 +1,16 @@
 {
   "apps": [
     {
-      "name": "VII_SCORES",
+      "name": "VII_OOC",
       "cwd": "./",
       "script": "official.js",
       "log_date_format": "YYYY-MM-DD HH:mm Z",
       "error_file": "log/erroe.log",
-      "out_file": "log/VII_SCORES.log",
-      "pid_file": "pids/VII_SCORES.pid",
-      "instances": 1,
+      "out_file": "log/VII_OOC.log",
+      "pid_file": "pids/VII_OOC.pid",
+      "instances": 5,
       "min_uptime": "200s",
+      "max_restarts":200,
       "watch": false,
       "merge_logs": true,
       "exec_interpreter": "node",

@@ -15,7 +15,7 @@ let secret_key = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2
 let opensea = "0x1E0049783F008A0085193E00003D00cd54003c71";
 main();
 async function main() {
-    // await creat_q_account()
+    await creat_q_account()
     // console.log("creat end");
     // 测试使用的提现eth，用上面secret_key对应的账号进行发钱。
     // await test_transfer_2()

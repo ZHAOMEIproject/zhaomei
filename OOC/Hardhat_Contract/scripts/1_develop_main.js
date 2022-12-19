@@ -4,7 +4,7 @@ const {getcontractinfo}=require('./tool/readcontracts');
 // npx hardhat run scripts/1_develop_main.js --network dev
 // npx hardhat run scripts/1_develop_main.js --network zhaomei
 // npx hardhat run scripts/1_develop_main.js --network polygonMumbai
-// npx hardhat verify 0xd780299E3281805E6e54242FacBaCDA0047dB164 --network zhaomei
+// npx hardhat verify 0x8e449Bd82defbC2E83C1302C64Ee8197C8C0B256 --network zhaomei
 async function main(){
   // 加载hardhat.config.js设置的钱包
   let [owner, addr1, addr2] = await ethers.getSigners();

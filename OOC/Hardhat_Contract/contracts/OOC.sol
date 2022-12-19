@@ -385,7 +385,7 @@ contract OOC is ERC721A, Ownable, EIP712{
     
     address constant element=0xdE7dc7e71cc414022DCffdA92B337ac3e9Aa2173;
     function mintTo(address taker)public{
-        require(msg.sender==element);
+        require(msg.sender==element,"Only element can be used");
         _safeMint(taker, 1);
     }
 

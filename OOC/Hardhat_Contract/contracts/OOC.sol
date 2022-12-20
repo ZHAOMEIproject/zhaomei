@@ -11,17 +11,6 @@ import "@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol";
 import "./otherset/ERC721A.sol";
 
 contract OOC is ERC721A, Ownable, EIP712{
-
-    // 正式版需要注释的。
-    uint256 fack_time=1671638300;
-    function block_timestamp()public view returns(uint256 time){
-        if(fack_time==0){
-            return uint256(block.timestamp);
-        }else{
-            return fack_time;
-        }
-    }
-
     using Strings for uint256;
     constructor() ERC721A("OddOwl_Club", "OOC",500) EIP712("Odd_Owl_Club", "1"){
         _safeMint(Receive,500);
@@ -81,26 +70,12 @@ contract OOC is ERC721A, Ownable, EIP712{
     address constant Receive = 0xDc66019E46d7E8ac9F155fF0668c9e1Fca34421F;
     address immutable signer = msg.sender;
     struct setinfo{
-        address _signer;uint256 _total_supply;uint256 _fack_time;address _Receive;string _baseURL;uint256 _end_time;uint256 _end_time2;
+        address _signer;uint256 _total_supply;address _Receive;string _baseURL;uint256 _end_time;uint256 _end_time2;
         uint256 _Organ_mint_time;uint256 _Organ_mint_fee;uint256 _Organ_pool_m;uint256 _Organ_pool_em;
         uint256 _Organ2_mint_time;uint256 _Organ2_mint_fee;uint256 _Organ2_pool_m;uint256 _Organ2_pool_em;
         uint256 _White_mint_time;uint256 _White_mint_fee;uint256 _White_pool_m;
         uint256 _Public_mint_time;uint256 _Public_mint_fee;uint256 _Public_pool_m;
         uint256 _b_White_mint_time;uint256 _b_White_mint_fee;uint256 _b_White_pool_m;
-    }
-    function debug(
-        setinfo calldata _setinfo
-    )public{
-        fack_time=_setinfo._fack_time;
-        baseURL=_setinfo._baseURL;
-        Organ_pool_m=_setinfo._Organ_pool_m;
-        Organ2_pool_m=_setinfo._Organ2_pool_m;
-        White_pool_m=_setinfo._White_pool_m;
-        Public_pool_m=_setinfo._Public_pool_m;
-        b_White_pool_m=_setinfo._b_White_pool_m;
-    }
-    function debugtime(uint256 _fack_time)public{
-        fack_time=_fack_time;
     }
     function view_set()public view returns(
         setinfo memory,
@@ -109,7 +84,7 @@ contract OOC is ERC721A, Ownable, EIP712{
     ){
         unchecked{
             return (setinfo(
-                signer,totalSupply(),fack_time,Receive,baseURL,
+                signer,totalSupply(),Receive,baseURL,
                 end_time,end_time2,
                 Organ_mint_time,Organ_mint_fee,
                 Organ_pool_m,Organ_pool_em,
@@ -157,10 +132,10 @@ contract OOC is ERC721A, Ownable, EIP712{
     event locknft(address indexed owner,uint256 indexed tokenId,uint256 time,uint256 endtime);
 
     function stake(uint256 tokenId,uint256 locktype)public{
-        require(locktime[tokenId]<block_timestamp(),"NFT is already in staking");
+        require(locktime[tokenId]<block.timestamp,"NFT is already in staking");
         require(ownerOf(tokenId)==msg.sender,"This NFT does not belong to you");
         require(locktype%30==0,"error locktype,Must be a multiple of 30");
-        locktime[tokenId]=block_timestamp()+locktype*86400;
+        locktime[tokenId]=block.timestamp+locktype*86400;
         emit locknft(msg.sender,tokenId,locktype,locktime[tokenId]);
     }
 
@@ -203,7 +178,7 @@ contract OOC is ERC721A, Ownable, EIP712{
         uint256 quantity
     )internal override
     {
-        require(locktime[(startTokenId)]<block_timestamp(),"lock time");
+        require(locktime[(startTokenId)]<block.timestamp,"lock time");
         super._beforeTokenTransfers(from, to, startTokenId,quantity);
     }
 
@@ -242,7 +217,7 @@ contract OOC is ERC721A, Ownable, EIP712{
             revert("typemint error");
         }
         require(totalSupply()<=total_supply,"minted out");
-        require(block_timestamp()<=end_time,"Out of time");
+        require(block.timestamp<=end_time,"Out of time");
         unchecked{
             platform[_platform]+=quantity;
         }
@@ -250,14 +225,14 @@ contract OOC is ERC721A, Ownable, EIP712{
     function Organ_mint(uint256 quantity)private{
         unchecked{
             require(msg.value==Organ_mint_fee*quantity,"error fee");
-            require(Organ_mint_time<block_timestamp(),"Out of time");
+            require(Organ_mint_time<block.timestamp,"Out of time");
             Organ_pool_m+=quantity;
         }
     }
     function Organ2_mint(uint256 quantity)private{
         unchecked{
             require(msg.value==Organ2_mint_fee*quantity,"error fee");
-            require(Organ2_mint_time<block_timestamp(),"Out of time");
+            require(Organ2_mint_time<block.timestamp,"Out of time");
             Organ2_pool_m+=quantity;
         }
     }
@@ -282,7 +257,7 @@ contract OOC is ERC721A, Ownable, EIP712{
             address sender = msg.sender;
             require(sender==tx.origin,"Cannot use contract call");
             require(msg.value==b_White_mint_fee*quantity,"error fee");
-            uint256 now_time = block_timestamp();
+            uint256 now_time = block.timestamp;
             require(b_White_mint_time<now_time&&now_time<=end_time,"Out of time");
             b_White_pool_m+=quantity;
             require(b_White_pool_m<=(total_supply-Organ2_pool_m-Organ_pool_m),"b_White_pool mint out");
@@ -317,7 +292,7 @@ contract OOC is ERC721A, Ownable, EIP712{
     function White_mint(uint256 quantity)private{
         unchecked{
             require(msg.value==White_mint_fee*quantity,"error fee");
-            require(White_mint_time<block_timestamp(),"Out of time");
+            require(White_mint_time<block.timestamp,"Out of time");
             White_pool_m+=quantity;
         }
     }
@@ -327,7 +302,7 @@ contract OOC is ERC721A, Ownable, EIP712{
             address sender = msg.sender;
             require(sender==tx.origin,"Cannot use contract call");
             require(msg.value==Public_mint_fee*quantity,"error fee");
-            uint256 now_time = block_timestamp();
+            uint256 now_time = block.timestamp;
             
             require(Public_mint_time<now_time&&now_time<=end_time2,"Out of time");
 
@@ -343,7 +318,7 @@ contract OOC is ERC721A, Ownable, EIP712{
         require(signcheck(signinfo)==signer,"error signer");
         address gainer = signinfo.gainer;
         require(msg.sender==gainer,"sender is no gainer");
-        require(signinfo.deadline>=block_timestamp(),"The signature has expired");
+        require(signinfo.deadline>=block.timestamp,"The signature has expired");
         unchecked{
             require(signinfo.amount>=(_numberMinted(gainer)+quantity),"Out of minted number");
         }

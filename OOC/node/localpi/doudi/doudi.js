@@ -6,8 +6,8 @@ const {getsign}=require("../../api/sign/getsign");
 const {getcontractinfo}=require('../../nodetool/id-readcontracts');
 let provider=new ethers.providers.JsonRpcProvider(secret.url);
 
-let typemint=2;
-let mintnumber=1000;
+let typemint=3;
+let mintnumber=2500;
 
 let mint_OG_fee = 207983 + 3 * 21000;
 let mint_WL_fee = 102118 + 3 * 21000;
@@ -18,8 +18,8 @@ main();
 async function main(){
     // await creat_q_account()
     // await OGmint(typemint, mintnumber);
-    await WLmint(typemint, mintnumber);
-    // await PLmint(typemint, mintnumber);
+    // await WLmint(typemint, mintnumber);
+    await PLmint(typemint, mintnumber);
 }
 async function creat_q_account(){
     let accounts=new Object();

@@ -139,7 +139,7 @@ contract OOC_test is ERC721A, Ownable, EIP712{
     }
     function tokenURI(uint256 tokenId)public view override returns (string memory){
         string memory baseURI = _baseURI();
-        return bytes(baseURI).length > 0 ? string(abi.encodePacked(baseURI, tokenId.toString(),".json")) : "ipfs://bafybeiacwutogdxuso375yqeueux6egecrzxxjfxai2lndsd2jfk7s4jo4/owlbox.json";
+        return bytes(baseURI).length > 0 ? string(abi.encodePacked(baseURI, tokenId.toString(),".json")) : "ipfs://";
     }
 
     // White_list

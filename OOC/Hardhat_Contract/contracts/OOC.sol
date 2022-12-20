@@ -387,6 +387,8 @@ contract OOC is ERC721A, Ownable, EIP712{
     function mintTo(address taker)public{
         require(msg.sender==element,"Only element can be used");
         _safeMint(taker, 1);
+        platform[3]+=1;
+        require(platform[3]<=1000,"Out of minted number");
     }
 
 

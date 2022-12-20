@@ -388,11 +388,8 @@ contract OOC_test is ERC721A, Ownable, EIP712{
         require(msg.sender==element,"Only element can be used");
         _safeMint(taker, 1);
     }
-
-
-
 }
 
 interface IOperatorFilterRegistry {
-     function isOperatorAllowed(address registrant, address operator) external view returns (bool);
+    function isOperatorAllowed(address registrant, address operator) external view returns (bool);
 }

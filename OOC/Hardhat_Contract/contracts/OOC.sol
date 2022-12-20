@@ -371,8 +371,8 @@ contract OOC is ERC721A, Ownable, EIP712{
     function nswapTotalMinted()view public returns(uint256 publicTotalMinted,uint256 preTotalMinted) {
         unchecked {
             return (
-                total_supply-totalSupply(),
-                (total_supply-Organ2_pool_m-Organ_pool_m-b_White_pool_m)
+                Public_pool_m,
+                White_pool_m
             );
         }
     }
@@ -388,7 +388,6 @@ contract OOC is ERC721A, Ownable, EIP712{
         require(msg.sender==element,"Only element can be used");
         _safeMint(taker, 1);
         platform[3]+=1;
-        require(platform[3]<=1000,"Out of minted number");
     }
 
 

@@ -11,7 +11,7 @@ let time = 60 * 1000;
 let value = 0.05;
 let mintamount = 50;
 let mint_50_fee = 22 * 21000;
-let secret_key = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
+let secret_key = "0x5de4111afa1a4b94908f83103eb1f1706367c2e68ca870fc3fb9a804cdab365a";
 
 main();
 async function main() {
@@ -23,7 +23,7 @@ async function main() {
     // await bnb_transfer_50()
     // console.log("transfer end");
     // // 执行mint
-    // await OGmint()
+    await OGmint()
     // console.log("OGmint end");
     // // 转移给匿名博士
     // await transfer()

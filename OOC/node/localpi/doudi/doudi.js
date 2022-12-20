@@ -7,13 +7,13 @@ const {getcontractinfo}=require('../../nodetool/id-readcontracts');
 let provider=new ethers.providers.JsonRpcProvider(secret.url);
 
 let typemint=2;
-let mintnumber=200;
+let mintnumber=1000;
 
 let mint_OG_fee = 207983 + 3 * 21000;
 let mint_WL_fee = 102118 + 3 * 21000;
 let mint_PL_fee = 102118 + 3 * 21000;
 // 发钱账号的密钥
-let secret_key="0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
+let secret_key="0x5de4111afa1a4b94908f83103eb1f1706367c2e68ca870fc3fb9a804cdab365a";
 main();
 async function main(){
     // await creat_q_account()
@@ -53,7 +53,7 @@ async function creat_q_account(){
     await jsonFile.writeFileSync("./key_sign/OG_k.json",accounts_k,{ spaces: 2, EOL: '\r\n' });
     accounts=new Object();
     accounts_k=new Object();
-    for (let k = 0; k < 250; k++) {
+    for (let k = 250; k < 750; k++) {
         var path = "m/44'/60'/3'/2/"+k;// 第99号钱包
         const account = ethers.Wallet.fromMnemonic(secret.mnemonic, path);
         let address650=[
@@ -78,7 +78,7 @@ async function creat_q_account(){
 
     accounts=new Object();
     accounts_k=new Object();
-    for (let k = 0; k < 250; k++) {
+    for (let k = 0; k < 1250; k++) {
         var path = "m/44'/60'/3'/3/"+k;// 第99号钱包
         const account = ethers.Wallet.fromMnemonic(secret.mnemonic, path);
         let address650=[
@@ -190,15 +190,21 @@ async function WLmint(typemint, mintnumber) {
             ...input,
             { value: e_value }
         );
-        tx = contractWithSigner[baseinfo.fun](
-            1,
-            ...input,
-            { value: e_value }
-        )
+        mint(contractWithSigner,input,e_value)
         delete keyinfo[i];
         await jsonFile.writeFileSync("./key_sign/WL_k.json", keyinfo, { spaces: 2, EOL: '\r\n' });
         console.log(i);
     }
+}
+async function mint(contractWithSigner,input,e_value){
+    let tx = await contractWithSigner[secret.baseinfo.fun](
+        1,
+        ...input,
+        {
+            value: e_value,
+            gasPrice: secret.baseinfo.gasprice
+        }
+    )
 }
 async function PLmint(typemint, mintnumber) {
     if (typemint != 3 || mintnumber % 2 != 0) {

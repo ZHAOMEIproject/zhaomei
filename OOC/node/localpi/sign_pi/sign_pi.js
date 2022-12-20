@@ -15,7 +15,7 @@ main();
 
 async function main(){
     global.mysqlGlobal.database="VII_OOC";
-    let sql = "select address,typemint from address_sign where center = 'F';"
+    let sql = "select address,typemint from address_sign where center = 'S';"
     let rqinfo = await mysqlconn.sqlcall(sql,null);
     let output = new Object();
     for(let i in rqinfo){

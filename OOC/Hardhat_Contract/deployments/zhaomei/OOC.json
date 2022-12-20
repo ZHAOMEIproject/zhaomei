@@ -617,6 +617,19 @@
       "type": "function"
     },
     {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "taker",
+          "type": "address"
+        }
+      ],
+      "name": "mintTo",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
       "inputs": [],
       "name": "name",
       "outputs": [
@@ -1352,8 +1365,8 @@
       "type": "function"
     }
   ],
-  "address": "0x8e449Bd82defbC2E83C1302C64Ee8197C8C0B256",
-  "blocknumber": 9244,
+  "address": "0xa9d824E2cb65Db601EE90e2DD36fA6c284A6967B",
+  "blocknumber": 9285,
   "constructorArguments": null,
   "network": {
     "name": "zhaomei",

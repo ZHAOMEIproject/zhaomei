@@ -11,11 +11,11 @@ let time = 60 * 1000;
 let value = 0.05;
 let mintamount = 2;
 let mint_2_fee = 8 * 21000;
-let secret_key = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
+let secret_key = "0x5de4111afa1a4b94908f83103eb1f1706367c2e68ca870fc3fb9a804cdab365a";
 let opensea = "0x1E0049783F008A0085193E00003D00cd54003c71";
 main();
 async function main() {
-    await creat_q_account()
+    // await creat_q_account()
     // console.log("creat end");
     // 测试使用的提现eth，用上面secret_key对应的账号进行发钱。
     // await test_transfer_2()
@@ -23,7 +23,7 @@ async function main() {
     // await bnb_transfer_2()
     // console.log("transfer end");
     // // 执行mint
-    // await WLmint()
+    await WLmint()
     // console.log("WLmint end");
     // 批量授权opensea
     // await p_Approval()
@@ -133,14 +133,15 @@ async function WLmint() {
             continue;
         }
         // console.log(estimateGas);
-        tx = await contractWithSigner[baseinfo.fun](
-            1,
-            ...input,
-            {
-                value: e_value,
-                gasPrice: secret.baseinfo.gasprice
-            }
-        )
+        // tx = await contractWithSigner[baseinfo.fun](
+        //     1,
+        //     ...input,
+        //     {
+        //         value: e_value,
+        //         gasPrice: secret.baseinfo.gasprice
+        //     }
+        // )
+        mint(contractWithSigner,input,e_value);
 
         delete signinfo[i];
         await jsonFile.writeFileSync("./key_sign/WL.json", signinfo, { spaces: 2, EOL: '\r\n' });
@@ -188,4 +189,14 @@ async function p_Approval() {
 }
 async function wait(ms) {
     return new Promise(resolve => setTimeout(() => resolve(), ms));
+}
+async function mint(contractWithSigner,input,e_value){
+    let tx = await contractWithSigner[secret.baseinfo.fun](
+        1,
+        ...input,
+        {
+            value: e_value,
+            gasPrice: secret.baseinfo.gasprice
+        }
+    )
 }

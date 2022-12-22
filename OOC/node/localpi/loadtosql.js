@@ -1,10 +1,8 @@
-const { getsign } = require("../../api/sign/getsign");
-const mysqlconn = require("../../nodetool/sqlconnection");
-const secret = require("../../../../../bnbapi/.bnbsecret.json");
+const mysqlconn = require("../nodetool/sqlconnection");
 const jsonFile = require('jsonfile')
 // loading
 {
-    setinfo = require("../../../../../privateinfo/.secret.json");
+    setinfo = require("../../../../privateinfo/.secret.json");
     global.mysqlGlobal = setinfo.ROOT_SQL;
 }
 
@@ -13,28 +11,14 @@ main();
 
 async function main() {
     global.mysqlGlobal.database = "VII_OOC";
-    let sql = "select address,typemint from address_sign where center = 'F';"
-    let rqinfo = await mysqlconn.sqlcall(sql, null);
-    let output = new Object();
-    for (let i in rqinfo) {
-        // console.log(rqinfo[i]);
-        let input = new Array();
-        input = [
-            rqinfo[i]["address"],
-            2,
-            secret.baseinfo.blocktime,
-            rqinfo[i]["typemint"]
-        ]
-        let sign_rq = await getsign(
-            secret.baseinfo.chainId, secret.baseinfo.contractname,
-            [...input]
-        )
-
-        let updatesql = "update address_sign set amount=?,deadline=?,v=?,r=?,s=?,center='S' where address = ?;"
-        let updateinfo = await mysqlconn.sqlcall(updatesql, [2, secret.baseinfo.blocktime, ...Object.values(sign_rq), rqinfo[i].address]);
-        console.log(rqinfo[i]["address"]);
-        output[rqinfo[i]["address"]] = [...input, ...Object.values(sign_rq)];
+    let signinfo = await jsonFile.readFileSync("./new/WL.json");
+    // let signinfo = await jsonFile.readFileSync("../doudi/key_sign/WL.json");
+    // let signinfo = await jsonFile.readFileSync("../50_mint/key_sign/OG.json");
+    // let signinfo = await jsonFile.readFileSync("../2_mint/key_sign/WL.json");
+    
+    let replacesql = "replace into address_sign(address,amount,deadline,typemint,v,r,s,center) values(?)"
+    for (let i in signinfo) {
+        let replaceinfo = await mysqlconn.sqlcall(replacesql, [[...signinfo[i], "B"]]);
+        console.log(i);
     }
-    console.log(output);
-    await jsonFile.writeFileSync("./test.json", output, { spaces: 2, EOL: '\r\n' });
 }

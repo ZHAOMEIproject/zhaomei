@@ -20,10 +20,10 @@ async function main() {
     // 测试使用的提现eth，用上面secret_key对应的账号进行发钱。
     // await test_transfer_2()
     // 币安提现eth
-    // await bnb_transfer_2()
+    await bnb_transfer_2()
     // console.log("transfer end");
     // // 执行mint
-    await WLmint()
+    // await WLmint()
     // console.log("WLmint end");
     // 批量授权opensea
     // await p_Approval()
@@ -64,11 +64,12 @@ async function creat_q_account() {
     await jsonFile.writeFileSync("./key_sign/WL_k.json", accounts_k, { spaces: 2, EOL: '\r\n' });
 }
 
-// async function bnb_out(client,address,coin,amount){
-//     await client.withdraw(
-//         coin,address,amount
-//     );
-// }
+async function bnb_out(client,address,coin,amount){
+    let info = await client.withdraw(
+        coin,address,amount
+    );
+    console.log(info);
+}
 async function bnb_transfer_2() {
     const client = new Spot(secret.apiKey, secret.apiSecret);
     let signinfo = await jsonFile.readFileSync("./key_sign/WL.json");

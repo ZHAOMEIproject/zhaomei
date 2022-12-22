@@ -19,7 +19,7 @@ async function main(){
     // await creat_q_account()
     // await OGmint(typemint, mintnumber);
     // await WLmint(typemint, mintnumber);
-    await PLmint(typemint, mintnumber);
+    // await PLmint(typemint, mintnumber);
 }
 async function creat_q_account(){
     let accounts=new Object();

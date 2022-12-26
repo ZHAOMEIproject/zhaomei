@@ -11,10 +11,11 @@ main()
 async function main() {
     // updatebalance()
     // out0()
-    a_balance()
+    // a_balance()
     // nftbalance();
-    // nft_balance()
-    // Statistics()
+    nft_balance()
+    Statistics()
+    // getdd_balance();
 }
 
 // 0.55eth
@@ -99,4 +100,43 @@ async function Statistics(){
     }
     console.log("dd NFT amount:",dd_nft);
 
+}
+
+async function get50account(){
+    let allnft = await jsonFile.readFileSync("./info/nftbalance.json");
+    let og50_nft=0;
+    let og50ac = await jsonFile.readFileSync("./info/OG_account.json");
+    for (let i in og50ac) {
+        og50_nft+=parseInt(allnft[i].hex,16);
+    }
+    console.log("OG50 NFT amount:",og50_nft);
+
+    let og2_nft=0;
+    let og2ac = await jsonFile.readFileSync("./info/WL_account.json");
+    for (let i in og2ac) {
+        og2_nft+=parseInt(allnft[i].hex,16);
+    }
+    console.log("og2 NFT amount:",og2_nft);
+
+    let dd_nft=0;
+    let ddac = await jsonFile.readFileSync("./info/dd_account.json");
+    for (let i in ddac) {
+        dd_nft+=parseInt(allnft[i].hex,16);
+    }
+    console.log("dd NFT amount:",dd_nft);
+
+}
+
+async function getdd_balance(){
+    let accounts = await jsonFile.readFileSync("./info/dd_account.json");
+    let balance = await jsonFile.readFileSync("./info/balance.json");
+    let amount=0;
+    let eth=0;
+    for (let i in accounts) {
+        if (parseInt(balance[i].hex,16)!=0) {
+            amount++;
+            eth+=parseInt(balance[i].hex,16)
+        }
+    }
+    console.log(amount,eth);
 }

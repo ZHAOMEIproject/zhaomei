@@ -208,14 +208,14 @@
       "type": "function"
     }
   ],
-  "address": "0xF2cf5CA817e92912b7C4E2Dab5760d325379BA48",
-  "blocknumber": 24668022,
+  "address": "0x86DE8762279973a0441F7009c6860220E0844F21",
+  "blocknumber": 25328900,
   "constructorArguments": [
     "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2"
   ],
   "network": {
     "name": "bnbtest",
     "chainId": 97,
-    "url": "https://data-seed-prebsc-1-s1.binance.org:8545/"
+    "url": "https://bsctestapi.terminet.io/rpc"
   }
 }

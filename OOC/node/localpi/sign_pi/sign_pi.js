@@ -1,5 +1,9 @@
 const {getsign} = require("../../api/sign/getsign");
 const mysqlconn = require("../../nodetool/sqlconnection");
+const secret = require("../../../../../bnbapi/.bnbsecret.json");
+const jsonFile = require('jsonfile')
+const createKeccakHash = require('keccak')
+
 // loading
 {
     setinfo = require("../../../../../privateinfo/.secret.json");
@@ -10,56 +14,44 @@ const mysqlconn = require("../../nodetool/sqlconnection");
 main();
 
 async function main(){
-    global.mysqlGlobal.database="OOC";
-    let sql = "select address,community,amount,typemint,deadline from address_sign where center = 'F';"
+    global.mysqlGlobal.database="VII_OOC";
+    let sql = "select address,typemint from address_sign where center = 'S';"
     let rqinfo = await mysqlconn.sqlcall(sql,null);
-    // console.log(reinfo);
-    let sign_info={
-        "id":80001,
-        "contractname":"OOC"
-    }
-    let params={
-        id:80001,
-        contractname:"OOC",
-        fun:"signcheck"
-    }
-    let check =["address","community","amount","deadline","typemint"];
     let output = new Object();
     for(let i in rqinfo){
         // console.log(rqinfo[i]);
         let input = new Array();
-        for(let j in check){
-            input.push(rqinfo[i][check[j]]);
-        }
-        // console.log();
-        let sign_rq = await getsign(sign_info.id,sign_info.contractname,[...input])
-        // console.log(sign_rq);
-        // params["params"]=[[...input,...Object.values(sign_rq)],rqinfo[i].amount]
-        // let result = await readcontracts(params);
-        // console.log(result);
-        let updatesql ="update address_sign set v=?,r=?,s=?,center='S' where address = ?;"
-        let updateinfo = await mysqlconn.sqlcall(updatesql,[...Object.values(sign_rq),rqinfo[i].address]);
-        // if(output[rqinfo[i]["address"]]==null){
-        //     output[rqinfo[i]["address"]] = new Object();
-        // }
-        // if(output[rqinfo[i]["address"]][rqinfo[i].typemint]==null){
-        //     output[rqinfo[i]["address"]][rqinfo[i].typemint]=new Object();
-        // }
-        // output[rqinfo[i]["address"]][rqinfo[i].typemint][rqinfo[i].amount]=[...input, ...Object.values(sign_rq)];
+        input=[
+            toChecksumAddress(rqinfo[i]["address"]),
+            2,
+            secret.baseinfo.blocktime,
+            rqinfo[i]["typemint"]
+        ]
+        let sign_rq = await getsign(
+            secret.baseinfo.chainId,secret.baseinfo.contractname,
+            [...input]
+        )
 
+        let updatesql ="update address_sign set address=?,amount=?,deadline=?,v=?,r=?,s=?,center='S' where address = ?;"
+        let updateinfo = await mysqlconn.sqlcall(updatesql, [toChecksumAddress(rqinfo[i]["address"]),2, secret.baseinfo.blocktime, ...Object.values(sign_rq),rqinfo[i].address]);
+        console.log(rqinfo[i]["address"]);
         output[rqinfo[i]["address"]]=[...input, ...Object.values(sign_rq)];
     }
-    console.log(output);
+    await jsonFile.writeFileSync("./test.json", output, { spaces: 2, EOL: '\r\n' });
+}
 
-    const fs = require("fs")
-    const path = require("path")
-    let fileName ="test";
-    const outputFile = path.join(__dirname, `./${fileName}.json`)
-    fs.writeFile(outputFile, JSON.stringify(output, '' , ' '), (err) => {
-        if (err) {
-            console.log(err)
-        } else {
-            console.log(`./${fileName}.json 创建成功！！！`)
-        }
-    })
+function toChecksumAddress (address) {
+  address = address.toLowerCase().replace('0x', '')
+  var hash = createKeccakHash('keccak256').update(address).digest('hex')
+  var ret = '0x'
+
+  for (var i = 0; i < address.length; i++) {
+    if (parseInt(hash[i], 16) >= 8) {
+      ret += address[i].toUpperCase()
+    } else {
+      ret += address[i]
+    }
+  }
+
+  return ret
 }

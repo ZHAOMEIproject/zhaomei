@@ -95,6 +95,7 @@ exports.contractapi = router.get("/read", async (req, res) => {
 });
 
 exports.checkorderid = router.post("/postread", async (req, res) => {
+    // var params = url.parse(req.url, true).query;
     var params = req.body;
     // console.log(params);
     

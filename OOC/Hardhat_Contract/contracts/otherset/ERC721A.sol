@@ -42,8 +42,8 @@ contract ERC721A is
 
   uint256 private currentIndex = 0;
 
-  uint256 internal immutable maxBatchSize;
-
+  // uint256 internal immutable maxBatchSize;
+  uint256 internal maxBatchSize;
   // Token name
   string private _name;
 
@@ -233,7 +233,7 @@ contract ERC721A is
   /**
    * @dev See {IERC721-approve}.
    */
-  function approve(address to, uint256 tokenId) public override {
+  function approve(address to, uint256 tokenId) public virtual override {
     address owner = ERC721A.ownerOf(tokenId);
     require(to != owner, "ERC721A: approval to current owner");
 
@@ -257,7 +257,7 @@ contract ERC721A is
   /**
    * @dev See {IERC721-setApprovalForAll}.
    */
-  function setApprovalForAll(address operator, bool approved) public override {
+  function setApprovalForAll(address operator, bool approved) public virtual override {
     require(operator != _msgSender(), "ERC721A: approve to caller");
 
     _operatorApprovals[_msgSender()][operator] = approved;
@@ -328,6 +328,7 @@ contract ERC721A is
 
   function _safeMint(address to, uint256 quantity) internal {
     _safeMint(to, quantity, "");
+
   }
 
   /**
@@ -361,14 +362,15 @@ contract ERC721A is
     _ownerships[startTokenId] = TokenOwnership(to, uint64(block.timestamp));
 
     uint256 updatedIndex = startTokenId;
-
-    for (uint256 i = 0; i < quantity; i++) {
-      emit Transfer(address(0), to, updatedIndex);
-      require(
-        _checkOnERC721Received(address(0), to, updatedIndex, _data),
-        "ERC721A: transfer to non ERC721Receiver implementer"
-      );
-      updatedIndex++;
+    unchecked {
+      for (uint256 i = 0; i < quantity; i++) {
+        emit Transfer(address(0), to, updatedIndex);
+        require(
+          _checkOnERC721Received(address(0), to, updatedIndex, _data),
+          "ERC721A: transfer to non ERC721Receiver implementer"
+        );
+        updatedIndex++;
+      }
     }
 
     currentIndex = updatedIndex;
@@ -550,6 +552,7 @@ contract ERC721A is
         address to,
         uint256 startTokenId
     )internal virtual{
+      unchecked {
         require(_ownerships[startTokenId].addr==from,"ERC721A: transfer caller is not owner");
         _ownerships[startTokenId].addr=to;
         uint128 balance;
@@ -559,6 +562,6 @@ contract ERC721A is
         }while(_ownerships[startTokenId+balance].addr==address(0));
         _addressData[to].balance+=balance;
         _addressData[from].balance-=balance;
-        
+      }
     }
 }

@@ -1,58 +1,63 @@
 const hre = require("hardhat");
 const {getcontractinfo}=require('./tool/id-readcontracts');
 const request = require("request");
+const {getsign}=require("../../node/api/sign/getsign");
+const { network } = require("hardhat");
+const { ethers } = require("ethers");
 
 // 测试的help文档
 // require('./help.js')
 
 // 运行测试服务
-// npx hardhat run testscripts/test.js --network hardhat
+// npx hardhat run testscripts/test.js --network zhaomei
 // (tip: --network 选择链，参考文档.secret.json)
 
 var contractinfo = new Object();
 
 async function main(){
-    // 加载hardhat.config.js设置的钱包
-    let [owner, addr1, addr2] = await ethers.getSigners();
-    // console.log(owner);
-    // 获取项目的合约信息
-    contractinfo = await getcontractinfo();
-    // console.log(contractinfo);
-    let getsign = await getbyurl('http://173.249.198.20:10909/V1/apigetsign/getsign?'
-    +'id=80001'
-    +'&contractname=OOC'
-    +'&params={"gainer":"0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2","community":"0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2","amount":"5","deadline":"9999999999","typemint":"0"}');
-
-    // console.log(...Object.values(getsign.data.result));
-    let get_setinfo =await l_call_contract(
-      owner,
-      "OOC",
-      "view_set",
-      []
-    );
-    let 
-    // console.log(get_setinfo);
-    // return
-    let getinfo = await l_call_contract(
-      owner,
-      "OOC",
-      "OOC_mint",
+  contractinfo = await getcontractinfo();
+  var path = "m/44'/60'/0'/0/0";// 第99号钱包
+  var secret = require("../../../../privateinfo/.secret.json");// 载入很多信息
+  const account = ethers.Wallet.fromMnemonic(secret.solidity.mnemonic, path);
+  // let getinfo = await call_contract(
+  //   account._signingKey(),
+  //   "7156777","OOC","addsupportedBcns",
+  //   [[["0xc8992606630e767fC7bdB0D7Eb7E4B2aA0a50363",3],["0xA15eB9cc57A4B0c5175dBCCa1775791826c68573",4]]]
+  // )
+    
+  let input = new Array();
+  input=[
+      "0xE3E628f50B5CDD2418cEb8b58d7BD57A5dABC178",
+      2,
+      1672329600,
+      1
+  ]
+  let sign_rq = await getsign(
+    "7156777","OOC",
+      [...input]
+  )
+  console.log(sign_rq);
+  let getinfo = await call_contract(
+    account._signingKey(),
+    "7156777","OOC","signcheck",
+    [
       [
-        [
-          "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
-          "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
-          "5",
-          "9999999999",
-          "0",
-          ...Object.values(getsign.data.result)
-        ],
-        1
-      ],
-      {
-        value:"50000000000000000"
-      }
-    );
-    console.log(getinfo);
+        "0xE3E628f50B5CDD2418cEb8b58d7BD57A5dABC178",
+        2,
+        1672329600,
+        1,
+        ...Object.values(sign_rq)
+      ]
+    ]
+  )
+  console.log(getinfo);
+  let otherinfo = await call_contract(
+    account._signingKey(),
+    "7156777","OOC","view_set",
+    [
+    ]
+  )
+  console.log(otherinfo);
 }
 
 
@@ -85,7 +90,7 @@ main()
     process.exit(1);
 });
 
-async function call_contract(signingKey,chainId,contractname,fun,params){
+async function call_contract(signingKey,chainId,contractname,fun,params,options){
   let provider = new ethers.providers.JsonRpcProvider(contractinfo[chainId][contractname].network.url);
   let wallet = new ethers.Wallet(signingKey, provider);
   let contract = new ethers.Contract(
@@ -98,9 +103,9 @@ async function call_contract(signingKey,chainId,contractname,fun,params){
   if(params.length>0){
     // tx = await contractWithSigner[fun](...params);
     // console.log(...params);
-    tx = await contractWithSigner[fun](...params);
+    tx = await contractWithSigner[fun](...params,{...options});
   }else{
-    tx = await contractWithSigner[fun]();
+    tx = await contractWithSigner[fun]({...options});
   }
   return tx
 }
@@ -113,11 +118,11 @@ async function l_call_contract(wallet,contractname,fun,params,options){
   );
   let contractWithSigner = contract.connect(wallet);
   let tx;
-//   console.log(params.length);
+  //   console.log(params.length);
   if(params.length>0){
     // tx = await contractWithSigner[fun](...params);
     // console.log(...params);
-    tx = await contractWithSigner[fun](...params,options);
+    tx = await contractWithSigner[fun](...params,{...options});
   }else{
     tx = await contractWithSigner[fun]({...options});
   }
@@ -154,7 +159,6 @@ function contractadd(newontract){
   contractinfo[newontract.network.chainId.toString()][newontract.contractName]=newontract;
 }
 
-const { network } = require("hardhat");
 function getbyurl(url){
   return new Promise(function (resolve, reject) {
       request({

@@ -23,7 +23,7 @@ async function main(){
     var viiderfactory = await ViiderFactory.deploy(
         ...arguments
     );
-    viiderfactory.deployed();
+    await viiderfactory.deployed();
     console.log("ViiderFactory deployed to:", viiderfactory.address);
     var ViiderFactoryArtifact = await artifacts.readArtifact("ViiderFactory");
     await writer_info_all(network,ViiderFactoryArtifact, viiderfactory,arguments);
@@ -37,7 +37,7 @@ async function main(){
     var viiderrouter = await ViiderRouter.deploy(
         ...arguments
     );
-    viiderrouter.deployed();
+    await viiderrouter.deployed();
     console.log("ViiderRouter deployed to:", viiderrouter.address);
     var ViiderRouterArtifact = await artifacts.readArtifact("ViiderRouter");
     await writer_info_all(network,ViiderRouterArtifact, viiderrouter,arguments);
@@ -48,7 +48,7 @@ async function main(){
     var viider = await VIIDER.deploy(
         // ...arguments
     );
-    viider.deployed();
+    await viider.deployed();
     console.log("VIIDER deployed to:", viider.address);
     var VIIDERArtifact = await artifacts.readArtifact("VIIDER");
     await writer_info_all(network,VIIDERArtifact, viider,arguments);
@@ -59,7 +59,7 @@ async function main(){
     var testtoken = await Testtoken.deploy(
         // ...arguments
     );
-    testtoken.deployed();
+    await testtoken.deployed();
     console.log("Testtoken deployed to:", testtoken.address);
     var TesttokenArtifact = await artifacts.readArtifact("Testtoken");
     await writer_info_all(network,TesttokenArtifact, testtoken,arguments);

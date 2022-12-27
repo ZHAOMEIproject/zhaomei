@@ -8,87 +8,57 @@ const {getsign}=require("../../node/api/sign/getsign");
 
 // 运行测试服务
 // npx hardhat run testscripts/con_l_test.js --network hardhat
+// npx hardhat run testscripts/con_l_test.js --network zhaomei
 // (tip: --network 选择链，参考文档.secret.json)
 
 var contractinfo = new Object();
 
 async function main(){
     // 加载hardhat.config.js设置的钱包
-    let [owner, addr1, addr2] = await ethers.getSigners();
+    let [t,t1,t2,t3,t4,t5,t6,t7,owner, addr1, addr2] = await ethers.getSigners();
     // 获取项目的合约信息
     contractinfo = await getcontractinfo();
-    await l_creat_contract(owner,"OOC",[]);
+    let mintnumber = 2;
+    let minttype=1;
     let signinfo = await getsign(
-      "31337","OOC",
+      network.config.chainId,"OOC",
       [
-        "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
-        "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
-        "5",
+        owner.address,
+        mintnumber,
         "9999999999",
-        "0"
+        minttype
       ]
     );
-    // let get_setinfo =await l_call_contract(
-    //     owner,
-    //     "OOC",
-    //     "view_set",
-    //     []
+    // console.log(signinfo);
+    // await l_call_contract(
+    //   owner,
+    //   "OOC",
+    //   "debugtime",
+    //   [
+    //     1671638300
+    //   ]
     // );
-    // console.log(get_setinfo);
-    // return
-    await l_call_contract(
-      owner,
-      "OOC",
-      "debug",
-      [
-        [
-          10000,
-          1669384801,
-          "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
-          "",
-
-          1669384800,
-          "50000000000000000",
-          1669406400,
-          0,
-          5300,
-
-          1669384800,
-          "50000000000000000",
-          1669406400,
-          0,
-          2000,
-
-          1669406400,
-          "50000000000000000",
-          1669492800,
-          0,
-
-          1669492800,
-          "80000000000000000",
-          1669579200,
-          0
-        ]
-      ]
-    );
-
+    await t.sendTransaction({
+      to: owner.address,
+      value: ethers.utils.parseEther((0.05*(mintnumber+1)).toString()) // 1 ether
+    })
     let getinfo = await l_call_contract(
       owner,
       "OOC",
       "OOC_mint",
       [
+        0,
         [
-          "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
-          "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2",
-          "5",
+          owner.address,
+          mintnumber,
           "9999999999",
-          "0",
+          minttype,
           ...Object.values(signinfo)
         ],
-        1
+        mintnumber
       ],
       {
-        value:"50000000000000000"
+        value: await ethers.utils.parseEther((0.05*mintnumber).toString())
       }
     );
     
@@ -124,7 +94,7 @@ main()
     process.exit(1);
 });
 
-async function call_contract(signingKey,chainId,contractname,fun,params){
+async function call_contract(signingKey,chainId,contractname,fun,params,options){
   let provider = new ethers.providers.JsonRpcProvider(contractinfo[chainId][contractname].network.url);
   let wallet = new ethers.Wallet(signingKey, provider);
   let contract = new ethers.Contract(
@@ -137,9 +107,9 @@ async function call_contract(signingKey,chainId,contractname,fun,params){
   if(params.length>0){
     // tx = await contractWithSigner[fun](...params);
     // console.log(...params);
-    tx = await contractWithSigner[fun](...params);
+    tx = await contractWithSigner[fun](...params,{...options});
   }else{
-    tx = await contractWithSigner[fun]();
+    tx = await contractWithSigner[fun]({...options});
   }
   return tx
 }
@@ -152,7 +122,7 @@ async function l_call_contract(wallet,contractname,fun,params,options){
   );
   let contractWithSigner = contract.connect(wallet);
   let tx;
-//   console.log(params.length);
+  //   console.log(params.length);
   if(params.length>0){
     // tx = await contractWithSigner[fun](...params);
     // console.log(...params);

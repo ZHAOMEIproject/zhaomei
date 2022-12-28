@@ -16,7 +16,7 @@ exports.getinfo = router.get("/getinfo", async (req, res) => {
     });
     return;
 })
-exports.updateinfo = router.get("/updateinfo", async (req, res) => {
+exports.updateinfo = router.get("/postaddress", async (req, res) => {
     try {
         res.send({
             success:false,

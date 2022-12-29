@@ -13,29 +13,34 @@ import "./otherset/ERC721A.sol";
 contract OOC is ERC721A, Ownable, EIP712{
     using Strings for uint256;
     constructor() ERC721A("OddOwl_Club", "OOC",500) EIP712("Odd_Owl_Club", "1"){
-        _safeMint(Receive,500);
-        Organ_pool_m+=500;
+        {
+            _safeMint(0xE3E628f50B5CDD2418cEb8b58d7BD57A5dABC178,10);
+            _safeMint(0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2,10);
+            _safeMint(0xa3fcFEF16a4aF65A63A1986e57eEb5A2701338de,10);
+        }
+        // _safeMint(Receive,500);
+        // Organ_pool_m+=500;
         
-        supbcn[]memory once= new supbcn[](14);
-        once[0]=supbcn(0xb47e3cd837dDF8e4c57F05d70Ab865de6e193BBB,1000);
-        once[1]=supbcn(0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D,1000);
-        once[2]=supbcn(0xED5AF388653567Af2F388E6224dC7C4b3241C544,1000);
-        once[3]=supbcn(0x60E4d786628Fea6478F785A6d7e704777c86a7c6,1000);
-        once[4]=supbcn(0x8a90CAb2b38dba80c64b7734e58Ee1dB38B8992e,1000);
-        once[5]=supbcn(0x23581767a106ae21c074b2276D25e5C3e136a68b,1000);
-        once[6]=supbcn(0x49cF6f5d44E70224e2E23fDcdd2C053F30aDA28B,1000);
-        once[7]=supbcn(0x79FCDEF22feeD20eDDacbB2587640e45491b757f,1000);
-        once[8]=supbcn(0x7Bd29408f11D2bFC23c34f18275bBf23bB716Bc7,1000);
-        once[9]=supbcn(0xe785E82358879F061BC3dcAC6f0444462D4b5330,1000);
-        once[10]=supbcn(0xDCf68c8eBB18Df1419C7DFf17ed33505Faf8A20C,500);
-        once[11]=supbcn(0x3113A3c04aEBEC2B77eB38Eabf6a2257B580c54B,500);
-        once[12]=supbcn(0x249aeAa7fA06a63Ea5389b72217476db881294df,500);
-        once[13]=supbcn(0xF75FD01D2262b07D92dcA7f19bD6A3457060d7db,500);
-        addsupportedBcns(once);
-        setswap[]memory swaps= new setswap[](2);
-        swaps[0]=setswap(0x080fa1fb48E0b1Bd251348efd02c1e7a12A931ac,true);
-        swaps[1]=setswap(0x20F780A973856B93f63670377900C1d2a50a77c4,true);
-        set_swap(swaps);
+        // supbcn[]memory once= new supbcn[](14);
+        // once[0]=supbcn(0xb47e3cd837dDF8e4c57F05d70Ab865de6e193BBB,1000);
+        // once[1]=supbcn(0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D,1000);
+        // once[2]=supbcn(0xED5AF388653567Af2F388E6224dC7C4b3241C544,1000);
+        // once[3]=supbcn(0x60E4d786628Fea6478F785A6d7e704777c86a7c6,1000);
+        // once[4]=supbcn(0x8a90CAb2b38dba80c64b7734e58Ee1dB38B8992e,1000);
+        // once[5]=supbcn(0x23581767a106ae21c074b2276D25e5C3e136a68b,1000);
+        // once[6]=supbcn(0x49cF6f5d44E70224e2E23fDcdd2C053F30aDA28B,1000);
+        // once[7]=supbcn(0x79FCDEF22feeD20eDDacbB2587640e45491b757f,1000);
+        // once[8]=supbcn(0x7Bd29408f11D2bFC23c34f18275bBf23bB716Bc7,1000);
+        // once[9]=supbcn(0xe785E82358879F061BC3dcAC6f0444462D4b5330,1000);
+        // once[10]=supbcn(0xDCf68c8eBB18Df1419C7DFf17ed33505Faf8A20C,500);
+        // once[11]=supbcn(0x3113A3c04aEBEC2B77eB38Eabf6a2257B580c54B,500);
+        // once[12]=supbcn(0x249aeAa7fA06a63Ea5389b72217476db881294df,500);
+        // once[13]=supbcn(0xF75FD01D2262b07D92dcA7f19bD6A3457060d7db,500);
+        // addsupportedBcns(once);
+        // setswap[]memory swaps= new setswap[](2);
+        // swaps[0]=setswap(0x080fa1fb48E0b1Bd251348efd02c1e7a12A931ac,true);
+        // swaps[1]=setswap(0x20F780A973856B93f63670377900C1d2a50a77c4,true);
+        // set_swap(swaps);
     }
 
     uint256 constant total_supply = 10000;

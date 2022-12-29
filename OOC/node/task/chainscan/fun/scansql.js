@@ -78,7 +78,7 @@ async function checkandcreatdatabase(name,contractinfo){
 }
 
 async function scancontract(contractinfo){
-    console.log(contractinfo);
+    // console.log(contractinfo);
     let web3Show = require("./web3Show");
     await checkandcreatdatabase(global.name,contractinfo);
     global.mysqlGlobal.database=global.name;
@@ -98,11 +98,23 @@ async function scancontract(contractinfo){
             let fromBlock=parseInt(blocknumber[0].blocknumber);
             let toBlock = fromBlock+parseInt(100);
             let now_blockNumber = await web3Show.getBlockNumber();
+            let now_blockinfo =  await web3Show.getBlock(now_blockNumber);
+            // console.log(now_blockinfo.timestamp<(new Date()/1000));
+            if (now_blockinfo.timestamp>(new Date()/1000-60)) {
+                now_blockNumber-=4;
+            }
             if(toBlock>now_blockNumber){
                 toBlock = now_blockNumber; // update toBlock
             }
             // console.log(fromBlock,fromBlock+100);
-            let eventinfo = await web3Show.getContractEvents(contractinfo[i][j],fromBlock,now_blockNumber);
+            let eventinfo;
+            try {
+                eventinfo = await web3Show.getContractEvents(contractinfo[i][j],fromBlock,now_blockNumber);
+                toBlock = now_blockNumber;
+            } catch (error) {
+                console.log(error);
+                eventinfo = await web3Show.getContractEvents(contractinfo[i][j],fromBlock,toBlock);
+            }
             // console.log(eventinfo);
             
             for(let k in eventinfo){

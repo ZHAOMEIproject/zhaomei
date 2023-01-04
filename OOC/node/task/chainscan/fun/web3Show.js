@@ -16,6 +16,13 @@ const getBlockNumber = () =>{
         });
     })
 }
+const getBlock = (now_blockNumber) =>{
+    return new Promise(async (resolve, reject)=> {
+        web3js.eth.getBlock(now_blockNumber).then(function(result){
+            resolve(result);
+        });
+    })
+}
 
 // Get Contract Events
 const getContractEvents = (info,from_timestamp,toBlock) =>{
@@ -34,5 +41,6 @@ module.exports = {
     getBlockNumber,
     getContractEvents,
     setweb3js,
+    getBlock,
     // testshow,
 };

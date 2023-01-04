@@ -10,16 +10,14 @@ start_test();
 var node_info;
 var host;
 var port;
-var setinfo;
 
 function start_test(){
     console.log("start_dev ing")
-    // setinfo = require("../../../privateinfo/.secret_official.json");
-    setinfo = require("../../../privateinfo/.secret.json");
-    node_info = setinfo.VII_OOC_NODE;
+    global.secret = require("../../../privateinfo/.secret.json");
+    node_info = global.secret.VII_OOC_NODE;
     host = node_info.host;
     port = node_info.port;
-    global.mysqlGlobal = setinfo.VII_OOC_SQL;
+    global.mysqlGlobal = global.secret.VII_OOC_SQL;
     global.zwjerror = false;
     global.name ="VII_OOC";
 }
@@ -40,6 +38,6 @@ service.serviceConfig(app,host,port);
 const restApi = require("./api/restApi");
 restApi.restApiConfig(app);
 
-// // Arouse the task
-// const timingTask = require("./task/timing-task");
-// timingTask.taskStart();
+// Arouse the task
+const timingTask = require("./task/timing-task");
+timingTask.taskStart();

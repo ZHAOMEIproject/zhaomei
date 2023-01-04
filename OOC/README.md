@@ -2,7 +2,7 @@
 [更新](./update): 更新时间 v0.1 2022/05/10 16:16  
 [Hardhat_Contract](./Hardhat_Contract)：合约的部署与测试  
 [Function](./Function)：项目业务逻辑和合约的交互接口   
-[Contract_info](./Hardhat_Contract/deployments/newinfo/VII_OWL.json): 选择网络后查看具体合约信息(network id，chain name，合约名称，abi，合约地址)  
+[Contract_info](./Hardhat_Contract/deployments/newinfo): 选择网络后查看具体合约信息(network id，chain name，合约名称，abi，合约地址)  
 [operate](./Operate)： Opensea的运营管理。
 
 ## Tip
@@ -18,7 +18,6 @@
 |                   |   https://mumbaifaucet.com/           |   |
 
 ## 项目框架
-不断更新的在线脑图：  
-(前端只要看“开发”=》“前端”部分)  
-https://www.processon.com/view/link/636e16c2e401fd43fe9cc2ca
-
+OOC_mint: [OOCOddOwlClub.pdf](./other_document/OOCOddOwlClub.pdf)  
+不断更新的脑图  
+质押:https://www.processon.com/view/link/63aac3c8f7f8b22db077ce5d 访问密码：VIIDER123  

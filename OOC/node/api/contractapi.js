@@ -4,16 +4,16 @@ const router = express.Router();
 const url = require('url');
 module.exports = router;
 
-const {getcontractinfo}=require('../nodetool/id-readcontracts');
+const { getcontractinfo } = require('../nodetool/id-readcontracts');
 const ethers = require('ethers');
 const secret = global.secret;
 
 exports.contractinfo = router.get("/", async (req, res) => {
     const contractinfo = await getcontractinfo();
     res.send({
-        success:true,
-        data:{
-            contractinfo:contractinfo
+        success: true,
+        data: {
+            contractinfo: contractinfo
         },
     });
     return;
@@ -21,16 +21,16 @@ exports.contractinfo = router.get("/", async (req, res) => {
 
 exports.contractapi = router.get("/read", async (req, res) => {
     var params = url.parse(req.url, true).query;
-    
-    let check =["id","contractname","fun","params"];
-    if(!check.every(key=>key in params)){
+
+    let check = ["id", "contractname", "fun", "params"];
+    if (!check.every(key => key in params)) {
         res.send({
-            success:false,
-            error:"error params"
+            success: false,
+            error: "error params"
         });
         return;
     }
-    params.params= JSON.parse(params.params);
+    params.params = JSON.parse(params.params);
     let id = params.id;
     let contractname = params.contractname;
 
@@ -41,19 +41,19 @@ exports.contractapi = router.get("/read", async (req, res) => {
     let provider = new ethers.providers.JsonRpcProvider(contractinfo[id][contractname].network.url);
     let wallet = new ethers.Wallet(account._signingKey(), provider);
     let contract = new ethers.Contract(
-        contractinfo[id][contractname].address, 
-        contractinfo[id][contractname].abi, 
+        contractinfo[id][contractname].address,
+        contractinfo[id][contractname].abi,
         provider
     );
     let contractWithSigner = contract.connect(wallet);
     let tx;
     // console.log(contract);
     try {
-        if(params.params.length>0){
+        if (params.params.length > 0) {
             // tx = await contractWithSigner[params.fun](...params.params);
             // console.log(...params.params);
             tx = await contractWithSigner[params.fun](...params.params);
-        }else{
+        } else {
             tx = await contractWithSigner[params.fun]();
         }
         // if(params.params.length>0){
@@ -65,20 +65,20 @@ exports.contractapi = router.get("/read", async (req, res) => {
     } catch (error) {
         console.log(error);
         res.send({
-            success:false,
-            data:{
-                account:account.address,
-                result:tx
+            success: false,
+            data: {
+                account: account.address,
+                result: tx
             },
         });
     }
-    
-    
+
+
     res.send({
-        success:true,
-        data:{
-            account:account.address,
-            result:tx
+        success: true,
+        data: {
+            account: account.address,
+            result: tx
         },
     });
 
@@ -97,12 +97,12 @@ exports.contractapi = router.get("/read", async (req, res) => {
 exports.checkorderid = router.post("/postread", async (req, res) => {
     var params = req.body;
     // console.log(params);
-    
-    let check =["id","contractname","fun","params"];
-    if(!check.every(key=>key in params)){
+
+    let check = ["id", "contractname", "fun", "params"];
+    if (!check.every(key => key in params)) {
         res.send({
-            success:false,
-            error:"error params"
+            success: false,
+            error: "error params"
         });
         return;
     }
@@ -117,35 +117,35 @@ exports.checkorderid = router.post("/postread", async (req, res) => {
     let provider = new ethers.providers.JsonRpcProvider(contractinfo[id][contractname].network.url);
     let wallet = new ethers.Wallet(account._signingKey(), provider);
     let contract = new ethers.Contract(
-        contractinfo[id][contractname].address, 
-        contractinfo[id][contractname].abi, 
+        contractinfo[id][contractname].address,
+        contractinfo[id][contractname].abi,
         provider
     );
     let contractWithSigner = contract.connect(wallet);
     let tx;
     try {
-        if(params.params.length>0){
+        if (params.params.length > 0) {
             tx = await contractWithSigner[params.fun](...params.params);
-        }else{
+        } else {
             tx = await contractWithSigner[params.fun]();
         }
     } catch (error) {
         console.log(error);
         res.send({
-            success:false,
-            data:{
-                account:account.address,
-                result:tx
+            success: false,
+            data: {
+                account: account.address,
+                result: tx
             },
         });
     }
-    
-    
+
+
     res.send({
-        success:true,
-        data:{
-            account:account.address,
-            result:tx
+        success: true,
+        data: {
+            account: account.address,
+            result: tx
         },
     });
     return;

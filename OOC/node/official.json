@@ -8,7 +8,7 @@
       "error_file": "log/erroe.log",
       "out_file": "log/VII_OOC.log",
       "pid_file": "pids/VII_OOC.pid",
-      "instances": 5,
+      "instances": 1,
       "min_uptime": "200s",
       "max_restarts":200,
       "watch": false,

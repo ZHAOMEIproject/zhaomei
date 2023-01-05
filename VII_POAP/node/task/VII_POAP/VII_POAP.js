@@ -85,7 +85,10 @@ exports.VII_POAP = async function VII_POAP(){
                 sendEmailandto("303113525@qq.com","VII_POAP余额不足","VII_POAP余额不足");
                 return;
             }
-            tx = await contractWithSigner.mint_list(upinfo,{ gasPrice: gasPrice});
+            tx = await contractWithSigner.mint_list(upinfo,{
+                gasPrice: gasPrice,
+                gas: 70000
+            });
             block = await provider.getBlockNumber()
             // console.log(tx.hash);
             // await tx.wait();

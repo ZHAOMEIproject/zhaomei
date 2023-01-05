@@ -9,7 +9,7 @@ const { getsign } = require("../../node/api/sign/getsign");
 // 运行测试服务
 // npx hardhat run testscripts/staketest.js --network zhaomei
 // (tip: --network 选择链，参考文档.secret.json)
-// npx hardhat verify 0xC06ea3dB2257b3aCD3A88c51acf63ec8E33827b4 --network zhaomei
+// npx hardhat verify 0x0E60aC190Ce83d42f5fEc79f9E1D47cEb135acE0 --network zhaomei
 
 var contractinfo = new Object();
 

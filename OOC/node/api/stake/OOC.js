@@ -83,8 +83,11 @@ exports.getstakenft = router.post("/getstakenft", async (req, res) => {
     } catch (error) {
         console.log(error);
         res.send({
-            success:false,
-            error:"error call"
+            success:true,
+            data:{
+                success:false,
+                error:error
+            }
         });
     }
     return;
@@ -175,8 +178,11 @@ exports.accnft = router.post("/accnft", async (req, res) => {
     } catch (error) {
         console.log(error);
         res.send({
-            success:false,
-            error:"error call"
+            success:true,
+            data:{
+                success:false,
+                error:error
+            }
         });
     }
     return;

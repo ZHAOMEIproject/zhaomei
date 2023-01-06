@@ -19,7 +19,7 @@ function start_test(){
     port = node_info.port;
     global.mysqlGlobal = global.secret.VII_OOC_SQL;
     global.zwjerror = false;
-    global.name ="VII_OOC";
+    global.name ="vii_ooc";
 }
 
 // // Arouse the swagger

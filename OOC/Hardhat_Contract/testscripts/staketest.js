@@ -9,7 +9,8 @@ const { getsign } = require("../../node/api/sign/getsign");
 // 运行测试服务
 // npx hardhat run testscripts/staketest.js --network zhaomei
 // (tip: --network 选择链，参考文档.secret.json)
-// npx hardhat verify 0xC06ea3dB2257b3aCD3A88c51acf63ec8E33827b4 --network zhaomei
+// npx hardhat verify 0x6Fb324FD15Bb042E15d949254949128721ae50CE --network zhaomei
+// npx hardhat verify --contract contracts/OOC.sol:OOC  0x6Fb324FD15Bb042E15d949254949128721ae50CE --network zhaomei
 
 var contractinfo = new Object();
 
@@ -23,7 +24,7 @@ async function main() {
         "OOC",
         "stake",
         [
-            10,30
+            2,30
         ]
     );
     let getinfo2 = await l_call_contract(
@@ -31,7 +32,7 @@ async function main() {
         "OOC",
         "stake",
         [
-            11,30
+            4,30
         ]
     );
 }

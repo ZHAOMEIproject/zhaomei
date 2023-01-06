@@ -26,8 +26,9 @@ contract OOC_test is ERC721A, Ownable, EIP712{
     constructor() ERC721A("Odd_Owl_Club", "OOC",500) EIP712("Odd_Owl_Club", "1"){
         
         {
-            _safeMint(0xE3E628f50B5CDD2418cEb8b58d7BD57A5dABC178,50);
-            _safeMint(0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2,50);
+            _safeMint(0xE3E628f50B5CDD2418cEb8b58d7BD57A5dABC178,10);
+            _safeMint(0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2,10);
+            _safeMint(0xa3fcFEF16a4aF65A63A1986e57eEb5A2701338de,10);
         }
         // _safeMint(Receive,500);
         // Organ_pool_m+=500;

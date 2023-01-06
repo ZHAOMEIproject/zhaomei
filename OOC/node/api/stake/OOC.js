@@ -8,6 +8,34 @@ module.exports = router;
 // const conn = mysql.createConnection(global.mysqlGlobal);
 const sql = require("../../nodetool/sqlconnection");
 
+// exports.accstakeamount = router.post("/accstakeamount", async (req, res) => {
+//     var params = req.body;
+//     let check =["address"];
+//     if(!check.every(key=>key in params)){
+//         res.send({
+//             success:false,
+//             error:"error params"
+//         });
+//         return;
+//     }
+//     try {
+//         let results = await getstakeamount(toChecksumAddress(params.address),parseInt(new Date()/1000))
+//         res.send({
+//             success:true,
+//             data:{
+//                 success:true,
+//                 "stakeamount":results
+//             }
+//         });
+//     } catch (error) {
+//         console.log(error);
+//         res.send({
+//             success:false,
+//             error:"error call"
+//         });
+//     }
+//     return;
+// })
 exports.accstakeamount = router.post("/accstakeamount", async (req, res) => {
     var params = req.body;
     let check =["address"];
@@ -19,19 +47,29 @@ exports.accstakeamount = router.post("/accstakeamount", async (req, res) => {
         return;
     }
     try {
-        let results = await getstakeamount(toChecksumAddress(params.address),parseInt(new Date()/1000))
+        let results = await getaccountnft(params.address)
+        let time = parseInt(new Date()/1000);
+        let amount=0;
+        for (let i in results.nft) {
+            if (results.nft[i].locktime>time) {
+                amount++;
+            }
+        }
         res.send({
             success:true,
             data:{
                 success:true,
-                "stakeamount":results
+                "stakeamount":amount
             }
         });
     } catch (error) {
         console.log(error);
         res.send({
-            success:false,
-            error:"error call"
+            success:true,
+            data:{
+                success:false,
+                error:error
+            }
         });
     }
     return;
@@ -83,8 +121,11 @@ exports.getstakenft = router.post("/getstakenft", async (req, res) => {
     } catch (error) {
         console.log(error);
         res.send({
-            success:false,
-            error:"error call"
+            success:true,
+            data:{
+                success:false,
+                error:error
+            }
         });
     }
     return;
@@ -175,8 +216,11 @@ exports.accnft = router.post("/accnft", async (req, res) => {
     } catch (error) {
         console.log(error);
         res.send({
-            success:false,
-            error:"error call"
+            success:true,
+            data:{
+                success:false,
+                error:error
+            }
         });
     }
     return;

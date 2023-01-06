@@ -10,72 +10,57 @@ import "@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol";
 // import "./otherset/VOC_ERC721.sol";
 import "./otherset/ERC721A.sol";
 
-contract OOC is ERC721A, Ownable, EIP712{
-    
-    uint256 fack_time=1671638300;
-    function block_timestamp()public view returns(uint256 time){
-        if(fack_time==0){
-            return uint256(block.timestamp);
-        }else{
-            return fack_time;
-        }
-    }
-
+contract OOCbk is ERC721A, Ownable, EIP712{
     using Strings for uint256;
     constructor() ERC721A("OddOwl_Club", "OOC",500) EIP712("Odd_Owl_Club", "1"){
-        {
-            _safeMint(0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2,500);
-            _safeMint(0xE3E628f50B5CDD2418cEb8b58d7BD57A5dABC178,500);
-            _safeMint(0xa3fcFEF16a4aF65A63A1986e57eEb5A2701338de,500);
-        }
-        // _safeMint(Receive,500);
-        // Organ_pool_m+=500;
+        _safeMint(Receive,500);
+        Organ_pool_m+=500;
         
-        // supbcn[]memory once= new supbcn[](14);
-        // once[0]=supbcn(0xb47e3cd837dDF8e4c57F05d70Ab865de6e193BBB,1000);
-        // once[1]=supbcn(0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D,1000);
-        // once[2]=supbcn(0xED5AF388653567Af2F388E6224dC7C4b3241C544,1000);
-        // once[3]=supbcn(0x60E4d786628Fea6478F785A6d7e704777c86a7c6,1000);
-        // once[4]=supbcn(0x8a90CAb2b38dba80c64b7734e58Ee1dB38B8992e,1000);
-        // once[5]=supbcn(0x23581767a106ae21c074b2276D25e5C3e136a68b,1000);
-        // once[6]=supbcn(0x49cF6f5d44E70224e2E23fDcdd2C053F30aDA28B,1000);
-        // once[7]=supbcn(0x79FCDEF22feeD20eDDacbB2587640e45491b757f,1000);
-        // once[8]=supbcn(0x7Bd29408f11D2bFC23c34f18275bBf23bB716Bc7,1000);
-        // once[9]=supbcn(0xe785E82358879F061BC3dcAC6f0444462D4b5330,1000);
-        // once[10]=supbcn(0xDCf68c8eBB18Df1419C7DFf17ed33505Faf8A20C,500);
-        // once[11]=supbcn(0x3113A3c04aEBEC2B77eB38Eabf6a2257B580c54B,500);
-        // once[12]=supbcn(0x249aeAa7fA06a63Ea5389b72217476db881294df,500);
-        // once[13]=supbcn(0xF75FD01D2262b07D92dcA7f19bD6A3457060d7db,500);
-        // addsupportedBcns(once);
-        // setswap[]memory swaps= new setswap[](2);
-        // swaps[0]=setswap(0x080fa1fb48E0b1Bd251348efd02c1e7a12A931ac,true);
-        // swaps[1]=setswap(0x20F780A973856B93f63670377900C1d2a50a77c4,true);
-        // set_swap(swaps);
+        supbcn[]memory once= new supbcn[](14);
+        once[0]=supbcn(0xb47e3cd837dDF8e4c57F05d70Ab865de6e193BBB,1000);
+        once[1]=supbcn(0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D,1000);
+        once[2]=supbcn(0xED5AF388653567Af2F388E6224dC7C4b3241C544,1000);
+        once[3]=supbcn(0x60E4d786628Fea6478F785A6d7e704777c86a7c6,1000);
+        once[4]=supbcn(0x8a90CAb2b38dba80c64b7734e58Ee1dB38B8992e,1000);
+        once[5]=supbcn(0x23581767a106ae21c074b2276D25e5C3e136a68b,1000);
+        once[6]=supbcn(0x49cF6f5d44E70224e2E23fDcdd2C053F30aDA28B,1000);
+        once[7]=supbcn(0x79FCDEF22feeD20eDDacbB2587640e45491b757f,1000);
+        once[8]=supbcn(0x7Bd29408f11D2bFC23c34f18275bBf23bB716Bc7,1000);
+        once[9]=supbcn(0xe785E82358879F061BC3dcAC6f0444462D4b5330,1000);
+        once[10]=supbcn(0xDCf68c8eBB18Df1419C7DFf17ed33505Faf8A20C,500);
+        once[11]=supbcn(0x3113A3c04aEBEC2B77eB38Eabf6a2257B580c54B,500);
+        once[12]=supbcn(0x249aeAa7fA06a63Ea5389b72217476db881294df,500);
+        once[13]=supbcn(0xF75FD01D2262b07D92dcA7f19bD6A3457060d7db,500);
+        addsupportedBcns(once);
+        setswap[]memory swaps= new setswap[](2);
+        swaps[0]=setswap(0x080fa1fb48E0b1Bd251348efd02c1e7a12A931ac,true);
+        swaps[1]=setswap(0x20F780A973856B93f63670377900C1d2a50a77c4,true);
+        set_swap(swaps);
     }
 
     uint256 constant total_supply = 10000;
 
     uint256 constant Organ_mint_time = 1671595200;
-    uint256 constant Organ_mint_fee = 0.05*10**10;
+    uint256 constant Organ_mint_fee = 0.05*10**18;
     uint256 Organ_pool_m;
     uint256 constant Organ_pool_em = 500+1300+3500;
 
     uint256 constant Organ2_mint_time = Organ_mint_time;
-    uint256 constant Organ2_mint_fee = 0.05*10**10;
+    uint256 constant Organ2_mint_fee = 0.05*10**18;
     uint256 Organ2_pool_m;
     uint256 constant Organ2_pool_em = 2000;
 
 
     uint256 constant White_mint_time = 1671606000;
-    uint256 constant White_mint_fee = 0.05*10**10;
+    uint256 constant White_mint_fee = 0.05*10**18;
     uint256 White_pool_m;
 
     uint256 constant Public_mint_time = 1671638400;
-    uint256 constant Public_mint_fee = 0.06*10**10;
+    uint256 constant Public_mint_fee = 0.06*10**18;
     uint256 Public_pool_m;
     
     uint256 constant b_White_mint_time = 1671606000;
-    uint256 constant b_White_mint_fee = 0.05*10**10;
+    uint256 constant b_White_mint_fee = 0.05*10**18;
     uint256 b_White_pool_m;
 
     uint256 constant end_time=1671638400;
@@ -85,26 +70,12 @@ contract OOC is ERC721A, Ownable, EIP712{
     address constant Receive = 0xDc66019E46d7E8ac9F155fF0668c9e1Fca34421F;
     address immutable signer = msg.sender;
     struct setinfo{
-        address _signer;uint256 _total_supply;uint256 _fack_time;address _Receive;string _baseURL;uint256 _end_time;uint256 _end_time2;
+        address _signer;uint256 _total_supply;address _Receive;string _baseURL;uint256 _end_time;uint256 _end_time2;
         uint256 _Organ_mint_time;uint256 _Organ_mint_fee;uint256 _Organ_pool_m;uint256 _Organ_pool_em;
         uint256 _Organ2_mint_time;uint256 _Organ2_mint_fee;uint256 _Organ2_pool_m;uint256 _Organ2_pool_em;
         uint256 _White_mint_time;uint256 _White_mint_fee;uint256 _White_pool_m;
         uint256 _Public_mint_time;uint256 _Public_mint_fee;uint256 _Public_pool_m;
         uint256 _b_White_mint_time;uint256 _b_White_mint_fee;uint256 _b_White_pool_m;
-    }
-    function debug(
-        setinfo calldata _setinfo
-    )public{
-        fack_time=_setinfo._fack_time;
-        baseURL=_setinfo._baseURL;
-        Organ_pool_m=_setinfo._Organ_pool_m;
-        Organ2_pool_m=_setinfo._Organ2_pool_m;
-        White_pool_m=_setinfo._White_pool_m;
-        Public_pool_m=_setinfo._Public_pool_m;
-        b_White_pool_m=_setinfo._b_White_pool_m;
-    }
-    function debugtime(uint256 _fack_time)public{
-        fack_time=_fack_time;
     }
     function view_set()public view returns(
         setinfo memory,
@@ -113,7 +84,7 @@ contract OOC is ERC721A, Ownable, EIP712{
     ){
         unchecked{
             return (setinfo(
-                signer,totalSupply(),fack_time,Receive,baseURL,
+                signer,totalSupply(),Receive,baseURL,
                 end_time,end_time2,
                 Organ_mint_time,Organ_mint_fee,
                 Organ_pool_m,Organ_pool_em,
@@ -144,7 +115,7 @@ contract OOC is ERC721A, Ownable, EIP712{
     }
     function tokenURI(uint256 tokenId)public view override returns (string memory){
         string memory baseURI = _baseURI();
-        return bytes(baseURI).length > 0 ? string(abi.encodePacked(baseURI, tokenId.toString(),".json")) : "ipfs://";
+        return bytes(baseURI).length > 0 ? string(abi.encodePacked(baseURI, tokenId.toString(),".json")) : "ipfs://bafybeiacwutogdxuso375yqeueux6egecrzxxjfxai2lndsd2jfk7s4jo4/owlbox.json";
     }
 
     // White_list
@@ -161,10 +132,10 @@ contract OOC is ERC721A, Ownable, EIP712{
     event locknft(address indexed owner,uint256 indexed tokenId,uint256 time,uint256 endtime);
 
     function stake(uint256 tokenId,uint256 locktype)public{
-        require(locktime[tokenId]<block_timestamp(),"NFT is already in staking");
+        require(locktime[tokenId]<block.timestamp,"NFT is already in staking");
         require(ownerOf(tokenId)==msg.sender,"This NFT does not belong to you");
         require(locktype%30==0,"error locktype,Must be a multiple of 30");
-        locktime[tokenId]=block_timestamp()+locktype*86400;
+        locktime[tokenId]=block.timestamp+locktype*86400;
         emit locknft(msg.sender,tokenId,locktype,locktime[tokenId]);
     }
 
@@ -207,7 +178,7 @@ contract OOC is ERC721A, Ownable, EIP712{
         uint256 quantity
     )internal override
     {
-        require(locktime[(startTokenId)]<block_timestamp(),"lock time");
+        require(locktime[(startTokenId)]<block.timestamp,"lock time");
         super._beforeTokenTransfers(from, to, startTokenId,quantity);
     }
 
@@ -246,7 +217,7 @@ contract OOC is ERC721A, Ownable, EIP712{
             revert("typemint error");
         }
         require(totalSupply()<=total_supply,"minted out");
-        require(block_timestamp()<=end_time,"Out of time");
+        require(block.timestamp<=end_time,"Out of time");
         unchecked{
             platform[_platform]+=quantity;
         }
@@ -254,14 +225,14 @@ contract OOC is ERC721A, Ownable, EIP712{
     function Organ_mint(uint256 quantity)private{
         unchecked{
             require(msg.value==Organ_mint_fee*quantity,"error fee");
-            require(Organ_mint_time<block_timestamp(),"Out of time");
+            require(Organ_mint_time<block.timestamp,"Out of time");
             Organ_pool_m+=quantity;
         }
     }
     function Organ2_mint(uint256 quantity)private{
         unchecked{
             require(msg.value==Organ2_mint_fee*quantity,"error fee");
-            require(Organ2_mint_time<block_timestamp(),"Out of time");
+            require(Organ2_mint_time<block.timestamp,"Out of time");
             Organ2_pool_m+=quantity;
         }
     }
@@ -286,7 +257,7 @@ contract OOC is ERC721A, Ownable, EIP712{
             address sender = msg.sender;
             require(sender==tx.origin,"Cannot use contract call");
             require(msg.value==b_White_mint_fee*quantity,"error fee");
-            uint256 now_time = block_timestamp();
+            uint256 now_time = block.timestamp;
             require(b_White_mint_time<now_time&&now_time<=end_time,"Out of time");
             b_White_pool_m+=quantity;
             require(b_White_pool_m<=(total_supply-Organ2_pool_m-Organ_pool_m),"b_White_pool mint out");
@@ -321,7 +292,7 @@ contract OOC is ERC721A, Ownable, EIP712{
     function White_mint(uint256 quantity)private{
         unchecked{
             require(msg.value==White_mint_fee*quantity,"error fee");
-            require(White_mint_time<block_timestamp(),"Out of time");
+            require(White_mint_time<block.timestamp,"Out of time");
             White_pool_m+=quantity;
         }
     }
@@ -331,7 +302,7 @@ contract OOC is ERC721A, Ownable, EIP712{
             address sender = msg.sender;
             require(sender==tx.origin,"Cannot use contract call");
             require(msg.value==Public_mint_fee*quantity,"error fee");
-            uint256 now_time = block_timestamp();
+            uint256 now_time = block.timestamp;
             
             require(Public_mint_time<now_time&&now_time<=end_time2,"Out of time");
 
@@ -347,7 +318,7 @@ contract OOC is ERC721A, Ownable, EIP712{
         require(signcheck(signinfo)==signer,"error signer");
         address gainer = signinfo.gainer;
         require(msg.sender==gainer,"sender is no gainer");
-        require(signinfo.deadline>=block_timestamp(),"The signature has expired");
+        require(signinfo.deadline>=block.timestamp,"The signature has expired");
         unchecked{
             require(signinfo.amount>=(_numberMinted(gainer)+quantity),"Out of minted number");
         }
@@ -376,8 +347,8 @@ contract OOC is ERC721A, Ownable, EIP712{
     function nswapTotalMinted()view public returns(uint256 publicTotalMinted,uint256 preTotalMinted) {
         unchecked {
             return (
-                total_supply-totalSupply(),
-                (total_supply-Organ2_pool_m-Organ_pool_m-b_White_pool_m)
+                Public_pool_m,
+                White_pool_m
             );
         }
     }
@@ -392,9 +363,13 @@ contract OOC is ERC721A, Ownable, EIP712{
     function mintTo(address taker)public{
         require(msg.sender==element,"Only element can be used");
         _safeMint(taker, 1);
+        platform[3]+=1;
     }
+
+
+
 }
 
 interface IOperatorFilterRegistry {
-    function isOperatorAllowed(address registrant, address operator) external view returns (bool);
+     function isOperatorAllowed(address registrant, address operator) external view returns (bool);
 }

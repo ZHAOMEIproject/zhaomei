@@ -224,4 +224,5 @@ exports.accnft = router.post("/accnft", async (req, res) => {
         });
     }
     return;
-})
+    }
+)

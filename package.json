@@ -17,6 +17,7 @@
     "hardhat-abi-exporter": "^2.10.0",
     "jsonfile": "^6.1.0",
     "lsof": "^0.1.0",
+    "md5": "^2.3.0",
     "mysql2": "^2.3.3",
     "nodemailer": "^6.8.0",
     "pm2": "^5.2.2",

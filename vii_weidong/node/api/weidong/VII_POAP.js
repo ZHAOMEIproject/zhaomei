@@ -19,15 +19,14 @@ exports.postmint = router.post("/postmint", async (req, res) => {
     var params = req.body;
 
     let check = ["account", "tokenid"];
+    let tokenid = params.tokenid;
     if (!check.every(key => key in params)) {
         res.send({
             success: false,
             errorCode: "10914001",
             data: {
                 poapcontractinfo: {
-                    ...poapcontractinfo,
-                    nftlink: (poapcontractinfo.blockexplorer + "/nft/" + poapcontractinfo.address + "/" + params.tokenid),
-                    user: params.account,
+                    ...baseinfo(poapcontractinfo,params),
                     tokenid: tokenid
                 }
             },
@@ -43,9 +42,7 @@ exports.postmint = router.post("/postmint", async (req, res) => {
             errorCode: "10914002",
             data: {
                 poapcontractinfo: {
-                    ...poapcontractinfo,
-                    nftlink: (poapcontractinfo.blockexplorer + "/nft/" + poapcontractinfo.address + "/" + params.tokenid),
-                    user: params.account,
+                    ...baseinfo(poapcontractinfo,params),
                     tokenid: tokenid
                 }
             },
@@ -53,16 +50,14 @@ exports.postmint = router.post("/postmint", async (req, res) => {
         });
         return;
     }
-    let key_set = "dawasdak3jerbjfseijlfjoj3jli32j390(i";
+    let key_set = "8d7b3b976dd7dc3f54ab3e6d234c30ff";
     if (params["key"] != key_set) {
         res.send({
             success: false,
             errorCode: "10914003",
             data: {
                 poapcontractinfo: {
-                    ...poapcontractinfo,
-                    nftlink: (poapcontractinfo.blockexplorer + "/nft/" + poapcontractinfo.address + "/" + params.tokenid),
-                    user: params.account,
+                    ...baseinfo(poapcontractinfo,params),
                     tokenid: tokenid
                 }
             },
@@ -86,9 +81,7 @@ exports.postmint = router.post("/postmint", async (req, res) => {
             errorCode: "10914004",
             data: {
                 poapcontractinfo: {
-                    ...poapcontractinfo,
-                    nftlink: (poapcontractinfo.blockexplorer + "/nft/" + poapcontractinfo.address + "/" + params.tokenid),
-                    user: params.account,
+                    ...baseinfo(poapcontractinfo,params),
                     tokenid: tokenid
                 }
             },
@@ -106,9 +99,7 @@ exports.postmint = router.post("/postmint", async (req, res) => {
             errorCode: "10914005",
             data: {
                 poapcontractinfo: {
-                    ...poapcontractinfo,
-                    nftlink: (poapcontractinfo.blockexplorer + "/nft/" + poapcontractinfo.address + "/" + params.tokenid),
-                    user: params.account,
+                    ...baseinfo(poapcontractinfo,params),
                     tokenid: tokenid
                 }
             },
@@ -123,9 +114,7 @@ exports.postmint = router.post("/postmint", async (req, res) => {
         data: {
             success: true,
             poapcontractinfo: {
-                ...poapcontractinfo,
-                nftlink: (poapcontractinfo.blockexplorer + "/nft/" + poapcontractinfo.address + "/" + params.tokenid),
-                user: params.account,
+                    ...baseinfo(poapcontractinfo,params),
                 tokenid: tokenid
             }
 
@@ -142,15 +131,14 @@ exports.checkaccount = router.post("/checkaccount", async (req, res) => {
     var params = req.body;
 
     let check = ["account", "tokenid"];
+    let tokenid = params.tokenid;
     if (!check.every(key => key in params)) {
         res.send({
             success: false,
             errorCode: "10914001",
             data: {
                 poapcontractinfo: {
-                    ...poapcontractinfo,
-                    nftlink: (poapcontractinfo.blockexplorer + "/nft/" + poapcontractinfo.address + "/" + params.tokenid),
-                    user: params.account,
+                    ...baseinfo(poapcontractinfo,params),
                     tokenid: tokenid
                 }
             },
@@ -167,9 +155,7 @@ exports.checkaccount = router.post("/checkaccount", async (req, res) => {
                 data: {
                     success: false,
                     poapcontractinfo: {
-                        ...poapcontractinfo,
-                        nftlink: (poapcontractinfo.blockexplorer + "/nft/" + poapcontractinfo.address + "/" + params.tokenid),
-                        user: params.account,
+                        ...baseinfo(poapcontractinfo,params),
                         tokenid: tokenid
                     }
                 }
@@ -180,9 +166,7 @@ exports.checkaccount = router.post("/checkaccount", async (req, res) => {
                 data: {
                     success: true,
                     poapcontractinfo: {
-                        ...poapcontractinfo,
-                        nftlink: (poapcontractinfo.blockexplorer + "/nft/" + poapcontractinfo.address + "/" + params.tokenid),
-                        user: params.account,
+                        ...baseinfo(poapcontractinfo,params),
                         tokenid: tokenid
                     }
                 }
@@ -194,9 +178,7 @@ exports.checkaccount = router.post("/checkaccount", async (req, res) => {
             errorCode: "10914006",
             data: {
                 poapcontractinfo: {
-                    ...poapcontractinfo,
-                    nftlink: (poapcontractinfo.blockexplorer + "/nft/" + poapcontractinfo.address + "/" + params.tokenid),
-                    user: params.account,
+                    ...baseinfo(poapcontractinfo,params),
                     tokenid: tokenid
                 }
             },
@@ -238,7 +220,7 @@ function toChecksumAddress(address) {
 }
 
 
-exports.postmint = router.post("/phonepostmint", async (req, res) => {
+exports.phonepostmint = router.post("/phonepostmint", async (req, res) => {
     var params = req.body;
     let check = ["phone", "tokenid"];
     // let check =["account","tokenid"];
@@ -248,15 +230,14 @@ exports.postmint = router.post("/phonepostmint", async (req, res) => {
     // params.account = toChecksumAddress(params.account);
     params.account = toChecksumAddress(account.address);
     params.phone = params.account;
+    let tokenid = params.tokenid;
     if (!check.every(key => key in params)) {
         res.send({
             success: false,
             errorCode: "10914001",
             data: {
                 poapcontractinfo: {
-                    ...poapcontractinfo,
-                    nftlink: (poapcontractinfo.blockexplorer + "/nft/" + poapcontractinfo.address + "/" + params.tokenid),
-                    user: params.account,
+                    ...baseinfo(poapcontractinfo,params),
                     tokenid: tokenid
                 }
             },
@@ -271,9 +252,7 @@ exports.postmint = router.post("/phonepostmint", async (req, res) => {
             errorCode: "10914002",
             data: {
                 poapcontractinfo: {
-                    ...poapcontractinfo,
-                    nftlink: (poapcontractinfo.blockexplorer + "/nft/" + poapcontractinfo.address + "/" + params.tokenid),
-                    user: params.account,
+                    ...baseinfo(poapcontractinfo,params),
                     tokenid: tokenid
                 }
             },
@@ -282,16 +261,14 @@ exports.postmint = router.post("/phonepostmint", async (req, res) => {
         });
         return;
     }
-    let key_set = "dawasdak3jerbjfseijlfjoj3jli32j390(i";
+    let key_set = "8d7b3b976dd7dc3f54ab3e6d234c30ff";
     if (params["key"] != key_set) {
         res.send({
             success: false,
             errorCode: "10914003",
             data: {
                 poapcontractinfo: {
-                    ...poapcontractinfo,
-                    nftlink: (poapcontractinfo.blockexplorer + "/nft/" + poapcontractinfo.address + "/" + params.tokenid),
-                    user: params.account,
+                    ...baseinfo(poapcontractinfo,params),
                     tokenid: tokenid
                 }
             },
@@ -315,9 +292,7 @@ exports.postmint = router.post("/phonepostmint", async (req, res) => {
             errorCode: "10914004",
             data: {
                 poapcontractinfo: {
-                    ...poapcontractinfo,
-                    nftlink: (poapcontractinfo.blockexplorer + "/nft/" + poapcontractinfo.address + "/" + params.tokenid),
-                    user: params.account,
+                    ...baseinfo(poapcontractinfo,params),
                     tokenid: tokenid
                 }
             },
@@ -335,9 +310,7 @@ exports.postmint = router.post("/phonepostmint", async (req, res) => {
             errorCode: "10914005",
             data: {
                 poapcontractinfo: {
-                    ...poapcontractinfo,
-                    nftlink: (poapcontractinfo.blockexplorer + "/nft/" + poapcontractinfo.address + "/" + params.tokenid),
-                    user: params.account,
+                    ...baseinfo(poapcontractinfo,params),
                     tokenid: tokenid
                 }
             },
@@ -352,9 +325,7 @@ exports.postmint = router.post("/phonepostmint", async (req, res) => {
         data: {
             success: true,
             poapcontractinfo: {
-                ...poapcontractinfo,
-                nftlink: (poapcontractinfo.blockexplorer + "/nft/" + poapcontractinfo.address + "/" + params.tokenid),
-                user: params.account,
+                    ...baseinfo(poapcontractinfo,params),
                 tokenid: tokenid
             }
 
@@ -363,7 +334,7 @@ exports.postmint = router.post("/phonepostmint", async (req, res) => {
     });
     return;
 });
-exports.checkaccount = router.post("/phonecheckaccount", async (req, res) => {
+exports.phonecheckaccount = router.post("/phonecheckaccount", async (req, res) => {
     var params = req.body;
 
     let check = ["phone", "tokenid"];
@@ -374,15 +345,14 @@ exports.checkaccount = router.post("/phonecheckaccount", async (req, res) => {
     // params.account = toChecksumAddress(params.account);
     params.account = toChecksumAddress(account.address);
     params.phone = params.account;
+    let tokenid = params.tokenid;
     if (!check.every(key => key in params)) {
         res.send({
             success: false,
             errorCode: "10914001",
             data: {
                 poapcontractinfo: {
-                    ...poapcontractinfo,
-                    nftlink: (poapcontractinfo.blockexplorer + "/nft/" + poapcontractinfo.address + "/" + params.tokenid),
-                    user: params.account,
+                    ...baseinfo(poapcontractinfo,params),
                     tokenid: tokenid
                 }
             },
@@ -399,9 +369,7 @@ exports.checkaccount = router.post("/phonecheckaccount", async (req, res) => {
                 data: {
                     success: false,
                     poapcontractinfo: {
-                        ...poapcontractinfo,
-                        nftlink: (poapcontractinfo.blockexplorer + "/nft/" + poapcontractinfo.address + "/" + params.tokenid),
-                        user: params.account,
+                        ...baseinfo(poapcontractinfo,params),
                         tokenid: tokenid
                     }
                 }
@@ -412,9 +380,7 @@ exports.checkaccount = router.post("/phonecheckaccount", async (req, res) => {
                 data: {
                     success: true,
                     poapcontractinfo: {
-                        ...poapcontractinfo,
-                        nftlink: (poapcontractinfo.blockexplorer + "/nft/" + poapcontractinfo.address + "/" + params.tokenid),
-                        user: params.account,
+                        ...baseinfo(poapcontractinfo,params),
                         tokenid: tokenid
                     }
                 }
@@ -426,9 +392,7 @@ exports.checkaccount = router.post("/phonecheckaccount", async (req, res) => {
             errorCode: "10914006",
             data: {
                 poapcontractinfo: {
-                    ...poapcontractinfo,
-                    nftlink: (poapcontractinfo.blockexplorer + "/nft/" + poapcontractinfo.address + "/" + params.tokenid),
-                    user: params.account,
+                    ...baseinfo(poapcontractinfo,params),
                     tokenid: tokenid
                 }
             },
@@ -436,3 +400,36 @@ exports.checkaccount = router.post("/phonecheckaccount", async (req, res) => {
         });
     }
 });
+exports.phonegetnft = router.post("/phonegetnft", async (req, res) => {
+    var params = req.body;
+    let check = ["phone"];
+    // let check =["account","tokenid"];
+    let path = "0";
+    let phone = params.phone;
+    let account = await creatwallet(phone, path);
+    // params.account = toChecksumAddress(params.account);
+    params.account = toChecksumAddress(account.address);
+    params.phone = params.account;
+    if (!check.every(key => key in params)) {
+        res.send({
+            success: false,
+            errorCode: "10914001",
+            data: {
+                poapcontractinfo: {
+                    ...baseinfo(poapcontractinfo,params)
+                    
+                }
+            },
+            errorMessage: "error params",
+        });
+        return;
+    }
+});
+
+function baseinfo(poapcontractinfo,params) {
+    return{
+        ...poapcontractinfo,
+        nftlink: (poapcontractinfo.blockexplorer + "/nft/" + poapcontractinfo.address + "/" + params.tokenid),
+        user: params.account,
+    }
+}

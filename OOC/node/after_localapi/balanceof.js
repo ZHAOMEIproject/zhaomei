@@ -12,9 +12,11 @@ async function main() {
     // updatebalance()
     // out0()
     // a_balance()
+
     // nftbalance();
     nft_balance()
     Statistics()
+
     // getdd_balance();
 }
 

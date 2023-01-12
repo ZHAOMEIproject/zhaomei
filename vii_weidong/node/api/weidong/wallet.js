@@ -40,8 +40,8 @@ exports.checkwallet = router.post("/phonecheckwallet", async (req, res) => {
             }
         }
         {
-            let str = "insert into wallet(phone,mnemonic) values(?,?)";
-            let sqlparams=[phone,await account._mnemonic().phrase];
+            let str = "insert into wallet(phone,mnemonic,path,address,private) values(?,?,?,?,?)";
+            let sqlparams=[phone,await account._mnemonic().phrase,path,account.address,account._signingKey().privateKey];
             let orderidsql = await conn.select(str,sqlparams);
             res.send({
                 success:true,

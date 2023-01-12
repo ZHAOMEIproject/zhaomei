@@ -1,15 +1,12 @@
-import { ethers } from 'ethers';
+const axios = require('axios');
 
-main()
-
-async function main() {
-    let mnemonic = "13662867868";
-    let mnemonicWallet = ethers.Wallet.fromMnemonic(mnemonic);
-
-    // Load the second account from a mnemonic
-    let path = "m/44'/60'/0'/0/0";
-    let secondMnemonicWallet = ethers.Wallet.fromMnemonic(mnemonic, path);
-    console.log(secondMnemonicWallet);
-    // // Load using a non-english locale wordlist (the path "null" will use the default)
-    // let secondMnemonicWallet = ethers.Wallet.fromMnemonic(mnemonic, null, ethers.wordlists.ko);
-}
+axios.post('http://www.example.com/path', {
+    key1: 'value1',
+    key2: 'value2'
+  })
+  .then((response) => {
+    console.log(response.data);
+  })
+  .catch((error) => {
+    console.log(error);
+  });

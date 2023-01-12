@@ -6,19 +6,19 @@ exports.taskStart = async function taskStart(){
     // console.log(`scan set out`);
     global.mysqlGlobal.database=global.name;
 
-    await taskSyncVII_POAP()
+    await taskSyncWEIDONG()
     
     setTimeout(function () {
         setInterval(taskSyncchainscan,1000*60);// task I,Synchronization levelnft event record,Do it every 10s
     }, 10);
     setTimeout(function () {
-        setInterval(taskSyncVII_POAP,1000*60);// task I,Synchronization levelnft event record,Do it every 10s
+        setInterval(taskSyncWEIDONG,1000*60);// task I,Synchronization levelnft event record,Do it every 10s
     }, 0);
 }
-async function taskSyncVII_POAP() {
-    console.log("task I   (20s)  ========>  taskSyncVII_POAP ...");
-    const VII_POAP = require("./VII_POAP/VII_POAP");
-    await VII_POAP.VII_POAP();// 批量mint
+async function taskSyncWEIDONG() {
+    console.log("task I   (20s)  ========>  taskSyncWEIDONG ...");
+    const WEIDONG = require("./WEIDONG/WEIDONG");
+    await WEIDONG.WEIDONG();// 批量mint
 }
 
 async function taskSyncchainscan() {

@@ -4,50 +4,50 @@ const ethers = require('ethers');
 const secret = global.secret;
 const {sendEmailandto} = require("../../nodetool/email");
 // 查报错事件
-async function checkVII_POAPevent(selectParams){
+async function checkWEIDONGevent(selectParams){
     let selsql = "SELECT * FROM mint_list where flag_mint ='F' and flag_now = 'S'";
     return await connection.select(selsql,selectParams);
 }
 // 锁定mint事件
-async function lockVII_POAPevent(){
+async function lockWEIDONGevent(){
     let selsql = "update mint_list set flag_now='S'where flag_mint ='F' and flag_now = 'F'";
     return await connection.select(selsql,null);
 }
 // 获取mint事件
-async function getVII_POAPevent(){
+async function getWEIDONGevent(){
     let selsql = "SELECT account,tokenid FROM mint_list where flag_mint ='F' and flag_now = 'S'";
     return await connection.select(selsql,null);
 }
 // 更新mint事件
-async function updateVII_POAPevent(selectParams){
+async function updateWEIDONGevent(selectParams){
     let selsql = "update mint_list set flag_mint='S',flag_now = 'F' , mint_time = unix_timestamp() , nonces = ? , block = ? , hash = ? where flag_mint ='F' and flag_now = 'S'";
     return await connection.select(selsql,selectParams);
 }
 
 
-exports.VII_POAP = async function VII_POAP(){
+exports.WEIDONG = async function WEIDONG(){
     await Order_repair();
     // return;
-    var VII_POAPcheck = await checkVII_POAPevent();
-    if(VII_POAPcheck.length>0){
-        console.log("error VII_POAPcheck");
-        var VII_POAPupdate = await updateVII_POAPevent(["error","error","error"]);
+    var WEIDONGcheck = await checkWEIDONGevent();
+    if(WEIDONGcheck.length>0){
+        console.log("error WEIDONGcheck");
+        var WEIDONGupdate = await updateWEIDONGevent(["error","error","error"]);
         return;
     }
-    var VII_POAPlock = await lockVII_POAPevent();
-    if(VII_POAPlock.changedRows==0){
-        console.log("No need to deal with VII_POAPlock");
+    var WEIDONGlock = await lockWEIDONGevent();
+    if(WEIDONGlock.changedRows==0){
+        console.log("No need to deal with WEIDONGlock");
         return;
     }
     // return;
     const contractinfo = await getcontractinfo();
     var path = "m/44'/60'/0'/0/0";
     const account = ethers.Wallet.fromMnemonic(secret.solidity.mnemonic, path);
-    let provider = new ethers.providers.JsonRpcProvider(contractinfo.VII_POAP.network.url);
+    let provider = new ethers.providers.JsonRpcProvider(contractinfo.WEIDONG.network.url);
     let wallet = new ethers.Wallet(account._signingKey(), provider);
     let contract = new ethers.Contract(
-        contractinfo.VII_POAP.address, 
-        contractinfo.VII_POAP.abi, 
+        contractinfo.WEIDONG.address, 
+        contractinfo.WEIDONG.abi, 
         provider
     );
 
@@ -55,20 +55,20 @@ exports.VII_POAP = async function VII_POAP(){
     let contractWithSigner = await contract.connect(wallet);
 
 
-    var VII_POAPevent = await getVII_POAPevent();
+    var WEIDONGevent = await getWEIDONGevent();
     
-    // console.log(VII_POAPevent);
-    // console.log(Object.values(VII_POAPevent[0]));
+    // console.log(WEIDONGevent);
+    // console.log(Object.values(WEIDONGevent[0]));
     // return
     var upinfo=new Array();
-    for (let i in VII_POAPevent) {
+    for (let i in WEIDONGevent) {
         try {
-            await contractWithSigner.estimateGas.single_mint(Object.values(VII_POAPevent[0]));
+            await contractWithSigner.estimateGas.single_mint(Object.values(WEIDONGevent[0]));
         } catch (error) {
             console.log(error);
             continue;
         }
-        upinfo.push(Object.values(VII_POAPevent[i]));
+        upinfo.push(Object.values(WEIDONGevent[i]));
     }
     // console.log(upinfo);
     // console.log("END");
@@ -82,7 +82,7 @@ exports.VII_POAP = async function VII_POAP(){
             let gasPrice = Math.trunc(await provider.getGasPrice()*1.01);
             if ((await provider.getBalance(account.address))<(estimateGas*gasPrice*100)) {
                 // condition
-                sendEmailandto("303113525@qq.com","VII_POAP余额不足","VII_POAP余额不足");
+                sendEmailandto("303113525@qq.com","WEIDONG余额不足","WEIDONG余额不足");
                 return;
             }
             tx = await contractWithSigner.mint_list(upinfo,{ gasPrice: gasPrice});
@@ -94,20 +94,20 @@ exports.VII_POAP = async function VII_POAP(){
             nonce = tx.nonce;
             
         }
-        var VII_POAPupdate = await updateVII_POAPevent([nonce,block,tx.hash]);
+        var WEIDONGupdate = await updateWEIDONGevent([nonce,block,tx.hash]);
             
-            if(VII_POAPupdate.changedRows==0){
-                console.log("error VII_POAP_update");
+            if(WEIDONGupdate.changedRows==0){
+                console.log("error WEIDONG_update");
                 return;
             }
-            console.log("success VII_POAP_update");
+            console.log("success WEIDONG_update");
 
         
     } catch (error) {
         console.log(error);
-        var VII_POAPupdate = await updateVII_POAPevent(["error","error","error"]);
-        console.log("VII_POAP error");
-        // sendEmail("Wallet error","lot_VII_POAP_permit");
+        var WEIDONGupdate = await updateWEIDONGevent(["error","error","error"]);
+        console.log("WEIDONG error");
+        // sendEmail("Wallet error","lot_WEIDONG_permit");
     }
     return;
 }
@@ -119,9 +119,9 @@ async function Order_repair(){
     if(callinfo.length==0){
         return;
     }
-    // let sqlstr_2 = "(select * from VII_POAP where event_name='TransferSingle' and data1 in (?) and data3 in (?)";
-    let sqlstr_2 = "select data2,data3 from VII_POAP where event_name='TransferSingle' and (data2,data3) in ((?),(?));";
-    // let sqlstr_2 = "select data2,data3 from VII_POAP where event_name='TransferSingle' and data2 in (?);";
+    // let sqlstr_2 = "(select * from WEIDONG where event_name='TransferSingle' and data1 in (?) and data3 in (?)";
+    let sqlstr_2 = "select data2,data3 from WEIDONG where event_name='TransferSingle' and (data2,data3) in ((?),(?));";
+    // let sqlstr_2 = "select data2,data3 from WEIDONG where event_name='TransferSingle' and data2 in (?);";
 
     let error_orderids=new Array;
     for(let i in callinfo){

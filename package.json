@@ -15,6 +15,8 @@
     "bip39": "^3.0.4",
     "express": "^4.18.1",
     "hardhat-abi-exporter": "^2.10.0",
+    "hardhat-conflux": "^0.1.1",
+    "js-conflux-sdk": "^2.1.2",
     "jsonfile": "^6.1.0",
     "lsof": "^0.1.0",
     "md5": "^2.3.0",

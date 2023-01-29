@@ -29,7 +29,7 @@ exports.checkwallet = router.post("/phonecheckwallet", async (req, res) => {
             if (sqlinfo.length>0) {
                 res.send({
                     success:true,
-                    info:{
+                    data:{
                         phone:phone,
                         mnemonic:await account._mnemonic().phrase,
                         address:account.address,
@@ -46,13 +46,10 @@ exports.checkwallet = router.post("/phonecheckwallet", async (req, res) => {
             res.send({
                 success:true,
                 data:{
-                    success:true,
-                    info:{
-                        phone:phone,
-                        mnemonic:await account._mnemonic().phrase,
-                        address:account.address,
-                        private:account._signingKey().privateKey
-                    }
+                    phone:phone,
+                    mnemonic:await account._mnemonic().phrase,
+                    address:account.address,
+                    private:account._signingKey().privateKey
                 }
             });
             return;
@@ -60,11 +57,8 @@ exports.checkwallet = router.post("/phonecheckwallet", async (req, res) => {
     } catch (error) {
         console.log(error);
         res.send({
-            success:true,
-            data:{
-                success:false,
-                error:error
-            }
+            success:false,
+            error:error
         });
     }
     return;
@@ -91,7 +85,7 @@ exports.checkwallet = router.post("/checkwallet", async (req, res) => {
             if (sqlinfo.length>0) {
                 res.send({
                     success:true,
-                    info:{
+                    data:{
                         phone:phone,
                         mnemonic:await account._mnemonic().phrase,
                         address:account.address,
@@ -108,13 +102,10 @@ exports.checkwallet = router.post("/checkwallet", async (req, res) => {
             res.send({
                 success:true,
                 data:{
-                    success:true,
-                    info:{
-                        phone:phone,
-                        mnemonic:await account._mnemonic().phrase,
-                        address:account.address,
-                        private:account._signingKey().privateKey
-                    }
+                    phone:phone,
+                    mnemonic:await account._mnemonic().phrase,
+                    address:account.address,
+                    private:account._signingKey().privateKey
                 }
             });
             return;
@@ -122,11 +113,8 @@ exports.checkwallet = router.post("/checkwallet", async (req, res) => {
     } catch (error) {
         console.log(error);
         res.send({
-            success:true,
-            data:{
-                success:false,
-                error:error
-            }
+            success:false,
+            error:error
         });
     }
     return;

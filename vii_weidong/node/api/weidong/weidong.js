@@ -62,16 +62,13 @@ exports.phonepostmint = router.post("/phonepostmint", async (req, res) => {
     params.account = toChecksumAddress(account.address);
     params.phone = params.account;
     let tokenid = params.tokenid;
+    let data = account.address
+    let sqlstr="select phone from wallet where address=?";
+    let phonesql = await conn.select(sqlstr, data);
     if (!check.every(key => key in params)) {
         res.send({
             success: false,
             errorCode: "10914001",
-            data: {
-                nftinfo: [{
-                    ...baseinfo(poapcontractinfo,params),
-                    tokenid: tokenid
-                }]
-            },
             errorMessage: "error params",
         });
         return;
@@ -81,12 +78,6 @@ exports.phonepostmint = router.post("/phonepostmint", async (req, res) => {
         res.send({
             success: false,
             errorCode: "10914002",
-            data: {
-                nftinfo: [{
-                    ...baseinfo(poapcontractinfo,params),
-                    tokenid: tokenid
-                }]
-            },
             errorMessage: "no key"
 
         });
@@ -97,12 +88,6 @@ exports.phonepostmint = router.post("/phonepostmint", async (req, res) => {
         res.send({
             success: false,
             errorCode: "10914003",
-            data: {
-                nftinfo: [{
-                    ...baseinfo(poapcontractinfo,params),
-                    tokenid: tokenid
-                }]
-            },
             errorMessage: "error key"
         });
         return;
@@ -124,7 +109,10 @@ exports.phonepostmint = router.post("/phonepostmint", async (req, res) => {
             data: {
                 nftinfo: [{
                     ...baseinfo(poapcontractinfo,params),
-                    tokenid: tokenid
+                    tokenid: tokenid,
+                    owner:data,
+                    ownertophone:phonesql[0].phone,
+
                 }]
             },
             errorMessage: "Repeated order submission"
@@ -139,12 +127,6 @@ exports.phonepostmint = router.post("/phonepostmint", async (req, res) => {
         res.send({
             success: false,
             errorCode: "10914005",
-            data: {
-                nftinfo: [{
-                    ...baseinfo(poapcontractinfo,params),
-                    tokenid: tokenid
-                }]
-            },
             errorMessage: error
         });
         // sendEmailandto("Wallet:orderid error ","error orderid");
@@ -157,7 +139,9 @@ exports.phonepostmint = router.post("/phonepostmint", async (req, res) => {
             success: true,
             nftinfo: [{
                 ...baseinfo(poapcontractinfo,params),
-                tokenid: tokenid
+                tokenid: tokenid,
+                owner:data,
+                ownertophone:phonesql[0].phone,
             }]
 
 
@@ -181,23 +165,17 @@ exports.phonecheckaccount = router.post("/phonecheckaccount", async (req, res) =
         res.send({
             success: false,
             errorCode: "10914001",
-            data: {
-                nftinfo: [{
-                    ...baseinfo(poapcontractinfo,params),
-                    tokenid: tokenid
-                }]
-            },
             errorMessage: "error params"
         });
         return;
     }
     try {
         let data = await ownerOf(params.tokenid);
+        let sqlstr="select phone from wallet where address=?";
+        let phonesql = await conn.select(sqlstr, data);
         // console.log(data);
         if (data !=params.account) {
-            let sqlstr="select phone from wallet where address=?";
-            let phonesql = await conn.select(sqlstr, data);
-            console.log(phonesql,data);
+            // console.log(phonesql,data);
             res.send({
                 success: true,
                 data: {
@@ -228,12 +206,6 @@ exports.phonecheckaccount = router.post("/phonecheckaccount", async (req, res) =
         res.send({
             success: false,
             errorCode: "10914006",
-            data: {
-                nftinfo: [{
-                    ...baseinfo(poapcontractinfo,params),
-                    tokenid: tokenid
-                }]
-            },
             errorMessage: "blockchain call error"
         });
     }
@@ -252,16 +224,13 @@ exports.phonegetnft = router.post("/phonegetnft", async (req, res) => {
         res.send({
             success: false,
             errorCode: "10914001",
-            data: {
-                poapcontractinfo: {
-                    ...baseinfo(poapcontractinfo,params)
-                    
-                }
-            },
             errorMessage: "error params",
         });
         return;
     }
+    let data = account.address
+    let sqlstr="select phone from wallet where address=?";
+    let phonesql = await conn.select(sqlstr, data);
     try {
         let nfts = await getaccountnft(account.address);
         // console.log(nfts);
@@ -269,9 +238,10 @@ exports.phonegetnft = router.post("/phonegetnft", async (req, res) => {
         for (let i = 0; i < nfts.tokenids.length; i++) {
             nftinfo.push(
                 {
-                    owner:account.address,
-                    tokenid:nfts.tokenids[i],
                     ...baseinfo(poapcontractinfo,params),
+                    tokenid:nfts.tokenids[i],
+                    owner:data,
+                    ownertophone:phonesql[0].phone,
                 }
             )
         }

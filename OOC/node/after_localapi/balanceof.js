@@ -17,7 +17,7 @@ async function main() {
     nft_balance()
     Statistics()
 
-    // getdd_balance();
+    // get_account();
 }
 
 // 0.55eth
@@ -141,4 +141,14 @@ async function getdd_balance(){
         }
     }
     console.log(amount,eth);
+}
+async function get_account(){
+    let balance = await jsonFile.readFileSync("./info/nftbalance.json");
+    let amount=0;
+    for (let i in balance) {
+        if (parseInt(balance[i].hex,16)!=0) {
+            amount++;
+        }
+    }
+    console.log(amount);
 }

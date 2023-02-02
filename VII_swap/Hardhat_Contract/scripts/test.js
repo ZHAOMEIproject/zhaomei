@@ -388,6 +388,18 @@ async function main(){
                 let user_a_balance = pair_a_balance * zhanbi;
                 let user_b_balance = pair_b_balance * zhanbi; 
             }
+            // 移除流动性
+            {
+                let pairadd = await viiderfactory.getPair(viider.address, testtoken.address);
+                // 加载配对合约
+                let ViiderPairArtifact = await artifacts.readArtifact("ViiderPair");
+                pair = new ethers.Contract(pairadd, ViiderPairArtifact.abi, network.config.provider).connect(owner);
+
+                await pair.approve(viiderrouter.address,"6000000");
+                await viiderrouter.removeLiquidity(viider.address, testtoken.address,"6000000",?,?,owner.address,99999999);
+
+
+            }
 
         }
         

@@ -17,9 +17,9 @@ exports.test = router.get("/", async (req, res) => {
 // {
 //     "callstr":"你好呀",
 //     "opts":{
-// "conversationId": "194cb915-9f2e-458d-bb56-91424607c6b4",//对话窗口id
-// "parentMessageId": "5ae046c7-e1bb-4090-8be2-f7b5cab7100c",//上一句话的messageId
-// "action":"variant"
+//         "conversationId": "194cb915-9f2e-458d-bb56-91424607c6b4",//对话窗口id
+//         "parentMessageId": "5ae046c7-e1bb-4090-8be2-f7b5cab7100c",//上一句话的messageId
+//         "action":"variant"
 //     }
 // }
 
@@ -31,6 +31,8 @@ var nowtask = {
     conversationId: "string",
     messageId: "string"
 }
+const crypto = require('crypto');
+var callhistory = new Map();
 exports.chatgpt = router.post("/chatcall", async (req, res) => {
 
     var params;
@@ -51,6 +53,24 @@ exports.chatgpt = router.post("/chatcall", async (req, res) => {
         return;
     }
     // console.log(nowtask.flag,nowtask.flagtime + 60000,Date.now(),(nowtask.flagtime + 60000) >= Date.now());
+
+    // 哈希check下是否有历史请求过。
+    if (!params.opts) {
+        params.opts={}
+    }
+    const hash = crypto.createHash('sha256');
+    hash.update(callstr+params.opts.conversationId+params.opts.parentMessageId+params.opts.action);
+    const output = hash.digest('hex');
+    let checkhistory=callhistory.has(output);
+    if (checkhistory) {
+        res.send({
+            success: true,
+            data: {
+                ...checkhistory
+            },
+        });
+        return;
+    }
     if (checknowtask()) {
         let callstr = params.callstr;
         nowtask.flagtime = Date.now();
@@ -64,6 +84,7 @@ exports.chatgpt = router.post("/chatcall", async (req, res) => {
             nowtask.conversationId = result.conversationId;
             nowtask.messageId = result.messageId;
         }
+        checkhistory.set(output,result);
         res.send({
             success: true,
             data: {
@@ -122,11 +143,11 @@ function checknowtask() {
     }
     return false
 }
-function timeout(change){
+function timeout(change) {
     if (!change) {
-        change=0;
+        change = 0;
     }
-    console.log(nowtask.flagtime+60000,change);
+    console.log(nowtask.flagtime + 60000, change);
     console.log(nowtask.flagtime + 60000 + change);
     return Date.now() >= (nowtask.flagtime + 60000 + change)
 }

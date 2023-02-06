@@ -54,6 +54,7 @@ exports.chatgpt = router.post("/chatcall", async (req, res) => {
     }
     // console.log(nowtask.flag,nowtask.flagtime + 60000,Date.now(),(nowtask.flagtime + 60000) >= Date.now());
 
+    let callstr = params.callstr;
     // 哈希check下是否有历史请求过。
     if (!params.opts) {
         params.opts={}
@@ -67,13 +68,13 @@ exports.chatgpt = router.post("/chatcall", async (req, res) => {
         res.send({
             success: true,
             data: {
+                callstr:callstr,
                 ...checkhistory
             },
         });
         return;
     }
     if (checknowtask()) {
-        let callstr = params.callstr;
         nowtask.flagtime = Date.now();
         nowtask.flag = false;
         nowtask.user = params.user;
@@ -89,6 +90,7 @@ exports.chatgpt = router.post("/chatcall", async (req, res) => {
         res.send({
             success: true,
             data: {
+                callstr:callstr,
                 ...result
             },
         });
@@ -118,6 +120,7 @@ exports.chatgpt = router.post("/chatcall", async (req, res) => {
             res.send({
                 success: true,
                 data: {
+                    callstr:callstr,
                     response: nowtask.response,
                     conversationId: nowtask.conversationId,
                     messageId: nowtask.messageId

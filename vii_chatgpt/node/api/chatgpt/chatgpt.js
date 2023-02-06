@@ -58,7 +58,7 @@ exports.chatgpt = router.post("/chatcall", async (req, res) => {
         nowtask.user = params.user;
         const result = await chatgpt.call(callstr, params.opts);
         // 预防严重超时影响新请求
-        if (timeout(-500)) {
+        if (!timeout(-500)) {
             nowtask.flag = true;
             nowtask.response = result.response;
             nowtask.conversationId = result.conversationId;
@@ -107,7 +107,14 @@ exports.chatgpt = router.post("/chatcall", async (req, res) => {
     }
 
 });
-
+exports.getinfo = router.post("/getinfo", async (req, res) => {
+    res.send({
+        success: true,
+        data: {
+            nowtask
+        },
+    });
+});
 function checknowtask() {
     // 除了上锁时间未超时，其他都是可创建新任务。
     if (timeout() || nowtask.flag) {
@@ -116,7 +123,12 @@ function checknowtask() {
     return false
 }
 function timeout(change){
-    return Date.now() >= (nowtask.flagtime + 60000+change)
+    if (!change) {
+        change=0;
+    }
+    console.log(nowtask.flagtime+60000,change);
+    console.log(nowtask.flagtime + 60000 + change);
+    return Date.now() >= (nowtask.flagtime + 60000 + change)
 }
 async function wait(ms) {
     return new Promise(resolve => setTimeout(() => resolve(), ms));

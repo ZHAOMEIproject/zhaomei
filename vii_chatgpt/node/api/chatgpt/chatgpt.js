@@ -61,7 +61,7 @@ exports.chatgpt = router.post("/chatcall", async (req, res) => {
     const hash = crypto.createHash('sha256');
     hash.update(callstr+params.opts.conversationId+params.opts.parentMessageId+params.opts.action);
     const output = hash.digest('hex');
-    let checkhistory=callhistory.has(output);
+    let checkhistory=callhistory.get(output);
     if (checkhistory) {
         res.send({
             success: true,

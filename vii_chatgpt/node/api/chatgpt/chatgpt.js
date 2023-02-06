@@ -16,6 +16,7 @@ exports.test = router.get("/", async (req, res) => {
 });
 // {
 //     "callstr":"你好呀",
+//     "user":"zwj",
 //     "opts":{
 //         "conversationId": "194cb915-9f2e-458d-bb56-91424607c6b4",//对话窗口id
 //         "parentMessageId": "5ae046c7-e1bb-4090-8be2-f7b5cab7100c",//上一句话的messageId
@@ -85,7 +86,7 @@ exports.chatgpt = router.post("/chatcall", async (req, res) => {
             nowtask.response = result.response;
             nowtask.conversationId = result.conversationId;
             nowtask.messageId = result.messageId;
-            checkhistory.set(output,result);
+            callhistory.set(output,result);
         }
         res.send({
             success: true,

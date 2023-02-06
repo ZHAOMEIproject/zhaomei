@@ -57,10 +57,13 @@ exports.chatgpt = router.post("/chatcall", async (req, res) => {
         nowtask.flag = false;
         nowtask.user = params.user;
         const result = await chatgpt.call(callstr, params.opts);
-        nowtask.flag = true;
-        nowtask.response = result.response;
-        nowtask.conversationId = result.conversationId;
-        nowtask.messageId = result.messageId;
+        // 预防严重超时影响新请求
+        if (timeout(-500)) {
+            nowtask.flag = true;
+            nowtask.response = result.response;
+            nowtask.conversationId = result.conversationId;
+            nowtask.messageId = result.messageId;
+        }
         res.send({
             success: true,
             data: {
@@ -81,7 +84,7 @@ exports.chatgpt = router.post("/chatcall", async (req, res) => {
         while ((!nowtask.flag) || !checknowtask()) {
             await wait(500);
         }
-        if (Date.now() >= (nowtask.flagtime + 60000)) {
+        if (timeout()) {
             res.send({
                 success: false,
                 errorCode: "10915000",
@@ -107,10 +110,13 @@ exports.chatgpt = router.post("/chatcall", async (req, res) => {
 
 function checknowtask() {
     // 除了上锁时间未超时，其他都是可创建新任务。
-    if (Date.now() >= (nowtask.flagtime + 60000) || nowtask.flag) {
+    if (timeout() || nowtask.flag) {
         return true
     }
     return false
+}
+function timeout(change){
+    return Date.now() >= (nowtask.flagtime + 60000+change)
 }
 async function wait(ms) {
     return new Promise(resolve => setTimeout(() => resolve(), ms));

@@ -58,6 +58,7 @@ exports.chatgpt = router.post("/chatcall", async (req, res) => {
     if (!params.opts) {
         params.opts={}
     }
+    params.opts["timeoutMs"]=60000;
     const hash = crypto.createHash('sha256');
     hash.update(callstr+params.opts.conversationId+params.opts.parentMessageId+params.opts.action);
     const output = hash.digest('hex');
@@ -83,8 +84,8 @@ exports.chatgpt = router.post("/chatcall", async (req, res) => {
             nowtask.response = result.response;
             nowtask.conversationId = result.conversationId;
             nowtask.messageId = result.messageId;
+            checkhistory.set(output,result);
         }
-        checkhistory.set(output,result);
         res.send({
             success: true,
             data: {

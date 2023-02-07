@@ -7,10 +7,10 @@ const conn = require("../../nodetool/sqlconnection");
 const { sendEmailandto } = require("../../nodetool/email");
 const { ethers } = require("ethers");
 const {creatwallet} = require("./creatwallet");
-exports.checkwallet = router.post("/phonecheckwallet", async (req, res) => {
+exports.checkwallet = router.post("/useridcheckwallet", async (req, res) => {
     var params = req.body;
-    // let check =["phone","path"];
-    let check =["phone"];
+    // let check =["userid","path"];
+    let check =["userid"];
     if(!check.every(key=>key in params)){
         res.send({
             success:false,
@@ -19,18 +19,18 @@ exports.checkwallet = router.post("/phonecheckwallet", async (req, res) => {
         return;
     }
     try {
-        let phone=params.phone;
+        let userid=params.userid;
         let path = "0";
-        let account = await creatwallet(phone,path);
+        let account = await creatwallet(userid,path);
         {
-            let select = "select * from wallet where phone=?;"
-            let sqlinfo = await conn.select(select,phone);
+            let select = "select * from wallet where userid=?;"
+            let sqlinfo = await conn.select(select,userid);
             // console.log(sqlinfo);
             if (sqlinfo.length>0) {
                 res.send({
                     success:true,
                     data:{
-                        phone:phone,
+                        userid:userid,
                         mnemonic:await account._mnemonic().phrase,
                         address:account.address,
                         private:account._signingKey().privateKey
@@ -40,13 +40,13 @@ exports.checkwallet = router.post("/phonecheckwallet", async (req, res) => {
             }
         }
         {
-            let str = "insert into wallet(phone,mnemonic,path,address,private) values(?,?,?,?,?)";
-            let sqlparams=[phone,await account._mnemonic().phrase,path,account.address,account._signingKey().privateKey];
+            let str = "insert into wallet(userid,mnemonic,path,address,private) values(?,?,?,?,?)";
+            let sqlparams=[userid,await account._mnemonic().phrase,path,account.address,account._signingKey().privateKey];
             let orderidsql = await conn.select(str,sqlparams);
             res.send({
                 success:true,
                 data:{
-                    phone:phone,
+                    userid:userid,
                     mnemonic:await account._mnemonic().phrase,
                     address:account.address,
                     private:account._signingKey().privateKey
@@ -65,8 +65,8 @@ exports.checkwallet = router.post("/phonecheckwallet", async (req, res) => {
 });
 exports.checkwallet = router.post("/checkwallet", async (req, res) => {
     var params = req.body;
-    let check =["phone","path"];
-    // let check =["phone"];
+    let check =["userid","path"];
+    // let check =["userid"];
     if(!check.every(key=>key in params)){
         res.send({
             success:false,
@@ -75,18 +75,18 @@ exports.checkwallet = router.post("/checkwallet", async (req, res) => {
         return;
     }
     try {
-        let phone=params.phone;
+        let userid=params.userid;
         let path =params.path;
-        let account = await creatwallet(phone,path);
+        let account = await creatwallet(userid,path);
         {
-            let select = "select * from wallet where phone=?;"
-            let sqlinfo = await conn.select(select,phone);
+            let select = "select * from wallet where userid=?;"
+            let sqlinfo = await conn.select(select,userid);
             // console.log(sqlinfo);
             if (sqlinfo.length>0) {
                 res.send({
                     success:true,
                     data:{
-                        phone:phone,
+                        userid:userid,
                         mnemonic:await account._mnemonic().phrase,
                         address:account.address,
                         private:account._signingKey().privateKey
@@ -96,13 +96,13 @@ exports.checkwallet = router.post("/checkwallet", async (req, res) => {
             }
         }
         {
-            let str = "insert into wallet(phone,mnemonic) values(?,?)";
-            let sqlparams=[phone,await account._mnemonic().phrase];
+            let str = "insert into wallet(userid,mnemonic) values(?,?)";
+            let sqlparams=[userid,await account._mnemonic().phrase];
             let orderidsql = await conn.select(str,sqlparams);
             res.send({
                 success:true,
                 data:{
-                    phone:phone,
+                    userid:userid,
                     mnemonic:await account._mnemonic().phrase,
                     address:account.address,
                     private:account._signingKey().privateKey

@@ -151,11 +151,15 @@ async function l_chatcall(prompt){
         parentMessageId:req.data.messageId,
         "action":"variant"
     }
-    return [
-        {
-            text:req.data.response
+    return {
+        data:{
+            choices:[
+                {
+                    text:req.data.response
+                }
+            ]
         }
-    ];
+    };
 }
 module.exports = {
     l_chatcall,

@@ -130,13 +130,14 @@ async function init(){
     await api.initSession();
     // const result = await api.sendMessage('Hello World!')
     // console.log(result)
+    global.chatapi=true;
 }
 
 let chatendstr = '\n用上面资料按此格式编写训练集。\n{"prompt":"<从上述资料提出的武康大楼问题>", "completion":"<从上述资料整理出的答案> END"}'
 
 async function chatgptcall(callstr,opts){
     console.log(callstr+chatendstr);
-    // return
+    return
     // return {
     //     response: '你好！我是 OpenAI 的语言模型 ChatGPT，有什么我可以帮忙的？',
     //     conversationId: 'ff1a2e91-0030-43c5-a230-4e31a60b53df',

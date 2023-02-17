@@ -1,4 +1,4 @@
-const { subsection, detection, gptcall,addfile,chatgptcall } = require("./text_to_com")
+const { subsection, detection, gptcall, addfile, chatgptcall } = require("./text_to_com")
 // let sendopt = {
 //     "model": "text-davinci-003",//选择模型
 //     "temperature": 0.5,//创新性0-1
@@ -15,7 +15,7 @@ const { subsection, detection, gptcall,addfile,chatgptcall } = require("./text_t
 //     max_tokens,
 //     n,
 // }
-let input = ['file.txt', 200, 1000, 4,"save.txt"]
+let input = ['file.txt', 200, 1000, 4, "save.txt"]
 // detection(...input);
 main(...input);
 async function main(
@@ -57,8 +57,18 @@ async function main(
     //     await addfile(("\n"+res_data[i].text+"\n"),savefile)
     // }
     {
-        let response = await chatgptcall((segments[0]+segments[1]))
+        await chatgptcall((segments[0] + segments[1]))
     }
 }
-
-
+async function main2(){
+    try {
+        console.log(await chatgptcall((segments[0] + segments[1])));
+        return true
+    } catch (error) {
+        return false
+    }
+}
+async function wait(ms){
+    return new Promise(resolve =>setTimeout(() =>resolve(), ms));
+  }
+  

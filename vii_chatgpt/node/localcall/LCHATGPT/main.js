@@ -26,16 +26,17 @@ async function main(
     savefile,
 ) {
     let segments = await subsection(filePath, wordsPerSegment / 2);
-
     // console.log(segments[0] + segments[1]);
-    for (let i = 1; i < segments.length; i++) {
-        console.log(i);
-        let response = await l_chatcall((segments[i-1]+segments[i]),max_tokens,n)
-        let res_data= response.data.choices;
-        for (let i in res_data) {
-            // console.log(res_data[i]);
-            console.log(res_data[i].text);
-            await addfile(("\n"+res_data[i].text),savefile)
+    for (let i = 0; i < 10; i++) {
+        for (let i = 1; i < segments.length; i++) {
+            console.log(i);
+            let response = await l_chatcall((segments[i-1]+segments[i]),max_tokens,n)
+            let res_data= response.data.choices;
+            for (let i in res_data) {
+                // console.log(res_data[i]);
+                console.log(res_data[i].text);
+                await addfile(("\n"+res_data[i].text),savefile)
+            }
         }
     }
 

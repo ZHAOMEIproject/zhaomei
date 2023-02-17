@@ -115,7 +115,7 @@ async function gptcall(prompt,max_tokens,n) {
     return response;
 }
 
-let chatendstr = '\n以上是武康大楼的资料。请按以下格式编写多个openai的训练数据集。\n{"prompt":"<从上述资料提出关于武康大楼的问题>", "completion":"<从上述资料整理出的答案> END"}'
+let chatendstr = '\n以上是武康大楼的资料。请按以下格式编写3个openai的训练数据集。\n{"prompt":"<从上述资料提出关于武康大楼的问题>", "completion":"<从上述资料整理出的答案> END"}'
 
 const request = require('request');
 function post(url, data) {

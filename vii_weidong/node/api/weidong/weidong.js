@@ -51,115 +51,123 @@ function toChecksumAddress(address) {
 }
 
 
-exports.phonepostmint = router.post("/phonepostmint", async (req, res) => {
-    var params = req.body;
-    let check = ["phone", "tokenid"];
-    // let check =["account","tokenid"];
-    let path = "0";
-    let phone = params.phone;
-    let account = await creatwallet(phone, path);
-    // params.account = toChecksumAddress(params.account);
-    params.account = toChecksumAddress(account.address);
-    params.phone = params.account;
-    let tokenid = params.tokenid;
-    let data = account.address
-    let sqlstr="select phone from wallet where address=?";
-    let phonesql = await conn.select(sqlstr, data);
-    if (!check.every(key => key in params)) {
-        res.send({
-            success: false,
-            errorCode: "10914001",
-            errorMessage: "error params",
-        });
-        return;
-    }
-    let check2 = ["key"];
-    if (!check2.every(key => key in params)) {
-        res.send({
-            success: false,
-            errorCode: "10914002",
-            errorMessage: "no key"
-
-        });
-        return;
-    }
-    let key_set = "8d7b3b976dd7dc3f54ab3e6d234c30ff";
-    if (params["key"] != key_set) {
-        res.send({
-            success: false,
-            errorCode: "10914003",
-            errorMessage: "error key"
-        });
-        return;
-    }
-
-
-    let sqlparams = [];
-    for (let i in check) {
-        sqlparams.push(params[check[i]]);
-    }
-    let checkorderid = "select * from mint_list where (account,tokenid) in ((?),(?))"
-    let orderidsql = await conn.select(checkorderid, [sqlparams, [0, 0]])
-    // console.log([params["account"],params["tokenid"]],"\n",orderidsql);
-    // return
-    if (orderidsql.length != 0) {
-        res.send({
-            success: false,
-            errorCode: "10914004",
-            data: {
-                nftinfo: [{
-                    ...baseinfo(poapcontractinfo,params),
-                    tokenid: tokenid,
-                    owner:data,
-                    ownertophone:phonesql[0].phone,
-
-                }]
-            },
-            errorMessage: "Repeated order submission"
-        });
-        return;
-    }
-
-    let sqlStr = "INSERT INTO mint_list(account,tokenid)VALUES(?,?)";
+exports.useridpostmint = router.post("/useridpostmint", async (req, res) => {
     try {
-        await conn.select(sqlStr, sqlparams);
+        var params = req.body;
+        let check = ["userid", "tokenid"];
+        // let check =["account","tokenid"];
+        let path = "0";
+        let userid = params.userid;
+        let account = await creatwallet(userid, path);
+        // params.account = toChecksumAddress(params.account);
+        params.account = toChecksumAddress(account.address);
+        params.userid = params.account;
+        let tokenid = params.tokenid;
+        let data = account.address
+        let sqlstr = "select userid from wallet where address=?";
+        let useridsql = await conn.select(sqlstr, data);
+        if (!check.every(key => key in params)) {
+            res.send({
+                success: false,
+                errorCode: "10914001",
+                errorMessage: "error params",
+            });
+            return;
+        }
+        let check2 = ["key"];
+        if (!check2.every(key => key in params)) {
+            res.send({
+                success: false,
+                errorCode: "10914002",
+                errorMessage: "no key"
+
+            });
+            return;
+        }
+        let key_set = "8d7b3b976dd7dc3f54ab3e6d234c30ff";
+        if (params["key"] != key_set) {
+            res.send({
+                success: false,
+                errorCode: "10914003",
+                errorMessage: "error key"
+            });
+            return;
+        }
+
+
+        let sqlparams = [];
+        for (let i in check) {
+            sqlparams.push(params[check[i]]);
+        }
+        let checkorderid = "select * from mint_list where (account,tokenid) in ((?),(?))"
+        let orderidsql = await conn.select(checkorderid, [sqlparams, [0, 0]])
+        // console.log([params["account"],params["tokenid"]],"\n",orderidsql);
+        // return
+        if (orderidsql.length != 0) {
+            res.send({
+                success: false,
+                errorCode: "10914004",
+                data: {
+                    nftinfo: [{
+                        ...baseinfo(poapcontractinfo, params),
+                        tokenid: tokenid,
+                        owner: data,
+                        ownertouserid: userid,
+
+                    }]
+                },
+                errorMessage: "Repeated order submission"
+            });
+            return;
+        }
+
+        let sqlStr = "INSERT INTO mint_list(account,tokenid)VALUES(?,?)";
+        try {
+            await conn.select(sqlStr, sqlparams);
+        } catch (error) {
+            res.send({
+                success: false,
+                errorCode: "10914005",
+                errorMessage: error
+            });
+            // sendEmailandto("Wallet:orderid error ","error orderid");
+            return;
+        }
+
+        res.send({
+            success: true,
+            data: {
+                success: true,
+                nftinfo: [{
+                    ...baseinfo(poapcontractinfo, params),
+                    tokenid: tokenid,
+                    owner: data,
+                    ownertouserid: userid,
+                }]
+
+
+            }
+        });
+        return;
     } catch (error) {
+        console.log(error);
         res.send({
             success: false,
-            errorCode: "10914005",
-            errorMessage: error
+            error: String(error)
         });
-        // sendEmailandto("Wallet:orderid error ","error orderid");
-        return;
     }
-
-    res.send({
-        success: true,
-        data: {
-            success: true,
-            nftinfo: [{
-                ...baseinfo(poapcontractinfo,params),
-                tokenid: tokenid,
-                owner:data,
-                ownertophone:phonesql[0].phone,
-            }]
-
-
-        }
-    });
-    return;
 });
-exports.phonecheckaccount = router.post("/phonecheckaccount", async (req, res) => {
+exports.useridcheckaccount = router.post("/useridcheckaccount", async (req, res) => {
     var params = req.body;
 
-    let check = ["phone", "tokenid"];
+    let check = ["userid", "tokenid"];
     // let check =["account","tokenid"];
     let path = "0";
-    let phone = params.phone;
-    let account = await creatwallet(phone, path);
+    let userid = params.userid;
+    let account = await creatwallet(userid, path);
     // params.account = toChecksumAddress(params.account);
     params.account = toChecksumAddress(account.address);
-    params.phone = params.account;
+    params.userid = params.account;
     let tokenid = params.tokenid;
     if (!check.every(key => key in params)) {
         res.send({
@@ -171,19 +179,19 @@ exports.phonecheckaccount = router.post("/phonecheckaccount", async (req, res) =
     }
     try {
         let data = await ownerOf(params.tokenid);
-        let sqlstr="select phone from wallet where address=?";
-        let phonesql = await conn.select(sqlstr, data);
+        let sqlstr = "select userid from wallet where address=?";
+        let useridsql = await conn.select(sqlstr, data);
         // console.log(data);
-        if (data !=params.account) {
-            // console.log(phonesql,data);
+        if (data != params.account) {
+            // console.log(useridsql,data);
             res.send({
                 success: true,
                 data: {
                     success: false,
                     nftinfo: [{
-                        ...baseinfo(poapcontractinfo,params),
-                        owner:data,
-                        ownertophone:phonesql[0].phone,
+                        ...baseinfo(poapcontractinfo, params),
+                        owner: data,
+                        ownertouserid: useridsql[0].userid,
                         tokenid: tokenid
                     }]
                 }
@@ -194,9 +202,9 @@ exports.phonecheckaccount = router.post("/phonecheckaccount", async (req, res) =
                 data: {
                     success: true,
                     nftinfo: [{
-                        ...baseinfo(poapcontractinfo,params),
-                        owner:data,
-                        ownertophone:phonesql[0].phone,
+                        ...baseinfo(poapcontractinfo, params),
+                        owner: data,
+                        ownertouserid: userid,
                         tokenid: tokenid
                     }]
                 }
@@ -210,16 +218,16 @@ exports.phonecheckaccount = router.post("/phonecheckaccount", async (req, res) =
         });
     }
 });
-exports.phonegetnft = router.post("/phonegetnft", async (req, res) => {
+exports.useridgetnft = router.post("/useridgetnft", async (req, res) => {
     var params = req.body;
-    let check = ["phone"];
+    let check = ["userid"];
     // let check =["account","tokenid"];
     let path = "0";
-    let phone = params.phone;
-    let account = await creatwallet(phone, path);
+    let userid = params.userid;
+    let account = await creatwallet(userid, path);
     // params.account = toChecksumAddress(params.account);
     params.account = toChecksumAddress(account.address);
-    params.phone = params.account;
+    params.userid = params.account;
     if (!check.every(key => key in params)) {
         res.send({
             success: false,
@@ -229,8 +237,8 @@ exports.phonegetnft = router.post("/phonegetnft", async (req, res) => {
         return;
     }
     let data = account.address
-    let sqlstr="select phone from wallet where address=?";
-    let phonesql = await conn.select(sqlstr, data);
+    let sqlstr = "select userid from wallet where address=?";
+    let useridsql = await conn.select(sqlstr, data);
     try {
         let nfts = await getaccountnft(account.address);
         // console.log(nfts);
@@ -238,10 +246,10 @@ exports.phonegetnft = router.post("/phonegetnft", async (req, res) => {
         for (let i = 0; i < nfts.tokenids.length; i++) {
             nftinfo.push(
                 {
-                    ...baseinfo(poapcontractinfo,params),
-                    tokenid:nfts.tokenids[i],
-                    owner:data,
-                    ownertophone:phonesql[0].phone,
+                    ...baseinfo(poapcontractinfo, params),
+                    tokenid: nfts.tokenids[i],
+                    owner: data,
+                    ownertouserid: userid,
                 }
             )
         }
@@ -249,7 +257,7 @@ exports.phonegetnft = router.post("/phonegetnft", async (req, res) => {
             success: true,
             data: {
                 success: true,
-                nftinfo:[
+                nftinfo: [
                     ...nftinfo
                 ],
             }
@@ -265,8 +273,8 @@ exports.phonegetnft = router.post("/phonegetnft", async (req, res) => {
 
 });
 
-function baseinfo(poapcontractinfo,params) {
-    return{
+function baseinfo(poapcontractinfo, params) {
+    return {
         ...poapcontractinfo,
         nftlink: (poapcontractinfo.blockexplorer + "/nft/" + poapcontractinfo.address + "/" + params.tokenid),
         user: params.account,
@@ -274,7 +282,7 @@ function baseinfo(poapcontractinfo,params) {
 }
 
 
-async function contractset(){
+async function contractset() {
     const contractinfo = await getcontractinfo();
     let oocinfo;
     for (let i in contractinfo) {
@@ -287,25 +295,25 @@ async function contractset(){
     let provider = new ethers.providers.JsonRpcProvider(oocinfo.network.url);
     let wallet = new ethers.Wallet(account._signingKey(), provider);
     let contract = new ethers.Contract(
-        oocinfo.address, 
-        oocinfo.abi, 
+        oocinfo.address,
+        oocinfo.abi,
         provider
     );
     global.contractWithSigner = contract.connect(wallet);
 }
-async function getaccountnft(address){
-    let results =new Object();
+async function getaccountnft(address) {
+    let results = new Object();
     let nftbalance = await contractWithSigner["balanceOf"](address);
-    results["balanceOf"]=nftbalance.toString();
-    if (nftbalance==0) {
+    results["balanceOf"] = nftbalance.toString();
+    if (nftbalance == 0) {
         return results;
     }
-    let tasks=new Array();
+    let tasks = new Array();
     for (let i = 0; i < nftbalance; i++) {
-        tasks.push(contractWithSigner["tokenOfOwnerByIndex"](address,i));
+        tasks.push(contractWithSigner["tokenOfOwnerByIndex"](address, i));
     }
-    let tokenids =await Promise.all(tasks);
-    results["tokenids"]=new Array();
+    let tokenids = await Promise.all(tasks);
+    results["tokenids"] = new Array();
     for (let i = 0; i < tokenids.length; i++) {
         results["tokenids"].push(tokenids[i].toString())
     }

@@ -55,7 +55,7 @@ exports.chatgpt = router.post("/chatcall", async (req, res) => {
     }
     // console.log(nowtask.flag,nowtask.flagtime + 60000,Date.now(),(nowtask.flagtime + 60000) >= Date.now());
 
-    let callstr = params.callstr;
+    let callstr = "尽量用简短的话来回复，" + params.callstr;
     // 哈希check下是否有历史请求过。
     if (!params.opts) {
         params.opts={}

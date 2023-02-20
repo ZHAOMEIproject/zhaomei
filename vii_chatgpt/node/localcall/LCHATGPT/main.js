@@ -27,7 +27,7 @@ async function main(
 ) {
     let segments = await subsection(filePath, wordsPerSegment / 2);
     // console.log(segments[0] + segments[1]);
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 9999; i++) {
         for (let i = 1; i < segments.length; i++) {
             console.log(i);
             let response = await l_chatcall((segments[i-1]+segments[i]),max_tokens,n)

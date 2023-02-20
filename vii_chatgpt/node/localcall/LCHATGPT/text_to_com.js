@@ -63,7 +63,7 @@ const configuration = new Configuration({
     apiKey: global.secret.vii_chatgpt.key,
 });
 const openai = new OpenAIApi(configuration);
-async function basecall(prompt,max_tokens,n) {
+async function basecall(prompt, max_tokens, n) {
     const response = await openai.createCompletion({
         prompt: prompt,
         "max_tokens": max_tokens,//最大输出token
@@ -80,37 +80,37 @@ async function basecall(prompt,max_tokens,n) {
 let startstr = "Please answer truthfully as a friendly AI.\nHuman: "
 let endstr = '\n用上面资料按此格式编写训练集。\n{"prompt":"<从上述资料提出的武康大楼问题>", "completion":"<从上述资料整理出的答案> END"}\nAI: '
 
-async function addfile(strToAdd,filePath){
+async function addfile(strToAdd, filePath) {
     return new Promise(resolve => {
-        fs.open(filePath, 'a', function(err, fd) {
+        fs.open(filePath, 'a', function (err, fd) {
             if (err) {
-              console.error(err);
-              return;
-            }
-          
-            // 将要添加的字符串写入文件末尾
-            fs.write(fd, strToAdd, function(err) {
-              if (err) {
-                // console.error(err);
+                console.error(err);
                 return;
-              }
-            //   console.log(`"${strToAdd}" has been added to the end of the file.`);
-              
-              // 关闭文件
-              fs.close(fd, function(err) {
+            }
+
+            // 将要添加的字符串写入文件末尾
+            fs.write(fd, strToAdd, function (err) {
                 if (err) {
-                  console.error(err);
-                  return;
+                    // console.error(err);
+                    return;
                 }
-                // console.log('File closed.');
-              });
+                //   console.log(`"${strToAdd}" has been added to the end of the file.`);
+
+                // 关闭文件
+                fs.close(fd, function (err) {
+                    if (err) {
+                        console.error(err);
+                        return;
+                    }
+                    // console.log('File closed.');
+                });
             });
-          });
-          resolve(true);
+        });
+        resolve(true);
     })
 }
-async function gptcall(prompt,max_tokens,n) {
-    let response = basecall((startstr+prompt+endstr),max_tokens,n);
+async function gptcall(prompt, max_tokens, n) {
+    let response = basecall((startstr + prompt + endstr), max_tokens, n);
     // let response = basecall(prompt,max_tokens,n);
     return response;
 }
@@ -137,31 +137,54 @@ function post(url, data) {
         });
     })
 }
-async function l_chatcall(prompt){
-    let url='http://127.0.0.1:10915/v1/chatgpt/chatcall';
+async function l_chatcall(prompt) {
+    let url = 'http://127.0.0.1:10915/v1/chatgpt/chatcall';
     let data = {
-        "callstr": prompt+chatendstr,
+        "callstr": prompt + chatendstr,
         "user": "zwj",
-        opts:global.opts
+        opts: global.opts
     };
     let req = await post(url, data);
     // console.log(req);
-    global.opts={
-        conversationId:req.data.conversationId,
-        parentMessageId:req.data.messageId,
-        "action":"variant"
+    global.opts = {
+        conversationId: req.data.conversationId,
+        parentMessageId: req.data.messageId,
+        "action": "variant"
     }
     return {
-        data:{
-            choices:[
+        data: {
+            choices: [
                 {
-                    text:req.data.response
+                    text: req.data.response
                 }
             ]
         }
     };
 }
+
+const readline = require('readline');
+async function lby(filePath,savefile) {
+    const readStream = fs.createReadStream(filePath);
+    const rl = readline.createInterface({
+        input: readStream,
+        crlfDelay: Infinity
+    });
+
+    rl.on('line', async (line) => {
+        const regex = /{([^}]+)}/;
+        const matches = line.match(regex);
+        // console.log(matches[0]);
+        if (matches){
+            await addfile((matches[0]+"\n"), savefile);
+        }
+    });
+
+    rl.on('close', () => {
+        console.log('End of file');
+    });
+}
 module.exports = {
+    lby,
     l_chatcall,
     detection,
     subsection,

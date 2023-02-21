@@ -32,7 +32,7 @@ exports.checkwallet = router.post("/useridcheckwallet", async (req, res) => {
                     data:{
                         userid:userid,
                         mnemonic:await account._mnemonic().phrase,
-                        address:account.address,
+                        address:ethtocfx(account.address),
                         private:account._signingKey().privateKey
                     }
                 });
@@ -48,7 +48,7 @@ exports.checkwallet = router.post("/useridcheckwallet", async (req, res) => {
                 data:{
                     userid:userid,
                     mnemonic:await account._mnemonic().phrase,
-                    address:account.address,
+                    address:ethtocfx(account.address),
                     private:account._signingKey().privateKey
                 }
             });
@@ -88,7 +88,7 @@ exports.checkwallet = router.post("/checkwallet", async (req, res) => {
                     data:{
                         userid:userid,
                         mnemonic:await account._mnemonic().phrase,
-                        address:account.address,
+                        address:ethtocfx(account.address),
                         private:account._signingKey().privateKey
                     }
                 });
@@ -104,7 +104,7 @@ exports.checkwallet = router.post("/checkwallet", async (req, res) => {
                 data:{
                     userid:userid,
                     mnemonic:await account._mnemonic().phrase,
-                    address:account.address,
+                    address:ethtocfx(account.address),
                     private:account._signingKey().privateKey
                 }
             });

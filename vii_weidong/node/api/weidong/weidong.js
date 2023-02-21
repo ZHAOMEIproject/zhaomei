@@ -14,7 +14,7 @@ contractset();
 
 let poapcontractinfo = {
     address: "0xD5e264f146661797FF7F849A56eF4CD13a5432b9",
-    erc: "erc721",
+    erc: "erc1155",
     chainid: "1030",
     chainname: "Conflux eSpace",
     blockrpc: "https://evm.confluxrpc.com",
@@ -22,12 +22,12 @@ let poapcontractinfo = {
 }
 async function ownerOf(tokenid) {
     // let contractinfo = await getcontractinfo();
+    // console.log(contractinfo.mainwithdraw.address,data);
     var params = new Object();
     params["contractname"] = "WEIDONG";
     params["fun"] = "ownerOf";
     params["params"] = [tokenid];
     let data = await newcontractcall(params);
-    // console.log(contractinfo.mainwithdraw.address,data);
     return data.data.result;
 }
 
@@ -49,7 +49,26 @@ function toChecksumAddress(address) {
 
     return ret
 }
-
+exports.useridpostmint = router.post("/test", async (req, res) => {
+    let contractinfo = await getcontractinfo();
+    for (let i in contractinfo) {
+        poapcontractinfo = {
+            address: contractinfo[i]["WEIDONG"].address,
+            erc: "erc1155",
+            chainid: contractinfo[i]["WEIDONG"].network.chainId,
+            chainname: contractinfo[i]["WEIDONG"].network.name,
+            blockrpc: contractinfo[i]["WEIDONG"].network.url,
+            blockexplorer: "https://evm.confluxscan.net"
+        }
+        break;
+    }
+    console.log(contractinfo);
+    res.send({
+        success: true,
+        test: contractinfo
+    });
+    return;
+});
 
 exports.useridpostmint = router.post("/useridpostmint", async (req, res) => {
     try {
@@ -111,7 +130,7 @@ exports.useridpostmint = router.post("/useridpostmint", async (req, res) => {
                     nftinfo: [{
                         ...baseinfo(poapcontractinfo, params),
                         tokenid: tokenid,
-                        owner: data,
+                        owner: ethtocfx(data),
                         ownertouserid: userid,
 
                     }]
@@ -141,7 +160,7 @@ exports.useridpostmint = router.post("/useridpostmint", async (req, res) => {
                 nftinfo: [{
                     ...baseinfo(poapcontractinfo, params),
                     tokenid: tokenid,
-                    owner: data,
+                    owner: ethtocfx(data),
                     ownertouserid: userid,
                 }]
 
@@ -190,7 +209,7 @@ exports.useridcheckaccount = router.post("/useridcheckaccount", async (req, res)
                     success: false,
                     nftinfo: [{
                         ...baseinfo(poapcontractinfo, params),
-                        owner: data,
+                        owner: ethtocfx(data),
                         ownertouserid: useridsql[0].userid,
                         tokenid: tokenid
                     }]
@@ -203,7 +222,7 @@ exports.useridcheckaccount = router.post("/useridcheckaccount", async (req, res)
                     success: true,
                     nftinfo: [{
                         ...baseinfo(poapcontractinfo, params),
-                        owner: data,
+                        owner: ethtocfx(data),
                         ownertouserid: userid,
                         tokenid: tokenid
                     }]
@@ -248,7 +267,7 @@ exports.useridgetnft = router.post("/useridgetnft", async (req, res) => {
                 {
                     ...baseinfo(poapcontractinfo, params),
                     tokenid: nfts.tokenids[i],
-                    owner: data,
+                    owner: ethtocfx(data),
                     ownertouserid: userid,
                 }
             )
@@ -274,11 +293,14 @@ exports.useridgetnft = router.post("/useridgetnft", async (req, res) => {
 });
 
 function baseinfo(poapcontractinfo, params) {
-    return {
+    let info = {
         ...poapcontractinfo,
         nftlink: (poapcontractinfo.blockexplorer + "/nft/" + poapcontractinfo.address + "/" + params.tokenid),
-        user: params.account,
+        user: ethtocfx(params.account),
     }
+    info.address=ethtocfx(info.address)
+
+    return info
 }
 
 
@@ -287,6 +309,14 @@ async function contractset() {
     let oocinfo;
     for (let i in contractinfo) {
         oocinfo = contractinfo[i]["WEIDONG"];
+        poapcontractinfo = {
+            address: contractinfo[i]["WEIDONG"].address,
+            erc: "erc1155",
+            chainid: contractinfo[i]["WEIDONG"].network.chainId,
+            chainname: contractinfo[i]["WEIDONG"].network.name,
+            blockrpc: contractinfo[i]["WEIDONG"].network.url,
+            blockexplorer: "https://evm.confluxscan.net"
+        }
         break;
     }
     var path = "m/44'/60'/9'/9/9";
@@ -318,4 +348,7 @@ async function getaccountnft(address) {
         results["tokenids"].push(tokenids[i].toString())
     }
     return results;
+}
+async function ethtocfx(address){
+    return encode(address, 1029, false)
 }

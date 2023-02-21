@@ -23,20 +23,20 @@ let info = await getbyurl("http://173.249.198.20:10908/v1/freemint/gethotlist");
 console.log(info);
 
 // 和合约交互，输入（秘钥，区块链网络id,合约名字，合约方法，合约交互的参数）
-let getinfo = await call_contract(account._signingKey(),"97","TB_order","owner",[]);
+let getinfo = await call_contract(account._signingKey(), "97", "TB_order", "owner", []);
 console.log(getinfo);
 
 // 与--network的合约交互（加载好的账号，合约名字，合约方法，合约交互参数）
-let getinfo = await l_call_contract(owner,"TB_order","owner",[])
+let getinfo = await l_call_contract(owner, "TB_order", "owner", [])
 console.log(getinfo);
 
 // 创建合约（秘钥，链名字，合约名字，合约创建需要添加的参数）
 // （创建合约后，推荐运行getcontractinfo()重新获取合约信息）
-await creat_contract(signingKey,chain_name,contractname,arguments)
+await creat_contract(signingKey, chain_name, contractname, arguments)
 
 // 在--network创建合约（加载好的账号，合约名字，合约创建需要添加的参数）
 // （创建合约后，推荐运行getcontractinfo()重新获取合约信息）
-await l_creat_contract(owner,"Greeter",["test"]);
+await l_creat_contract(owner, "Greeter", ["test"]);
 
 
 // 添加合约模型（未加载地址的合约）
@@ -51,6 +51,6 @@ await ethers.provider.getBalance(owner.address);
 
 let [owner, addr1, addr2] = await ethers.getSigners();
 await owner.sendTransaction({
-to: "0xd7B74f2133C011110a7A38038fFF30bDc9ACe6d1",
-value: ethers.utils.parseEther("1") // 1 ether
+    to: "0xd7B74f2133C011110a7A38038fFF30bDc9ACe6d1",
+    value: ethers.utils.parseEther("1") // 1 ether
 })

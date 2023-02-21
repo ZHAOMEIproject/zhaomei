@@ -9,7 +9,7 @@ var iercnft=require("./iercnft.json");
 // }
 var Queue_block;
 var Web3 = require('web3');
-var web3 = new Web3("http://127.0.0.1:8545");
+var web3 = new Web3("http://135.181.61.40:8545");
 web3.eth.defaultAccount = "0x8C327f1Aa6327F01A9A74cEc696691cEAAc680e2";
 exports.scanblock = async function scanblock(){
 

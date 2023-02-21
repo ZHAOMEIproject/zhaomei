@@ -12,10 +12,13 @@ async function main() {
     // updatebalance()
     // out0()
     // a_balance()
+
     // nftbalance();
-    nft_balance()
-    Statistics()
-    // getdd_balance();
+    // nft_balance()
+    // Statistics()
+
+    // get_account();
+    getdd_balance();
 }
 
 // 0.55eth
@@ -128,15 +131,31 @@ async function get50account(){
 }
 
 async function getdd_balance(){
-    let accounts = await jsonFile.readFileSync("./info/dd_account.json");
+    // let accounts = await jsonFile.readFileSync("./info/dd_account.json");
+    let accounts = await jsonFile.readFileSync("./info/WL_account.json");
+    // let accounts = await jsonFile.readFileSync("./info/OG_account.json");
     let balance = await jsonFile.readFileSync("./info/balance.json");
     let amount=0;
     let eth=0;
+    let ac = new Array();
     for (let i in accounts) {
-        if (parseInt(balance[i].hex,16)!=0) {
+        if (parseInt(balance[i].hex,16)>=100000000000000000) {
             amount++;
             eth+=parseInt(balance[i].hex,16)
+            ac.push(i)
+            // console.log(i);
         }
     }
+    await jsonFile.writeFileSync("./end.json",ac);
     console.log(amount,eth);
+}
+async function get_account(){
+    let balance = await jsonFile.readFileSync("./info/nftbalance.json");
+    let amount=0;
+    for (let i in balance) {
+        if (parseInt(balance[i].hex,16)!=0) {
+            amount++;
+        }
+    }
+    console.log(amount);
 }

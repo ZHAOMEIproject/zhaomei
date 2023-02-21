@@ -39,12 +39,11 @@
       "type": "function"
     }
   ],
-  "address": "0x89e2223485b914169d0eC87f7873a0A944996c3D",
-  "blocknumber": 111915252,
+  "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+  "blocknumber": 0,
   "constructorArguments": [],
   "network": {
-    "name": "etcfx",
-    "chainId": 71,
-    "url": "https://evmtestnet.confluxrpc.com"
+    "name": "hardhat",
+    "chainId": 31337
   }
 }

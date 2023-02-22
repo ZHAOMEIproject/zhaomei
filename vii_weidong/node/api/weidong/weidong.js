@@ -18,7 +18,7 @@ let poapcontractinfo = {
     chainid: "1030",
     chainname: "Conflux eSpace",
     blockrpc: "https://evm.confluxrpc.com",
-    blockexplorer: "https://evm.confluxscan.net"
+    blockexplorer: "https://evmtestnet.confluxscan.net/"
 }
 async function ownerOf(tokenid) {
     // let contractinfo = await getcontractinfo();
@@ -58,7 +58,7 @@ exports.useridpostmint = router.post("/test", async (req, res) => {
             chainid: contractinfo[i]["WEIDONG"].network.chainId,
             chainname: contractinfo[i]["WEIDONG"].network.name,
             blockrpc: contractinfo[i]["WEIDONG"].network.url,
-            blockexplorer: "https://evm.confluxscan.net"
+            blockexplorer: "https://evmtestnet.confluxscan.net/"
         }
         break;
     }
@@ -317,7 +317,7 @@ async function contractset() {
             chainid: contractinfo[i]["WEIDONG"].network.chainId,
             chainname: contractinfo[i]["WEIDONG"].network.name,
             blockrpc: contractinfo[i]["WEIDONG"].network.url,
-            blockexplorer: "https://evm.confluxscan.net"
+            blockexplorer: "https://evmtestnet.confluxscan.net/"
         }
         break;
     }

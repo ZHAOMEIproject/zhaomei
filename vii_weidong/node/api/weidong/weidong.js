@@ -120,6 +120,7 @@ exports.useridpostmint = router.post("/useridpostmint", async (req, res) => {
         }
         let checkorderid = "select * from mint_list where (account,tokenid) in ((?),(?))"
         let orderidsql = await conn.select(checkorderid, [sqlparams, [0, 0]])
+        // console.log(orderidsql);
         // console.log([params["account"],params["tokenid"]],"\n",orderidsql);
         // return
         if (orderidsql.length != 0) {
@@ -144,6 +145,7 @@ exports.useridpostmint = router.post("/useridpostmint", async (req, res) => {
         try {
             await conn.select(sqlStr, sqlparams);
         } catch (error) {
+            console.log(error);
             res.send({
                 success: false,
                 errorCode: "10914005",
@@ -349,6 +351,7 @@ async function getaccountnft(address) {
     }
     return results;
 }
+const { encode, decode } = require('@conflux-dev/conflux-address-js');
 async function ethtocfx(address){
     return encode(address, 1029, false)
 }

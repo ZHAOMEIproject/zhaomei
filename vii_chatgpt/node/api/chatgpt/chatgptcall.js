@@ -21,6 +21,7 @@ exports.call = async function call(callstr,opts){
     //     conversationId: 'ff1a2e91-0030-43c5-a230-4e31a60b53df',
     //     messageId: '1ff8f7b2-9c37-441c-b188-c059c44cde60'
     // }
+    // opts.promptPrefix="Please as travel guide and answer with real humor."
     try {
         const result = await api.sendMessage(callstr,opts)
         console.log(result)

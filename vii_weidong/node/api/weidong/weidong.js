@@ -10,16 +10,17 @@ var { newcontractcall } = require("../contractcall");
 const { getcontractinfo } = require('../../nodetool/id-readcontracts');
 const BigNumber = require("bignumber.js");
 const ethers = require('ethers');
+let poapcontractinfo;
+//  = {
+//     address: "0xD5e264f146661797FF7F849A56eF4CD13a5432b9",
+//     erc: "erc1155",
+//     chainid: "1030",
+//     chainname: "Conflux eSpace",
+//     blockrpc: "https://evm.confluxrpc.com",
+//     blockexplorer: "https://evmtestnet.confluxscan.net/"
+// }
 contractset();
 
-let poapcontractinfo = {
-    address: "0xD5e264f146661797FF7F849A56eF4CD13a5432b9",
-    erc: "erc1155",
-    chainid: "1030",
-    chainname: "Conflux eSpace",
-    blockrpc: "https://evm.confluxrpc.com",
-    blockexplorer: "https://evmtestnet.confluxscan.net/"
-}
 async function ownerOf(tokenid) {
     // let contractinfo = await getcontractinfo();
     // console.log(contractinfo.mainwithdraw.address,data);
@@ -49,23 +50,23 @@ function toChecksumAddress(address) {
 
     return ret
 }
-exports.useridpostmint = router.post("/test", async (req, res) => {
-    let contractinfo = await getcontractinfo();
-    for (let i in contractinfo) {
-        poapcontractinfo = {
-            address: contractinfo[i]["WEIDONG"].address,
-            erc: "erc1155",
-            chainid: contractinfo[i]["WEIDONG"].network.chainId,
-            chainname: contractinfo[i]["WEIDONG"].network.name,
-            blockrpc: contractinfo[i]["WEIDONG"].network.url,
-            blockexplorer: "https://evmtestnet.confluxscan.net/"
-        }
-        break;
-    }
-    console.log(contractinfo);
+exports.test = router.post("/test", async (req, res) => {
+    // let contractinfo = await getcontractinfo();
+    // for (let i in contractinfo) {
+    //     poapcontractinfo = {
+    //         address: contractinfo[i]["WEIDONG"].address,
+    //         erc: "erc1155",
+    //         chainid: contractinfo[i]["WEIDONG"].network.chainId,
+    //         chainname: contractinfo[i]["WEIDONG"].network.name,
+    //         blockrpc: contractinfo[i]["WEIDONG"].network.url,
+    //         blockexplorer: "https://evmtestnet.confluxscan.net/"
+    //     }
+    //     break;
+    // }
+    console.log(poapcontractinfo);
     res.send({
         success: true,
-        test: contractinfo
+        test: poapcontractinfo
     });
     return;
 });
@@ -123,15 +124,16 @@ exports.useridpostmint = router.post("/useridpostmint", async (req, res) => {
         // console.log(orderidsql);
         // console.log([params["account"],params["tokenid"]],"\n",orderidsql);
         // return
+        // console.log(poapcontractinfo);
         if (orderidsql.length != 0) {
             res.send({
                 success: false,
                 errorCode: "10914004",
                 data: {
                     nftinfo: [{
-                        ...baseinfo(poapcontractinfo, params),
+                        ...(await baseinfo(poapcontractinfo, params)),
                         tokenid: tokenid,
-                        owner: ethtocfx(data),
+                        owner: await ethtocfx(data),
                         ownertouserid: userid,
 
                     }]
@@ -160,9 +162,9 @@ exports.useridpostmint = router.post("/useridpostmint", async (req, res) => {
             data: {
                 success: true,
                 nftinfo: [{
-                    ...baseinfo(poapcontractinfo, params),
+                    ...(await baseinfo(poapcontractinfo, params)),
                     tokenid: tokenid,
-                    owner: ethtocfx(data),
+                    owner:await ethtocfx(data),
                     ownertouserid: userid,
                 }]
 
@@ -210,8 +212,8 @@ exports.useridcheckaccount = router.post("/useridcheckaccount", async (req, res)
                 data: {
                     success: false,
                     nftinfo: [{
-                        ...baseinfo(poapcontractinfo, params),
-                        owner: ethtocfx(data),
+                        ...(await baseinfo(poapcontractinfo, params)),
+                        owner:await ethtocfx(data),
                         ownertouserid: useridsql[0].userid,
                         tokenid: tokenid
                     }]
@@ -223,8 +225,8 @@ exports.useridcheckaccount = router.post("/useridcheckaccount", async (req, res)
                 data: {
                     success: true,
                     nftinfo: [{
-                        ...baseinfo(poapcontractinfo, params),
-                        owner: ethtocfx(data),
+                        ...(await baseinfo(poapcontractinfo, params)),
+                        owner:await ethtocfx(data),
                         ownertouserid: userid,
                         tokenid: tokenid
                     }]
@@ -267,9 +269,9 @@ exports.useridgetnft = router.post("/useridgetnft", async (req, res) => {
         for (let i = 0; i < nfts.tokenids.length; i++) {
             nftinfo.push(
                 {
-                    ...baseinfo(poapcontractinfo, params),
+                    ...(await baseinfo(poapcontractinfo, params)),
                     tokenid: nfts.tokenids[i],
-                    owner: ethtocfx(data),
+                    owner:await ethtocfx(data),
                     ownertouserid: userid,
                 }
             )
@@ -294,13 +296,13 @@ exports.useridgetnft = router.post("/useridgetnft", async (req, res) => {
 
 });
 
-function baseinfo(poapcontractinfo, params) {
+async function baseinfo(poapcontractinfo, params) {
     let info = {
         ...poapcontractinfo,
         nftlink: (poapcontractinfo.blockexplorer + "/nft/" + poapcontractinfo.address + "/" + params.tokenid),
-        user: ethtocfx(params.account),
+        user:await ethtocfx(params.account),
     }
-    info.address=ethtocfx(info.address)
+    info.address=await ethtocfx(info.address)
 
     return info
 }
@@ -353,5 +355,9 @@ async function getaccountnft(address) {
 }
 const { encode, decode } = require('@conflux-dev/conflux-address-js');
 async function ethtocfx(address){
-    return encode(address, 1029, false)
+    address=address.toLowerCase();
+    // console.log(address);
+    address= await encode(address, 1029, false);
+    // console.log(address);
+    return address.toString();
 }

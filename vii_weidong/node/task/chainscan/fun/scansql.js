@@ -118,16 +118,16 @@ async function scancontract(contractinfo) {
             // console.log(eventinfo);
 
             for (let k in eventinfo) {
-                try {
-                    if (eventinfo[k].event == "Transfer") {
-                        let url="http://192.168.0.189:9999/api/wd-space/space/poap/manager/token/"+ eventinfo[k].returnValues[2] +"/"+ eventinfo[k].returnValues[1];
-                        await axios.post(url, {
-                            phoneNUmber: 'value1'
-                        })
-                    }
-                } catch (error) {
-
-                }
+                // try {
+                //     if (eventinfo[k].event == "Transfer") {
+                //         let url="http://192.168.0.189:9999/api/wd-space/space/poap/manager/token/"+ eventinfo[k].returnValues[2] +"/"+ eventinfo[k].returnValues[1];
+                //         await axios.put(url, {
+                //             phoneNUmber: 'value1'
+                //         })
+                //     }
+                // } catch (error) {
+                //     console.log(error);
+                // }
                 let sqleventinfo = [
                     eventinfo[k].blockNumber,
                     eventinfo[k].logIndex,

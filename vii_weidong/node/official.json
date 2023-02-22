@@ -8,7 +8,7 @@
       "error_file": "log/erroe.log",
       "out_file": "log/vii_weidong.log",
       "pid_file": "pids/vii_weidong.pid",
-      "instances": 5,
+      "instances": 1,
       "min_uptime": "200s",
       "max_restarts":200,
       "watch": false,

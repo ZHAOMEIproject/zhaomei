@@ -345,15 +345,15 @@ async function getaccountnft(address) {
     let results = new Object();
     // console.log(address);
     let sqlstr = "SELECT data3 as tokenid from (SELECT data2 as address,data2,data3 AS data3, SUM(data4) AS data4 " +
-        "FROM test " +
+        "FROM weidong " +
         "WHERE event_name='TransferSingle' " +
         "GROUP BY CONCAT(data2,data3) " +
         "UNION ALL " +
         "SELECT data1 as address,data1,data3 AS data3, SUM(data4)* -1 AS data4 " +
-        "FROM test " +
+        "FROM weidong " +
         "WHERE  event_name='TransferSingle' " +
-        "GROUP BY CONCAT(data1,data3))a WHERE address='0xA1f3f0422c90F0C0cd6EF6af2819C0F9556f6c93'; "
-    let sqlinfo = await conn.select(sqlstr, [address, address]);
+        "GROUP BY CONCAT(data1,data3))a WHERE address=?; "
+    let sqlinfo = await conn.select(sqlstr, [address]);
     // console.log(sqlinfo);
     results["balanceOf"] = sqlinfo.length;
     results["tokenids"] = sqlinfo.map(obj => obj.tokenid);

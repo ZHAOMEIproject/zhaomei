@@ -32,7 +32,7 @@ exports.checkwallet = router.post("/useridcheckwallet", async (req, res) => {
                     data:{
                         userid:userid,
                         mnemonic:await account._mnemonic().phrase,
-                        address:ethtocfx(account.address),
+                        address:await ethtocfx(account.address),
                         private:account._signingKey().privateKey
                     }
                 });
@@ -48,7 +48,7 @@ exports.checkwallet = router.post("/useridcheckwallet", async (req, res) => {
                 data:{
                     userid:userid,
                     mnemonic:await account._mnemonic().phrase,
-                    address:ethtocfx(account.address),
+                    address:await ethtocfx(account.address),
                     private:account._signingKey().privateKey
                 }
             });
@@ -88,7 +88,7 @@ exports.checkwallet = router.post("/checkwallet", async (req, res) => {
                     data:{
                         userid:userid,
                         mnemonic:await account._mnemonic().phrase,
-                        address:ethtocfx(account.address),
+                        address:await ethtocfx(account.address),
                         private:account._signingKey().privateKey
                     }
                 });
@@ -104,7 +104,7 @@ exports.checkwallet = router.post("/checkwallet", async (req, res) => {
                 data:{
                     userid:userid,
                     mnemonic:await account._mnemonic().phrase,
-                    address:ethtocfx(account.address),
+                    address:await ethtocfx(account.address),
                     private:account._signingKey().privateKey
                 }
             });
@@ -119,3 +119,12 @@ exports.checkwallet = router.post("/checkwallet", async (req, res) => {
     }
     return;
 });
+
+const { encode, decode } = require('@conflux-dev/conflux-address-js');
+async function ethtocfx(address){
+    address=address.toLowerCase();
+    // console.log(address);
+    address= await encode(address, 1029, false);
+    // console.log(address);
+    return address.toString();
+}

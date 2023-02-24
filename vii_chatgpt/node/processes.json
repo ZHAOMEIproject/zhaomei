@@ -1,13 +1,13 @@
 {
   "apps": [
     {
-      "name": "vii_weidong",
+      "name": "vii_chatgpt",
       "cwd": "./",
       "script": "main.js",
       "log_date_format": "YYYY-MM-DD HH:mm Z",
       "error_file": "log/erroe.log",
-      "out_file": "log/vii_weidong.log",
-      "pid_file": "pids/vii_weidong.pid",
+      "out_file": "log/vii_chatgpt.log",
+      "pid_file": "pids/vii_chatgpt.pid",
       "instances": 1,
       "min_uptime": "200s",
       "max_restarts":200,

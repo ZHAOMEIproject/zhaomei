@@ -21,13 +21,13 @@ let poapcontractinfo;
 // }
 contractset();
 
-async function ownerOf(tokenid) {
+async function ownerOf(address, tokenid) {
     // let contractinfo = await getcontractinfo();
     // console.log(contractinfo.mainwithdraw.address,data);
     var params = new Object();
     params["contractname"] = "WEIDONG";
-    params["fun"] = "ownerOf";
-    params["params"] = [tokenid];
+    params["fun"] = "balanceOf";
+    params["params"] = [address, tokenid];
     let data = await newcontractcall(params);
     return data.data.result;
 }
@@ -164,7 +164,7 @@ exports.useridpostmint = router.post("/useridpostmint", async (req, res) => {
                 nftinfo: [{
                     ...(await baseinfo(poapcontractinfo, params)),
                     tokenid: tokenid,
-                    owner:await ethtocfx(data),
+                    owner: await ethtocfx(data),
                     ownertouserid: userid,
                 }]
 
@@ -201,22 +201,26 @@ exports.useridcheckaccount = router.post("/useridcheckaccount", async (req, res)
         return;
     }
     try {
-        let data = await ownerOf(params.tokenid);
+        // let data = await ownerOf(params.tokenid);
+        let data = await ownerOf(params.account, params.tokenid);
         let sqlstr = "select userid from wallet where address=?";
-        let useridsql = await conn.select(sqlstr, data);
+        let useridsql = await conn.select(sqlstr, userid);
         // console.log(data);
-        if (data != params.account) {
+        if (data == 0) {
             // console.log(useridsql,data);
             res.send({
                 success: true,
                 data: {
                     success: false,
-                    nftinfo: [{
-                        ...(await baseinfo(poapcontractinfo, params)),
-                        owner:await ethtocfx(data),
-                        ownertouserid: useridsql[0].userid,
-                        tokenid: tokenid
-                    }]
+                    eowner: params.account,
+                    owner: await ethtocfx(params.account),
+                    ownertouserid: useridsql[0].userid,
+                    // nftinfo: [{
+                    //     ...(await baseinfo(poapcontractinfo, params)),
+                    //     owner:await ethtocfx(data),
+                    //     ownertouserid: useridsql[0].userid,
+                    //     tokenid: tokenid
+                    // }]
                 }
             });
         } else {
@@ -226,7 +230,7 @@ exports.useridcheckaccount = router.post("/useridcheckaccount", async (req, res)
                     success: true,
                     nftinfo: [{
                         ...(await baseinfo(poapcontractinfo, params)),
-                        owner:await ethtocfx(data),
+                        owner: await ethtocfx(params.account),
                         ownertouserid: userid,
                         tokenid: tokenid
                     }]
@@ -234,6 +238,7 @@ exports.useridcheckaccount = router.post("/useridcheckaccount", async (req, res)
             });
         }
     } catch (error) {
+        console.log(error);
         res.send({
             success: false,
             errorCode: "10914006",
@@ -267,11 +272,12 @@ exports.useridgetnft = router.post("/useridgetnft", async (req, res) => {
         // console.log(nfts);
         let nftinfo = new Array()
         for (let i = 0; i < nfts.tokenids.length; i++) {
+            params.tokenid = nfts.tokenids[i];
             nftinfo.push(
                 {
                     ...(await baseinfo(poapcontractinfo, params)),
                     tokenid: nfts.tokenids[i],
-                    owner:await ethtocfx(data),
+                    // owner:await ethtocfx(data),
                     ownertouserid: userid,
                 }
             )
@@ -300,9 +306,9 @@ async function baseinfo(poapcontractinfo, params) {
     let info = {
         ...poapcontractinfo,
         nftlink: (poapcontractinfo.blockexplorer + "/nft/" + poapcontractinfo.address + "/" + params.tokenid),
-        user:await ethtocfx(params.account),
+        user: await ethtocfx(params.account),
     }
-    info.address=await ethtocfx(info.address)
+    info.address = await ethtocfx(info.address)
 
     return info
 }
@@ -337,27 +343,45 @@ async function contractset() {
 }
 async function getaccountnft(address) {
     let results = new Object();
-    let nftbalance = await contractWithSigner["balanceOf"](address);
-    results["balanceOf"] = nftbalance.toString();
-    if (nftbalance == 0) {
-        return results;
-    }
-    let tasks = new Array();
-    for (let i = 0; i < nftbalance; i++) {
-        tasks.push(contractWithSigner["tokenOfOwnerByIndex"](address, i));
-    }
-    let tokenids = await Promise.all(tasks);
-    results["tokenids"] = new Array();
-    for (let i = 0; i < tokenids.length; i++) {
-        results["tokenids"].push(tokenids[i].toString())
-    }
+    // console.log(address);
+    let sqlstr = "SELECT data3 as tokenid from (SELECT data2 as address,data2,data3 AS data3, SUM(data4) AS data4 " +
+        "FROM test " +
+        "WHERE event_name='TransferSingle' " +
+        "GROUP BY CONCAT(data2,data3) " +
+        "UNION ALL " +
+        "SELECT data1 as address,data1,data3 AS data3, SUM(data4)* -1 AS data4 " +
+        "FROM test " +
+        "WHERE  event_name='TransferSingle' " +
+        "GROUP BY CONCAT(data1,data3))a WHERE address='0xA1f3f0422c90F0C0cd6EF6af2819C0F9556f6c93'; "
+    let sqlinfo = await conn.select(sqlstr, [address, address]);
+    // console.log(sqlinfo);
+    results["balanceOf"] = sqlinfo.length;
+    results["tokenids"] = sqlinfo.map(obj => obj.tokenid);
+    // for (let i = 0; i < sqlinfo.length; i++) {
+    //     const element = sqlinfo[i].data4;
+    //     nftbalance+=element;
+    // }
+    // // let nftbalance = await contractWithSigner["balanceOf"](address);
+    // results["balanceOf"] = nftbalance.toString();
+    // if (nftbalance == 0) {
+    //     return results;
+    // }
+    // let tasks = new Array();
+    // for (let i = 0; i < nftbalance; i++) {
+    //     tasks.push(contractWithSigner["tokenOfOwnerByIndex"](address, i));
+    // }
+    // let tokenids = await Promise.all(tasks);
+    // results["tokenids"] = new Array();
+    // for (let i = 0; i < tokenids.length; i++) {
+    //     results["tokenids"].push(tokenids[i].toString())
+    // }
     return results;
 }
 const { encode, decode } = require('@conflux-dev/conflux-address-js');
-async function ethtocfx(address){
-    address=address.toLowerCase();
+async function ethtocfx(address) {
+    address = address.toLowerCase();
     // console.log(address);
-    address= await encode(address, 1029, false);
+    address = await encode(address, 1029, false);
     // console.log(address);
     return address.toString();
 }

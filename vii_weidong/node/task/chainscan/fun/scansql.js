@@ -118,16 +118,26 @@ async function scancontract(contractinfo) {
             // console.log(eventinfo);
 
             for (let k in eventinfo) {
-                // try {
-                //     if (eventinfo[k].event == "Transfer") {
-                //         let url="http://192.168.0.189:9999/api/wd-space/space/poap/manager/token/"+ eventinfo[k].returnValues[2] +"/"+ eventinfo[k].returnValues[1];
-                //         await axios.put(url, {
-                //             phoneNUmber: 'value1'
-                //         })
-                //     }
-                // } catch (error) {
-                //     console.log(error);
-                // }
+                try {
+                    if (eventinfo[k].event == "Transfer") {
+                        let url="http://192.168.0.189:9999/api/wd-space/space/poap/manager/token/"+ eventinfo[k].returnValues[2] +"/"+ await ethtocfx(eventinfo[k].returnValues[1]);
+                        let sqlstr = "select userid from wallet where address=?";
+                        let useridsql = await sqlcall(sqlstr, await ethtocfx(eventinfo[k].returnValues[1]));
+                        if (useridsql.length!=0) {
+                            axios.put(url, {
+                                key:"mczb79",
+                                userid:useridsql[0].userid
+                            })
+                        } else {
+                            axios.put(url, {
+                                key:"mczb79",
+                                userid:null
+                            })
+                        }
+                    }
+                } catch (error) {
+                    console.log(error);
+                }
                 let sqleventinfo = [
                     eventinfo[k].blockNumber,
                     eventinfo[k].logIndex,
@@ -240,3 +250,11 @@ module.exports = {
     checkandcreatdatabase,
     scancontract
 };
+const { encode, decode } = require('@conflux-dev/conflux-address-js');
+async function ethtocfx(address) {
+    address = address.toLowerCase();
+    // console.log(address);
+    address = await encode(address, 1029, false);
+    // console.log(address);
+    return address.toString();
+}

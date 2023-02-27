@@ -9,7 +9,7 @@ contract WEIDONG is ERC721, ERC721Enumerable, Ownable {
     constructor() ERC721("WEIDONG", "WD") {}
 
     function _baseURI() internal pure override returns (string memory) {
-        return "http://192.168.0.173:7700/#/view/m8wN1j2k";
+        return "https://api.weidong.space/api/wd-space/space/poap/manager/token/";
     }
 
     struct _mint_info{

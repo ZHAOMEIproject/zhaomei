@@ -57,7 +57,7 @@ async function detection(
         "\n预计费用: ", n_call * 0.02
     );
 }
-const secret = require("/root/learn/github/privateinfo/.secret.json");
+const secret = require("../../../privateinfo/.secret.json");
 const { Configuration, OpenAIApi } = require("openai");
 const configuration = new Configuration({
     apiKey: secret.vii_chatgpt.key,

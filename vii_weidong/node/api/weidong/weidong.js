@@ -29,6 +29,9 @@ async function ownerOf(tokenid) {
     params["fun"] = "ownerOf";
     params["params"] = [tokenid];
     let data = await newcontractcall(params);
+    if (data.success===false) {
+        return false
+    }
     return data.data.result;
 }
 
@@ -84,8 +87,8 @@ exports.useridpostmint = router.post("/useridpostmint", async (req, res) => {
         params.userid = params.account;
         let tokenid = params.tokenid;
         let data = account.address
-        let sqlstr = "select userid from wallet where address=?";
-        let useridsql = await conn.select(sqlstr, data);
+        // let sqlstr = "select userid from wallet where address=?";
+        // let useridsql = await conn.select(sqlstr, data);
         if (!check.every(key => key in params)) {
             res.send({
                 success: false,
@@ -203,7 +206,15 @@ exports.useridcheckaccount = router.post("/useridcheckaccount", async (req, res)
     try {
         let data = await ownerOf(params.tokenid);
         let sqlstr = "select userid from wallet where address=?";
-        let useridsql = await conn.select(sqlstr, data);
+        // console.log(data);
+        let useridsql ;
+        if (data) {
+            useridsql = await conn.select(sqlstr, data);
+            data="0x0000000000000000000000000000000000000000";
+        }else{
+            useridsql=["0x0000000000000000000000000000000000000000"]
+            data="0x0000000000000000000000000000000000000000";
+        }
         // console.log(data);
         if (data != params.account) {
             // console.log(useridsql,data);
@@ -213,7 +224,7 @@ exports.useridcheckaccount = router.post("/useridcheckaccount", async (req, res)
                     success: false,
                     nftinfo: [{
                         ...(await baseinfo(poapcontractinfo, params)),
-                        owner: ethtocfx(data),
+                        owner: await ethtocfx(data),
                         ownertouserid: useridsql[0].userid,
                         tokenid: tokenid
                     }]
@@ -268,7 +279,7 @@ exports.useridgetnft = router.post("/useridgetnft", async (req, res) => {
         // console.log(nfts);
         let nftinfo = new Array()
         for (let i = 0; i < nfts.tokenids.length; i++) {
-            // params.tokenid = nfts.tokenids[i];
+            params.tokenid = nfts.tokenids[i];
             nftinfo.push(
                 {
                     ...(await baseinfo(poapcontractinfo, params)),
@@ -289,6 +300,7 @@ exports.useridgetnft = router.post("/useridgetnft", async (req, res) => {
         });
         return;
     } catch (error) {
+        console.log(error);
         res.send({
             success: false,
             errorCode: "10914006",
@@ -341,7 +353,9 @@ async function getaccountnft(address) {
     let results = new Object();
     let nftbalance = await contractWithSigner["balanceOf"](address);
     results["balanceOf"] = nftbalance.toString();
-    if (nftbalance == 0) {
+    console.log(results["balanceOf"],results["balanceOf"] == 0);
+    if (results["balanceOf"] == 0) {
+        results["tokenids"] = new Array();
         return results;
     }
     let tasks = new Array();

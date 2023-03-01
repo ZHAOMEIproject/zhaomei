@@ -118,26 +118,30 @@ async function scancontract(contractinfo) {
             // console.log(eventinfo);
 
             for (let k in eventinfo) {
-                // try {
-                //     if (eventinfo[k].event == "Transfer") {
-                //         let url="http://192.168.0.189:9999/api/wd-space/space/poap/manager/token/"+ eventinfo[k].returnValues[2] +"/"+ await ethtocfx(eventinfo[k].returnValues[1]);
-                //         let sqlstr = "select userid from wallet where address=?";
-                //         let useridsql = await sqlcall(sqlstr, await ethtocfx(eventinfo[k].returnValues[1]));
-                //         if (useridsql.length!=0) {
-                //             axios.put(url, {
-                //                 key:"mczb79",
-                //                 userid:useridsql[0].userid
-                //             })
-                //         } else {
-                //             axios.put(url, {
-                //                 key:"mczb79",
-                //                 userid:null
-                //             })
-                //         }
-                //     }
-                // } catch (error) {
-                //     console.log(error);
-                // }
+                try {
+                    if (eventinfo[k].event == "Transfer") {
+                        let url="https://api.weidong.space/api/wd-space/space/poap/manager/token/"+ eventinfo[k].returnValues[2] +"/"+ await ethtocfx(eventinfo[k].returnValues[1]);
+                        let sqlstr = "select userid from wallet where address=?";
+                        let useridsql = await sqlcall(sqlstr, await ethtocfx(eventinfo[k].returnValues[1]));
+                        if (useridsql.length!=0) {
+                            axios.put(url, {
+                                key:"8d7b3b976dd7dc3f54ab3e6d234c30ff",
+                                userid:useridsql[0].userid
+                            },{
+                                timeout:5000
+                            })
+                        } else {
+                            axios.put(url, {
+                                key:"8d7b3b976dd7dc3f54ab3e6d234c30ff",
+                                userid:null
+                            },{
+                                timeout:5000
+                            })
+                        }
+                    }
+                } catch (error) {
+                    console.log(error);
+                }
                 let sqleventinfo = [
                     eventinfo[k].blockNumber,
                     eventinfo[k].logIndex,

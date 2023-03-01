@@ -19,7 +19,7 @@ function start_test(){
     port = node_info.port;
     global.mysqlGlobal = global.secret.vii_weidong_SQL;
     global.zwjerror = false;
-    global.name ="vii_weidong";
+    global.name =global.setinfo.vii_weidong_SQL.database;
 }
 
 // // Arouse the swagger

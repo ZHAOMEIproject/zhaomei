@@ -22,6 +22,7 @@ let poapcontractinfo;
 contractset();
 
 async function ownerOf(tokenid) {
+    
     // let contractinfo = await getcontractinfo();
     // console.log(contractinfo.mainwithdraw.address,data);
     var params = new Object();
@@ -210,12 +211,18 @@ exports.useridcheckaccount = router.post("/useridcheckaccount", async (req, res)
         let useridsql ;
         if (data) {
             useridsql = await conn.select(sqlstr, data);
-            data="0x0000000000000000000000000000000000000000";
+            // data="0x0000000000000000000000000000000000000000";
         }else{
             useridsql=["0x0000000000000000000000000000000000000000"]
             data="0x0000000000000000000000000000000000000000";
+            let mintcheckstr ="select account from mint_list where tokenid=?"
+            let check=  await conn.select(mintcheckstr,tokenid);
+            // console.log(check);
+            if (check.length>0) {
+                data=check[0].account;
+            }
         }
-        // console.log(data);
+        // console.log(data,params.account);
         if (data != params.account) {
             // console.log(useridsql,data);
             res.send({
@@ -253,6 +260,7 @@ exports.useridcheckaccount = router.post("/useridcheckaccount", async (req, res)
         });
     }
 });
+
 exports.useridgetnft = router.post("/useridgetnft", async (req, res) => {
     var params = req.body;
     let check = ["userid"];

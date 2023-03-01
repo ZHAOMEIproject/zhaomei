@@ -61,37 +61,6 @@
       "inputs": [
         {
           "indexed": true,
-          "internalType": "uint256",
-          "name": "tokenId",
-          "type": "uint256"
-        },
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "to",
-          "type": "address"
-        },
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "bcn",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "bcnTokenId",
-          "type": "uint256"
-        }
-      ],
-      "name": "MintByBCN",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
           "internalType": "address",
           "name": "previousOwner",
           "type": "address"
@@ -165,6 +134,11 @@
     {
       "inputs": [
         {
+          "internalType": "uint256",
+          "name": "_platform",
+          "type": "uint256"
+        },
+        {
           "internalType": "address",
           "name": "bcn",
           "type": "address"
@@ -187,6 +161,11 @@
     },
     {
       "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_platform",
+          "type": "uint256"
+        },
         {
           "components": [
             {
@@ -244,6 +223,11 @@
       "inputs": [
         {
           "internalType": "uint256",
+          "name": "_platform",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
           "name": "quantity",
           "type": "uint256"
         }
@@ -251,19 +235,6 @@
       "name": "Public_mint",
       "outputs": [],
       "stateMutability": "payable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "_PERMIT_TYPEHASH",
-      "outputs": [
-        {
-          "internalType": "bytes32",
-          "name": "",
-          "type": "bytes32"
-        }
-      ],
-      "stateMutability": "view",
       "type": "function"
     },
     {
@@ -414,30 +385,6 @@
     {
       "inputs": [
         {
-          "internalType": "address",
-          "name": "bcn",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "tokenid",
-          "type": "uint256"
-        }
-      ],
-      "name": "checkbcntokenid",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "amount",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
           "components": [
             {
               "internalType": "address",
@@ -471,17 +418,17 @@
             },
             {
               "internalType": "uint256",
+              "name": "_end_time2",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
               "name": "_Organ_mint_time",
               "type": "uint256"
             },
             {
               "internalType": "uint256",
               "name": "_Organ_mint_fee",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "_Organ_end_time",
               "type": "uint256"
             },
             {
@@ -506,11 +453,6 @@
             },
             {
               "internalType": "uint256",
-              "name": "_Organ2_end_time",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
               "name": "_Organ2_pool_m",
               "type": "uint256"
             },
@@ -531,11 +473,6 @@
             },
             {
               "internalType": "uint256",
-              "name": "_White_end_time",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
               "name": "_White_pool_m",
               "type": "uint256"
             },
@@ -547,11 +484,6 @@
             {
               "internalType": "uint256",
               "name": "_Public_mint_fee",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "_Public_end_time",
               "type": "uint256"
             },
             {
@@ -571,11 +503,6 @@
             },
             {
               "internalType": "uint256",
-              "name": "_b_White_end_time",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
               "name": "_b_White_pool_m",
               "type": "uint256"
             }
@@ -586,6 +513,19 @@
         }
       ],
       "name": "debug",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_fack_time",
+          "type": "uint256"
+        }
+      ],
+      "name": "debugtime",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -636,6 +576,30 @@
     {
       "inputs": [
         {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "isTokenMintByBcn",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
           "internalType": "uint256",
           "name": "",
           "type": "uint256"
@@ -650,6 +614,19 @@
         }
       ],
       "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "taker",
+          "type": "address"
+        }
+      ],
+      "name": "mintTo",
+      "outputs": [],
+      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
@@ -679,32 +656,109 @@
       "type": "function"
     },
     {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "count",
+          "type": "uint256"
+        },
+        {
+          "components": [
+            {
+              "internalType": "address",
+              "name": "gainer",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "amount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "deadline",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "typemint",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint8",
+              "name": "v",
+              "type": "uint8"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "r",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "s",
+              "type": "bytes32"
+            }
+          ],
+          "internalType": "struct OOC._signvrs",
+          "name": "proof",
+          "type": "tuple"
+        }
+      ],
+      "name": "nswapPreMint",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "count",
+          "type": "uint256"
+        }
+      ],
+      "name": "nswapPublicMint",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
       "inputs": [],
-      "name": "otherinfo",
+      "name": "nswapTotalMinted",
       "outputs": [
         {
           "internalType": "uint256",
-          "name": "_total_minted",
+          "name": "publicTotalMinted",
           "type": "uint256"
         },
         {
           "internalType": "uint256",
-          "name": "_now_time",
+          "name": "preTotalMinted",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        }
+      ],
+      "name": "nswapUserCanMintNum",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "publicCanMint",
           "type": "uint256"
         },
         {
           "internalType": "uint256",
-          "name": "_White_pool_em",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_Public_pool_em",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_b_White_pool_em",
+          "name": "preCanMint",
           "type": "uint256"
         }
       ],
@@ -738,6 +792,25 @@
           "internalType": "address",
           "name": "",
           "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "platform",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
         }
       ],
       "stateMutability": "view",
@@ -797,6 +870,13 @@
         }
       ],
       "name": "safeTransferFrom",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "sendtoReceive",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -880,7 +960,7 @@
               "type": "uint256"
             }
           ],
-          "internalType": "struct OOC.bcninfo2[]",
+          "internalType": "struct OOC.bcninfo[]",
           "name": "_bcninfos",
           "type": "tuple[]"
         }
@@ -1070,19 +1150,6 @@
       "type": "function"
     },
     {
-      "inputs": [],
-      "name": "total_minted",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "_total_minted",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
       "inputs": [
         {
           "internalType": "address",
@@ -1156,17 +1223,17 @@
             },
             {
               "internalType": "uint256",
+              "name": "_end_time2",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
               "name": "_Organ_mint_time",
               "type": "uint256"
             },
             {
               "internalType": "uint256",
               "name": "_Organ_mint_fee",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "_Organ_end_time",
               "type": "uint256"
             },
             {
@@ -1191,11 +1258,6 @@
             },
             {
               "internalType": "uint256",
-              "name": "_Organ2_end_time",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
               "name": "_Organ2_pool_m",
               "type": "uint256"
             },
@@ -1216,11 +1278,6 @@
             },
             {
               "internalType": "uint256",
-              "name": "_White_end_time",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
               "name": "_White_pool_m",
               "type": "uint256"
             },
@@ -1232,11 +1289,6 @@
             {
               "internalType": "uint256",
               "name": "_Public_mint_fee",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "_Public_end_time",
               "type": "uint256"
             },
             {
@@ -1256,11 +1308,6 @@
             },
             {
               "internalType": "uint256",
-              "name": "_b_White_end_time",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
               "name": "_b_White_pool_m",
               "type": "uint256"
             }
@@ -1268,6 +1315,31 @@
           "internalType": "struct OOC.setinfo",
           "name": "",
           "type": "tuple"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_total_minted",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_now_time",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_White_pool_em",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_Public_pool_em",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_b_White_pool_em",
+          "type": "uint256"
         }
       ],
       "stateMutability": "view",

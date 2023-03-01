@@ -118,26 +118,26 @@ async function scancontract(contractinfo) {
             // console.log(eventinfo);
 
             for (let k in eventinfo) {
-                try {
-                    if (eventinfo[k].event == "Transfer") {
-                        let url="http://192.168.0.189:9999/api/wd-space/space/poap/manager/token/"+ eventinfo[k].returnValues[2] +"/"+ await ethtocfx(eventinfo[k].returnValues[1]);
-                        let sqlstr = "select userid from wallet where address=?";
-                        let useridsql = await sqlcall(sqlstr, await ethtocfx(eventinfo[k].returnValues[1]));
-                        if (useridsql.length!=0) {
-                            axios.put(url, {
-                                key:"mczb79",
-                                userid:useridsql[0].userid
-                            })
-                        } else {
-                            axios.put(url, {
-                                key:"mczb79",
-                                userid:null
-                            })
-                        }
-                    }
-                } catch (error) {
-                    console.log(error);
-                }
+                // try {
+                //     if (eventinfo[k].event == "Transfer") {
+                //         let url="http://192.168.0.189:9999/api/wd-space/space/poap/manager/token/"+ eventinfo[k].returnValues[2] +"/"+ await ethtocfx(eventinfo[k].returnValues[1]);
+                //         let sqlstr = "select userid from wallet where address=?";
+                //         let useridsql = await sqlcall(sqlstr, await ethtocfx(eventinfo[k].returnValues[1]));
+                //         if (useridsql.length!=0) {
+                //             axios.put(url, {
+                //                 key:"mczb79",
+                //                 userid:useridsql[0].userid
+                //             })
+                //         } else {
+                //             axios.put(url, {
+                //                 key:"mczb79",
+                //                 userid:null
+                //             })
+                //         }
+                //     }
+                // } catch (error) {
+                //     console.log(error);
+                // }
                 let sqleventinfo = [
                     eventinfo[k].blockNumber,
                     eventinfo[k].logIndex,

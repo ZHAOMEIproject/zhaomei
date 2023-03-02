@@ -9,6 +9,7 @@ const { Wallet } = require("ethers");
 
 // 运行测试服务
 // npx hardhat run testscripts/ustake.js --network hardhat
+// npx hardhat run testscripts/ustake.js --network zhaomei
 // (tip: --network 选择链，参考文档.secret.json)
 // npx hardhat verify 0x6Fb324FD15Bb042E15d949254949128721ae50CE --network zhaomei
 // npx hardhat verify --contract contracts/OOC.sol:OOC  0x6Fb324FD15Bb042E15d949254949128721ae50CE --network zhaomei
@@ -51,6 +52,7 @@ async function main() {
         "9999999999",
     ]
     let signinfo = await getsign(networkid, "mainwithdraw", sign,owner.privateKey);
+    
     // let signinfo = await getsign(networkid, "mainwithdraw", sign);
     // console.log(...sign);
     // console.log(...Object.values(signinfo));

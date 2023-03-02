@@ -5,22 +5,22 @@ const {getPermitDigest} = require('./VII_WITHDRAW_sign')
 const secret = require('../../../../../privateinfo/.secret.json');
 const {getcontractinfo}=require('../../nodetool/id-readcontracts');
 
-exports.getsign = async function getsign(id,contractname,params,add){
+exports.getsign = async function getsign(id,contractname,params,privateKey){
 
     const contractinfo = await getcontractinfo();
     let name="VII_WITHDRAW";
     // console.log(contractinfo,id,contractname);
     let address=contractinfo[id][contractname].address;
     let chainId=id
-    if (!add) {
+    if (!privateKey) {
         var path = "m/44'/60'/0'/0/0";
         const account = ethers.Wallet.fromMnemonic(secret.solidity.mnemonic, path);
         // console.log(account.address);
-        add = account._signingKey().privateKey;
+        privateKey = account._signingKey().privateKey;
     }
     
     
-    const ownerPrivateKey = Buffer.from(add.slice(2), 'hex')
+    const ownerPrivateKey = Buffer.from(privateKey.slice(2), 'hex')
     // 获取加密信息
     const digest = getPermitDigest(
         name, address, chainId,

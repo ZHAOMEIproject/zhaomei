@@ -8,16 +8,17 @@ const {getcontractinfo}=require('../../nodetool/id-readcontracts');
 exports.getsign = async function getsign(id,contractname,params,privateKey){
 
     const contractinfo = await getcontractinfo();
+    // console.log(contractinfo);
     let name="VII_WITHDRAW";
     // console.log(contractinfo,id,contractname);
     let address=contractinfo[id][contractname].address;
     let chainId=id
-    if (!privateKey) {
-        var path = "m/44'/60'/0'/0/0";
-        const account = ethers.Wallet.fromMnemonic(secret.solidity.mnemonic, path);
-        // console.log(account.address);
-        privateKey = account._signingKey().privateKey;
-    }
+    // if (!privateKey) {
+    //     var path = "m/44'/60'/0'/0/0";
+    //     const account = ethers.Wallet.fromMnemonic(secret.solidity.mnemonic, path);
+    //     // console.log(account.address);
+    //     privateKey = account._signingKey().privateKey;
+    // }
     
     
     const ownerPrivateKey = Buffer.from(privateKey.slice(2), 'hex')

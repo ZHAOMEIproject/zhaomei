@@ -67,6 +67,7 @@ async function checkandcreatdatabase(name,contractinfo){
                     abi_sql+
 
                     "`update_time` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,"+
+                    "`block_time` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,"+
                     "PRIMARY KEY (`event_id`) USING BTREE,"+
                     "UNIQUE INDEX `hash`(`transaction_hash`, `block_logIndex`) USING BTREE"+
                     // ",INDEX `data`(`data0"+ data_sql +"`) USING BTREE"+
@@ -144,11 +145,11 @@ async function scancontract(contractinfo){
                 }
                 let insertsql = "INSERT INTO "+ contractinfo[i][j].contractName +" (block_number,block_logIndex,transaction_hash,event_name,update_time"+
                 data_n_sql+
-                ") VALUES (?,?,?,?,unix_timestamp()"+
+                ",block_time) VALUES (?,?,?,?,unix_timestamp()"+
                 data_v_sql+
-                ")";
+                ",?)";
                 
-                await sqlcall(insertsql,sqleventinfo);
+                await sqlcall(insertsql,[...sqleventinfo,now_blockinfo.timestamp]);
             }
             sqlinfo.unshift(toBlock);
             let update_blocknumber = "UPDATE dictionary_value SET blocknumber=? where contract=? and chainid=? and url=? and address=?";

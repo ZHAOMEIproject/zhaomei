@@ -7,6 +7,7 @@ module.exports = router;
 const { getcontractinfo } = require('../nodetool/id-readcontracts');
 const ethers = require('ethers');
 const secret = global.secret;
+const sql = require("../nodetool/sqlconnection");
 
 exports.contractinfo = router.get("/", async (req, res) => {
     const contractinfo = await getcontractinfo();
@@ -150,3 +151,63 @@ exports.checkorderid = router.post("/postread", async (req, res) => {
     });
     return;
 });
+
+exports.checkorderid = router.post("/getevent", async (req, res) => {
+    try {
+        var params = req.body;
+        let check = ["id","contractname", "start", "end"];
+        if (!check.every(key => key in params)) {
+            res.send({
+                success: false,
+                error: "error params"
+            });
+            return;
+        }
+        let sqlstr="select * from "+params.contractname+" where event_id>=? and event_id<=?"
+        // let sqlstr="select * from ooc where event_id>=0 and event_id<=100"
+        let result=await sql.sqlcall(sqlstr,[params.start,params.end]);
+        // console.log(result);
+        res.send({
+            success: true,
+            data: result,
+        });
+        return;
+    } catch (error) {
+        console.log(error);
+        res.send({
+            success: false,
+        });
+    }
+    return
+});
+
+exports.checkorderid = router.post("/getfirstevent", async (req, res) => {
+    try {
+        var params = req.body;
+        // let check = ["id","contractname", "start", "end"];
+        let check = ["id","contractname",];
+        if (!check.every(key => key in params)) {
+            res.send({
+                success: false,
+                error: "error params"
+            });
+            return;
+        }
+        let sqlstr="select * from "+params.contractname+" LIMIT 1"
+        // let sqlstr="select * from ooc where event_id>=0 and event_id<=100"
+        let result=await sql.sqlcall(sqlstr);
+        // console.log(result);
+        res.send({
+            success: true,
+            data: result,
+        });
+        return;
+    } catch (error) {
+        console.log(error);
+        res.send({
+            success: false,
+        });
+    }
+    return
+});
+

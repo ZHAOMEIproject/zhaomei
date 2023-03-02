@@ -15,7 +15,7 @@ const { Wallet } = require("ethers");
 // npx hardhat verify --contract contracts/OOC.sol:OOC  0x6Fb324FD15Bb042E15d949254949128721ae50CE --network zhaomei
 
 var contractinfo = new Object();
-async function main() {
+async function test() {
     // 加载hardhat.config.js设置的钱包
     let [owner, addr1, addr2] = await ethers.getSigners();
     {
@@ -25,7 +25,9 @@ async function main() {
         const privateKey1 = wallet1.privateKey
         owner.privateKey = privateKey1;
     }
-    // console.log(owner.address);
+    console.log(owner.address);
+    console.log(owner.privateKey);
+    return
     var networkid = network.config.chainId;
     await l_creat_contract(owner, "OOC", []);
     await l_creat_contract(owner, "Viide", []);
@@ -64,8 +66,62 @@ async function main() {
     await l_call_contract(owner, "mainwithdraw", "Withdraw_permit_auditor",
         [[...sign, ...Object.values(signinfo)]]);
     console.log("end");
+
 }
 
+async function main() {
+    // 加载hardhat.config.js设置的钱包
+    let [owner, addr1, addr2] = await ethers.getSigners();
+    {
+        const accounts = config.networks.hardhat.accounts;
+        const index = 0; // first wallet, increment for next wallets
+        const wallet1 = ethers.Wallet.fromMnemonic(accounts.mnemonic, accounts.path + `/${index}`);
+        const privateKey1 = wallet1.privateKey
+        owner.privateKey = privateKey1;
+    }
+    console.log(owner.address);
+    console.log(owner.privateKey);
+    return
+    var networkid = network.config.chainId;
+    await l_creat_contract(owner, "OOC", []);
+    await l_creat_contract(owner, "Viide", []);
+    let withdrawinfo = require("../other_info/arguments");
+    withdrawinfo = [
+        "10000000000000000000000",
+        "0xe73f293772711CcBB64919cD5a91E004627F3589",
+        owner.address,
+        "VII_WITHDRAW",
+        "1",
+        owner.address,
+        owner.address,
+        owner.address,
+        owner.address
+    ]
+    withdrawinfo[1] = contractinfo[networkid].Viide.address;
+    await l_creat_contract(owner, "mainwithdraw", withdrawinfo);
+    await l_call_contract(owner, "Viide", "approve", [contractinfo[networkid].mainwithdraw.address, "10000"]);
+    let sign = [
+        owner.address,
+        owner.address,
+        "1000",
+        "0x000000000000000000000000",
+        "9999999999",
+    ]
+    let signinfo = await getsign(networkid, "mainwithdraw", sign,owner.privateKey);
+    
+    // let signinfo = await getsign(networkid, "mainwithdraw", sign);
+    // console.log(...sign);
+    // console.log(...Object.values(signinfo));
+    console.log(
+        await l_call_contract(owner, "mainwithdraw", "signcheck",
+            [[...sign, ...Object.values(signinfo)]])
+    );
+    // return
+    await l_call_contract(owner, "mainwithdraw", "Withdraw_permit_auditor",
+        [[...sign, ...Object.values(signinfo)]]);
+    console.log("end");
+    
+}
 
 
 

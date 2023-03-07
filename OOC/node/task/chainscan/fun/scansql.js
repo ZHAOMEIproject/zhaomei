@@ -98,6 +98,10 @@ async function scancontract(contractinfo){
             // console.log(blocknumber);
             let fromBlock=parseInt(blocknumber[0].blocknumber);
             let toBlock = fromBlock+parseInt(100);
+            let fromblocktime =  await web3Show.getBlock(fromBlock);
+            if (contractinfo[i][j].network.chainId=1) {
+                toBlock=fromBlock+parseInt(10000);
+            }
             let now_blockNumber = await web3Show.getBlockNumber();
             let now_blockinfo =  await web3Show.getBlock(now_blockNumber);
             // console.log(now_blockinfo.timestamp<(new Date()/1000));
@@ -113,7 +117,7 @@ async function scancontract(contractinfo){
                 eventinfo = await web3Show.getContractEvents(contractinfo[i][j],fromBlock,now_blockNumber);
                 toBlock = now_blockNumber;
             } catch (error) {
-                console.log(error);
+                // console.log(error);
                 eventinfo = await web3Show.getContractEvents(contractinfo[i][j],fromBlock,toBlock);
             }
             // console.log(eventinfo);
@@ -133,7 +137,19 @@ async function scancontract(contractinfo){
                 if(isExistCurrentRecord[0].count>=1){
                     continue;//结束此轮循环
                 }
+                try {
+                    if (eventinfo[k].event == "Transfer") {
+                        let {day_balance} = require("../other/erc721.js");
+                        await day_balance({
+                            from:eventinfo[k].returnValues[0],
+                            to:eventinfo[k].returnValues[1],
+                            timestamp:(eventinfo[k].blockNumber-fromBlock)*12+fromblocktime.timestamp,
 
+                        });
+                    }
+                } catch (error) {
+                    console.log(error);
+                }
                 let value_l = Object.values(eventinfo[k].returnValues).length/2;
 
                 let data_n_sql="";
@@ -149,12 +165,15 @@ async function scancontract(contractinfo){
                 data_v_sql+
                 ",?)";
                 
-                await sqlcall(insertsql,[...sqleventinfo,now_blockinfo.timestamp]);
+                await sqlcall(insertsql,[...sqleventinfo,((eventinfo[k].blockNumber-fromBlock)*12+fromblocktime.timestamp)]);
             }
             sqlinfo.unshift(toBlock);
             let update_blocknumber = "UPDATE dictionary_value SET blocknumber=? where contract=? and chainid=? and url=? and address=?";
             await sqlcall(update_blocknumber,sqlinfo);
             console.log(fromBlock,toBlock);
+            if (toBlock<(now_blockNumber-200)) {
+                await scancontract(contractinfo);
+            }
         }
     }
     // await test();

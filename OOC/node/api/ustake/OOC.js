@@ -62,8 +62,8 @@ exports.getsign = router.post("/getsign", async (req, res) => {
 exports.getsmall = router.post("/getsmall", async (req, res) => {
     try {
         var params = req.body;
-        console.log(params);
-        let check = ["start"];
+        // console.log(params);
+        let check = ["start","address"];
         if (!check.every(key => key in params)) {
             res.send({
                 success: false,
@@ -71,10 +71,17 @@ exports.getsmall = router.post("/getsmall", async (req, res) => {
             });
             return;
         }
+        const sqlstr = `
+            SELECT * FROM nft_records
+            WHERE user='${params.address}' and timestamp >'${params.start}'
+            ORDER BY balance ASC LIMIT 1;
+        `;
         
+        let result=await sql.sqlcall(sqlstr);
+        // console.log(result);
         res.send({
             success: true,
-            data: tx,
+            data: result,
         });
 
 

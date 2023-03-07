@@ -32,6 +32,10 @@ const getContractEvents = (info,from_timestamp,toBlock) =>{
             fromBlock: from_timestamp,
             toBlock: toBlock,
         }, function(error, result){
+            if (error) {
+                console.log(error);
+                reject(error)
+            }
             resolve(result);
         })
     })

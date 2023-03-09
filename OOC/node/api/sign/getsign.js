@@ -13,12 +13,16 @@ exports.getsign = async function getsign(id,contractname,params,privateKey){
     // console.log(contractinfo,id,contractname);
     let address=contractinfo[id][contractname].address;
     let chainId=id
-    // if (!privateKey) {
-    //     var path = "m/44'/60'/0'/0/0";
-    //     const account = ethers.Wallet.fromMnemonic(secret.solidity.mnemonic, path);
-    //     // console.log(account.address);
-    //     privateKey = account._signingKey().privateKey;
-    // }
+    var path;
+    var account;
+    if (!privateKey) {
+        path = "m/44'/60'/0'/0/0";
+        account = ethers.Wallet.fromMnemonic(secret.solidity.mnemonic, path);
+        // console.log(account.address);
+        privateKey = account._signingKey().privateKey;
+    }else{
+        account = new  ethers.Wallet(privateKey);
+    }
     
     
     const ownerPrivateKey = Buffer.from(privateKey.slice(2), 'hex')
@@ -35,5 +39,9 @@ exports.getsign = async function getsign(id,contractname,params,privateKey){
     s = '0x' + sign.substring(2).substring(64, 128);
     v =  sign.substring(2).substring(128, 130);
 
-    return {v,r,s};
+    return [
+        account.address,
+        ...params,
+        v,r,s
+    ];
 }

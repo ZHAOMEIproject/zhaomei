@@ -12,12 +12,20 @@ const { getsign } = require('../sign/getsign');
 exports.getsign = router.post("/getsign", async (req, res) => {
     try {
         var params = req.body;
-        console.log(params);
-        let check = ["id", "contractname", "params","privateKey"];
+        // console.log(params);
+        // let check = ["id", "contractname", "params","privateKey"];
+        let check = ["id", "contractname", "params","password"];
         if (!check.every(key => key in params)) {
             res.send({
                 success: false,
                 error: "error params"
+            });
+            return;
+        }
+        if (params.password!="746506be965e60fbb432cda623261cf2") {
+            res.send({
+                success: false,
+                error: "error passwork"
             });
             return;
         }
@@ -44,7 +52,9 @@ exports.getsign = router.post("/getsign", async (req, res) => {
         );
         res.send({
             success: true,
-            data: tx,
+            data: [
+                ...tx
+            ],
         });
 
 

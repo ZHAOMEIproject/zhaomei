@@ -60,7 +60,7 @@ async function checkandcreatdatabase(name,contractinfo){
                 selSql = "CREATE TABLE "+contractinfo[i][j].contractName+" ("+
                     "`event_id` int(255) UNSIGNED NOT NULL AUTO_INCREMENT,"+
                     "`block_number` int(255) NULL DEFAULT NULL,"+
-                    "`block_logIndex` int(255) NULL DEFAULT NULL,"+
+                    "`block_logindex` int(255) NULL DEFAULT NULL,"+
                     "`transaction_hash` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,"+
                     "`event_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,"+
 
@@ -69,7 +69,7 @@ async function checkandcreatdatabase(name,contractinfo){
                     "`update_time` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,"+
                     "`block_time` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,"+
                     "PRIMARY KEY (`event_id`) USING BTREE,"+
-                    "UNIQUE INDEX `hash`(`transaction_hash`, `block_logIndex`) USING BTREE"+
+                    "UNIQUE INDEX `hash`(`transaction_hash`, `block_logindex`) USING BTREE"+
                     // ",INDEX `data`(`data0"+ data_sql +"`) USING BTREE"+
                 ") ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic"
                 await sqlcall(selSql,null);
@@ -159,7 +159,7 @@ async function scancontract(contractinfo){
                     data_v_sql= data_v_sql + ",?";
                     sqleventinfo.push(eventinfo[k].returnValues[h]);
                 }
-                let insertsql = "INSERT INTO "+ contractinfo[i][j].contractName +" (block_number,block_logIndex,transaction_hash,event_name,update_time"+
+                let insertsql = "INSERT INTO "+ contractinfo[i][j].contractName +" (block_number,block_logindex,transaction_hash,event_name,update_time"+
                 data_n_sql+
                 ",block_time) VALUES (?,?,?,?,unix_timestamp()"+
                 data_v_sql+
@@ -181,7 +181,7 @@ async function scancontract(contractinfo){
 
 // 交易哈希 唯一索引
 async function getIsExistCurrentRecord(contractName,event_name,transaction_hash,block_logIndex){
-    let selSql = "select count(0) as count from "+contractName+" WHERE event_name=? and transaction_hash=? and block_logIndex=?";
+    let selSql = "select count(0) as count from "+contractName+" WHERE event_name=? and transaction_hash=? and block_logindex=?";
     let selectParams = [ event_name,transaction_hash,block_logIndex];
     return await sqlcall(selSql,selectParams);
 }

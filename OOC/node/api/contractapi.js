@@ -199,7 +199,7 @@ exports.checkorderid = router.post("/getfirstevent", async (req, res) => {
         // console.log(result);
         res.send({
             success: true,
-            data: result,
+            data: result[0],
         });
         return;
     } catch (error) {

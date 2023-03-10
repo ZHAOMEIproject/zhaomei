@@ -29,7 +29,7 @@ exports.getsign = async function getsign(id,contractname,params,privateKey){
     // 获取加密信息
     const digest = getPermitDigest(
         name, address, chainId,
-        params
+        [account.address,...params]
     )
     // get vrs
     let { v, r, s } = ecsign(Buffer.from(digest.slice(2), 'hex'), ownerPrivateKey)

@@ -25,9 +25,9 @@ async function test() {
         const privateKey1 = wallet1.privateKey
         owner.privateKey = privateKey1;
     }
-    console.log(owner.address);
-    console.log(owner.privateKey);
-    return
+    // console.log(owner.address);
+    // console.log(owner.privateKey);
+    // return
     var networkid = network.config.chainId;
     await l_creat_contract(owner, "OOC", []);
     await l_creat_contract(owner, "Viide", []);

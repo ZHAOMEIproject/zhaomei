@@ -55,7 +55,7 @@ abstract contract withdraw is EIP712, otherinfo{
     mapping(bytes12=>bool) public orderids;
     function Withdraw_permit_auditor (
         _signvrs memory signinfo
-    ) public  onlyRole(WITHDRAW_ROLE) monitor_lock{
+    ) public monitor_lock{
         if(orderids[signinfo.orderid]){
             return;
         }
@@ -78,29 +78,9 @@ abstract contract withdraw is EIP712, otherinfo{
         uint256 amount;
         bytes12 orderid;
     }
-
-    function Withdraw_permit(
-        _spenderinfo calldata spenderinfo
-    ) public  onlyRole(WITHDRAW_ROLE) monitor_lock{
-        require(spenderinfo.amount <= mini_amount, "vii_Withdraw: error amount");
-        if(orderids[spenderinfo.orderid]){
-            return;
-        }
-        orderids[spenderinfo.orderid]=true;
-        IERC20(token).transferFrom(add_withdraw,spenderinfo.spender,spenderinfo.amount);
-        emit e_Withdraw(msg.sender,spenderinfo.spender,spenderinfo.amount,spenderinfo.orderid);
-    }
-    function lot_Withdraw_permit(
-         _spenderinfo[] calldata spenderinfo
-    )public onlyRole(WITHDRAW_ROLE) monitor_lock{
-        for(uint i=0;i<spenderinfo.length;i++){
-            Withdraw_permit(spenderinfo[i]);
-        }
-    }
-
     function lot_Withdraw_permit_auditor(
          _signvrs[] calldata spenderinfo
-    )public onlyRole(WITHDRAW_ROLE) monitor_lock{
+    )public monitor_lock{
         for(uint i=0;i<spenderinfo.length;i++){
             Withdraw_permit_auditor(spenderinfo[i]);
         }

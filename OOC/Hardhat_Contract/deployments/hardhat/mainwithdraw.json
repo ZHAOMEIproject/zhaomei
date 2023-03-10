@@ -242,36 +242,6 @@
           "components": [
             {
               "internalType": "address",
-              "name": "spender",
-              "type": "address"
-            },
-            {
-              "internalType": "uint256",
-              "name": "amount",
-              "type": "uint256"
-            },
-            {
-              "internalType": "bytes12",
-              "name": "orderid",
-              "type": "bytes12"
-            }
-          ],
-          "internalType": "struct withdraw._spenderinfo",
-          "name": "spenderinfo",
-          "type": "tuple"
-        }
-      ],
-      "name": "Withdraw_permit",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "components": [
-            {
-              "internalType": "address",
               "name": "auditor",
               "type": "address"
             },
@@ -406,36 +376,6 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "components": [
-            {
-              "internalType": "address",
-              "name": "spender",
-              "type": "address"
-            },
-            {
-              "internalType": "uint256",
-              "name": "amount",
-              "type": "uint256"
-            },
-            {
-              "internalType": "bytes12",
-              "name": "orderid",
-              "type": "bytes12"
-            }
-          ],
-          "internalType": "struct withdraw._spenderinfo[]",
-          "name": "spenderinfo",
-          "type": "tuple[]"
-        }
-      ],
-      "name": "lot_Withdraw_permit",
-      "outputs": [],
-      "stateMutability": "nonpayable",
       "type": "function"
     },
     {

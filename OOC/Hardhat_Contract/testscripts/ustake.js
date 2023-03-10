@@ -73,15 +73,16 @@ async function main() {
     // 加载hardhat.config.js设置的钱包
     let [owner, addr1, addr2] = await ethers.getSigners();
     {
-        const accounts = config.networks.hardhat.accounts;
+        const accounts = network.config.accounts;
         const index = 0; // first wallet, increment for next wallets
         const wallet1 = ethers.Wallet.fromMnemonic(accounts.mnemonic, accounts.path + `/${index}`);
         const privateKey1 = wallet1.privateKey
         owner.privateKey = privateKey1;
+
+        // console.log(wallet1.address);
+        // console.log(owner.privateKey);
+        // return
     }
-    console.log(owner.address);
-    console.log(owner.privateKey);
-    return
     var networkid = network.config.chainId;
     await l_creat_contract(owner, "OOC", []);
     await l_creat_contract(owner, "Viide", []);
@@ -100,25 +101,28 @@ async function main() {
     withdrawinfo[1] = contractinfo[networkid].Viide.address;
     await l_creat_contract(owner, "mainwithdraw", withdrawinfo);
     await l_call_contract(owner, "Viide", "approve", [contractinfo[networkid].mainwithdraw.address, "10000"]);
+    console.log("approve end");
     let sign = [
-        owner.address,
         owner.address,
         "1000",
         "0x000000000000000000000000",
         "9999999999",
     ]
     let signinfo = await getsign(networkid, "mainwithdraw", sign,owner.privateKey);
+    console.log("signinfo end");
     
     // let signinfo = await getsign(networkid, "mainwithdraw", sign);
     // console.log(...sign);
     // console.log(...Object.values(signinfo));
+    // console.log([...Object.values(signinfo)]);
     console.log(
         await l_call_contract(owner, "mainwithdraw", "signcheck",
-            [[...sign, ...Object.values(signinfo)]])
+            [Object.values(signinfo)])
     );
+    console.log("signcheck end");
     // return
     await l_call_contract(owner, "mainwithdraw", "Withdraw_permit_auditor",
-        [[...sign, ...Object.values(signinfo)]]);
+        [Object.values(signinfo)]);
     console.log("end");
     
 }

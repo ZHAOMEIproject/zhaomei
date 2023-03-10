@@ -84,7 +84,7 @@ async function main() {
         // return
     }
     var networkid = network.config.chainId;
-    await l_creat_contract(owner, "OOC", []);
+    // await l_creat_contract(owner, "OOC", []);
     await l_creat_contract(owner, "Viide", []);
     let withdrawinfo = require("../other_info/arguments");
     withdrawinfo = [

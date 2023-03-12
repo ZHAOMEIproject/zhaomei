@@ -3,7 +3,9 @@ const express = require("express");
 const router = express.Router();
 const url = require('url');
 module.exports = router;
-const chatgpt = require("./chatgptcall.js");
+// const chatgpt = require("./chatgptcall.js");
+// const chatgpt = require("./3gpt.js");
+const chatgpt = require("../../nodetool/chatgpttool/mainchatgpt");
 
 exports.test = router.get("/", async (req, res) => {
     res.send({
@@ -35,7 +37,6 @@ var nowtask = {
 const crypto = require('crypto');
 var callhistory = new Map();
 exports.chatgpt = router.post("/chatcall", async (req, res) => {
-
     var params;
     // console.log(req.body);
     if (req.body.callstr != null) {
@@ -82,6 +83,7 @@ exports.chatgpt = router.post("/chatcall", async (req, res) => {
         nowtask.flag = false;
         nowtask.user = params.user;
         const result = await chatgpt.call(callstr, params.opts);
+        // const result = await chatgpt.materialcall(callstr, params.opts);
         // 预防严重超时影响新请求
         if (!timeout(-500)) {
             nowtask.flag = true;

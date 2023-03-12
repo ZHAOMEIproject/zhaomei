@@ -1,0 +1,27 @@
+{
+  "role": "assistant",
+  "id": "chatcmpl-6tBbVZns4IabP8BaFNdSUmIctsK0X",
+  "parentMessageId": "01fa95bd-1acc-4cd3-b06b-63be1cce901f",
+  "text": "资料中没有提到具体的交通方式和路线，无法回答这个问题。请提供更多细节或信息。",
+  "detail": {
+    "id": "chatcmpl-6tBbVZns4IabP8BaFNdSUmIctsK0X",
+    "object": "chat.completion",
+    "created": 1678610665,
+    "model": "gpt-3.5-turbo-0301",
+    "usage": {
+      "prompt_tokens": 1001,
+      "completion_tokens": 22,
+      "total_tokens": 1023
+    },
+    "choices": [
+      {
+        "message": {
+          "role": "assistant",
+          "content": "资料中没有提到具体的交通方式和路线，无法回答这个问题。请提供更多细节或信息。"
+        },
+        "finish_reason": "stop",
+        "index": 0
+      }
+    ]
+  }
+}

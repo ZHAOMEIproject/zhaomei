@@ -1,0 +1,545 @@
+{
+    "kind": "customsearch#search",
+    "url": {
+        "type": "application/json",
+        "template": "https://www.googleapis.com/customsearch/v1?q={searchTerms}&num={count?}&start={startIndex?}&lr={language?}&safe={safe?}&cx={cx?}&sort={sort?}&filter={filter?}&gl={gl?}&cr={cr?}&googlehost={googleHost?}&c2coff={disableCnTwTranslation?}&hq={hq?}&hl={hl?}&siteSearch={siteSearch?}&siteSearchFilter={siteSearchFilter?}&exactTerms={exactTerms?}&excludeTerms={excludeTerms?}&linkSite={linkSite?}&orTerms={orTerms?}&relatedSite={relatedSite?}&dateRestrict={dateRestrict?}&lowRange={lowRange?}&highRange={highRange?}&searchType={searchType}&fileType={fileType?}&rights={rights?}&imgSize={imgSize?}&imgType={imgType?}&imgColorType={imgColorType?}&imgDominantColor={imgDominantColor?}&alt=json"
+    },
+    "queries": {
+        "request": [
+            {
+                "title": "Google Custom Search - 武康大楼怎么去？",
+                "totalResults": "275000",
+                "searchTerms": "武康大楼怎么去？",
+                "count": 10,
+                "startIndex": 1,
+                "inputEncoding": "utf8",
+                "outputEncoding": "utf8",
+                "safe": "off",
+                "cx": "77ea1dfd64ff74371"
+            }
+        ],
+        "nextPage": [
+            {
+                "title": "Google Custom Search - 武康大楼怎么去？",
+                "totalResults": "275000",
+                "searchTerms": "武康大楼怎么去？",
+                "count": 10,
+                "startIndex": 11,
+                "inputEncoding": "utf8",
+                "outputEncoding": "utf8",
+                "safe": "off",
+                "cx": "77ea1dfd64ff74371"
+            }
+        ]
+    },
+    "context": {
+        "title": "viide"
+    },
+    "searchInformation": {
+        "searchTime": 0.38384,
+        "formattedSearchTime": "0.38",
+        "totalResults": "275000",
+        "formattedTotalResults": "275,000"
+    },
+    "items": [
+        {
+            "kind": "customsearch#result",
+            "title": "如何坐地铁或公交去天平路街道的武康大楼?",
+            "htmlTitle": "如何坐地铁或公交去天平路街道的<b>武康大楼</b>?",
+            "link": "https://moovitapp.com/index/zh-cn/%E5%85%AC%E5%85%B1%E4%BA%A4%E9%80%9A-%E6%AD%A6%E5%BA%B7%E5%A4%A7%E6%A5%BC-Shanghai_%E4%B8%8A%E6%B5%B7-site_18423252-3000",
+            "displayLink": "moovitapp.com",
+            "snippet": "Feb 17, 2023 ... 在地图上查看武康大楼、天平路街道. 武康大楼地图 · 即刻获得路线建议. 在天平路街道, 坐公交地铁怎么去武康大楼. 以下路线停靠武康大楼附近.",
+            "htmlSnippet": "Feb 17, 2023 <b>...</b> 在地图上查看<b>武康大楼</b>、天平路街道. <b>武康大楼</b>地图 &middot; 即刻获得路线建议. 在天平路街道, 坐公交地铁怎么去<b>武康大楼</b>. 以下路线停靠<b>武康大楼</b>附近.",
+            "cacheId": "ZmUZWfIpyYQJ",
+            "formattedUrl": "https://moovitapp.com/.../公共交通-武康大楼-Shanghai_上海-site_18423252 -3000",
+            "htmlFormattedUrl": "https://moovitapp.com/.../公共交通-<b>武康大楼</b>-Shanghai_上海-site_18423252 -3000",
+            "pagemap": {
+                "cse_thumbnail": [
+                    {
+                        "src": "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRcbDGuANiCdSdqPORweLs5PTtD6KWr_ssfm2dKSNGONQlx2FYUMUNAR6I",
+                        "width": "224",
+                        "height": "224"
+                    }
+                ],
+                "country": [
+                    {
+                        "name": "中国"
+                    }
+                ],
+                "city": [
+                    {
+                        "name": "上海"
+                    }
+                ],
+                "metatags": [
+                    {
+                        "og:image": "https://appassets.mvtdev.com/map/30/s/3000/18423252.jpg",
+                        "og:type": "article",
+                        "og:image:width": "1200",
+                        "og:image:url": "https://appassets.mvtdev.com/map/30/s/3000/18423252.jpg",
+                        "viewport": "width=device-width,minimum-scale=1,initial-scale=1",
+                        "og:title": "如何坐地铁 或 公交去天平路街道的武康大楼?",
+                        "og:image:height": "630",
+                        "og:locale": "zh-cn",
+                        "og:image:type": "image/png",
+                        "og:url": "https://moovitapp.com/index/zh-cn/%E5%85%AC%E5%85%B1%E4%BA%A4%E9%80%9A-%E6%AD%A6%E5%BA%B7%E5%A4%A7%E6%A5%BC-Shanghai_%E4%B8%8A%E6%B5%B7-site_18423252-3000",
+                        "og:description": "Moovit帮您找到坐公交去武康大楼的最佳路线，还有天平路街道地铁 或 公交最新的时刻表。"
+                    }
+                ],
+                "place": [
+                    {
+                        "name": "武康大楼, 天平路街道"
+                    },
+                    {
+                        "name": "武康大楼, 天平路街道"
+                    }
+                ],
+                "cse_image": [
+                    {
+                        "src": "https://appassets.mvtdev.com/map/30/s/3000/18423252.jpg"
+                    }
+                ],
+                "thing": [
+                    {
+                        "name": "国家/地区"
+                    }
+                ],
+                "sitenavigationelement": [
+                    {
+                        "name": "关于Moovit",
+                        "url": "https://moovit.com/about-us/"
+                    },
+                    {
+                        "name": "MaaS解决方案",
+                        "url": "https://moovit.com/maas-solutions/"
+                    },
+                    {
+                        "name": "城市列表",
+                        "url": "https://moovitapp.com/index/zh-cn/%E5%85%AC%E5%85%B1%E4%BA%A4%E9%80%9A-countries"
+                    },
+                    {
+                        "name": "Moovit社区",
+                        "url": "https://editor.moovitapp.com/web/community?campaign=seo_pages&utm_source=seo_pages&lang=en"
+                    }
+                ],
+                "listitem": [
+                    {
+                        "position": "1"
+                    },
+                    {
+                        "position": "2"
+                    },
+                    {
+                        "position": "3"
+                    },
+                    {
+                        "position": "4"
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "customsearch#result",
+            "title": "LOOK | 武康大楼新展来了· 再去一次武康路的理由_城市",
+            "htmlTitle": "LOOK | <b>武康大楼</b>新展来了· 再去一次<b>武康</b>路的理由_城市",
+            "link": "http://www.sohu.com/a/476472198_391486",
+            "displayLink": "www.sohu.com",
+            "snippet": "Jul 9, 2021 ... 截止发稿，是「城市交集」展馆成为武康大楼“住户”的第一年，由「城市交集」所属城市及建筑研究团队「织城网络」倾力打造，已焕然成为一处明亮现代的 ...",
+            "htmlSnippet": "Jul 9, 2021 <b>...</b> 截止发稿，是「城市交集」展馆成为<b>武康大楼</b>“住户”的第一年，由「城市交集」所属城市及建筑研究团队「织城网络」倾力打造，已焕然成为一处明亮现代的&nbsp;...",
+            "cacheId": "iHeLLgLQVpkJ",
+            "formattedUrl": "www.sohu.com/a/476472198_391486",
+            "htmlFormattedUrl": "www.sohu.com/a/476472198_391486",
+            "pagemap": {
+                "cse_thumbnail": [
+                    {
+                        "src": "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQJrJivHQ4OortwNMsw0d3IJZ0oYCzHUMN3261TXxwZo7w-8bEXjNUeXfCn",
+                        "width": "298",
+                        "height": "169"
+                    }
+                ],
+                "metatags": [
+                    {
+                        "og:image": "https://p5.itc.cn/q_70/images03/20210709/3be38ebbbf2b4d35a33841b616e2ba64.png",
+                        "copyright": "Copyright © 2017 Sohu.com Inc. All Rights Reserved.",
+                        "og:type": "news",
+                        "renderer": "webkit",
+                        "viewport": "width=device-width, initial-scale=1,maximum-scale=1",
+                        "og:title": "LOOK | 武康大楼新展来了 · 再去一次武康路的理由_城市",
+                        "og:release_date": "2021-07-09 14:17",
+                        "mediaid": "魔都吃货小分队",
+                        "og:url": "www.sohu.com/a/476472198_391486",
+                        "data-spm": "smpc",
+                        "og:description": "截止发稿，是「城市交集」展馆成为武康大楼“住户”的第一年，由「城市交集」所属城市及建筑研究团队「织城网络」倾力打造，已焕然成为一处明亮现代的城市空间。 以武康路为线索，散…"
+                    }
+                ],
+                "cse_image": [
+                    {
+                        "src": "https://p5.itc.cn/q_70/images03/20210709/3be38ebbbf2b4d35a33841b616e2ba64.png"
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "customsearch#result",
+            "title": "如何坐地铁或公交去天平路街道的Wukang Building (武康大楼)?",
+            "htmlTitle": "如何坐地铁或公交去天平路街道的Wukang Building (<b>武康大楼</b>)?",
+            "link": "https://moovitapp.com/index/zh-cn/%E5%85%AC%E5%85%B1%E4%BA%A4%E9%80%9A-Wukang_Building_%E6%AD%A6%E5%BA%B7%E5%A4%A7%E6%A5%BC-Shanghai_%E4%B8%8A%E6%B5%B7-site_138836317-3000",
+            "displayLink": "moovitapp.com",
+            "snippet": "Feb 17, 2023 ... 在天平路街道, 坐公交地铁怎么去Wukang Building (武康大楼). 以下路线停靠Wukang Building (武康大楼)附近. 公交: 26路911路920路926路 ...",
+            "htmlSnippet": "Feb 17, 2023 <b>...</b> 在天平路街道, 坐公交地铁怎么去Wukang Building (<b>武康大楼</b>). 以下路线停靠Wukang Building (<b>武康大楼</b>)附近. 公交: 26路911路920路926路&nbsp;...",
+            "cacheId": "hV0Q0BsymP0J",
+            "formattedUrl": "https://moovitapp.com/.../公共交通-Wukang_Building_武康大楼-Shanghai_ 上海-site_138836317-3000",
+            "htmlFormattedUrl": "https://moovitapp.com/.../公共交通-Wukang_Building_<b>武康大楼</b>-Shanghai_ 上海-site_138836317-3000",
+            "pagemap": {
+                "country": [
+                    {
+                        "name": "中国"
+                    }
+                ],
+                "city": [
+                    {
+                        "name": "上海"
+                    }
+                ],
+                "metatags": [
+                    {
+                        "og:image": "https://appassets.mvtdev.com/map/30/s/3000/138836317.jpg",
+                        "og:type": "article",
+                        "og:image:width": "1200",
+                        "og:image:url": "https://appassets.mvtdev.com/map/30/s/3000/138836317.jpg",
+                        "viewport": "width=device-width,minimum-scale=1,initial-scale=1",
+                        "og:title": "如何坐地铁 或 公交去天平路街道的Wukang Building (武康大楼)?",
+                        "og:image:height": "630",
+                        "og:locale": "zh-cn",
+                        "og:image:type": "image/png",
+                        "og:url": "https://moovitapp.com/index/zh-cn/%E5%85%AC%E5%85%B1%E4%BA%A4%E9%80%9A-Wukang_Building_%E6%AD%A6%E5%BA%B7%E5%A4%A7%E6%A5%BC-Shanghai_%E4%B8%8A%E6%B5%B7-site_138836317-3000",
+                        "og:description": "Moovit帮您找到坐公交去Wukang Building (武康大楼)的最佳路线，还有天平路街道地铁 或 公交最新的时刻表。"
+                    }
+                ],
+                "place": [
+                    {
+                        "name": "Wukang Building (武康大楼), 天平路街道"
+                    },
+                    {
+                        "name": "Wukang Building (武康大楼), 天平路街道"
+                    }
+                ],
+                "cse_image": [
+                    {
+                        "src": "https://appassets.mvtdev.com/map/30/s/3000/138836317.jpg"
+                    }
+                ],
+                "thing": [
+                    {
+                        "name": "国家/地区"
+                    }
+                ],
+                "sitenavigationelement": [
+                    {
+                        "name": "关于Moovit",
+                        "url": "https://moovit.com/about-us/"
+                    },
+                    {
+                        "name": "MaaS解决方案",
+                        "url": "https://moovit.com/maas-solutions/"
+                    },
+                    {
+                        "name": "城市列表",
+                        "url": "https://moovitapp.com/index/zh-cn/%E5%85%AC%E5%85%B1%E4%BA%A4%E9%80%9A-countries"
+                    },
+                    {
+                        "name": "Moovit社区",
+                        "url": "https://editor.moovitapp.com/web/community?campaign=seo_pages&utm_source=seo_pages&lang=en"
+                    }
+                ],
+                "listitem": [
+                    {
+                        "position": "1"
+                    },
+                    {
+                        "position": "2"
+                    },
+                    {
+                        "position": "3"
+                    },
+                    {
+                        "position": "4"
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "customsearch#result",
+            "title": "还准备去武康大楼排队围观“网红”郁金香？已经换成绣球啦_浦江头条_ ...",
+            "htmlTitle": "还准备去<b>武康大楼</b>排队围观“网红”郁金香？已经换成绣球啦_浦江头条_ ...",
+            "link": "https://m.thepaper.cn/rss_newsDetail_21955299?from=sohu",
+            "displayLink": "m.thepaper.cn",
+            "snippet": "还准备去武康大楼排队围观“网红”郁金香？已经换成绣球啦. 澎湃讯. 2023-02-18 07:32 来源：澎湃新闻. 谁能想到，2023年早春，一盆郁金香成为魔都街头的“人气担当”。",
+            "htmlSnippet": "还准备去<b>武康大楼</b>排队围观“网红”郁金香？已经换成绣球啦. 澎湃讯. 2023-02-18 07:32 来源：澎湃新闻. 谁能想到，2023年早春，一盆郁金香成为魔都街头的“人气担当”。",
+            "cacheId": "uR2c5tpVCPYJ",
+            "formattedUrl": "https://m.thepaper.cn/rss_newsDetail_21955299?from=sohu",
+            "htmlFormattedUrl": "https://m.thepaper.cn/rss_newsDetail_21955299?from=sohu",
+            "pagemap": {
+                "cse_thumbnail": [
+                    {
+                        "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwQM8q58S0QQuSKKt8emcf3Fc7Plfs3skbjQkmX8YUVWyAzQDN686rxbo",
+                        "width": "194",
+                        "height": "259"
+                    }
+                ],
+                "metatags": [
+                    {
+                        "apple-mobile-web-app-status-bar-style": "black",
+                        "viewport": "width=device-width, initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no",
+                        "apple-mobile-web-app-capable": "no",
+                        "apple-touch-fullscreen": "yes",
+                        "format-detection": "telephone=no"
+                    }
+                ],
+                "cse_image": [
+                    {
+                        "src": "https://imagecloud.thepaper.cn/thepaper/image/238/780/212.jpeg"
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "customsearch#result",
+            "title": "武康大楼才是上海必打卡景点？很多电影的取景地，网友：要去看看 ...",
+            "htmlTitle": "<b>武康大楼</b>才是上海必打卡景点？很多电影的取景地，网友：要去看看 ...",
+            "link": "http://www.sohu.com/a/417130542_120411595",
+            "displayLink": "www.sohu.com",
+            "snippet": "Sep 9, 2020 ... 好不容易等到了暑假，做好自身防范措施，我们还是可以适当地出门游玩。在这里，小编就给大家推荐一个宜人的游客却很少人去参观的观光景点——武康大楼。",
+            "htmlSnippet": "Sep 9, 2020 <b>...</b> 好不容易等到了暑假，做好自身防范措施，我们还是可以适当地出门游玩。在这里，小编就给大家推荐一个宜人的游客却很少人去参观的观光景点——<b>武康大楼</b>。",
+            "cacheId": "wXvDlKqsaZAJ",
+            "formattedUrl": "www.sohu.com/a/417130542_120411595",
+            "htmlFormattedUrl": "www.sohu.com/a/417130542_120411595",
+            "pagemap": {
+                "cse_thumbnail": [
+                    {
+                        "src": "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRMG-VK514PcagrGWzd5MgnXp1vUKrV2U7M4RPAwxMh1tUjEadCVRFNNNnf",
+                        "width": "265",
+                        "height": "190"
+                    }
+                ],
+                "metatags": [
+                    {
+                        "og:image": "//p5.itc.cn/a_auto,c_cut,x_0,y_62,w_640,h_426/images01/20200908/9fe3785769a648d9b6415456aa786ac3.jpeg",
+                        "copyright": "Copyright © 2017 Sohu.com Inc. All Rights Reserved.",
+                        "og:type": "news",
+                        "renderer": "webkit",
+                        "viewport": "width=device-width, initial-scale=1,maximum-scale=1",
+                        "og:title": "武康大楼才是上海必打卡景点？很多电影的取景地，网友：要去看看！_东方明珠",
+                        "og:release_date": "2020-09-09 19:58",
+                        "mediaid": "旅游与摄影media",
+                        "og:url": "www.sohu.com/a/417130542_120411595",
+                        "data-spm": "smpc",
+                        "og:description": "这是周冬雨和金城武看日出的地方；在《色戒》中，汤唯放走了梁朝伟，紧接着叫了一辆黄包车前往福开森路（武康路旧称：福开森路）；在《上海堡垒》中，这武康大楼还被外星人盯上了……所以说，我们还有什么理由不去打卡这些只…"
+                    }
+                ],
+                "cse_image": [
+                    {
+                        "src": "http://p1.itc.cn/images01/20200908/4a146e3d03fc4cf58ec4f50aed8c3a2b.jpeg"
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "customsearch#result",
+            "title": "还准备去武康大楼排队围观“网红”郁金香？已经换成绣球啦|粉色|绣球 ...",
+            "htmlTitle": "还准备去<b>武康大楼</b>排队围观“网红”郁金香？已经换成绣球啦|粉色|绣球 ...",
+            "link": "https://www.163.com/dy/article/HTRFVHFN0514R9P4.html",
+            "displayLink": "www.163.com",
+            "snippet": "Feb 18, 2023 ... 还准备去武康大楼排队围观“网红”郁金香？已经换成绣球啦,网红,粉色,郁金香,绣球花,向日葵,武康大楼.",
+            "htmlSnippet": "Feb 18, 2023 <b>...</b> 还准备去<b>武康大楼</b>排队围观“网红”郁金香？已经换成绣球啦,网红,粉色,郁金香,绣球花,向日葵,<b>武康大楼</b>.",
+            "cacheId": "J4YX3CDnyFAJ",
+            "formattedUrl": "https://www.163.com/dy/article/HTRFVHFN0514R9P4.html",
+            "htmlFormattedUrl": "https://www.163.com/dy/article/HTRFVHFN0514R9P4.html",
+            "pagemap": {
+                "cse_thumbnail": [
+                    {
+                        "src": "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcT98N-1P8agxQYMEMOttPeS_oMh50mDfAftob-PLEEHVTPANmtDSHBExTA",
+                        "width": "225",
+                        "height": "225"
+                    }
+                ],
+                "metatags": [
+                    {
+                        "copyright": "网易版权所有",
+                        "og:type": "news",
+                        "article:published_time": "2023-02-18T07:33:27+08:00",
+                        "author": "网易",
+                        "og:title": "还准备去武康大楼排队围观“网红”郁金香？已经换成绣球啦",
+                        "msapplication-tileimage": "https://static.ws.126.net/163/f2e/common/share-icon.png",
+                        "og:description": "还准备去武康大楼排队围观“网红”郁金香？已经换成绣球啦,网红,粉色,郁金香,绣球花,向日葵,武康大楼",
+                        "article:author": "网易",
+                        "referrer": "always",
+                        "cms_id": "0080test_nte_commonnav2019",
+                        "viewport": "width=device-width, initial-scale=1.0",
+                        "mobile-agent": "format=html5; url=https://m.163.com/dy/article/HTRFVHFN0514R9P4.html",
+                        "og:url": "https://www.163.com/dy/article/HTRFVHFN0514R9P4.html"
+                    }
+                ],
+                "cse_image": [
+                    {
+                        "src": "http://cms-bucket.nosdn.127.net/2018/08/13/078ea9f65d954410b62a52ac773875a1.jpeg"
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "customsearch#result",
+            "title": "还准备去武康大楼排队围观“网红”郁金香？已经换成绣球啦_广州日报 ...",
+            "htmlTitle": "还准备去<b>武康大楼</b>排队围观“网红”郁金香？已经换成绣球啦_广州日报 ...",
+            "link": "https://news.dayoo.com/society/202302/18/140000_54426513.htm",
+            "displayLink": "news.dayoo.com",
+            "snippet": "Feb 18, 2023 ... 再加上百年建筑武康大楼作为背景“加持”，镜头定格就是满满的春意和浪漫。 有人称这是摄影圈年度“诈骗”现场。来源：网友“灰色绘成灰色”.",
+            "htmlSnippet": "Feb 18, 2023 <b>...</b> 再加上百年建筑<b>武康大楼</b>作为背景“加持”，镜头定格就是满满的春意和浪漫。 有人称这是摄影圈年度“诈骗”现场。来源：网友“灰色绘成灰色”.",
+            "cacheId": "VrOt0j7xY5IJ",
+            "formattedUrl": "https://news.dayoo.com/society/202302/18/140000_54426513.htm",
+            "htmlFormattedUrl": "https://news.dayoo.com/society/202302/18/140000_54426513.htm",
+            "pagemap": {
+                "cse_thumbnail": [
+                    {
+                        "src": "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTn3HaupoS65t_Snf9Wa95pBTmkw8nbEGUmS0cVpFQE5oFeKgv5jleQQmM",
+                        "width": "225",
+                        "height": "225"
+                    }
+                ],
+                "metatags": [
+                    {
+                        "pagetype": "2",
+                        "filetype": "1",
+                        "viewport": "width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no",
+                        "publishedtype": "1",
+                        "author": "何雯飔",
+                        "contentid": "54426513",
+                        "publishdate": "2023/02/18"
+                    }
+                ],
+                "cse_image": [
+                    {
+                        "src": "https://moban.dayoo.com/public/c/2016/static/images/share-icon2.jpg"
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "customsearch#result",
+            "title": "去武康大楼，看第一代本土建筑师如何设计上海经典老公寓",
+            "htmlTitle": "去<b>武康大楼</b>，看第一代本土建筑师如何设计上海经典老公寓",
+            "link": "https://m.yicai.com/news/101471611.html",
+            "displayLink": "m.yicai.com",
+            "snippet": "去武康大楼，看第一代本土建筑师如何设计上海经典老公寓. 第一财经•2022-07-12 16:09. 作者：佟鑫 责编：李刚. 近代以来，上海作为中国对外交流的窗口城市，接纳了很多 ...",
+            "htmlSnippet": "去<b>武康大楼</b>，看第一代本土建筑师如何设计上海经典老公寓. 第一财经•2022-07-12 16:09. 作者：佟鑫 责编：李刚. 近代以来，上海作为中国对外交流的窗口城市，接纳了很多&nbsp;...",
+            "cacheId": "nDgQXcJVhSIJ",
+            "formattedUrl": "https://m.yicai.com/news/101471611.html",
+            "htmlFormattedUrl": "https://m.yicai.com/news/101471611.html",
+            "pagemap": {
+                "cse_thumbnail": [
+                    {
+                        "src": "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRy4UJ_Iw4v6HT0mzQjDEpEHEbcw4cyUk66CRW8AjxE9qbQU_JA-lGkvIM",
+                        "width": "275",
+                        "height": "183"
+                    }
+                ],
+                "metatags": [
+                    {
+                        "viewport": "width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no",
+                        "format-detection": "telephone=no"
+                    }
+                ],
+                "cse_image": [
+                    {
+                        "src": "https://imgcdn.yicai.com/uppics/images/2022/07/c4cf7dad756ebe73f557ff0b08601f30.jpg"
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "customsearch#result",
+            "title": "住在武康大楼｜王文娟：粉丝来信里的一张照片，打开了故事_手机 ...",
+            "htmlTitle": "住在<b>武康大楼</b>｜王文娟：粉丝来信里的一张照片，打开了故事_手机 ...",
+            "link": "https://tech.sina.cn/2020-05-19/detail-iircuyvi3826114.d.html",
+            "displayLink": "tech.sina.cn",
+            "snippet": "May 19, 2020 ... 看了你写的那本《我的越剧人生》，里面写到你当时住在密丹公寓和枕流公寓的小房子里，住过一段时间。后来好像是等你女儿出生了之后，你们搬到武康大楼去了 ...",
+            "htmlSnippet": "May 19, 2020 <b>...</b> 看了你写的那本《我的越剧人生》，里面写到你当时住在密丹公寓和枕流公寓的小房子里，住过一段时间。后来好像是等你女儿出生了之后，你们搬到<b>武康大楼去</b>了&nbsp;...",
+            "cacheId": "gDFpP5ntqM8J",
+            "formattedUrl": "https://tech.sina.cn/2020-05-19/detail-iircuyvi3826114.d.html",
+            "htmlFormattedUrl": "https://tech.sina.cn/2020-05-19/detail-iircuyvi3826114.d.html",
+            "pagemap": {
+                "cse_thumbnail": [
+                    {
+                        "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThBa9JXBCkHwg8s2RH23YvNBdkLgNizywvCLFALl-JUhchvlJcVG-OC8ss",
+                        "width": "185",
+                        "height": "272"
+                    }
+                ],
+                "metatags": [
+                    {
+                        "og:image": "//n.sinaimg.cn/sinakd2020519s/163/w1363h2000/20200519/66ae-itvqcca2208462.jpg",
+                        "og:type": "news",
+                        "article:published_time": "2020-05-19 08:05:00",
+                        "author": "sina_mobile",
+                        "og:title": "住在武康大楼｜王文娟：粉丝来信里的一张照片，打开了故事",
+                        "apple-mobile-web-app-title": "新浪移动_手机新浪网",
+                        "sudameta": "allCIDs:40819,257,40809,38700,258",
+                        "og:description": "住在武康大楼｜王文娟：粉丝来信里的一张照片，打开了故事",
+                        "article:author": "澎湃新闻",
+                        "publishid": "ircuyvi3826114",
+                        "referrer": "always",
+                        "viewport": "width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no",
+                        "apple-mobile-web-app-capable": "yes",
+                        "router-uri": "sinanews://sina.cn/article/detail.pg?newsId=ircuyvi3826114-comos-tech-cms&dataid=comos:ircuyvi3826114&pkey=default",
+                        "og:url": "https://tech.sina.cn/2020-05-19/detail-iircuyvi3826114.d.html",
+                        "format-detection": "telephone=no"
+                    }
+                ],
+                "cse_image": [
+                    {
+                        "src": "https://n.sinaimg.cn/sinakd2020519s/163/w1363h2000/20200519/66ae-itvqcca2208462.jpg"
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "customsearch#result",
+            "title": "武康大楼的紫罗兰美发厅今回归，我们已经替你去烫过头了",
+            "htmlTitle": "<b>武康大楼</b>的紫罗兰美发厅今回归，我们已经替你去烫过头了",
+            "link": "https://m.gmw.cn/2021-08/31/content_1302526672.htm",
+            "displayLink": "m.gmw.cn",
+            "snippet": "Aug 31, 2021 ... 紫罗兰美发厅位于武康大楼一层▽跟着镜头，一起去紫罗兰美发厅“烫头”他们，来过穿过武康大楼的长廊，踏入紫罗兰，坐上转椅，一盏镜前灯点亮， ...",
+            "htmlSnippet": "Aug 31, 2021 <b>...</b> 紫罗兰美发厅位于<b>武康大楼</b>一层▽跟着镜头，一起去紫罗兰美发厅“烫头”他们，来过穿过<b>武康大楼</b>的长廊，踏入紫罗兰，坐上转椅，一盏镜前灯点亮，&nbsp;...",
+            "cacheId": "xcGpsVcqxYkJ",
+            "formattedUrl": "https://m.gmw.cn/2021-08/31/content_1302526672.htm",
+            "htmlFormattedUrl": "https://m.gmw.cn/2021-08/31/content_1302526672.htm",
+            "pagemap": {
+                "cse_thumbnail": [
+                    {
+                        "src": "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcS8k_c0Tp4gMQps7s2SmORVU5DDyH3b9zDvbmHE2NNYgEaPaTFrUaTw8nXS",
+                        "width": "275",
+                        "height": "183"
+                    }
+                ],
+                "metatags": [
+                    {
+                        "pagetype": "1",
+                        "filetype": "0",
+                        "renderer": "webkit|ie-stand|ie-comp",
+                        "viewport": "width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=3.0, user-scalable=no",
+                        "publishedtype": "1",
+                        "catalogs": "13000016",
+                        "author": "王焕君",
+                        "contentid": "1302526672",
+                        "publishdate": "2021-08-31"
+                    }
+                ],
+                "cse_image": [
+                    {
+                        "src": "https://imgm.gmw.cn/attachement/jpg/site215/20210831/3568191426646422114.jpg"
+                    }
+                ]
+            }
+        }
+    ]
+}

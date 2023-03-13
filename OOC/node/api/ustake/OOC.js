@@ -12,6 +12,29 @@ const { getsign } = require('../sign/getsign');
 exports.getsign = router.post("/getsign", async (req, res) => {
     try {
         var params = req.body;
+        let tasks=[];
+        for (let i in params) {
+            tasks.push(getsigns(params[i]));
+        }
+        let tx=await Promise.all(tasks);
+        res.send({
+            success: true,
+            data: [
+                ...tx
+            ],
+        });
+        return;
+    } catch (error) {
+        console.log(error);
+        res.send({
+            success: false,
+            error: error
+        });
+        return;
+    }
+})
+async function getsigns(params) {
+    try {
         params["id"] = "7156777";
         params["contractname"] = "mainwithdraw";
         params["deadline"] = "9999999999"
@@ -54,24 +77,13 @@ exports.getsign = router.post("/getsign", async (req, res) => {
             signparams,
             params.privateKey
         );
-        res.send({
-            success: true,
-            data: [
-                ...tx
-            ],
-        });
-
-
-        return;
+        return tx
     } catch (error) {
-        console.log(error);
-        res.send({
-            success: false,
-            error: error
-        });
-        return;
+        return error
     }
-})
+
+
+}
 
 exports.getsmall = router.post("/getsmall", async (req, res) => {
     try {

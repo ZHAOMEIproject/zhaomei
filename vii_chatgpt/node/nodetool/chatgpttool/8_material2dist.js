@@ -12,20 +12,20 @@ const {
 } = require('./4_split2embedding');
 const fs = require('fs');
 var jsonFile = require('jsonfile')
-{
-    main();
-    async function main() {
+// {
+//     main();
+//     async function main() {
 
-        global.text2split = {
-            max_tokens: 500
-        }
-        let testinput = [
-            await r_txt('./material/武康大楼.txt')
-        ];
-        await testmaterial2split(testinput, "武康大楼");
+//         global.text2split = {
+//             max_tokens: 500
+//         }
+//         let testinput = [
+//             await r_txt('./material/武康大楼.txt')
+//         ];
+//         await testmaterial2split(testinput, "武康大楼");
 
-    }
-}
+//     }
+// }
 
 async function testmaterial2split(ebds, key) {
     let splits = await text2splits2(ebds);

@@ -45,6 +45,7 @@ module.exports = {
 // }
 // materialcall(input.callstr, input.opts)
 async function call(callstr,opts) {
+    opts["scene"]="武康大楼"
     let embeddings = await jsonFile.readFileSync(__dirname+"/material/material" + opts.scene + ".json");
     let q_plits = await text2split(callstr);
     let q_embeddings = await split2embedding(...q_plits);
@@ -52,7 +53,8 @@ async function call(callstr,opts) {
     let calltext = await dist2calltext(dist, q_embeddings);
     // console.log(q_plits);
     opts["systemMessage"] = calltext.system
-    let answer = await calltext2gpt3(calltext.calltext + opts.systemMessage, opts);
+    // console.log(calltext,opts);
+    let answer = await calltext2gpt3(calltext.calltext, opts);
     // console.log(answer);
     return answer
     // console.log(embeddings);

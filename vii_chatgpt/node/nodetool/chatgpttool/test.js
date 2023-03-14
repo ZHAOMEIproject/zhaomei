@@ -47,41 +47,6 @@ async function calltext2gpt3(calltext, opts) {
     }
 }
 
-const crypto = require('crypto');
-{
-    let completions = {
-        "model": "gpt-3.5-turbo-0301",
-        "max_tokens": 150,
-        "messages": [
-            {
-                "role": "system",
-                "content": "You are a helpful assistant.并简要回答问题."
-            },
-            {
-                "role": "user",
-                "content": "武康大楼怎么去？"
-            },
-            {
-                "role": "assistant",
-                "content": "武康大楼位于上海市徐汇区淮海中路101号，你可以搭乘地铁1/10号线至陕西南路站，从6号出口出站步行约7分钟即可到达。也可以乘坐公交车到淮海中路陕西南路站下车，步行5分钟即可到达。祝您旅途愉快！"
-            },
-            {
-                "role": "user",
-                "content": "我上一句问的什么？"
-            }
-        ]
-    }
-    let calltext = "武康大楼怎么去？"
-    let opts = {
-        "parentMessageId": "12e780a5-5f9b-4464-ae09-65100def8f3e",
-    }
-    // await sendbefor(calltext, opts)
-    let result = await chatgptcall();
-    await sendafter(calltext, result);
-    console.log(hash);
-
-}
-
 
 
 
@@ -105,11 +70,77 @@ function sendbefor(rolecalltext, parentMessageId) {
     let nowhistory=historys[parentMessageId];
     do {
         if (nowhistory) {
-            messages.push(nowhistory.text)
+            if (send2tokens([...messages,nowhistory.text])>200) {
+                break;
+            }
+            messages.unshift(nowhistory.text)
             nowhistory=nowhistory.parentMessage
         }else{
             break
         }
     } while (true);
     return messages;
+}
+function send2tokens(sends){
+    const encoding = require('@dqbd/tiktoken').encoding_for_model('gpt-3.5-turbo-0301');
+    // const tokenizer = require('@dqbd/tiktoken').get_encoding("cl100k_base")
+    let num_tokens = 0;
+    for (let i in sends) {
+        num_tokens += 4
+        for (let j in sends[i]) {
+            num_tokens += (encoding.encode(sends[i][j])).length
+            if (j=="name") {
+                num_tokens += -1
+            }
+        }
+    }
+    num_tokens += 2
+    return num_tokens
+}
+
+{
+    let resulttextid = sendafter(
+        {"role": "system", content:"一大堆武康大楼的资料"},
+        {"role": "user", content:"武康大楼怎么去？"});
+    let resulttextid2 = sendafter(
+        {"role": "assistant", content:"武康大楼去的方法"},
+        {"role": "user", content:"用地铁怎么去？"},resulttextid);
+    let nowhistory=historys[resulttextid2];
+    historys[resulttextid].text.content +="test"
+    main();
+    async function main() {
+        global.send2tokens = {
+            max_tokens: 500
+        }
+        let calltext = {
+            role: 'user',
+            content:"武康大楼怎么去？"
+        }
+        let messages = await sendbefor(calltext, resulttextid2)
+        console.log(messages);
+        // let result = await calltext2gpt3();
+        let result ={
+            "id": "chatcmpl-6tWoH0lDT7qrvjpK1q9ZdbNToEZeQ",
+            "object": "chat.completion",
+            "created": 1678692181,
+            "model": "gpt-3.5-turbo-0301",
+            "usage": {
+                "prompt_tokens": 38,
+                "completion_tokens": 123,
+                "total_tokens": 161
+            },
+            "choices": [
+                {
+                    "message": {
+                        "role": "assistant",
+                        "content": "武康大楼位于上海市徐汇区，具体地址为上海市徐汇区武康路378号。您可以乘坐地铁1号线或10号线到陕西南路站，从1号口或12号口出站，步行约10分钟即可到达武康大楼。您也可以选择乘坐公交车，在武康路站下车，步行约5分钟即可到达。"
+                    },
+                    "finish_reason": "stop",
+                    "index": 0
+                }
+            ]
+        }
+        let endid = await sendafter(calltext, result.choices[0].message,resulttextid2);
+        console.log(historys,endid);
+    }
 }

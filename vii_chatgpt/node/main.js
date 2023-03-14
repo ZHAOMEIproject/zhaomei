@@ -20,6 +20,30 @@ function start_test(){
     // global.mysqlGlobal = global.secret.vii_chatgpt_SQL;
     global.zwjerror = false;
     global.name ="vii_chatgpt";
+    global={
+        ...global,
+        search2url:{
+            key: 'AIzaSyANCrDSRXHPNOmmsB51yGqWLmlCRsjkJzU',
+            cx: '77ea1dfd64ff74371',
+            num: 10,
+        },
+        text2split : {
+            max_tokens: 1000
+        },
+        split2embedding:{
+            OPENAI_API_KEY: "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"
+        },
+        dist2calltext:{
+            max_len: 1000
+        },
+        chatgptcall:{
+            OPENAI_API_KEY: "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"
+        },
+        history:{
+            max_token:3000
+        },
+        
+    }
 }
 
 // // Arouse the swagger

@@ -8,6 +8,9 @@ exports.taskStart = async function taskStart(){
 
     await taskSyncwithdraw()
     await taskSyncwithdraw_sign()
+    
+    // await taskSyncchainscan()
+    // console.log(`scan set out`);
 
     setTimeout(function () {
         setInterval(taskSyncchainscan,1000*10);// task I,Synchronization levelnft event record,Do it every 10s

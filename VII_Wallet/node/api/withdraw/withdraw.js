@@ -181,8 +181,8 @@ exports.checkorderid = router.post("/checkorderid", async (req, res) => {
     // var params = url.parse(req.body, true).query;
     // console.log(req.body);
     let orderids =req.body.orderids;
-    console.log("zwjdebug");
-    console.log(orderids);
+    // console.log("zwjdebug");
+    // console.log("start",orderids);
     // console.log(JSON.parse(orderids));
     let sqlStr = "select * from mainwithdraw where event_name='e_Withdraw' and data3 in (?)"
     let orderids_u=new Array;
@@ -194,6 +194,7 @@ exports.checkorderid = router.post("/checkorderid", async (req, res) => {
     let info = await conn.select(sqlStr,[orderids_u])
     // console.log(info);
     let showinfos =new Array;
+    // console.log("end:",info);
 
     for(let i in info){
         let showinfo=new Object;

@@ -57,7 +57,7 @@ module.exports = {
       },
     },
     bnbtest:{
-      url:"https://bsc-testnet.public.blastapi.io",
+      url:"https://data-seed-prebsc-1-s1.binance.org:8545",
       chainId:97,
       accounts:{
         mnemonic:secretinfo.solidity.mnemonic,

@@ -93,7 +93,6 @@ async function newcontractcall(params){
             result:tx
         },
     }
-    // console.log(params);
     return data;
 }
 module.exports ={

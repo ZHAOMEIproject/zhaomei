@@ -4,11 +4,11 @@ const router = express.Router();
 const url = require('url');
 module.exports = router;
 const conn = require("../../nodetool/sqlconnection");
-const {sendEmailandto} = require("../../nodetool/email");
+const {sendEmail} = require("../../nodetool/email");
 
 // 暂存
-var n_allowance=0;
-var lasttime=0;
+var n_allowance;
+var lasttime;
 
 exports.postwithdraw = router.get("/postwithdraw", async (req, res) => {
     var params = url.parse(req.url, true).query;
@@ -21,41 +21,41 @@ exports.postwithdraw = router.get("/postwithdraw", async (req, res) => {
         });
         return;
     }
-    {
-        let selsql = "SELECT amount FROM withdraw where flag_withdraw ='F'";
-        let sqlrq = await conn.select(selsql,null);
-        let amount = 0;
-        for (let i in sqlrq) {
-            amount+=sqlrq[i]
-        }
-        amount+=params.amount;
-        if (n_allowance<amount) {
-            let checktime=Date.now()/1000;
-            if (lasttime<(checktime-15)) {
-                n_allowance=await getallowance();
-                lasttime=checktime;
-                if(n_allowance<amount){
-                    sendEmailandto("303113525@qq.com","授权量不足","授权量不足");
-                    res.send({
-                        success:false,
-                        data:{
-                            error:"Insufficient authorization"
-                        }
-                    });
-                    return;
-                }
-            }else{
-                sendEmailandto("303113525@qq.com","授权量不足","授权量不足");
-                res.send({
-                    success:false,
-                    data:{
-                        error:"Insufficient authorization"
-                    }
-                });
-                return;
-            }
-        }
-    }
+    // {
+    //     let selsql = "SELECT amount FROM withdraw where flag_withdraw ='F'";
+    //     let sqlrq = await conn.select(selsql,null);
+    //     let amount = 0;
+    //     for (let i in sqlrq) {
+    //         amount+=sqlrq[i]
+    //     }
+    //     amount+=params.amount;
+    //     if (n_allowance<amount) {
+    //         let checktime=Date.now()/1000;
+    //         if (lasttime<(checktime-15)) {
+    //             n_allowance=await getallowance();
+    //             lasttime=checktime;
+    //             if(n_allowance<amount){
+    //                 // sendEmail("授权量不足","授权量不足");
+    //                 res.send({
+    //                     success:false,
+    //                     data:{
+    //                         error:"Insufficient authorization"
+    //                     }
+    //                 });
+    //                 return;
+    //             }
+    //         }else{
+    //             // sendEmail("授权量不足","授权量不足");
+    //             res.send({
+    //                 success:false,
+    //                 data:{
+    //                     error:"Insufficient authorization"
+    //                 }
+    //             });
+    //             return;
+    //         }
+    //     }
+    // }
     
     let sqlparams=[];
     for(let i in check){
@@ -70,7 +70,6 @@ exports.postwithdraw = router.get("/postwithdraw", async (req, res) => {
                 result:"Repeated order submission"
             }
         });
-        return;
     }
 
     let sqlStr = "INSERT INTO withdraw(spender,amount,orderid)VALUES(?,?,?)";
@@ -83,7 +82,7 @@ exports.postwithdraw = router.get("/postwithdraw", async (req, res) => {
                 error:error
             }
         });
-        // sendEmailandto("Wallet:orderid error ","error orderid");
+        // sendEmail("Wallet:orderid error ","error orderid");
         return;
     }
 
@@ -104,41 +103,41 @@ exports.postwithdrawsign = router.get("/postwithdrawsign", async (req, res) => {
         });
         return;
     }
-    {
-        let selsql = "SELECT amount FROM withdraw where flag_withdraw ='F'";
-        let sqlrq = await conn.select(selsql,null);
-        let amount = 0;
-        for (let i in sqlrq) {
-            amount+=sqlrq[i]
-        }
-        amount+=params.amount;
-        if (n_allowance<amount) {
-            let checktime=Date.now()/1000;
-            if (lasttime<(checktime-15)) {
-                n_allowance=await getallowance();
-                lasttime=checktime;
-                if(n_allowance<amount){
-                    sendEmailandto("303113525@qq.com","授权量不足","授权量不足");
-                    res.send({
-                        success:false,
-                        data:{
-                            error:"Insufficient authorization"
-                        }
-                    });
-                    return;
-                }
-            }else{
-                sendEmailandto("303113525@qq.com","授权量不足","授权量不足");
-                res.send({
-                    success:false,
-                    data:{
-                        error:"Insufficient authorization"
-                    }
-                });
-                return;
-            }
-        }
-    }
+    // {
+    //     let selsql = "SELECT amount FROM withdraw where flag_withdraw ='F'";
+    //     let sqlrq = await conn.select(selsql,null);
+    //     let amount = 0;
+    //     for (let i in sqlrq) {
+    //         amount+=sqlrq[i]
+    //     }
+    //     amount+=params.amount;
+    //     if (n_allowance<amount) {
+    //         let checktime=Date.now()/1000;
+    //         if (lasttime<(checktime-15)) {
+    //             n_allowance=await getallowance();
+    //             lasttime=checktime;
+    //             if(n_allowance<amount){
+    //                 sendEmail("授权量不足","授权量不足");
+    //                 res.send({
+    //                     success:false,
+    //                     data:{
+    //                         error:"Insufficient authorization"
+    //                     }
+    //                 });
+    //                 return;
+    //             }
+    //         }else{
+    //             sendEmail("授权量不足","授权量不足");
+    //             res.send({
+    //                 success:false,
+    //                 data:{
+    //                     error:"Insufficient authorization"
+    //                 }
+    //             });
+    //             return;
+    //         }
+    //     }
+    // }
     
     let sqlparams=[];
     for(let i in check){
@@ -169,7 +168,7 @@ exports.postwithdrawsign = router.get("/postwithdrawsign", async (req, res) => {
                 error:error
             }
         });
-        // sendEmailandto("Wallet:sign orderid error ","error orderid");
+        // sendEmail("Wallet:sign orderid error ","error orderid");
         return;
     }
 
@@ -182,6 +181,9 @@ exports.checkorderid = router.post("/checkorderid", async (req, res) => {
     // var params = url.parse(req.body, true).query;
     // console.log(req.body);
     let orderids =req.body.orderids;
+    // console.log("zwjdebug");
+    // console.log("start",orderids);
+    // console.log(JSON.parse(orderids));
     let sqlStr = "select * from mainwithdraw where event_name='e_Withdraw' and data3 in (?)"
     let orderids_u=new Array;
     for (let i in orderids) {
@@ -192,6 +194,7 @@ exports.checkorderid = router.post("/checkorderid", async (req, res) => {
     let info = await conn.select(sqlStr,[orderids_u])
     // console.log(info);
     let showinfos =new Array;
+    // console.log("end:",info);
 
     for(let i in info){
         let showinfo=new Object;
@@ -251,9 +254,6 @@ exports.checkrecharge = router.get("/checkrecharge", async (req, res) => {
 
 var {newcontractcall}=require("../contractcall");
 const {getcontractinfo}=require('../../nodetool/readcontracts');
-const BigNumber = require("bignumber.js");
-
-
 exports.getallowance = router.get("/getallowance", async (req, res) => {
     let selsql = "SELECT amount FROM withdraw where flag_withdraw ='F'";
     let sqlrq = await conn.select(selsql,null);
@@ -261,8 +261,7 @@ exports.getallowance = router.get("/getallowance", async (req, res) => {
     for (let i in sqlrq) {
         amount+=sqlrq[i]
     }
-    let data = await getallowance();
-    data = data.sub(amount);
+    let data = await getallowance() -amount;
     res.send({
         success:true,
         data:{
@@ -271,24 +270,23 @@ exports.getallowance = router.get("/getallowance", async (req, res) => {
     });
     return;
 });
-
 // exports.test = router.get("/test", async (req, res) => {
-//     var params = url.parse(req.url, true).query;
 //     let selsql = "SELECT amount FROM withdraw where flag_withdraw ='F'";
 //     let sqlrq = await conn.select(selsql,null);
-//     let amount = params.amount;
+//     let amount = 0;
 //     for (let i in sqlrq) {
 //         amount+=sqlrq[i]
 //     }
+//     amount+=100;
 //     console.log(amount,n_allowance);
+
 //     if (n_allowance<amount) {
 //         let checktime=Date.now()/1000;
 //         if (lasttime<(checktime-15)) {
 //             n_allowance=await getallowance();
 //             lasttime=checktime;
 //             if(n_allowance<amount){
-//                 // console.log("zwj2");
-//                 // sendEmailandto("授权量不足","授权量不足");
+//                 // sendEmail("授权量不足","授权量不足");
 //                 res.send({
 //                     success:false,
 //                     data:{
@@ -298,8 +296,7 @@ exports.getallowance = router.get("/getallowance", async (req, res) => {
 //                 return;
 //             }
 //         }else{
-//             // console.log("zwj1");
-//             // sendEmailandto("授权量不足","授权量不足");
+//             // sendEmail("授权量不足","授权量不足");
 //             res.send({
 //                 success:false,
 //                 data:{
@@ -323,8 +320,7 @@ async function getallowance(){
     var params = new Object();
     params["contractname"]="Viide";
     params["fun"]="allowance";
-    params["params"]=[contractinfo.mainwithdraw.constructorArguments[2],contractinfo.mainwithdraw.address];
+    params["params"]=["0x4B05DBd3a8cE4238161C6a9eaFEB1B61Eba37165",contractinfo.mainwithdraw.address];
     let data = await newcontractcall(params);
-    // console.log(contractinfo.mainwithdraw.address,data);
-    return data.data.result;
+    return Number(data.data.result);
 }

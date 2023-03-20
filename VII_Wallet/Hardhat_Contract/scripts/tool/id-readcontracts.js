@@ -9,10 +9,9 @@ var filePath = path.resolve(__dirname,'../../deployments/newinfo/');
 //     return console.log(await loadcontractinfo(filePath));
 // }
 
-var jsonFile = require('jsonfile')
 function loadcontractinfo(filePath){
     return new Promise(function(resolve,reject){
-        let info = new Array();
+        let info = new Object();
         fs.readdir(filePath,function(err, files) {
             if (err) {
                 console.warn(err, "读取文件夹错误！")
@@ -21,7 +20,12 @@ function loadcontractinfo(filePath){
             } else {
                 files.forEach(function(filename) {
                     let filedir = path.join(filePath, filename);
-                    info.push(filedir)
+                    let fileinfo = require(filedir);
+                    let chainId =fileinfo.network.chainId;
+                    if(!(info[chainId] !== null && typeof info[chainId] === 'object')){
+                        info[chainId]=new Object();
+                    }
+                    info[chainId][filename.substring(0, filename.lastIndexOf("."))] = fileinfo;
                 });
             }
             resolve(info);
@@ -29,18 +33,6 @@ function loadcontractinfo(filePath){
     });
 }
 
-var jsonFile = require('jsonfile')
 exports.getcontractinfo = async function getcontractinfo(){
-    // return await loadcontractinfo(filePath);
-    let info = new Object();
-    let filelist = await loadcontractinfo(filePath);
-    for (let i in filelist) {
-        let fileinfo = await jsonFile.readFile(filelist[i]);
-        let chainId =fileinfo.network.chainId;
-        if(!(info[chainId] !== null && typeof info[chainId] === 'object')){
-            info[chainId]=new Object();
-        }
-        info[chainId][fileinfo.contractName] = fileinfo;
-    }
-    return info;
+    return await loadcontractinfo(filePath);
 }

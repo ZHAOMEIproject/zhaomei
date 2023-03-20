@@ -26,4 +26,74 @@ const secretinfo =require(`/root/learn/github/privateinfo/.secret.json`);
 const infrakey='';
 const scankey='';
 
-module.exports = secretinfo.hardhatset;
+module.exports = {
+  defaultNetwork: "rinkeby",
+  solidity:{
+    compilers:[
+      {
+        version: "0.8.15",
+        settings:{
+          optimizer:{
+            enabled:true,
+            runs:200
+          }
+        }
+      }
+    ]
+  },
+  networks:{
+    dev:{
+      url:"http://127.0.0.1:8545",
+      chainId:31337,
+      accounts:{
+        mnemonic:secretinfo.solidity.mnemonic,
+      },
+    },
+    oktest:{
+      url:"https://exchaintestrpc.okex.org",
+      chainId:65,
+      accounts:{
+        mnemonic:secretinfo.solidity.mnemonic,
+      },
+    },
+    bnbtest:{
+      url:"https://data-seed-prebsc-1-s1.binance.org:8545",
+      chainId:97,
+      accounts:{
+        mnemonic:secretinfo.solidity.mnemonic,
+      },
+    },
+    rinkeby:{
+      url:"https://rinkeby.infura.io/v3/8cccc98026714be18a4052434bb4ae77",
+      chainId:4,
+      accounts:{
+        mnemonic:secretinfo.solidity.mnemonic,
+      },
+    },
+    ropsten:{
+      url:"https://ropsten.infura.io/v3/8cccc98026714be18a4052434bb4ae77",
+      chainId:3,
+      accounts:{
+        mnemonic:secretinfo.solidity.mnemonic,
+      },
+    },
+    polygonMumbai:{
+      url:"https://matic-mumbai.chainstacklabs.com",
+      chainId:80001,
+      accounts:{
+        mnemonic:secretinfo.solidity.mnemonic,
+      },
+    },
+    zhaomei:{
+      url:"http://154.91.156.113:8545",
+      chainId:7156777,
+      accounts:{
+        mnemonic:secretinfo.solidity.mnemonic,
+      },
+
+    }
+  },
+  etherscan:{
+    apiKey:secretinfo.solidity.apiKey
+  }
+};

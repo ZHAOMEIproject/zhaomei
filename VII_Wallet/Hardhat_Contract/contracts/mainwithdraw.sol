@@ -2,7 +2,6 @@
 pragma solidity ^0.8.4;
 import "./modular/withdraw.sol";
 contract mainwithdraw is withdraw{
-    // add_withdraw is national treasury
     constructor(
         uint256 _mini_amount,address _token,address _add_withdraw,string memory name, string memory version,
         address _withdraw,address _admin,address _manage,address _monitor

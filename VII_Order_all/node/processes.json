@@ -10,11 +10,12 @@
       "pid_file": "pids/VII_Order_all.pid",
       "instances": 1,
       "min_uptime": "200s",
+      "max_restarts":200,
       "watch": false,
       "merge_logs": true,
       "exec_interpreter": "node",
       "exec_mode": "cluster",
-      "autorestart": false,
+      "autorestart": true,
       "vizion": false
     }
   ]

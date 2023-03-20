@@ -8,7 +8,7 @@ var host;
 var port;
 function start_test(){
     console.log("start_dev ing")
-    global.secret = require(`/root/learn/github/privateinfoPOAP/.secret_official.json`);
+    global.secret = require(`../../../privateinfoPOAP/.secret_official.json`);
     // global.secret = require("../../../privateinfo/.secret.json");
     node_info = global.secret.VII_POAP_NODE;
     host = node_info.host;

@@ -1,5 +1,6 @@
 const hre = require("hardhat");
-const {getcontractinfo}=require('./tool/id-readcontracts');
+const { getcontractinfo } = require('./tool/id-readcontracts');
+const request = require("request");
 
 // 测试的help文档
 // require('./help.js')
@@ -10,36 +11,36 @@ var secret = require("../../../../privateinfo/.secret.json");// 载入助记词
 const account = ethers.Wallet.fromMnemonic(secret.solidity.mnemonic, path);
 var contractinfo = new Object();
 
-async function main(){
-  // 获取项目的合约信息
-  contractinfo = await getcontractinfo();
-  console.log(contractinfo);
-
-  // let getinfo = await contractcall(account._signingKey(),"97","TB_order","owner",[]);
-  // console.log(getinfo);
+async function main() {
+  // console.log(await getbyurl(
+  //   "http://10.0.1.20:10802/v1/apigetsign/getsign?id=3&contractname=TE_order&order=123&amount=123&deadline=99999999"
+  // ));
+  console.log(await getbyurl(
+    "http://10.0.1.20:10802/v1/apigetsign/getsign?id=1&contractname=E_order&order=123&amount=123&deadline=99999999"
+  ));
 }
 
-async function contractcall(signingKey,chainId,contractname,fun,params){
+async function contractcall(signingKey, chainId, contractname, fun, params) {
   let provider = new ethers.providers.JsonRpcProvider(contractinfo[chainId][contractname].network.url);
   let wallet = new ethers.Wallet(signingKey, provider);
   let contract = new ethers.Contract(
-    contractinfo[chainId][contractname].address, 
-    contractinfo[chainId][contractname].abi, 
+    contractinfo[chainId][contractname].address,
+    contractinfo[chainId][contractname].abi,
     provider
   );
   let contractWithSigner = contract.connect(wallet);
   let tx;
-  if(params.length>0){
+  if (params.length > 0) {
     // tx = await contractWithSigner[fun](...params);
     // console.log(...params);
     tx = await contractWithSigner[fun](...params);
-  }else{
+  } else {
     tx = await contractWithSigner[fun]();
   }
   return tx
 }
-function contractadd(newontract){
-  contractinfo[newontract.network.chainId.toString()][newontract.contractName]=newontract;
+function contractadd(newontract) {
+  contractinfo[newontract.network.chainId.toString()][newontract.contractName] = newontract;
 }
 
 main()
@@ -52,20 +53,20 @@ main()
 
 
 
-const request = require("request");
-function getbyurl(url){
+function getbyurl(url) {
   return new Promise(function (resolve, reject) {
-      request({
-          timeout:10000,    // Set timeout
-          method:'GET',     // Set method
-          url:url
-      },async function (error, response, body) {
-          if (!error && response.statusCode == 200) {
-              // let json = JSON.parse(body);
-              resolve(body);
-          }else{
-              resolve();
-          }
-      })
+    request({
+      timeout: 10000,    // Set timeout
+      method: 'GET',     // Set method
+      url: url
+    }, async function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+        // let json = JSON.parse(body);
+        resolve(body);
+      } else {
+        console.log(error);
+        resolve();
+      }
+    })
   })
 }

@@ -8,6 +8,7 @@ exports.getsign = async function getsign(id,contractname,order,amount,deadline){
 
     const contractinfo = await getcontractinfo();
     let name="VII_order";
+    // console.log(contractinfo);
     let address=contractinfo[id][contractname].address;
     let chainId=id
 

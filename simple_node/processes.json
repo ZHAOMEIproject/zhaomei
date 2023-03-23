@@ -10,6 +10,7 @@
       "pid_file": "pids/magicworld-online.pid",
       "instances": 1,
       "min_uptime": "200s",
+      "max_restarts":200,
       "watch": false,
       "merge_logs": true,
       "exec_interpreter": "node",

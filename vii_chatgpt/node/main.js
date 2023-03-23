@@ -17,8 +17,6 @@ function start_test(){
     node_info = global.secret.vii_chatgpt_NODE;
     host = node_info.host;
     port = node_info.port;
-    // global.mysqlGlobal = global.secret.vii_chatgpt_SQL;
-    global.zwjerror = false;
     global.name ="vii_chatgpt";
     global={
         ...global,

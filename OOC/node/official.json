@@ -15,7 +15,7 @@
       "merge_logs": true,
       "exec_interpreter": "node",
       "exec_mode": "cluster",
-      "autorestart": false,
+      "autorestart": true,
       "vizion": false
     }
   ]

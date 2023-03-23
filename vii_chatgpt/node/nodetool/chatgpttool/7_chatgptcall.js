@@ -5,8 +5,7 @@ module.exports = {
 var jsonFile = require('jsonfile')
 const {
     sendafter,
-    sendbefor,
-    show_history
+    sendbefor
 } = require('./7_history.js')
 var api;
 let g_opt = {

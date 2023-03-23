@@ -54,7 +54,9 @@ async function call(callstr,opts) {
     // console.log(q_plits);
     opts["systemMessage"] = calltext.system
     // console.log(calltext,opts);
+    
     let answer = await calltext2gpt3(calltext.calltext, opts);
+
     // console.log(answer);
     return answer
     // console.log(embeddings);

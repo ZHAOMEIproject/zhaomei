@@ -16,7 +16,7 @@ async function main() {
   //   "http://10.0.1.20:10802/v1/apigetsign/getsign?id=3&contractname=TE_order&order=123&amount=123&deadline=99999999"
   // ));
   console.log(await getbyurl(
-    "http://10.0.1.20:10802/v1/apigetsign/getsign?id=1&contractname=E_order&order=123&amount=123&deadline=99999999"
+    "http://10.0.1.20:10701/v1/withdraw/checkrecharge"
   ));
 }
 

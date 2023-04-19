@@ -4,7 +4,13 @@ const jsonFile = require('jsonfile')
 let balances =new Object();
 let nftbalances =new Object();
 let secret_key = "0x5de4111afa1a4b94908f83103eb1f1706367c2e68ca870fc3fb9a804cdab365a";
-const secret = require("../../../../bnbapi/.bnbsecret.json");
+// const secret = require("../../../../bnbapi/.bnbsecret.json");
+const secret={
+    baseinfo:{
+        chainId:1,
+        contractname:"OOC"
+    }
+}
 const { getcontractinfo } = require('../nodetool/id-readcontracts');
 
 main()
@@ -18,7 +24,8 @@ async function main() {
     // Statistics()
 
     // get_account();
-    getdd_balance();
+    // getdd_balance();
+    nonftaccount();
 }
 
 // 0.55eth
@@ -102,7 +109,6 @@ async function Statistics(){
         dd_nft+=parseInt(allnft[i].hex,16);
     }
     console.log("dd NFT amount:",dd_nft);
-
 }
 
 async function get50account(){
@@ -158,4 +164,59 @@ async function get_account(){
         }
     }
     console.log(amount);
+}
+
+async function nonftaccount(){
+    let outaccounts=[]
+    let outaccountslist=[]
+    let allnft = await jsonFile.readFileSync("./info/nftbalance.json");
+    let balance = await jsonFile.readFileSync("./info/balance.json");
+    let totalamount=0;
+    for (let i in allnft) {
+        const element = parseInt(allnft[i].hex,16);
+        // console.log(element,parseInt(balance[i].hex,16));
+        // console.log(element==0,parseInt(balance[i].hex,16)!=0,element==0&&parseInt(balance[i].hex,16)!=0);
+        if (element==0&&parseInt(balance[i].hex,16)!=0) {
+            outaccounts.push({
+                account:i,
+                amount:parseInt(balance[i].hex,16)
+            })
+            outaccountslist.push[i];
+            totalamount+=parseInt(balance[i].hex,16)
+        }
+    }
+    console.log(totalamount);
+    await jsonFile.writeFileSync("./info/nonftaccount.json", outaccounts, { spaces: 2, EOL: '\r\n' });
+    // await jsonFile.writeFileSync("./info/nonftaccountlist.json", outaccountslist, { spaces: 2, EOL: '\r\n' });
+}
+// 19734979917395902000
+async function guiji(){
+    let guijiaccount = await jsonFile.readFileSync("./info/nonftaccount.json");
+    let secretkey_list
+    // =await jsonFile.readFileSync("./info/secretkey_list.json");
+    return
+    for (let i in guijiaccount) {
+        const secret_key = secretkey_list[guijiaccount[i].account];
+        let wallet = new ethers.Wallet(secret_key, provider);
+        let gasPrice=30;
+        let tx = {
+            to: "0xf9EE94c6Bb7Bd2e1B8B76Ea11cF4eDcD57a6aEa2",
+            value: guijiaccount[i].account-(gasPrice*21000),
+            gasPrice:gasPrice
+        }
+        await wallet.sendTransaction(tx)
+    }
+}
+async function outsecret(){
+    let guijiaccount = await jsonFile.readFileSync("./info/nonftaccount.json");
+    let secretkey_list=[]
+    let secretkeys
+    // = await jsonFile.readFileSync("./info/secretkey_list.json");
+    for (let i in guijiaccount) {
+        secretkey_list.push(secretkeys[guijiaccount[i].account])
+    }
+    await jsonFile.writeFileSync("./info/secretkey_list.json", secretkey_list, { spaces: 2, EOL: '\r\n' });
+
+
+
 }

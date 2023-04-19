@@ -325,7 +325,7 @@ async function baseinfo(poapcontractinfo, params) {
         user: await ethtocfx(params.account),
     }
     info.address = await ethtocfx(info.address)
-
+    info.chainname="树图链"
     return info
 }
 

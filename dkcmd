@@ -1,0 +1,16 @@
+
+docker tag blockchain:1.0.0  registry.us-east-1.aliyuncs.com/viide/blockchain:1.0.0
+docker push  registry.us-east-1.aliyuncs.com/viide/blockchain:1.0.0
+
+docker login --username=zhanwenjie@zhaomei registry.us-east-1.aliyuncs.com
+
+docker images
+
+docker build -t test:1.0.0 .  -f tDockerfileblockchain
+docker run  -d  test:1.0.0
+docker exec -it abc698e5a178 pm2 list
+docker exec -it abc698e5a178 pm2 monit
+docker rmi b379318f7e17
+
+
+docker run  -d  blockchain:1.0.0  -p 10809:10809 10802:10802 10812:10812 10801:10801 10813:10813 10701:10701

@@ -105,7 +105,7 @@ async function calltext2gpt3(calltext, opts) {
         //     "id": "chatcmpl-6tWoH0lDT7qrvjpK1q9ZdbNToEZeQ",
         //     "object": "chat.completion",
         //     "created": 1678692181,
-        //     "model": "gpt-3.5-turbo-0301",
+        //     "model": "gpt-3.5-turbo-0613",
         //     "usage": {
         //         "prompt_tokens": 38,
         //         "completion_tokens": 123,
@@ -124,7 +124,7 @@ async function calltext2gpt3(calltext, opts) {
         // }
 
         const result = await api.createChatCompletion({
-            model: "gpt-3.5-turbo-0301",
+            model: "gpt-3.5-turbo-0613",
             "max_tokens": 150,
             messages: messages
         });

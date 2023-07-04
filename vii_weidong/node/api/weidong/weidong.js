@@ -321,7 +321,7 @@ exports.useridgetnft = router.post("/useridgetnft", async (req, res) => {
 async function baseinfo(poapcontractinfo, params) {
     let info = {
         ...poapcontractinfo,
-        nftlink: (poapcontractinfo.blockexplorer + "/nft/" + poapcontractinfo.address + "/" + params.tokenid),
+        nftlink: (poapcontractinfo.blockexplorer + "nft/" + poapcontractinfo.address + "/" + params.tokenid),
         user: await ethtocfx(params.account),
     }
     info.address = await ethtocfx(info.address)
